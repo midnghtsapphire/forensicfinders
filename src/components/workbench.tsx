@@ -211,37 +211,16 @@ export function Workbench() {
   return (
     <main className="min-h-screen bg-bg text-fg">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-4 py-4 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))]">
-        <header className="mast">
-          <img
-            className="mast-seal"
-            src="/brand/seal.jpg"
-            alt=""
-          />
-          <div className="mast-copy">
-            <p className="eyebrow">Cold-case illumination</p>
-            <h1 className="mast-name">
-              <span>Forensic</span>
-              <span>finders</span>
-            </h1>
-            <p className="mast-case">
-              {CASE.name} · {CASE.missing} · Cocoa Beach
-            </p>
-          </div>
-        </header>
-
-        <figure className="dog-patch">
-          <img
-            src="/brand/dog-patch.png"
-            alt="Forensicfinders patch. A machine in a tunnel, ringed by the words Forensicfinders and Can I pet that dog."
-          />
-        </figure>
-
-        <figure className="brand-banner">
+        <header className="hero">
+          <h1 className="sr-only">Forensic finders</h1>
           <img
             src="/brand/banner.jpg"
-            alt="Illustrated Forensic Finders mark. A machine hound projects an orange lidar grid. Not a search result."
+            alt="Forensic Finders. A machine hound projects an orange lidar grid in a tunnel. Illustration, not a search result."
           />
-        </figure>
+          <p className="hero-case">
+            {CASE.name} · {CASE.missing} · Cocoa Beach
+          </p>
+        </header>
 
         <p className="panel px-4 py-3 text-sm text-muted">
           Planning instrument for raw SAR, LiDAR, GPR, photos, and paper grids.

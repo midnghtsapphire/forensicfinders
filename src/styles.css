@@ -4,17 +4,17 @@
   --font-sans: "Atkinson Hyperlegible", "Segoe UI", sans-serif;
   --font-display: "Fraunces", "Iowan Old Style", "Palatino Linotype", serif;
 
-  --color-bg: #100f0c;
-  --color-surface: #1c1914;
-  --color-surface-2: #262219;
-  --color-line: #3c362c;
-  --color-fg: #efe8dc;
-  --color-muted: #a39886;
-  --color-faint: #746c60;
-  --color-brass: #c6a15a;
-  --color-brass-ink: #241c0e;
-  --color-celadon: #8aa890;
-  --color-celadon-ink: #132019;
+  --color-bg: #07090c;
+  --color-surface: #10161d;
+  --color-surface-2: #18222c;
+  --color-line: #2c3a48;
+  --color-fg: #f3f1ea;
+  --color-muted: #9aa6b4;
+  --color-faint: #667384;
+  --color-brass: #ff7a2f;
+  --color-brass-ink: #1a0c04;
+  --color-celadon: #3dcea0;
+  --color-celadon-ink: #042018;
 
   --radius-sm: 0.5rem;
   --radius-md: 0.875rem;
@@ -29,7 +29,10 @@
 
   html,
   body {
-    background: var(--color-bg);
+    background:
+      radial-gradient(70% 36% at 100% 0%, color-mix(in srgb, var(--color-brass) 18%, transparent), transparent 55%),
+      radial-gradient(46% 28% at 0% 8%, color-mix(in srgb, var(--color-celadon) 12%, transparent), transparent 50%),
+      var(--color-bg);
     color: var(--color-fg);
   }
 
@@ -47,9 +50,10 @@
 
 @layer components {
   .panel {
-    background: color-mix(in srgb, var(--color-surface) 92%, transparent);
-    border: 1px solid var(--color-line);
+    background: color-mix(in srgb, var(--color-surface) 88%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-brass) 28%, var(--color-line));
     border-radius: var(--radius-lg);
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--color-fg) 6%, transparent);
   }
 
   .eyebrow {
@@ -66,99 +70,27 @@
     line-height: 1.05;
   }
 
-  .mast {
+  .hero {
     position: relative;
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    gap: 0.85rem 1rem;
-    align-items: center;
     overflow: hidden;
-    padding: 1rem 1.05rem 1rem max(1.15rem, env(safe-area-inset-left));
-    border: 1px solid color-mix(in srgb, var(--color-brass) 42%, var(--color-line));
+    border: 1px solid color-mix(in srgb, var(--color-brass) 55%, transparent);
     border-radius: var(--radius-lg);
-    background:
-      radial-gradient(90% 120% at 0% 0%, color-mix(in srgb, var(--color-brass) 22%, transparent), transparent 58%),
-      radial-gradient(50% 80% at 100% 100%, color-mix(in srgb, var(--color-celadon) 12%, transparent), transparent 60%),
-      linear-gradient(165deg, #262117 0%, #14120e 70%);
-    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--color-fg) 8%, transparent);
+    background: #050607;
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-celadon) 20%, transparent), 0 18px 50px color-mix(in srgb, #000 45%, transparent);
   }
 
-  .mast::before {
-    content: "";
-    position: absolute;
-    inset: auto -20% -60% auto;
-    width: 16rem;
-    height: 16rem;
-    border: 1px solid color-mix(in srgb, var(--color-brass) 16%, transparent);
-    border-radius: 999px;
-    pointer-events: none;
-  }
-
-  .mast-seal {
-    width: 4.75rem;
-    height: 4.75rem;
-    justify-self: start;
-    border-radius: 999px;
-    object-fit: cover;
-    border: 1px solid color-mix(in srgb, var(--color-brass) 70%, transparent);
-    background: #0c0c0b;
-  }
-
-  .dog-patch {
-    margin: 0 auto;
-    width: min(100%, 22rem);
-  }
-
-  .dog-patch img {
+  .hero img {
     display: block;
     width: 100%;
     height: auto;
   }
 
-  .brand-banner {
+  .hero-case {
     margin: 0;
-    overflow: hidden;
-    border: 1px solid color-mix(in srgb, var(--color-brass) 42%, var(--color-line));
-    border-radius: var(--radius-lg);
-    background: #0c0c0b;
-  }
-
-  .brand-banner img {
-    display: block;
-    width: 100%;
-    height: auto;
-  }
-
-  .mast-copy {
-    min-width: 0;
-  }
-
-  .mast-name {
-    display: flex;
-    flex-wrap: wrap;
-    column-gap: 0.28em;
-    margin: 0.15rem 0 0;
-    font-family: var(--font-display);
-    font-size: clamp(1.7rem, 6.4vw, 2.7rem);
-    font-weight: 640;
-    letter-spacing: -0.03em;
-    line-height: 0.92;
-  }
-
-  .mast-name span {
-    padding-left: 0.06em;
-  }
-
-  .mast-case {
-    margin-top: 0.45rem;
-    color: var(--color-muted);
+    padding: 0.7rem 1rem 0.85rem;
+    background: #050607;
+    color: var(--color-fg);
     font-size: 0.92rem;
-  }
-
-  @media (max-width: 420px) {
-    .mast {
-      grid-template-columns: minmax(0, 1fr);
-    }
   }
 }
 

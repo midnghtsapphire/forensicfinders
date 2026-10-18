@@ -16,7 +16,7 @@ export const Route = createRootRoute({
         content:
           "Era-adaptive SAR, LiDAR, GPR, and VHR reprocessing desk for cold-case search planning.",
       },
-      { name: "theme-color", content: "#100f0c" },
+      { name: "theme-color", content: "#07090c" },
     ],
     links: [
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
