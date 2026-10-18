@@ -214,7 +214,7 @@ export function Workbench() {
         <header className="hero">
           <h1 className="sr-only">Forensic finders</h1>
           <img
-            src="/brand/mesh-field.jpg?v=7"
+            src="/brand/mesh-bullseye.jpg?v=8"
             alt="Forensicfinders mark. A skull in false color under the name. Illustration, not a burial."
           />
           <p className="hero-case">
