@@ -229,6 +229,13 @@ export function Workbench() {
           </div>
         </header>
 
+        <figure className="dog-patch">
+          <img
+            src="/brand/dog-patch.png"
+            alt="Forensicfinders patch. A machine in a tunnel, ringed by the words Forensicfinders and Can I pet that dog."
+          />
+        </figure>
+
         <figure className="brand-banner">
           <img
             src="/brand/banner.jpg"
