@@ -94,38 +94,28 @@
     pointer-events: none;
   }
 
-  .mast-mark {
-    position: relative;
-    display: grid;
-    width: 3.35rem;
-    height: 3.35rem;
-    place-items: center;
-    border-radius: 1rem;
+  .mast-seal {
+    width: 4.75rem;
+    height: 4.75rem;
+    justify-self: start;
+    border-radius: 999px;
+    object-fit: cover;
     border: 1px solid color-mix(in srgb, var(--color-brass) 70%, transparent);
-    background:
-      radial-gradient(circle at 50% 50%, transparent 0 34%, color-mix(in srgb, var(--color-brass) 55%, transparent) 35% 36.5%, transparent 37.5%),
-      radial-gradient(circle at 50% 50%, transparent 0 58%, color-mix(in srgb, var(--color-brass) 28%, transparent) 59% 60.5%, transparent 61.5%),
-      #16130f;
-    box-shadow: 0 0 0 6px color-mix(in srgb, var(--color-brass) 8%, transparent);
+    background: #0c0c0b;
   }
 
-  .mast-sweep {
-    position: absolute;
-    inset: 4px;
-    border-radius: inherit;
-    background: conic-gradient(from 210deg, transparent 0 72%, color-mix(in srgb, var(--color-brass) 55%, transparent) 86%, transparent 100%);
-    animation: mast-sweep 7s linear infinite;
-    mask: radial-gradient(circle, transparent 0 42%, #000 46%);
+  .brand-banner {
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--color-brass) 42%, var(--color-line));
+    border-radius: var(--radius-lg);
+    background: #0c0c0b;
   }
 
-  .mast-f {
-    position: relative;
-    font-family: var(--font-display);
-    font-size: 1.7rem;
-    font-weight: 640;
-    line-height: 1;
-    color: var(--color-brass);
-    padding-inline: 0.08em 0;
+  .brand-banner img {
+    display: block;
+    width: 100%;
+    height: auto;
   }
 
   .mast-copy {
@@ -158,12 +148,6 @@
     .mast {
       grid-template-columns: minmax(0, 1fr);
     }
-  }
-}
-
-@keyframes mast-sweep {
-  to {
-    transform: rotate(360deg);
   }
 }
 

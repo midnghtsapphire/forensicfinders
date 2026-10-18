@@ -212,10 +212,11 @@ export function Workbench() {
     <main className="min-h-screen bg-bg text-fg">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-4 py-4 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))]">
         <header className="mast">
-          <div className="mast-mark" aria-hidden="true">
-            <span className="mast-sweep" />
-            <span className="mast-f">F</span>
-          </div>
+          <img
+            className="mast-seal"
+            src="/brand/seal.jpg"
+            alt=""
+          />
           <div className="mast-copy">
             <p className="eyebrow">Cold-case illumination</p>
             <h1 className="mast-name">
@@ -227,6 +228,13 @@ export function Workbench() {
             </p>
           </div>
         </header>
+
+        <figure className="brand-banner">
+          <img
+            src="/brand/banner.jpg"
+            alt="Illustrated Forensic Finders mark. A machine hound projects an orange lidar grid. Not a search result."
+          />
+        </figure>
 
         <p className="panel px-4 py-3 text-sm text-muted">
           Planning instrument for raw SAR, LiDAR, GPR, photos, and paper grids.
