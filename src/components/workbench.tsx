@@ -215,12 +215,59 @@ export function Workbench() {
           <h1 className="sr-only">Forensic finders</h1>
           <img
             src="/brand/poster.jpg?v=12"
-            alt="Forensicfinders poster. An illustrated scan of a skull. Not a located grave."
+            alt="Forensicfinders poster. Overlay reads 40.0018 degrees north, 83.0078 degrees west, depths +0.45 m, -1.23 m, -2.10 m, -3.75 m. Satellite, lidar, SAR, GPR, aerial imagery, multi-spectral, historical archive, AI analysis. Illustrated scan, not a located grave."
           />
           <p className="hero-case">
             {CASE.name} · {CASE.missing} · Cocoa Beach
           </p>
         </header>
+
+        <section className="panel grid gap-4 p-4 sm:grid-cols-2" aria-label="Everything printed on the poster">
+          <div className="sm:col-span-2">
+            <p className="eyebrow">On the poster</p>
+            <p className="display mt-1 text-2xl">Clandestine graves of the lost and missing</p>
+          </div>
+          <div>
+            <p className="eyebrow">Overlay fix</p>
+            <p className="mt-1 text-lg">40.0018° N</p>
+            <p className="text-lg">−83.0078° W</p>
+          </div>
+          <div>
+            <p className="eyebrow">Depth ticks</p>
+            <ul className="mt-1 text-lg">
+              <li>+0.45 m</li>
+              <li>−1.23 m</li>
+              <li>−2.10 m</li>
+              <li>−3.75 m</li>
+            </ul>
+          </div>
+          <div>
+            <p className="eyebrow">Stack</p>
+            <ul className="mt-1 text-sm">
+              <li>Satellite</li>
+              <li>Lidar</li>
+              <li>SAR</li>
+              <li>GPR</li>
+              <li>Aerial imagery</li>
+              <li>Multi-spectral</li>
+              <li>Historical archive</li>
+              <li>AI analysis</li>
+            </ul>
+          </div>
+          <div>
+            <p className="eyebrow">Platforms drawn</p>
+            <ul className="mt-1 text-sm">
+              <li>Satellite with two arrays</li>
+              <li>Two quadcopters</li>
+              <li>STINK quadruped</li>
+            </ul>
+            <p className="mt-3 text-sm">
+              <a className="text-brass" href="mailto:forensicfinders@gmail.com">
+                forensicfinders@gmail.com
+              </a>
+            </p>
+          </div>
+        </section>
 
         <p className="panel px-4 py-3 text-sm text-muted">
           Planning instrument for raw SAR, LiDAR, GPR, photos, and paper grids.
@@ -809,6 +856,16 @@ function FilePane({ note, setNote }: { note: string; setNote: (v: string) => voi
                 {n.label} {n.value}
               </li>
             ))}
+          </ul>
+          <p className="eyebrow mt-4">On the poster</p>
+          <ul className="mt-2">
+            <li>40.0018° N</li>
+            <li>−83.0078° W</li>
+            <li>+0.45 m</li>
+            <li>−1.23 m</li>
+            <li>−2.10 m</li>
+            <li>−3.75 m</li>
+            <li>forensicfinders@gmail.com</li>
           </ul>
         </div>
       </aside>
