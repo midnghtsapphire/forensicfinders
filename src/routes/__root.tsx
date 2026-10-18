@@ -19,7 +19,7 @@ export const Route = createRootRoute({
       { name: "theme-color", content: "#07090c" },
     ],
     links: [
-      { rel: "icon", type: "image/jpeg", href: "/brand/thermal-3d.jpg?v=3" },
+      { rel: "icon", type: "image/jpeg", href: "/brand/thermal-scan.jpg?v=4" },
       { rel: "stylesheet", href: appCss },
       { rel: "manifest", href: "/__grok/manifest.webmanifest" },
       { rel: "apple-touch-icon", href: "/__grok/icon-180.png" },
