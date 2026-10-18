@@ -214,8 +214,8 @@ export function Workbench() {
         <header className="hero">
           <h1 className="sr-only">Forensic finders</h1>
           <img
-            src="/brand/banner.jpg"
-            alt="Forensic Finders. A machine hound projects an orange lidar grid in a tunnel. Illustration, not a search result."
+            src="/brand/mark.png"
+            alt="Forensicfinders mark. A skull in false color under the name. Illustration, not a burial."
           />
           <p className="hero-case">
             {CASE.name} · {CASE.missing} · Cocoa Beach
