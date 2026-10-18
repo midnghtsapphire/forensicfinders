@@ -210,20 +210,22 @@ export function Workbench() {
 
   return (
     <main className="min-h-screen bg-bg text-fg">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-4 py-4">
-        <header className="flex flex-wrap items-end justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <span className="flex h-11 w-11 items-center justify-center rounded-md bg-surface text-brass">
-              <Aperture className="h-6 w-6" aria-hidden="true" />
-            </span>
-            <div>
-              <p className="eyebrow">Cold-case illumination</p>
-              <h1 className="display text-3xl text-fg">Forensicfinders</h1>
-            </div>
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-4 py-4 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))]">
+        <header className="mast">
+          <div className="mast-mark" aria-hidden="true">
+            <span className="mast-sweep" />
+            <span className="mast-f">F</span>
           </div>
-          <p className="text-sm text-muted">
-            {CASE.name} · {CASE.missing} · Cocoa Beach
-          </p>
+          <div className="mast-copy">
+            <p className="eyebrow">Cold-case illumination</p>
+            <h1 className="mast-name">
+              <span>Forensic</span>
+              <span>finders</span>
+            </h1>
+            <p className="mast-case">
+              {CASE.name} · {CASE.missing} · Cocoa Beach
+            </p>
+          </div>
         </header>
 
         <p className="panel px-4 py-3 text-sm text-muted">
