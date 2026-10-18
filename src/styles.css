@@ -107,19 +107,12 @@
   .dog-patch {
     margin: 0 auto;
     width: min(100%, 22rem);
-    aspect-ratio: 1;
-    overflow: hidden;
-    border-radius: 999px;
-    background: #06221c;
   }
 
   .dog-patch img {
     display: block;
-    width: 118%;
-    max-width: none;
-    height: 118%;
-    margin: -9%;
-    object-fit: cover;
+    width: 100%;
+    height: auto;
   }
 
   .brand-banner {
