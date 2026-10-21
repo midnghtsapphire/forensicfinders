@@ -26,6 +26,9 @@ Status meanings:
 | Notebook hard-coded STAC/3DEP/Wayback/ArcGIS + typed targets | EVALUATED OUT | — | Replaced by 900-series |
 | Mine-alias NLP triage from notebook `run_county` layer 1 | IDEA | — | Only if a sourced place gazetteer exists; no case-named alias tables |
 | Satellite-only "grave detector" | IDEA / speculative | — | Needs labelled training data; see 2000 Run section |
+| Insect trace evidence (puparia, larval gut DNA, fly artefacts, dermestid frass) as search/evidence cues | PROTOTYPE / RESEARCH | 2210 | `docs/research/INSECT_TRACES.md`; crawl: briefings + photograph-and-flag only; walk: optional log tag + puparia template test |
+| Hyperspectral / chemical imaging of soil and vegetation over graves, unsupervised spectral clustering first pass | PROTOTYPE / RESEARCH | 2080 | section in `docs/research/clandestine-grave-detection.md`; needs local field trials |
+| Master sources table + DOI coverage test | RESEARCH INDEX | 2200 | `data/sources.json` → `docs/research/SOURCES.md` via `sources.py --render` |
 | Canine eDNA field kit | IDEA | — | After human soil assay validates (2000) |
 | Hyperspectral / thermal flight add-on | IDEA | — | Collect labelled overflight data; do not score without ground samples |
 

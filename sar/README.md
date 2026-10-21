@@ -69,6 +69,8 @@ New here? Read this file first, then [`docs/HANDOFF.md`](docs/HANDOFF.md).
 | 2090 | `search_system/docs` | PROPRIETARY process notes: validation protocol, patent prep, reward priority, adjacent-tech research |
 | 2100 | `docs/research/vision-detection-tools.md` | PROTOTYPE: optional local vision detection, tracking, labelling workflow, SAR datasets |
 | 2110 | `vision` | PROTOTYPE, off by default: template / Faster R-CNN detector, leak-free splits, 1913 review candidates |
+| 2200 | `data/sources.json` + `sources.py` | Master sources table; renders `docs/research/SOURCES.md`; test fails if any cited DOI is missing |
+| 2210 | `docs/research/INSECT_TRACES.md` | PROTOTYPE research note: insect trace evidence, detectability, crawl/walk/run, validation gaps |
 
 IDs are permanent. Never reuse a retired number. A child ID such as 910 runs its parent's tests (900).
 

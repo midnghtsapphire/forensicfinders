@@ -506,6 +506,26 @@
         "vision.test_vision"
       ],
       "requires": "optional: pip install -r vision/requirements-vision.txt (torch/cv2 tests skip without them)"
+    },
+    "2200": {
+      "name": "sources",
+      "path": "data/sources.json",
+      "what": "Master sources lookup table (papers, reviews, theses, datasets/API endpoints, repos, products, guides, videos, patents, articles) with verification status, licence, registry IDs and caveats; sources.py loads it, renders docs/research/SOURCES.md and fails if any doc/code DOI is missing",
+      "status": "RESEARCH INDEX",
+      "test_cwd": ".",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "test_sources"
+      ]
+    },
+    "2210": {
+      "name": "docs/research/INSECT_TRACES",
+      "path": "docs/research/INSECT_TRACES.md",
+      "what": "PROTOTYPE research note: insect trace evidence (puparia, larval gut DNA, fly artefacts, entomotoxicology, dermestid frass), detectability by eye/camera/sample, crawl-walk-run plan, field-validation gaps; verified sources",
+      "kind": "doc",
+      "status": "PROTOTYPE / RESEARCH"
     }
   },
   "deselected_tests": {

@@ -52,3 +52,29 @@ desk or remote work. Nothing goes on the ground without the investigating agency
   warrants, "U.S. people records"). The vendor site did not answer an HTTPS request on 2026-10-21.
   **Not maintained, no code to review, and it is a person-lookup service.** Not adopted, and no code that touches
   people will be added. Any person-record checks belong to the investigating agency.
+
+## Chemical and hyperspectral imaging of soil for remains detection (added 2026-10-21; PROTOTYPE, research only)
+
+**What it is.** A chemical image stores a spectrum at every pixel, not just colour. That lets you map what a surface is made of. Hyperspectral imaging does this from the air or a drone; FT-IR and Raman microscopes do it on a lab sample. Background only (no claims taken from these): [Chemical imaging (Wikipedia)](https://en.wikipedia.org/wiki/Chemical_imaging), CC BY-SA 4.0; [ScienceDirect topic page](https://www.sciencedirect.com/topics/agricultural-and-biological-sciences/chemical-imaging); and the vendor video *What is chemical imaging? How can AI help us with it?* from Bruker ([YouTube](https://www.youtube.com/watch?v=D-AC-KunXEc)), which is marketing material.
+
+**Published grave and remains work:**
+- **Kalacska & Bell (2006)** describe remote sensing as a tool for finding clandestine mass graves (see above, doi:[10.1080/00085030.2006.10757132](https://doi.org/10.1080/00085030.2006.10757132)).
+- **Leblanc, Kalacska & Soffer (2014).** *Detection of single graves by airborne hyperspectral imaging.* Forensic Sci Int 245:17–23. doi:[10.1016/j.forsciint.2014.08.020](https://doi.org/10.1016/j.forsciint.2014.08.020).
+  - Blind test over two clearings with buried pig carcasses, using two airborne sensors covering 408–2524 nm.
+  - The team flagged three candidate areas from co-occurring anomalous pixels. Two of them fell within GPS error (10 m) of the true burials.
+  - The authors say more work is needed before routine use.
+- **Silván-Cárdenas et al. (2021).** *Assessing optical remote sensing for grave detection.* Forensic Sci Int 329:111064. doi:[10.1016/j.forsciint.2021.111064](https://doi.org/10.1016/j.forsciint.2021.111064). Experiments on simulated animal graves in Mexico:
+  - Hyperspectral and multispectral indices picked up nitrogen-enriched vegetation. Chlorophyll-sensitive indices worked from about month four after burial.
+  - Differential thermography found only large graves on bare ground.
+  - Photogrammetry did not detect subsidence.
+
+**Soil in the lab.** Hobley et al. (2018), *Hotspots of soil organic carbon storage revealed by laboratory hyperspectral imaging*, Sci Rep 8. doi:[10.1038/s41598-018-31776-w](https://doi.org/10.1038/s41598-018-31776-w). They mapped organic carbon in undisturbed soil cores at about 53 µm with a random forest. That is a method precedent for imaging grave-fill cores, not a remains study.
+
+**Unsupervised spectral clustering.** This groups pixels by spectrum with no labels. It suits a first pass when no reference graves exist: clusters become candidate anomalies that a person reviews, and the core stays rule-based and human-reviewed.
+- Zhao et al. (2019), *Fast Spectral Clustering for Unsupervised Hyperspectral Image Classification*, Remote Sensing 11(4):399. doi:[10.3390/rs11040399](https://doi.org/10.3390/rs11040399). It scales spectral clustering to large scenes with Nyström and anchor-graph approximations. **Unsupervised**; tested on standard hyperspectral benchmarks, not graves.
+- Adjacent: Jiang et al. (2026), *Detection and imaging of chemicals and hidden explosives using terahertz time-domain spectroscopy and deep learning*, Light Sci Appl. doi:[10.1038/s41377-026-02190-z](https://doi.org/10.1038/s41377-026-02190-z), CC BY 4.0. It does pixel-level chemical ID through packaging. This is a security application, supervised, and lab-scale.
+
+**Needs field validation.**
+- Whether any spectral signal persists over human burials in local soils and vegetation, and in which season.
+- What false-positive rate unsupervised clusters produce over disturbed but empty ground.
+- What sensor cost and resolution a team can actually fly.

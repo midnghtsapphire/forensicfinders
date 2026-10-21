@@ -227,3 +227,14 @@ Licences: torchvision/torch BSD, OpenCV Apache-2.0. Ultralytics (AGPL) is not us
 - CI is manual only (`sar-tests` and `daily_sar_run`, both workflow_dispatch). There is no schedule and no auto-commit; outputs go to artifacts. The notebook's daily cron and commit-back step were deliberately not carried over.
 - Ring credentials are optional env vars or a mode-600 token cache. They are never in the repo and never printed.
 - The `case/` contents never get committed here.
+
+
+## 14. Sources table (2200)
+
+Every DOI or URL cited in `sar/` belongs in `sar/data/sources.json`. After adding a citation:
+
+1. Add a row with `source_id`, `type`, `verified` and `verified_date`, plus a `license` for repos and data.
+2. Run `python3 sar/sources.py --render`.
+3. Run `python3 sar/sources.py --check`.
+
+`test_sources.py` fails if a cited DOI is missing or SOURCES.md is stale. The placeholder DOIs in `CITATION.cff.template` are excluded.
