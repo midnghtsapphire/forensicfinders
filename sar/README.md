@@ -43,6 +43,7 @@ New here? Read this file first, then [`docs/HANDOFF.md`](docs/HANDOFF.md).
 | 960 | `geo_connectors/verify_connectors.py` | Live health check of all 5 endpoints; writes out/health.json and status=PASS|FAIL to $GITHUB_OUTPUT (used by aegis-health-check) |
 | 970 | `geo_connectors/run_sectors.py` | Sector pipeline from a case config: cloud-filtered STAC, COG ΔNDVI, 3DEP centre elevation (used by aegis-sar-runner) |
 | 980 | `geo_connectors/sar_pair.py` | Pairwise SAR GeoTIFF amplitude-ratio (dB) + coherent-change index; synthetic tests; crawl for 2030 |
+| 985 | `geo_connectors/waveform.py` | Gaussian decomposition of a 1-D lidar waveform; peaks + last (ground) return; synthetic tests; see 2060 |
 | 1000 | `forensic_models` | Sourced, data-driven forensic models (constants.json: every constant has a DOI/URL; unsourced ones are user_required) |
 | 1010 | `forensic_models/taphonomy.py` | Megyesi ADD from TBS, Vass PMI (aerobic/burial), Topp θ↔ε, saponified fraction (rate user-supplied) |
 | 1020 | `forensic_models/soil_nitrogen.py` | Grave-soil N pathway with sourced Q10 and WFPS optimum; site rates must be supplied |
@@ -61,6 +62,8 @@ New here? Read this file first, then [`docs/HANDOFF.md`](docs/HANDOFF.md).
 | 2020 | `docs/research/phone-gpr-addon.md` | PROTOTYPE: phone/USB mmWave & GPR roadmap + Raspberry Pi field host BOM/wiring; ties to 1120 and 811 |
 | 2030 | `docs/research/vhr-radar-lidar-fusion.md` | PROTOTYPE: VHR SAR + lidar micro-relief crawl-walk-run; recommend two add-ons (B); verified citations; no claimed results |
 | 2040 | `docs/research/INVENTION-DISCLOSURE.md` | PROTOTYPE: invention disclosure (2020/811, 2030/980, 2000); prior art; not legal advice; keep private |
+| 2060 | `docs/research/full-waveform-lidar.md` | PROTOTYPE: full-waveform lidar (GEDI L1B/L2A, NEON AOP) for terrain under canopy; ties to 985 |
+| 2070 | `docs/research/buried-object-detection.md` | PROTOTYPE: small buried/surface personal items; cited forensic geophysics; crawl-first roadmap |
 
 IDs are permanent. Never reuse a retired number. A child ID such as 910 runs its parent's tests (900).
 

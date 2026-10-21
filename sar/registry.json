@@ -395,6 +395,33 @@
       "what": "PROTOTYPE: invention disclosure for Evans concepts 2020/811, 2030/980, 2000; prior-art links; not legal advice; keep private until provisional filed",
       "kind": "doc",
       "status": "PROTOTYPE / RESEARCH"
+    },
+    "985": {
+      "name": "geo_connectors/waveform",
+      "path": "geo_connectors/waveform.py",
+      "what": "Gaussian decomposition of 1-D full-waveform lidar; peaks + last (ground) return; synthetic tests; see 2060",
+      "parent": "900",
+      "test_cwd": ".",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "geo_connectors.test_waveform"
+      ]
+    },
+    "2060": {
+      "name": "docs/research/full-waveform-lidar",
+      "path": "docs/research/full-waveform-lidar.md",
+      "what": "PROTOTYPE: full-waveform lidar (GEDI L1B/L2A, NEON AOP) for SAR terrain under canopy; ARSET training; earthaccess/NEON API; ties to 985; no claimed results",
+      "kind": "doc",
+      "status": "PROTOTYPE / RESEARCH"
+    },
+    "2070": {
+      "name": "docs/research/buried-object-detection",
+      "path": "docs/research/buried-object-detection.md",
+      "what": "PROTOTYPE: small buried/surface personal items (zippers, rivets, buttons, fabric, soles) via metal detector, magnetometry, GPR, lidar, multispectral/thermal; cited forensic geophysics; adjacent clothing-imaging sources; crawl-first roadmap",
+      "kind": "doc",
+      "status": "PROTOTYPE / RESEARCH"
     }
   },
   "deselected_tests": {
