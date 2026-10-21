@@ -187,6 +187,55 @@
       ],
       "requires": "pip install piexif pillow",
       "source": "revvel-forensic-studio cli/src/forensic_analysis.py EXIFAnalyzer"
+    },
+    "900": {
+      "name": "geo_connectors",
+      "path": "geo_connectors",
+      "what": "Live public geo connectors with retry/backoff and host allowlist; recorded fixtures for offline tests; SAR_LIVE_TESTS=1 for live",
+      "test_cwd": ".",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "geo_connectors.test_geo_connectors"
+      ],
+      "source": "Gemini Notebook SAR bootstrap (master_unified_sar_bootstrap.py), rewritten to call the real endpoints"
+    },
+    "901": {
+      "name": "geo_connectors/netio",
+      "path": "geo_connectors/netio.py",
+      "what": "HTTP: https-only allowlist, 429/5xx/network retry with exponential backoff + jitter, size cap",
+      "parent": "900"
+    },
+    "910": {
+      "name": "geo_connectors/stac",
+      "path": "geo_connectors/stac.py",
+      "what": "STAC search (Element84 Earth Search S1/S2, NASA CMR LPCLOUD HLS) with paging; COG window read; NDVI, ΔNDVI, S1 log-ratio dB, sigma anomalies",
+      "parent": "900"
+    },
+    "920": {
+      "name": "geo_connectors/dep3",
+      "path": "geo_connectors/dep3.py",
+      "what": "USGS 3DEP DTM exportImage (GeoTIFF), getSamples point elevations, DTM difference",
+      "parent": "900"
+    },
+    "930": {
+      "name": "geo_connectors/wayback",
+      "path": "geo_connectors/wayback.py",
+      "what": "Wayback CDX query and content-digest change list",
+      "parent": "900"
+    },
+    "940": {
+      "name": "geo_connectors/arcgis",
+      "path": "geo_connectors/arcgis.py",
+      "what": "ArcGIS REST layer query, GeoJSON, resultOffset paging; municipal hosts via allow_host()",
+      "parent": "900"
+    },
+    "950": {
+      "name": "geo_connectors/mcp_server",
+      "path": "geo_connectors/mcp_server.py",
+      "what": "stdio MCP server: search_stac_satellite, query_usgs_lidar, sample_usgs_elevation, wayback_cdx_diff, arcgis_query",
+      "parent": "900"
     }
   },
   "deselected_tests": {

@@ -63,7 +63,7 @@ Example:
   python s2_change.py --lat 36.6534 --lon -94.4418 --radius-m 1609 \
       --before 2026-08-15 2026-09-14 --after 2026-09-16 2026-10-15 --out-dir out_CASE-X
   python s2_change.py --lat 50.88 --lon -119.89 --radius-m 400 --index ndre \
-      --before 2026-07-01 2026-07-31 --after 2026-08-15 2026-09-15 --out-dir out_sunpeaks_ndre
+      --before 2026-07-01 2026-07-31 --after 2026-08-15 2026-09-15 --out-dir out_sector_ndre
 """
 
 import argparse

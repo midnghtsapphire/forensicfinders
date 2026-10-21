@@ -10,7 +10,7 @@ No API key is needed. Only the S3 bucket is used (no STAC search), so it
 works where only AWS open-data buckets are reachable.
 
 Example:
-  python s2_ndvi.py --lat 50.8782 --lon -119.9075 --start 2017-06 --end 2025-09 \
+  python s2_ndvi.py --lat 41.02 --lon -100.48 --start 2017-06 --end 2025-09 \
       --months 7 8 --buffer-m 20 --ring-m 150 --out CASE-X_ndvi.csv
 """
 

@@ -1,0 +1,38 @@
+# Manual only: no schedule, no push trigger and no auto-commit (replaces the notebook's daily
+# verify_connectors cron). The offline job replays recorded fixtures. The live job calls free
+# public endpoints and runs only when you tick "live" AND the repo variable SAR_LIVE_ALLOWED is not '0'.
+# No LLM calls, so REVVEL_LLM_ALLOW_CLOUD does not apply. If a paid API is ever added, gate it with
+# vars.REVVEL_LLM_ALLOW_CLOUD == '1'.
+name: sar-tests
+on:
+  workflow_dispatch:
+    inputs:
+      live:
+        description: "Also hit the live public endpoints"
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install numpy rasterio piexif pillow -r sar/coldtrace/backend/requirements-test.txt
+      - run: python3 sar/registry.py --test-all
+  live:
+    if: ${{ inputs.live && vars.SAR_LIVE_ALLOWED != '0' }}
+    needs: offline
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install numpy rasterio
+      - working-directory: sar
+        env: { SAR_LIVE_TESTS: "1" }
+        run: python3 -m unittest -v geo_connectors.test_geo_connectors.Live

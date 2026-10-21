@@ -1,0 +1,18 @@
+# Template only. Copy to case/<your-case-id>.config.yaml. Every file in case/ except this
+# template and README.md is gitignored, so real case configs never reach GitHub.
+# The private case-files repo is the right long-term home for real case configs.
+case_id: SYNTH-0001
+authority: "Agency + case/report number + who authorised the analysis"
+sectors:                       # synthetic example sectors (Nebraska Sandhills, no case relevance)
+  - id: SECTOR-A
+    bbox: [-100.50, 41.00, -100.475, 41.025]
+  - id: SECTOR-B
+    bbox: [-100.475, 41.025, -100.45, 41.05]
+imagery:
+  before: "2025-05-01/2025-05-31"
+  after:  "2025-06-01/2025-06-30"
+  collections: [sentinel-2-l2a]
+  max_cloud_cover: 20
+arcgis_layers: []              # e.g. ["https://gis.example-city.gov/arcgis/rest/services/Permits/FeatureServer/0"]
+wayback_urls: []
+# Targets must be COMPUTED by a component and saved with its inputs, never typed in here.

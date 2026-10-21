@@ -10,8 +10,8 @@ No API key. Needs outbound access to archive-api.open-meteo.com (not reachable
 from every environment; use --from-json to parse a response saved elsewhere).
 
 Example:
-  python weather_history.py --lat 50.884 --lon -119.882 --start 2018-02-16 \
-      --end 2018-02-18 --tz America/Vancouver --out sunpeaks_feb2018.csv
+  python weather_history.py --lat 41.02 --lon -100.48 --start 2018-02-16 \
+      --end 2018-02-18 --tz America/Vancouver --out sector_feb2018.csv
 """
 
 import argparse

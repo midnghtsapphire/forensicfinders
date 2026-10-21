@@ -1,0 +1,106 @@
+# HANDOFF: taking over the SAR toolchain
+
+Everything here is based on what actually ran on 2026-10-21. Where something was only claimed, it says so.
+
+## 1. Mental model
+- `sar/` is a set of separate Python components. Each has a number in `registry.json`.
+- Nothing invents data. A missing input yields `no_data` or an error. If you see a number, a component computed it from inputs you can inspect.
+- Targets are **computed and saved with their inputs**, never typed in. The notebook's target files were typed coordinates; see section 6.
+- No component calls an LLM. If you ever add one, it must be optional, gated (`SAR_LLM_ENABLE=1`), and pointed at a small local model through an OpenAI-compatible `SAR_LLM_BASE_URL`, such as Ollama at `http://localhost:11434/v1`.
+
+## 2. First hour, step by step
+1. `git checkout sar-consolidation`, then `cd sar`.
+2. `python3 registry.py`: read the table and note the IDs you care about.
+3. `python3 registry.py --test-all`: expect `ALL OK`. If a block fails, see section 7.
+4. Try a live connector against a neutral area:
+   ```bash
+   python3 -c "from geo_connectors import dep3; print(dep3.sample_elevations([(-100.48, 41.02)]))"
+   ```
+   Expect roughly 817 m.
+5. Try the MCP server:
+   ```bash
+   printf '%s\n' '{"jsonrpc":"2.0","id":1,"method":"tools/list"}' | python3 -m geo_connectors.mcp_server
+   ```
+   To wire it into an MCP client, set command `python3`, args `["-m", "geo_connectors.mcp_server"]` and cwd `sar/`.
+
+## 3. Running each component
+| ID | Offline | Live / real use |
+|---|---|---|
+| 100–150 | `python3 registry.py 100 --test` | See `blue-ocean-sar/README.md`. 140: `python3 blue-ocean-sar/public_records_engine.py "<public address>"` (Census only) |
+| 200 | `python3 registry.py 200 --test` | `python3 -m hfmr --help`, run from `sar/` |
+| 300–600 | `python3 registry.py <id> --test` | Each folder's README |
+| 700 | `python3 registry.py 700 --test` (needs fastapi and pytest) | `cd sar && uvicorn coldtrace.backend.main:app`. Without `OPENTOPOGRAPHY_API_KEY` or Sentinel Hub keys, data routes return HTTP 424 `{"status":"no_data"}` by design |
+| 800 | `python3 registry.py 800 --test` | Supply a **sourced** LPB table. The shipped example is marked unverified and refused unless `allow_unverified=True` |
+| 810 | `python3 registry.py 810 --test` | `instrument_input.read_points("scan.las")` needs `pip install laspy lazrs`; CSV works without it |
+| 820 | `python3 registry.py 820 --test` | `EXIFAnalyzer().analyze("photo.jpg")` |
+| 900–950 | `python3 registry.py 900 --test` | `SAR_LIVE_TESTS=1 python3 -m unittest -v geo_connectors.test_geo_connectors.Live` |
+
+### Connector cookbook (900s)
+```python
+from geo_connectors import stac, dep3, wayback, arcgis, netio
+bbox = [-100.50, 41.00, -100.45, 41.05]          # synthetic sector
+s2 = stac.search(bbox, "2025-06-01/2025-06-30", ["sentinel-2-l2a"], max_items=5,
+                 query={"eo:cloud_cover": {"lt": 20}})
+red = stac.read_cog_window(s2[0]["assets"]["red"], bbox)
+nir = stac.read_cog_window(s2[0]["assets"]["nir"], bbox)
+ndvi = stac.ndvi(red, nir)                       # ΔNDVI: stac.delta_ndvi(r0, n0, r1, n1)
+s1 = stac.search(bbox, "2025-06-01/2025-06-30", ["sentinel-1-grd"])  # change: stac.log_ratio_db(before, after)
+hls = stac.search(bbox, "2025-06-01/2025-06-30", ["HLSS30_2.0"], endpoint=stac.CMR_LPCLOUD)
+dtm = dep3.export_dtm(bbox, size=(256, 256), out_path="/tmp/dtm.tif")
+snaps = wayback.digest_changes(wayback.query_cdx("example.com", 2006, 2010))
+netio.allow_host("gis.example-city.gov")         # municipal servers must be allowlisted first
+fc = arcgis.query_layer("https://gis.example-city.gov/arcgis/rest/services/X/FeatureServer/0", where="1=1")
+```
+Every call retries 429, 5xx and network errors with exponential backoff (1, 2, 4, 8 s plus jitter), then raises `ConnectorError`. Nothing is faked on failure.
+
+## 4. Adding a case privately
+1. `cp case/example.config.yaml case/<case-id>.config.yaml`. Git ignores everything in `case/` except the template and the README; confirm with `git check-ignore -v case/<case-id>.config.yaml`.
+2. Fill in `authority`: the agency, the case or report number, and who authorised the work.
+3. Run the components with that config's bboxes and dates. Write outputs into `case/` too.
+4. Before any commit, run `git status` and make sure nothing under `case/` shows up.
+5. The long-term home for real case configs and outputs is the private **case-files** repo. Don't push there without Audrey's approval.
+6. Never put real names, coordinates or case material in code, tests, fixtures, examples or docs.
+
+## 5. Adding a component
+1. Copy in working code as-is, and run its tests where it came from first.
+2. Add an entry to `registry.json` with the next free number in the right hundred, plus `test_cwd`, `test` and `source`.
+3. Add fixture-based offline tests. Optional live tests must skip unless `SAR_LIVE_TESTS=1`.
+4. Run `python3 registry.py --test-all`, then add a row to the PR's provenance table.
+
+## 6. What's real vs. aspirational
+**Real (ran on 2026-10-21):**
+- **Element84 Earth Search STAC:** Sentinel-2 L2A and Sentinel-1 GRD search, paging.
+- **NASA CMR-STAC LPCLOUD:** HLS search.
+- **COG band math:** live windowed reads of the S2 red and NIR bands through rasterio, giving NDVI. ΔNDVI, S1 log-ratio and sigma anomalies are covered by unit tests.
+- **USGS 3DEP:** exportImage returns a real GeoTIFF; getSamples returns elevations.
+- **ArcGIS REST:** query with paging (Esri sample server).
+- **Wayback CDX:** live API confirmed and fixture recorded. The box's own network couldn't complete TLS to web.archive.org; GitHub runners should work.
+- **MCP server:** stdio, 5 tools.
+
+**Aspirational or fake in the Gemini Notebook bootstrap (`master_unified_sar_bootstrap.py`, v4.0.0 "PRODUCTION"):**
+- **STAC search:** a bug (bare dates give HTTP 400) made it *always* fall back to a hard-coded fake scene, `S2A_MSIL2A_20261015T…`. It still reported success.
+- **3DEP:** made no request at all. It returned `"status": "Active"` and `"smrf_filter": "Applied (Canopy Removed)"` as constants.
+- **ArcGIS and Wayback:** returned typed "simulated" rows, including invented digests `SHA1_ORIGINAL_HASH_001/002`.
+- **Targets:** the "targets" were typed coordinates with typed confidences (0.84–0.965). Nothing computed them.
+- **Taphonomic kinetics:** `calculate_decay_kinetics` uses constants with no source.
+- **Admiralty scorer:** maps the type of source to an A–F grade by keyword; it's an opinion, not the NATO procedure.
+- **Missing files:** "camera telemetry", "self-healing listener", `verify_connectors.py`, `config.yaml`, `docker-compose.yml`, `.env.example`, `sar_pipeline.yml` and the MCP schemas were **not in the zip**. A "v2" package with a daily `verify_connectors.yml` wasn't in it either.
+- **`run_county.py`:** generates its DEM with `np.random.normal`.
+
+## 7. Troubleshooting (all hit for real)
+| Symptom | Fix |
+|---|---|
+| `ModuleNotFoundError: numpy/fastapi/rasterio/piexif` | Install the step-2 dependencies. Debian's system pip needs `--user --break-system-packages` |
+| Test runs hang or fail inside a venv lacking numpy | Use the same interpreter you installed into: `which python3` |
+| `test_geo_connectors` fails to import, or stdlib `http` breaks | A module named `http.py` shadowed the stdlib. It's now `netio.py`; don't add files named like stdlib modules |
+| STAC HTTP 400 | Use full RFC 3339 dates; `stac.normalize_datetime` does this for you |
+| Wayback `TLS connect error … unexpected eof` | Network or egress problem on that machine, not the code. Try another network or a GitHub runner |
+| coldtrace `Status code 204 must not have a response body` | Fixed: `response_class=Response, response_model=None` |
+| coldtrace returns 424 `no_data` | Expected when no API keys are set; add keys to `.env` |
+| `node --experimental-strip-types` unsupported (CLE repo) | Use Node 22 or newer: `nvm install 22`. If `NPM_CONFIG_PREFIX` is set, unset it first |
+| `ConnectorError: host not allowlisted` | `netio.allow_host("your.gis.host")` |
+
+## 8. Guardrails
+- CI is manual only (`sar-tests`, workflow_dispatch). It has no schedule and no auto-commit.
+- There are no camera or ALPR credentials (Ring, Arlo, Reolink, Flock) anywhere. Accessing those needs legal authority and stays outside this repo.
+- The `case/` contents never get committed here.

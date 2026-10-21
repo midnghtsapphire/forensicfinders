@@ -78,7 +78,7 @@ import sys
 # from AI-generated documents: values with no experiment behind them, or
 # attributed to a field manual with no edition, table or page (for example the
 # "POD = 1 - exp(-S / w)" row, SMATH-002, in
-# docs/case-files/CASE-X/sunpeaks_master_sar_database.db_1.txt, credited to a
+# docs/case-files/CASE-X/sector_master_sar_database.db_1.txt, credited to a
 # "SAR100 Field Manual"). A sweep width decides how many hours a team spends in a
 # segment and what POD gets reported to a family or a court. A made-up W gives a
 # made-up POD that looks exactly like a measured one, so a search can be closed
