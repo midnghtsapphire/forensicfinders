@@ -37,6 +37,7 @@ New here? Read this file first, then [`docs/HANDOFF.md`](docs/HANDOFF.md).
 | 901 | `geo_connectors/netio.py` | HTTP: https-only allowlist, 429/5xx/network retry with exponential backoff + jitter, size cap |
 | 910 | `geo_connectors/stac.py` | STAC search (Element84 Earth Search S1/S2, NASA CMR LPCLOUD HLS) with paging; COG window read; NDVI, ΔNDVI, S1 log-ratio dB, sigma anomalies |
 | 920 | `geo_connectors/dep3.py` | USGS 3DEP DTM exportImage (GeoTIFF), getSamples point elevations, DTM difference |
+| 925 | `geo_connectors/lidar_dtm.py` | PROTOTYPE: point cloud to bare-earth DTM (outliers, SMRF/PMF ground filter, IDW/TIN, hole fill, GeoTIFF check) |
 | 930 | `geo_connectors/wayback.py` | Wayback CDX query and content-digest change list |
 | 940 | `geo_connectors/arcgis.py` | ArcGIS REST layer query, GeoJSON, resultOffset paging; municipal hosts via allow_host() |
 | 950 | `geo_connectors/mcp_server.py` | stdio MCP server: search_stac_satellite, query_usgs_lidar, sample_usgs_elevation, wayback_cdx_diff, arcgis_query |
@@ -69,6 +70,7 @@ New here? Read this file first, then [`docs/HANDOFF.md`](docs/HANDOFF.md).
 | 2090 | `search_system/docs` | PROPRIETARY process notes: validation protocol, patent prep, reward priority, adjacent-tech research |
 | 2100 | `docs/research/vision-detection-tools.md` | PROTOTYPE: optional local vision detection, tracking, labelling workflow, SAR datasets |
 | 2110 | `vision` | PROTOTYPE, off by default: template / Faster R-CNN detector, leak-free splits, 1913 review candidates |
+| 2120 | `vision/synth.py` | PROTOTYPE, SYNTHETIC ONLY: generated-label training demo vs RX / local-colour anomaly baselines |
 | 2200 | `data/sources.json` + `sources.py` | Master sources table; renders `docs/research/SOURCES.md`; test fails if any cited DOI is missing |
 | 2210 | `docs/research/INSECT_TRACES.md` | PROTOTYPE research note: insect trace evidence, detectability, crawl/walk/run, validation gaps |
 

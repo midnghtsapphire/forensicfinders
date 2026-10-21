@@ -120,3 +120,27 @@ These come from atomic-resolution electron microscopy, not search and rescue. Th
 `cameras/` frames (1911/1912) → optional `detect` step (flag `--detector none|template|yolo`, default `none`)
 → candidate boxes with model id, confidence and frame SHA-256 → 1913 timeline as `kind: "detector_candidate"`.
 Nothing is acted on without human review.
+
+## Synthetic-label demo (2120, PROTOTYPE): SYNTHETIC ONLY, not field-validated
+
+`vision/synth.py` generates seeded procedural backgrounds with unlabelled clutter (flower specks, pale boulders, shadows, trails), then composites shaded jacket and backpack shapes. The palettes include olive and brown low-contrast cases. Every box is exact, taken from the pasted mask. No photographs or third-party data are used.
+- Train: 150 images on grass/forest/scrub (401 objects).
+- Test: 60 images on **held-out** rock/sand backgrounds (167 objects).
+
+Run: `/home/box/venv-vision/bin/python -m vision.synth_demo --out /tmp/synth_demo --steps 300 --pretrained` (writes `metrics.json`; keep generated data out of git).
+
+| Method (held-out backgrounds, IoU 0.5) | AP50 (class-agnostic) | Recall | Notes |
+|---|---|---|---|
+| RX global (Reed & Yu 1990, [doi:10.1109/29.60107](https://doi.org/10.1109/29.60107)), unsupervised | 0.871 | 0.964 | 4.47 dets/image; no class labels |
+| Local colour statistics (31 px window), unsupervised | 0.106 | 0.245 | window too small and misses whole objects; boxes fragment |
+| Faster R-CNN MobileNetV3 FPN, COCO-pretrained, 300 steps CPU (152 s), 384 px input, anchors 8–128 px | 0.865 | 0.892 (score ≥ 0.5) | per class: jacket 0.913, backpack 0.853 |
+
+Observations:
+- The same run **from scratch** (no COCO weights, default 32 px+ anchors, 192 px input) learned nothing (AP50 0.0). Pretrained weights and small anchors matter for 8–22 px objects.
+- RX is very strong here **because the synthetic objects are colour outliers by construction**. That flatters RX, and the advantage is not expected to hold on real imagery (bright flowers, tarps and rocks), where false alarms dominate.
+- None of these numbers say anything about field performance.
+
+**Next step: real labelled flights.**
+- **HERIDAL** (person detection, about 1.6k 4000×3000 UAV images, Croatia/BiH). The Zenodo VOC repack ([doi:10.5281/zenodo.5662351](https://doi.org/10.5281/zenodo.5662351)) and Accenture/AIR both state **CC BY 3.0**.
+- **SARD** (Sambolek & Ivašić-Kos, 1,981 frames, [doi:10.21227/ahxm-k331](https://doi.org/10.21227/ahxm-k331)) is on IEEE DataPort. Its DataCite record states **CC BY 4.0**; download needs an IEEE account and subscription.
+- Both label **people**, not dropped items. They are useful for pretraining and false-alarm measurement; item classes still need the staged-strip collection in HANDOFF §13.

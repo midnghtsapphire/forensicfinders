@@ -60,7 +60,7 @@ waveform only (`python3 -m unittest geo_connectors.test_waveform`).
 - `mean` gridding leaves holes where there are no ground returns; there is no IDW or TIN fill.
 - There is no check that a raster was actually produced.
 
-**Suggested fix (prototype, not built).** Add an optional "classify" mode: reset classes, run `filters.elm` and `filters.outlier`, then `filters.smrf`, keep class 2, and write with `writers.gdal` using `output_type idw` and a set radius. Make it skip cleanly when PDAL is absent, and test it on a small public sample cloud. References:
+**Suggested fix (now built as 925, see below).** Add an optional "classify" mode: reset classes, run `filters.elm` and `filters.outlier`, then `filters.smrf`, keep class 2, and write with `writers.gdal` using `output_type idw` and a set radius. Make it skip cleanly when PDAL is absent, and test it on a small public sample cloud. References:
 - the [PDAL ground filter tutorial](https://pdal.io/en/stable/tutorial/ground-filters.html)
 - OpenSourceOptions, [How to Create a DEM (or Raster) from a Lidar Point Cloud](https://opensourceoptions.com/how-to-create-a-dem-or-raster-from-a-lidar-point-cloud/) (2021 blog guide)
 - [erickfaria/LidarToolkit](https://github.com/erickfaria/LidarToolkit) (MIT; small 2025 Python toolkit, unreviewed)
@@ -73,3 +73,21 @@ waveform only (`python3 -m unittest geo_connectors.test_waveform`).
 - NASA [LP DAAC](https://www.earthdata.nasa.gov/centers/lp-daac) for GEDI and other land products.
 
 **Terminology.** "TEM = terrain elevation model", as it appeared in a pasted AI snippet, is **not a standard term**. The standard terms are **DEM** (digital elevation model, often used loosely), **DTM** (bare-earth terrain) and **DSM** (top surface, including canopy and buildings). TEM means transmission electron microscopy (see the glossary in PROTOTYPES.md).
+
+## Ground-filtering fix: `geo_connectors/lidar_dtm.py` (925, PROTOTYPE, built 2026-10-21)
+
+Pipeline: `build_dtm(xyz, method="idw"|"tin", engine="auto"|"pdal"|"pmf", out_path=...)`.
+1. **Outlier removal:** kNN mean-distance statistical filter, plus a robust (median/MAD) z-score on height vs local neighbours. This catches isolated high and low noise points (birds, multipath).
+2. **Ground classification:** if `python-pdal` is installed, PDAL `filters.smrf` (Pingel, Clarke & McBride 2013, [doi:10.1016/j.isprsjprs.2012.12.002](https://doi.org/10.1016/j.isprsjprs.2012.12.002)). Otherwise our own numpy/scipy **progressive morphological filter**, written from the published description in Zhang et al. 2003 ([doi:10.1109/TGRS.2003.810682](https://doi.org/10.1109/TGRS.2003.810682)): minimum-elevation grid, grey openings with growing windows, slope-scaled height thresholds. No third-party code was copied.
+3. **Gridding:** IDW (kNN) or TIN (Delaunay linear interpolation), with nearest-neighbour **hole filling** reported as a mask.
+4. **Output:** GeoTIFF via rasterio; `validate_raster` raises `EmptyRaster` if the file is missing or all nodata.
+5. **Missing dependencies:** `MissingDependency` / test skips. PDAL is optional, so `engine="auto"` falls back to PMF. laspy is only needed to read LAS/LAZ.
+
+**Synthetic test result (seed 1; not field data).** The cloud is 60 x 60 m: a sloped, undulating known surface with vegetation, two buildings, and 1% noise (30,062 points).
+- With the PMF engine, ground recall was 1.00, and vegetation and building points kept as ground were 0.00.
+- After outlier removal, the injected noise was 100% removed.
+- DTM RMSE against the true surface was **0.021 m for IDW** (max 0.13 m) and **0.021 m for TIN** (max 0.09 m), on a 1 m grid with 100% valid cells. Gridding all points with no ground filter gives 2.03 m RMSE.
+- The test threshold is RMSE < 0.15 m.
+- These numbers show the code works on an easy synthetic case only. Real clouds (steep terrain, dense low vegetation, bridges) need parameter tuning, and comparison against a USGS-classified 3DEP tile is the next check.
+
+1410 `fetch_lidar_dtm_3dep` is unchanged (it still keeps provider class 2). Its docstring now points to 925 for unclassified clouds. [erickfaria/LidarToolkit](https://github.com/erickfaria/LidarToolkit) (MIT) was a reference only; nothing was taken from it.

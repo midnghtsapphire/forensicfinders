@@ -222,6 +222,10 @@ Licences: torchvision/torch BSD, OpenCV Apache-2.0. Ultralytics (AGPL) is not us
    `python3 -m cameras.timeline merge out/frames/*.json out/detections/*.json --out out/timeline.jsonl`.
    Candidates appear as `detector_candidate` with `review_status: unreviewed`.
 8. **Tests:** `python3 -m unittest vision.test_vision` (synthetic images generated in the test; one CPU training step).
+9. **Synthetic-label demo (2120, SYNTHETIC ONLY):** `python -m vision.synth_demo --out /tmp/synth_demo --steps 300 --pretrained`
+   trains briefly on generated scenes and evaluates on held-out background types against RX / local-colour baselines.
+   Results and caveats are in `docs/research/vision-detection-tools.md`. It is a pipeline check, not evidence of field recall.
+   Next: HERIDAL (CC BY 3.0) / SARD (IEEE DataPort, CC BY 4.0 per DataCite, account needed) for real flights.
 
 ## 8. Guardrails
 - CI is manual only (`sar-tests` and `daily_sar_run`, both workflow_dispatch). There is no schedule and no auto-commit; outputs go to artifacts. The notebook's daily cron and commit-back step were deliberately not carried over.
@@ -238,3 +242,13 @@ Every DOI or URL cited in `sar/` belongs in `sar/data/sources.json`. After addin
 3. Run `python3 sar/sources.py --check`.
 
 `test_sources.py` fails if a cited DOI is missing or SOURCES.md is stale. The placeholder DOIs in `CITATION.cff.template` are excluded.
+
+
+## 15. Lidar bare-earth DTM (925, `geo_connectors/lidar_dtm.py`)
+PROTOTYPE. Use it when a point cloud is unclassified or its ground classes are unreliable (for example a team's own drone lidar).
+`build_dtm(xyz, method="idw"|"tin", out_path="dtm.tif")` runs outlier removal, then a ground filter (python-pdal SMRF if installed, else the built-in PMF), then gridding, hole fill and a GeoTIFF check.
+- Read LAS/LAZ with `read_las` (needs laspy).
+- Demo: `python3 -m geo_connectors.lidar_dtm`.
+- Tests: `python3 -m unittest geo_connectors.test_lidar_dtm` (synthetic cloud; RMSE vs known surface).
+- Tuning knobs are `cell`, `max_window`, `slope` and the thresholds. Check a known-classified 3DEP tile before trusting a new area.
+- Details and synthetic results are in `docs/research/full-waveform-lidar.md`.

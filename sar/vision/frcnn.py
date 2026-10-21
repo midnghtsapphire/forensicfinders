@@ -12,17 +12,18 @@ def _torch():
     return torch
 
 
-def build_model(num_classes, pretrained=True, small=True):
-    """num_classes excludes background. small=True uses the MobileNetV3 FPN variant (CPU friendly)."""
+def build_model(num_classes, pretrained=True, small=True, **kw):
+    """num_classes excludes background. small=True uses the MobileNetV3 FPN variant (CPU friendly).
+    Extra kw (e.g. min_size, max_size) go to the torchvision constructor."""
     torch = _torch()
     from torchvision.models import detection as D
     from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
     if small:
         m = D.fasterrcnn_mobilenet_v3_large_fpn(weights="DEFAULT" if pretrained else None,
-                                                weights_backbone="DEFAULT" if pretrained else None)
+                                                weights_backbone="DEFAULT" if pretrained else None, **kw)
     else:
         m = D.fasterrcnn_resnet50_fpn(weights="DEFAULT" if pretrained else None,
-                                      weights_backbone="DEFAULT" if pretrained else None)
+                                      weights_backbone="DEFAULT" if pretrained else None, **kw)
     inf = m.roi_heads.box_predictor.cls_score.in_features
     m.roi_heads.box_predictor = FastRCNNPredictor(inf, num_classes + 1)
     return m

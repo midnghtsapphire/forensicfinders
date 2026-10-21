@@ -219,6 +219,21 @@
       "what": "USGS 3DEP DTM exportImage (GeoTIFF), getSamples point elevations, DTM difference",
       "parent": "900"
     },
+    "925": {
+      "name": "geo_connectors/lidar_dtm",
+      "path": "geo_connectors/lidar_dtm.py",
+      "what": "PROTOTYPE: point cloud -> bare-earth DTM GeoTIFF: kNN/MAD outlier removal, ground filter (python-pdal SMRF if installed, else own numpy PMF after Zhang 2003), IDW or TIN gridding, hole fill, raster validation; tested on a synthetic cloud vs known surface",
+      "status": "PROTOTYPE",
+      "parent": "900",
+      "test_cwd": ".",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "geo_connectors.test_lidar_dtm"
+      ],
+      "requires": "numpy, scipy; optional rasterio (GeoTIFF), laspy (LAS/LAZ), python-pdal (SMRF); tests skip without them"
+    },
     "930": {
       "name": "geo_connectors/wayback",
       "path": "geo_connectors/wayback.py",
@@ -506,6 +521,21 @@
         "vision.test_vision"
       ],
       "requires": "optional: pip install -r vision/requirements-vision.txt (torch/cv2 tests skip without them)"
+    },
+    "2120": {
+      "name": "vision/synth",
+      "path": "vision/synth.py",
+      "what": "PROTOTYPE, SYNTHETIC ONLY: procedural backgrounds + composited jacket/backpack shapes with exact boxes (seeded), held-out background families, brief CPU Faster R-CNN MobileNetV3 fine-tune vs unsupervised RX / local-colour anomaly baselines (vision/anomaly.py, vision/synth_demo.py); not field-validated",
+      "status": "PROTOTYPE",
+      "parent": "2110",
+      "test_cwd": ".",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "vision.test_synth"
+      ],
+      "requires": "numpy; scipy + Pillow for anomaly/split tests; torch/torchvision for the demo smoke test (skips without)"
     },
     "2200": {
       "name": "sources",

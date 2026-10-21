@@ -252,6 +252,8 @@ def fetch_lidar_dtm_3dep(bounds_m, ept_url, out_tif, resolution=1.0):
        bucket listing -> pick project URL, e.g.
        https://s3-us-west-2.amazonaws.com/usgs-entwine/...
        Requires the 'pdal' CLI. Builds a bare-earth DTM (ground class only).
+       Keeps ONLY provider-classified ground: for unclassified/poorly classified clouds use
+       geo_connectors.lidar_dtm.build_dtm (925: outlier removal, SMRF/PMF ground filter, IDW/TIN, hole fill).
     bounds_m: (minx, miny, maxx, maxy) in the EPT CRS."""
     import json, subprocess, tempfile
     minx, miny, maxx, maxy = bounds_m
