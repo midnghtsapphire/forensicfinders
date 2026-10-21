@@ -31,6 +31,7 @@ New here? Read this file first, then [`docs/HANDOFF.md`](docs/HANDOFF.md).
 | 700 | `coldtrace` | Temporal GIS FastAPI backend (viewshed, NDVI/elevation change, heat map). No demo data: missing inputs answer {status: no_data} HTTP 424 |
 | 800 | `lpb` | Data-driven lost-person-behavior distance rings; tables must cite a source (unverified tables refused by default) |
 | 810 | `instrument_input` | LiDAR (LAS/CSV) and GPR (CSV) file input plus deterministic synthetic samples in local metres (no geo coords) |
+| 811 | `instrument_input/pi_radar_logger.py` | Pi field logger stub (GPS JSONL + synthetic burst + preview); see phone-gpr Pi section |
 | 820 | `exif_metadata` | EXIF metadata reader (camera, datetime, GPS, software) |
 | 900 | `geo_connectors` | Live public geo connectors with retry/backoff and host allowlist; recorded fixtures for offline tests; SAR_LIVE_TESTS=1 for live |
 | 901 | `geo_connectors/netio.py` | HTTP: https-only allowlist, 429/5xx/network retry with exponential backoff + jitter, size cap |
@@ -41,6 +42,7 @@ New here? Read this file first, then [`docs/HANDOFF.md`](docs/HANDOFF.md).
 | 950 | `geo_connectors/mcp_server.py` | stdio MCP server: search_stac_satellite, query_usgs_lidar, sample_usgs_elevation, wayback_cdx_diff, arcgis_query |
 | 960 | `geo_connectors/verify_connectors.py` | Live health check of all 5 endpoints; writes out/health.json and status=PASS|FAIL to $GITHUB_OUTPUT (used by aegis-health-check) |
 | 970 | `geo_connectors/run_sectors.py` | Sector pipeline from a case config: cloud-filtered STAC, COG ΔNDVI, 3DEP centre elevation (used by aegis-sar-runner) |
+| 980 | `geo_connectors/sar_pair.py` | Pairwise SAR GeoTIFF amplitude-ratio (dB) + coherent-change index; synthetic tests; crawl for 2030 |
 | 1000 | `forensic_models` | Sourced, data-driven forensic models (constants.json: every constant has a DOI/URL; unsourced ones are user_required) |
 | 1010 | `forensic_models/taphonomy.py` | Megyesi ADD from TBS, Vass PMI (aerobic/burial), Topp θ↔ε, saponified fraction (rate user-supplied) |
 | 1020 | `forensic_models/soil_nitrogen.py` | Grave-soil N pathway with sourced Q10 and WFPS optimum; site rates must be supplied |
@@ -56,7 +58,8 @@ New here? Read this file first, then [`docs/HANDOFF.md`](docs/HANDOFF.md).
 | 1913 | `cameras/timeline.py` | Merge camera frames/events and satellite scenes into a sorted SAR timeline (JSONL) |
 | 2000 | `docs/research/soil-edna-detection.md` | PROTOTYPE/RESEARCH: crawl-walk-run roadmap for human (then canine) soil eDNA and CDI chemistry; cited sources only, no claimed results |
 | 2010 | `docs/research/PROTOTYPES.md` | Index of notebook/research ideas with status and next small step |
-| 2020 | `docs/research/phone-gpr-addon.md` | PROTOTYPE: phone/USB mmWave & low-freq GPR add-on roadmap; cites Walabot/Infineon/TI/Acconeer/GPRino; ties to 1120 dielectric model |
+| 2020 | `docs/research/phone-gpr-addon.md` | PROTOTYPE: phone/USB mmWave & GPR roadmap + Raspberry Pi field host BOM/wiring; ties to 1120 and 811 |
+| 2030 | `docs/research/vhr-radar-lidar-fusion.md` | PROTOTYPE: VHR SAR + lidar micro-relief crawl-walk-run; recommend two add-ons (B); verified citations; no claimed results |
 
 IDs are permanent. Never reuse a retired number. A child ID such as 910 runs its parent's tests (900).
 

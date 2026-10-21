@@ -210,7 +210,7 @@
     "910": {
       "name": "geo_connectors/stac",
       "path": "geo_connectors/stac.py",
-      "what": "STAC search (Element84 Earth Search S1/S2, NASA CMR LPCLOUD HLS) with paging; COG window read; NDVI, ΔNDVI, S1 log-ratio dB, sigma anomalies",
+      "what": "STAC search (Element84 Earth Search S1/S2, NASA CMR LPCLOUD HLS) with paging; COG window read; NDVI, \u0394NDVI, S1 log-ratio dB, sigma anomalies",
       "parent": "900"
     },
     "920": {
@@ -246,7 +246,7 @@
     "970": {
       "name": "geo_connectors/run_sectors",
       "path": "geo_connectors/run_sectors.py",
-      "what": "Sector pipeline from a case config: cloud-filtered STAC, COG ΔNDVI, 3DEP centre elevation (used by aegis-sar-runner)",
+      "what": "Sector pipeline from a case config: cloud-filtered STAC, COG \u0394NDVI, 3DEP centre elevation (used by aegis-sar-runner)",
       "parent": "900"
     },
     "1000": {
@@ -265,7 +265,7 @@
     "1010": {
       "name": "forensic_models/taphonomy",
       "path": "forensic_models/taphonomy.py",
-      "what": "Megyesi ADD from TBS, Vass PMI (aerobic/burial), Topp θ↔ε, saponified fraction (rate user-supplied)",
+      "what": "Megyesi ADD from TBS, Vass PMI (aerobic/burial), Topp \u03b8\u2194\u03b5, saponified fraction (rate user-supplied)",
       "parent": "1000"
     },
     "1020": {
@@ -277,7 +277,7 @@
     "1100": {
       "name": "forensic_models/void_detector",
       "path": "forensic_models/void_detector.py",
-      "what": "validate/run/demo/curve: real DEMs (file or 3DEP via 920) → detrend or epoch diff → Gi* anomaly cells; ROC/AUC only from user labels",
+      "what": "validate/run/demo/curve: real DEMs (file or 3DEP via 920) \u2192 detrend or epoch diff \u2192 Gi* anomaly cells; ROC/AUC only from user labels",
       "parent": "1000"
     },
     "1110": {
@@ -289,19 +289,19 @@
     "1120": {
       "name": "forensic_models/gpr_dielectric",
       "path": "forensic_models/gpr_dielectric.py",
-      "what": "eps_eff=(1-θ)[ε_fat(1-f_sap)+ε_soap f_sap]+θ ε_soil, v=0.3/√ε, reflection coefficient, depth from TWT",
+      "what": "eps_eff=(1-\u03b8)[\u03b5_fat(1-f_sap)+\u03b5_soap f_sap]+\u03b8 \u03b5_soil, v=0.3/\u221a\u03b5, reflection coefficient, depth from TWT",
       "parent": "1000"
     },
     "1200": {
       "name": "forensic_models/reliability",
       "path": "forensic_models/reliability.py",
-      "what": "Deterministic Admiralty A–F/1–6 grading from a versioned lookup table (reliability_rubric.json)",
+      "what": "Deterministic Admiralty A\u2013F/1\u20136 grading from a versioned lookup table (reliability_rubric.json)",
       "parent": "1000"
     },
     "1300": {
       "name": "forensic_models/qpcr_qc",
       "path": "forensic_models/qpcr_qc.py",
-      "what": "qPCR QC from QuantStudio/Bio-Rad CFX exports: efficiency, R², NTC/EB, IPC ΔCq inhibition",
+      "what": "qPCR QC from QuantStudio/Bio-Rad CFX exports: efficiency, R\u00b2, NTC/EB, IPC \u0394Cq inhibition",
       "parent": "1000"
     },
     "1900": {
@@ -358,7 +358,34 @@
     "2020": {
       "name": "docs/research/phone-gpr-addon",
       "path": "docs/research/phone-gpr-addon.md",
-      "what": "PROTOTYPE: phone/USB mmWave & low-freq GPR add-on roadmap; cites Walabot/Infineon/TI/Acconeer/GPRino; ties to 1120 dielectric model",
+      "what": "PROTOTYPE: phone/USB mmWave & low-freq GPR add-on roadmap + Raspberry Pi field host BOM/wiring; cites Walabot/Infineon/TI/Acconeer/GPRino; ties to 1120 and 811 logger",
+      "kind": "doc",
+      "status": "PROTOTYPE / RESEARCH"
+    },
+    "811": {
+      "name": "instrument_input/pi_radar_logger",
+      "path": "instrument_input/pi_radar_logger.py",
+      "what": "Pi field logger stub: capture dir, GPS JSONL, synthetic radar burst, phone preview JSON (see phone-gpr-addon.md Pi section)",
+      "parent": "810",
+      "status": "PROTOTYPE"
+    },
+    "980": {
+      "name": "geo_connectors/sar_pair",
+      "path": "geo_connectors/sar_pair.py",
+      "what": "Pairwise SAR GeoTIFF amplitude-ratio (dB) and coherent-change index; synthetic pair writers; crawl stub for 2030 B1",
+      "parent": "900",
+      "test_cwd": ".",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "geo_connectors.test_sar_pair"
+      ]
+    },
+    "2030": {
+      "name": "docs/research/vhr-radar-lidar-fusion",
+      "path": "docs/research/vhr-radar-lidar-fusion.md",
+      "what": "PROTOTYPE: crawl-walk-run for VHR SAR + lidar micro-relief; recommends two add-ons (B) with shared GeoTIFF/GeoJSON; verified citations; no claimed results",
       "kind": "doc",
       "status": "PROTOTYPE / RESEARCH"
     }

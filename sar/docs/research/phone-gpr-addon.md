@@ -106,3 +106,70 @@ Once a sensor produces a time/depth profile:
 - Operator repeatability (two people, same wall).
 
 **Not claimed:** that any phone sensor sees graves, or that 60 GHz replaces 400 MHz cart GPR.
+
+---
+
+## Raspberry Pi field host (crawl hardware path)
+
+Use a **Pi as the USB/SPI host** that logs raw radar returns with GPS + time; the phone is only a preview client. This does not replace the crawl “buy one kit” step — it is how you package that kit for outdoor grids.
+
+### BOM (indicative USD street prices, 2026)
+
+| Item | Role | Approx. USD | Link / SKU cue |
+|---|---|---|---|
+| **Raspberry Pi 5** (4 GB) | Preferred host: USB3 for radar dongle, Wi‑Fi preview | **$60–80** (board only) | https://www.raspberrypi.com/products/raspberry-pi-5/ |
+| **Raspberry Pi Zero 2 W** | Lighter/cheaper host if the radar is USB and bandwidth is modest | **$15–20** | https://www.raspberrypi.com/products/raspberry-pi-zero-2-w/ |
+| **Infineon DEMO BGT60TR13C** or **TI IWR6843ISK** | USB mmWave board (crawl) | **$160–230** | Infineon DEMOBGT60TR13CTOBO1 · TI IWR6843ISK |
+| **GPRino-class** stack (walk) | Arduino Mega + RF boards; Pi logs serial or SD | **~$300** parts | https://github.com/miricip/GPRino |
+| **Pi Pico (RP2040)** *or* **ESP32-WROOM** | Optional: sample trigger, GPIO timing, external ADC if the radar SPI is bit-banged | Pico **~$4–5** · ESP32 module **~$5–10** | https://www.raspberrypi.com/products/raspberry-pi-pico/ · Espressif ESP32-WROOM-32 |
+| **u-blox NEO-M8N** (or NEO-6M budget) GPS + antenna | GNSS stamp for every burst | **$12–25** (M8N) / **~$8–12** (6M) | Common breakouts: “NEO-M8N GPS” on major distributors |
+| **USB-C PD power bank** 10–20k mAh | Field power for Pi5 + dongle | **$20–35** | Any quality PD bank; Pi5 prefers 5 V ⎓ 5 A supply when wall-powered |
+| **microSD** (32 GB+ A2) | OS + raw logs | **$8–15** | — |
+| USB-C / UART cables, SMA antenna for GPS | Wiring | **$15–25** | — |
+| **Crawl Pi pack total** (Pi5 + BGT60/IWR + GPS + bank) | | **~$280–400** | Excludes phone |
+
+Prefer **Pi 5** if using IWR6843ISK (USB throughput + cooling). Use **Zero 2 W** only after a desk test shows the SDK + capture rate fit.
+
+### Wiring outline
+
+```
+[GPS NEO-M8N] --UART (3.3 V)-- TX/RX/GND --> Pi UART0 (GPIO 14/15) or USB-TTL
+[Radar USB board] -------------- USB -------> Pi USB3 (Pi5) / USB OTG (Zero 2 W)
+[Optional Pico/ESP32] --SPI/I2C/GPIO-------> Pi (or sits between radar SPI and Pi)
+[Power bank] -------- USB-C PD -----------> Pi 5 V
+[Phone] <--- Wi-Fi AP or BLE UART preview --- Pi (same LAN; no internet required)
+```
+
+Notes:
+- Keep GPS antenna sky-clear; do not share a noisy USB hub with the radar if captures glitch.
+- Pi Pico / ESP32 is **optional**: use when the radar SDK needs a hard TRIG/SYNC line or an external ADC the Pi cannot clock. For stock Infineon/TI USB eval boards, USB-only is enough for crawl.
+- GPRino: Arduino owns RF; Pi reads USB-serial CSV/binary and merges GPS.
+
+### Logging contract (raw + GPS + time)
+
+Each capture directory under `case/` (gitignored):
+
+```
+capture_YYYYmmdd_HHMMSSZ/
+  meta.json          # kit model, host, operator, authority
+  gps.jsonl          # one line per fix: t_utc, lat, lon, alt_m, hdop, fix_quality
+  radar/             # vendor IQ / range-profile files OR .npy bursts
+  preview/           # optional downsampled PNG/JSON for phone
+```
+
+`meta.json` must include UTC start, kit serial if any, and “no case PII in filename”. Stub logger: `instrument_input/pi_radar_logger.py` (registry **811**).
+
+### Phone preview
+
+- **Wi‑Fi:** Pi runs a local AP or joins a field hotspot; phone opens `http://<pi>:8080/preview` (static last-frame JSON + tiny PNG). No cloud.
+- **BLE:** ESP32 or Pi UART→BLE notify of range-profile summary (max bin, peak dB) when Wi‑Fi is blocked; not for full IQ.
+
+### First Pi build steps
+1. Flash Raspberry Pi OS Lite (64-bit on Pi5); enable UART; set user; disable password SSH login for field images later.
+2. Desk-test radar SDK on the Pi (`lsusb`, one range-profile dump) before adding GPS.
+3. Wire GPS; confirm `gpsd` or a Python UART reader gets a 3D fix outdoors.
+4. Run `pi_radar_logger` against a **synthetic** burst (unit test) then against one real USB capture indoors.
+5. Stand up a one-file preview HTTP server; open it from the phone on the same Wi‑Fi.
+6. Only then take the three crawl scenes (empty drywall / pipe / paver) with GNSS stamps.
+
+Still no soil “GPR inches” claims from 60 GHz kits — see crawl limits above.
