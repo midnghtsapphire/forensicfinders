@@ -388,6 +388,13 @@
       "what": "PROTOTYPE: crawl-walk-run for VHR SAR + lidar micro-relief; recommends two add-ons (B) with shared GeoTIFF/GeoJSON; verified citations; no claimed results",
       "kind": "doc",
       "status": "PROTOTYPE / RESEARCH"
+    },
+    "2040": {
+      "name": "docs/research/INVENTION-DISCLOSURE",
+      "path": "docs/research/INVENTION-DISCLOSURE.md",
+      "what": "PROTOTYPE: invention disclosure for Evans concepts 2020/811, 2030/980, 2000; prior-art links; not legal advice; keep private until provisional filed",
+      "kind": "doc",
+      "status": "PROTOTYPE / RESEARCH"
     }
   },
   "deselected_tests": {

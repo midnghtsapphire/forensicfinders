@@ -14,6 +14,7 @@ Status meanings:
 | Soil human (then canine) eDNA / CDI chemistry → portable kits → remote proxies | PROTOTYPE / RESEARCH | 2000 | `docs/research/soil-edna-detection.md` crawl: spiked-soil panel + published mtDNA assay + 1300 QC |
 | Phone-attached GPR / mmWave / UWB sensor (+ Pi field host) | PROTOTYPE / RESEARCH | 2020 / 811 | Buy one raw-export kit; Pi 5/Zero 2 W host + GPS logger (`pi_radar_logger`); three labelled wall/paver scenes; see `phone-gpr-addon.md`. Closest GitHub: `midnghtsapphire/Radar` (benchtop FMCW, not phone) |
 | VHR SAR change + lidar micro-relief (two add-ons, shared interchange) | PROTOTYPE / RESEARCH | 2030 | `docs/research/vhr-radar-lidar-fusion.md`; crawl: S1 pair via 910 + `sar_pair` 980 + 3DEP/Gi*; recommend option B |
+| Invention disclosure (phone/Pi radar; VHR SAR+lidar add-ons; soil eDNA human→canine) | PROTOTYPE / RESEARCH | 2040 | `docs/research/INVENTION-DISCLOSURE.md`; keep private; provisional ~$65 micro-entity (verify uspto.gov); USPTO pro bono or attorney |
 | Notebook Doppler / SDR corrector | EVALUATED OUT | 1900 | Keep out of SAR; if wanted later, rebuild on SGP4/TLE in a radio-tools repo |
 | Notebook "camera telemetry" as vendor ALPR scrape | EVALUATED OUT | — | Replaced by 1910 public feeds + own Ring |
 | Notebook hard-coded STAC/3DEP/Wayback/ArcGIS + typed targets | EVALUATED OUT | — | Replaced by 900-series |

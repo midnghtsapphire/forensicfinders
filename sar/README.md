@@ -60,6 +60,7 @@ New here? Read this file first, then [`docs/HANDOFF.md`](docs/HANDOFF.md).
 | 2010 | `docs/research/PROTOTYPES.md` | Index of notebook/research ideas with status and next small step |
 | 2020 | `docs/research/phone-gpr-addon.md` | PROTOTYPE: phone/USB mmWave & GPR roadmap + Raspberry Pi field host BOM/wiring; ties to 1120 and 811 |
 | 2030 | `docs/research/vhr-radar-lidar-fusion.md` | PROTOTYPE: VHR SAR + lidar micro-relief crawl-walk-run; recommend two add-ons (B); verified citations; no claimed results |
+| 2040 | `docs/research/INVENTION-DISCLOSURE.md` | PROTOTYPE: invention disclosure (2020/811, 2030/980, 2000); prior art; not legal advice; keep private |
 
 IDs are permanent. Never reuse a retired number. A child ID such as 910 runs its parent's tests (900).
 
