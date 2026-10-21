@@ -67,6 +67,7 @@ New here? Read this file first, then [`docs/HANDOFF.md`](docs/HANDOFF.md).
 | 2070 | `docs/research/buried-object-detection.md` | PROTOTYPE: small buried/surface personal items; cited forensic geophysics; crawl-first roadmap |
 | 2080 | `docs/research/clandestine-grave-detection.md` | PROTOTYPE: verified grave-detection literature review + phased search workflow; optional permit connector idea |
 | 2090 | `search_system/docs` | PROPRIETARY process notes: validation protocol, patent prep, reward priority, adjacent-tech research |
+| 2100 | `docs/research/vision-detection-tools.md` | PROTOTYPE: optional local vision detection, tracking, labelling workflow, SAR datasets |
 
 IDs are permanent. Never reuse a retired number. A child ID such as 910 runs its parent's tests (900).
 

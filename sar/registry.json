@@ -485,6 +485,13 @@
       "what": "PROPRIETARY process notes ported from search-system: VALIDATION_PROTOCOL, PATENT_PREP (not legal advice), REWARD_PRIORITY, BLUE_OCEAN_RESEARCH; no case cohort",
       "kind": "doc",
       "status": "PROTOTYPE / RESEARCH"
+    },
+    "2100": {
+      "name": "docs/research/vision-detection-tools",
+      "path": "docs/research/vision-detection-tools.md",
+      "what": "PROTOTYPE: optional, off-by-default detection for 1911-1913 frames (OpenCV template, YOLO AGPL note), OpenTrafficCam GPL tracking, CVAT/Label Studio labelling, HERIDAL/SARD datasets; verified",
+      "kind": "doc",
+      "status": "PROTOTYPE / RESEARCH"
     }
   },
   "deselected_tests": {
