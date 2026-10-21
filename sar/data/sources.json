@@ -261,6 +261,7 @@
    "url": "https://doi.org/10.1007/978-3-030-99542-3_5",
    "aliases": [],
    "tags": [
+    "adjacent",
     "method-reference",
     "tem",
     "vision"
@@ -1483,6 +1484,42 @@
   },
   {
    "source_id": 46,
+   "key": "doi:10.1016/j.ultramic.2017.09.004",
+   "type": "paper",
+   "title": "Optimization of digital image processing to determine quantum dots’ height and density from atomic force microscopy",
+   "authors": [
+    "J.E. Ruiz",
+    "S. Paciornik",
+    "L.D. Pinto",
+    "F. Ptak",
+    "M.P. Pires",
+    "P.L. Souza"
+   ],
+   "year": 2018,
+   "venue": "Ultramicroscopy (vol 184, pp 234-241)",
+   "doi": "10.1016/j.ultramic.2017.09.004",
+   "url": "https://doi.org/10.1016/j.ultramic.2017.09.004",
+   "aliases": [],
+   "tags": [
+    "adjacent",
+    "method-reference",
+    "tem",
+    "vision"
+   ],
+   "verified": "yes",
+   "verified_date": "2026-10-21",
+   "verified_how": "Crossref record resolved and title matches the citing text",
+   "license": null,
+   "registry_ids": [
+    "2100"
+   ],
+   "cited_in": [
+    "docs/research/vision-detection-tools.md"
+   ],
+   "notes": "ScienceDirect PII S0304399116302546. Classical AFM image-processing pipeline. Elsevier TDM licence. Adjacent."
+  },
+  {
+   "source_id": 47,
    "key": "doi:10.1016/j.ultramic.2017.12.018",
    "type": "paper",
    "title": "Determination of atomic positions from time resolved high resolution transmission electron microscopy images",
@@ -1516,7 +1553,39 @@
    "notes": "PMC11305480, PMID 29324400. Method reference (TEM), code usnistgov/tem_analysis; not SAR evidence."
   },
   {
-   "source_id": 47,
+   "source_id": 48,
+   "key": "doi:10.1016/j.ultramic.2018.03.004",
+   "type": "paper",
+   "title": "A deep convolutional neural network to analyze position averaged convergent beam electron diffraction patterns",
+   "authors": [
+    "W. Xu",
+    "J.M. LeBeau"
+   ],
+   "year": 2018,
+   "venue": "Ultramicroscopy (vol 188, pp 59-69)",
+   "doi": "10.1016/j.ultramic.2018.03.004",
+   "url": "https://doi.org/10.1016/j.ultramic.2018.03.004",
+   "aliases": [],
+   "tags": [
+    "adjacent",
+    "method-reference",
+    "tem",
+    "vision"
+   ],
+   "verified": "yes",
+   "verified_date": "2026-10-21",
+   "verified_how": "Crossref record resolved and title matches the citing text",
+   "license": null,
+   "registry_ids": [
+    "2100"
+   ],
+   "cited_in": [
+    "docs/research/vision-detection-tools.md"
+   ],
+   "notes": "From Liu 2021 reference list. Adjacent."
+  },
+  {
+   "source_id": 49,
    "key": "doi:10.1016/j.ultramic.2021.113292",
    "type": "paper",
    "title": "Atom-by-atom chemical identification from scanning transmission electron microscopy images in presence of noise and residual aberrations",
@@ -1552,7 +1621,7 @@
    "notes": "PII S0304399121000802. Adjacent method reference; not SAR."
   },
   {
-   "source_id": 48,
+   "source_id": 50,
    "key": "doi:10.1016/j.watres.2020.116192",
    "type": "paper",
    "title": "Water tracking in surface water, groundwater and soils using free and alginate-chitosan encapsulated synthetic DNA tracers",
@@ -1592,7 +1661,7 @@
    "notes": "ScienceDirect PII S0043135420307296."
   },
   {
-   "source_id": 49,
+   "source_id": 51,
    "key": "doi:10.1016/j.wem.2013.09.016",
    "type": "paper",
    "title": "Use of the Visual Range of Detection to Estimate Effective Sweep Width for Land Search and Rescue Based On 10 Detection Experiments in North America",
@@ -1626,7 +1695,7 @@
    "notes": ""
   },
   {
-   "source_id": 50,
+   "source_id": 52,
    "key": "doi:10.1016/j.wem.2014.10.004",
    "type": "paper",
    "title": "Deriving Effective Sweep Width for Air-scent Dog Teams",
@@ -1657,7 +1726,7 @@
    "notes": ""
   },
   {
-   "source_id": 51,
+   "source_id": 53,
    "key": "doi:10.1016/s0379-0738(01)00418-2",
    "type": "paper",
    "title": "Entomotoxicology",
@@ -1689,7 +1758,114 @@
    "notes": ""
   },
   {
-   "source_id": 52,
+   "source_id": 54,
+   "key": "doi:10.1017/s1431927620016359",
+   "type": "paper",
+   "title": "AtomSegNet and TomoFillNet—Two Deep Learning Open-Source Apps for Superresolution Processing of Atomic Resolution Images and Missing-wedge Information Inpainting in Electron Tomograms",
+   "authors": [
+    "Huolin Xin",
+    "Ruoqian Lin",
+    "Rui Zhang",
+    "Chunyang Wang",
+    "Guanglei Ding",
+    "He Wei"
+   ],
+   "year": 2020,
+   "venue": "Microscopy and Microanalysis (vol 26, issue S2, pp 926-926)",
+   "doi": "10.1017/s1431927620016359",
+   "url": "https://doi.org/10.1017/s1431927620016359",
+   "aliases": [],
+   "tags": [
+    "adjacent",
+    "method-reference",
+    "tem",
+    "vision"
+   ],
+   "verified": "yes",
+   "verified_date": "2026-10-21",
+   "verified_how": "Crossref record resolved and title matches the citing text",
+   "license": null,
+   "registry_ids": [
+    "2100"
+   ],
+   "cited_in": [
+    "docs/research/vision-detection-tools.md"
+   ],
+   "notes": "Real DOI of ResearchGate item 343324549 (matched by title/venue; RG page itself not opened). Conference abstract. Adjacent."
+  },
+  {
+   "source_id": 55,
+   "key": "doi:10.1017/s1431927621012125",
+   "type": "paper",
+   "title": "Advances and Applications of Atomic-Resolution Scanning Transmission Electron Microscopy",
+   "authors": [
+    "Jingyue (Jimmy) Liu"
+   ],
+   "year": 2021,
+   "venue": "Microscopy and Microanalysis (vol 27, issue 5, pp 943-995)",
+   "doi": "10.1017/s1431927621012125",
+   "url": "https://doi.org/10.1017/s1431927621012125",
+   "aliases": [],
+   "tags": [
+    "adjacent",
+    "method-reference",
+    "tem",
+    "vision"
+   ],
+   "verified": "yes",
+   "verified_date": "2026-10-21",
+   "verified_how": "Crossref record resolved and title matches the citing text",
+   "license": null,
+   "registry_ids": [
+    "2100"
+   ],
+   "cited_in": [
+    "docs/research/vision-detection-tools.md"
+   ],
+   "notes": "OUP/CUP M&M 27(5):943-995 review, CC BY 4.0 per the article page. Audrey supplied a saved copy of the Oxford Academic page (about 640 references); it is not committed (publisher page copy). Four ML/denoising references were picked from it. Adjacent."
+  },
+  {
+   "source_id": 56,
+   "key": "doi:10.1021/acsnano.7b07504",
+   "type": "paper",
+   "title": "Deep Learning of Atomically Resolved Scanning Transmission Electron Microscopy Images: Chemical Identification and Tracking Local Transformations",
+   "authors": [
+    "Maxim Ziatdinov",
+    "Ondrej Dyck",
+    "Artem Maksov",
+    "Xufan Li",
+    "Xiahan Sang",
+    "Kai Xiao",
+    "Raymond R. Unocic",
+    "Rama Vasudevan",
+    "Stephen Jesse",
+    "Sergei V. Kalinin"
+   ],
+   "year": 2017,
+   "venue": "ACS Nano (vol 11, issue 12, pp 12742-12752)",
+   "doi": "10.1021/acsnano.7b07504",
+   "url": "https://doi.org/10.1021/acsnano.7b07504",
+   "aliases": [],
+   "tags": [
+    "adjacent",
+    "method-reference",
+    "tem",
+    "vision"
+   ],
+   "verified": "yes",
+   "verified_date": "2026-10-21",
+   "verified_how": "Crossref record resolved and title matches the citing text",
+   "license": null,
+   "registry_ids": [
+    "2100"
+   ],
+   "cited_in": [
+    "docs/research/vision-detection-tools.md"
+   ],
+   "notes": "From Liu 2021 reference list. Adjacent."
+  },
+  {
+   "source_id": 57,
    "key": "doi:10.1021/acssensors.6c01885",
    "type": "paper",
    "title": "Centrifugal Microfluidic Soil-to-DNA Preparation for the Portable Detection of Phytophthora infestans Using a CRISPR/Cas12a-Based Quantum Dot Fluorescent Lateral Flow Assay",
@@ -1730,7 +1906,7 @@
    "notes": ""
   },
   {
-   "source_id": 53,
+   "source_id": 58,
    "key": "doi:10.1029/2022wr034358",
    "type": "paper",
    "title": "Drift of a Drowning Victim in Rivers: Conceptualization and Global Sensitivity Analysis Under Idealized Flow Conditions",
@@ -1766,7 +1942,7 @@
    "notes": ""
   },
   {
-   "source_id": 54,
+   "source_id": 59,
    "key": "doi:10.1029/wr016i003p00574",
    "type": "paper",
    "title": "Electromagnetic determination of soil water content: Measurements in coaxial transmission lines",
@@ -1796,7 +1972,7 @@
    "notes": ""
   },
   {
-   "source_id": 55,
+   "source_id": 60,
    "key": "doi:10.1038/s41377-026-02190-z",
    "type": "paper",
    "title": "Detection and imaging of chemicals and hidden explosives using terahertz time-domain spectroscopy and deep learning",
@@ -1831,7 +2007,7 @@
    "notes": "THz-TDS + deep learning chemical imaging; supervised, security application. CC BY 4.0."
   },
   {
-   "source_id": 56,
+   "source_id": 61,
    "key": "doi:10.1038/s41467-021-22204-1",
    "type": "paper",
    "title": "Single-atom level determination of 3-dimensional surface atomic structure via neural network-assisted atomic electron tomography",
@@ -1846,6 +2022,7 @@
    "url": "https://doi.org/10.1038/s41467-021-22204-1",
    "aliases": [],
    "tags": [
+    "adjacent",
     "method-reference",
     "tem",
     "vision"
@@ -1863,7 +2040,7 @@
    "notes": "Neural-network-assisted atomic electron tomography; adjacent. CC BY 4.0."
   },
   {
-   "source_id": 57,
+   "source_id": 62,
    "key": "doi:10.1038/s41524-021-00642-1",
    "type": "paper",
    "title": "Defect detection in atomic-resolution images via unsupervised learning with translational invariance",
@@ -1885,6 +2062,7 @@
     "https://www.nature.com/articles/s41524-021-00642-1"
    ],
    "tags": [
+    "adjacent",
     "method-reference",
     "tem",
     "vision"
@@ -1902,7 +2080,7 @@
    "notes": "Unsupervised. CC BY 4.0."
   },
   {
-   "source_id": 58,
+   "source_id": 63,
    "key": "doi:10.1038/s41524-021-00692-5",
    "type": "paper",
    "title": "Imaging atomic-scale chemistry from fused multi-modal electron microscopy",
@@ -1926,6 +2104,7 @@
    "url": "https://doi.org/10.1038/s41524-021-00692-5",
    "aliases": [],
    "tags": [
+    "adjacent",
     "method-reference",
     "tem",
     "vision"
@@ -1943,7 +2122,40 @@
    "notes": "Fused multi-modal EM; adjacent. CC BY 4.0."
   },
   {
-   "source_id": 59,
+   "source_id": 64,
+   "key": "doi:10.1038/s41524-023-01188-0",
+   "type": "paper",
+   "title": "Deep convolutional neural networks to restore single-shot electron microscopy images",
+   "authors": [
+    "I. Lobato",
+    "T. Friedrich",
+    "S. Van Aert"
+   ],
+   "year": 2024,
+   "venue": "npj Computational Materials (vol 10, issue 1, art 10)",
+   "doi": "10.1038/s41524-023-01188-0",
+   "url": "https://doi.org/10.1038/s41524-023-01188-0",
+   "aliases": [],
+   "tags": [
+    "adjacent",
+    "method-reference",
+    "tem",
+    "vision"
+   ],
+   "verified": "yes",
+   "verified_date": "2026-10-21",
+   "verified_how": "Crossref record resolved and title matches the citing text",
+   "license": null,
+   "registry_ids": [
+    "2100"
+   ],
+   "cited_in": [
+    "docs/research/vision-detection-tools.md"
+   ],
+   "notes": "Restoration CNNs trained on simulated data. CC BY 4.0. Adjacent."
+  },
+  {
+   "source_id": 65,
    "key": "doi:10.1038/s41524-024-01360-0",
    "type": "paper",
    "title": "Localization and segmentation of atomic columns in supported nanoparticles for fast scanning transmission electron microscopy",
@@ -1957,6 +2169,7 @@
    "url": "https://doi.org/10.1038/s41524-024-01360-0",
    "aliases": [],
    "tags": [
+    "adjacent",
     "method-reference",
     "tem",
     "vision"
@@ -1974,7 +2187,7 @@
    "notes": "Supervised U-Nets on simulated data. CC BY 4.0."
   },
   {
-   "source_id": 60,
+   "source_id": 66,
    "key": "doi:10.1038/s41598-018-31776-w",
    "type": "paper",
    "title": "Hotspots of soil organic carbon storage revealed by laboratory hyperspectral imaging",
@@ -2007,7 +2220,7 @@
    "notes": ""
   },
   {
-   "source_id": 61,
+   "source_id": 67,
    "key": "doi:10.1038/s41598-020-64262-3",
    "type": "paper",
    "title": "Geophysical monitoring of simulated homicide burials for forensic investigations",
@@ -2042,7 +2255,7 @@
    "notes": ""
   },
   {
-   "source_id": 62,
+   "source_id": 68,
    "key": "doi:10.1038/s41598-021-84499-w",
    "type": "paper",
    "title": "TEMImageNet training library and AtomSegNet deep-learning models for high-precision atom segmentation, localization, denoising, and deblurring of atomic-resolution images",
@@ -2077,7 +2290,7 @@
    "notes": "PMC7940611, PMID 33686158; preprint arXiv 2012.09093. TEMImageNet + AtomSegNet. Synthetic-data/segmentation/denoising methods assessed as ADJACENT for 2110 (see vision note). CC BY 4.0."
   },
   {
-   "source_id": 63,
+   "source_id": 69,
    "key": "doi:10.1038/scientificamerican082021-3mpgosuegnlfzdu5gldvxu",
    "type": "article",
    "title": "See the Highest-Resolution Atomic Image Ever Captured",
@@ -2092,6 +2305,7 @@
     "https://www.scientificamerican.com/article/see-the-highest-resolution-atomic-image-ever-captured/"
    ],
    "tags": [
+    "adjacent",
     "method-reference",
     "tem",
     "vision"
@@ -2109,7 +2323,7 @@
    "notes": "Magazine article (Scientific American, Anna Blaustein; web 2021-06-28). Background only."
   },
   {
-   "source_id": 64,
+   "source_id": 70,
    "key": "doi:10.1080/00085030.2006.10757132",
    "type": "paper",
    "title": "Remote Sensing as a Tool for the Detection of Clandestine Mass Graves",
@@ -2141,7 +2355,7 @@
    "notes": ""
   },
   {
-   "source_id": 65,
+   "source_id": 71,
    "key": "doi:10.1080/00085030.2015.1083306",
    "type": "paper",
    "title": "Confounding factors of fly artefacts in bloodstain pattern analysis",
@@ -2170,7 +2384,7 @@
    "notes": ""
   },
   {
-   "source_id": 66,
+   "source_id": 72,
    "key": "doi:10.1080/00450618.2013.793740",
    "type": "paper",
    "title": "Infrared imaging as a non-invasive tool for documenting maggot mass temperatures",
@@ -2199,7 +2413,7 @@
    "notes": ""
   },
   {
-   "source_id": 67,
+   "source_id": 73,
    "key": "doi:10.1088/0031-9155/41/11/003",
    "type": "paper",
    "title": "The dielectric properties of biological tissues: III. Parametric models for the dielectric spectrum of tissues",
@@ -2229,7 +2443,7 @@
    "notes": ""
   },
   {
-   "source_id": 68,
+   "source_id": 74,
    "key": "doi:10.1088/2631-8695/ae31cc",
    "type": "paper",
    "title": "From precision to prediction in probabilistic FEA fatigue for structural reliability",
@@ -2257,7 +2471,7 @@
    "notes": "Listed only as the Barah review author's other work; not microscopy."
   },
   {
-   "source_id": 69,
+   "source_id": 75,
    "key": "doi:10.1093/jme/tjv106",
    "type": "review",
    "title": "A Biological and Procedural Review of Forensically Significant Dermestes Species (Coleoptera: Dermestidae)",
@@ -2289,7 +2503,7 @@
    "notes": ""
   },
   {
-   "source_id": 70,
+   "source_id": 76,
    "key": "doi:10.1093/mam/ozaf048.1072",
    "type": "paper",
    "title": "Unsupervised Machine Learning for Atomic-Resolution S(TEM) Image Analysis and Management",
@@ -2321,7 +2535,7 @@
    "notes": "Conference abstract (supplement). Unsupervised. Adjacent method reference; not SAR."
   },
   {
-   "source_id": 71,
+   "source_id": 77,
    "key": "doi:10.1097/01.paf.0000163832.05939.59",
    "type": "paper",
    "title": "Forensic Genetic Analysis of Insect Gut Contents",
@@ -2352,7 +2566,7 @@
    "notes": ""
   },
   {
-   "source_id": 72,
+   "source_id": 78,
    "key": "doi:10.1103/physics.18.152",
    "type": "paper",
    "title": "Magnifying Atomic Images",
@@ -2367,6 +2581,7 @@
     "https://physics.aps.org/articles/v18/152"
    ],
    "tags": [
+    "adjacent",
     "method-reference",
     "tem",
     "vision"
@@ -2384,7 +2599,7 @@
    "notes": "APS Physics Viewpoint (magazine-style commentary on Brandstetter et al., PRL 135, 103401, 2025); background only."
   },
   {
-   "source_id": 73,
+   "source_id": 79,
    "key": "doi:10.1109/access.2021.3063681",
    "type": "paper",
    "title": "Automatic Person Detection in Search and Rescue Operations Using Deep CNN Detectors",
@@ -2413,7 +2628,7 @@
    "notes": ""
   },
   {
-   "source_id": 74,
+   "source_id": 80,
    "key": "doi:10.1109/jstars.2017.2664982",
    "type": "paper",
    "title": "Object-Based Analysis and Fusion of Optical and SAR Satellite Data for Dwelling Detection in Refugee Camps",
@@ -2443,7 +2658,7 @@
    "notes": ""
   },
   {
-   "source_id": 75,
+   "source_id": 81,
    "key": "doi:10.1109/lapc.2011.6114146",
    "type": "paper",
    "title": "Estimation of dielectric concrete properties from power measurements at 18.7 and 60 GHz",
@@ -2475,7 +2690,7 @@
    "notes": ""
   },
   {
-   "source_id": 76,
+   "source_id": 82,
    "key": "doi:10.1109/lgrs.2021.3112387",
    "type": "paper",
    "title": "Estimating Bare Earth in Sparse Boreal Forests With WorldView Stereo Imagery",
@@ -2506,7 +2721,41 @@
    "notes": ""
   },
   {
-   "source_id": 77,
+   "source_id": 83,
+   "key": "doi:10.1109/tip.2007.901238",
+   "type": "paper",
+   "title": "Image Denoising by Sparse 3-D Transform-Domain Collaborative Filtering",
+   "authors": [
+    "Kostadin Dabov",
+    "Alessandro Foi",
+    "Vladimir Katkovnik",
+    "Karen Egiazarian"
+   ],
+   "year": 2007,
+   "venue": "IEEE Transactions on Image Processing (vol 16, issue 8, pp 2080-2095)",
+   "doi": "10.1109/tip.2007.901238",
+   "url": "https://doi.org/10.1109/tip.2007.901238",
+   "aliases": [],
+   "tags": [
+    "adjacent",
+    "method-reference",
+    "tem",
+    "vision"
+   ],
+   "verified": "yes",
+   "verified_date": "2026-10-21",
+   "verified_how": "Crossref record resolved and title matches the citing text",
+   "license": null,
+   "registry_ids": [
+    "2100"
+   ],
+   "cited_in": [
+    "docs/research/vision-detection-tools.md"
+   ],
+   "notes": "BM3D classical denoiser; baseline before any learned denoiser for 2110. IEEE licence. From Liu 2021 reference list."
+  },
+  {
+   "source_id": 84,
    "key": "doi:10.1111/1556-4029.12396",
    "type": "paper",
    "title": "Quantifying the Temperature of Maggot Masses and its Relationship to Decomposition",
@@ -2536,7 +2785,7 @@
    "notes": ""
   },
   {
-   "source_id": 78,
+   "source_id": 85,
    "key": "doi:10.1111/1556-4029.70019",
    "type": "paper",
    "title": "Screening for clandestine graves via the analysis of infrared images and temperature metrics",
@@ -2568,7 +2817,7 @@
    "notes": ""
   },
   {
-   "source_id": 79,
+   "source_id": 86,
    "key": "doi:10.1111/j.1365-294x.2012.05542.x",
    "type": "paper",
    "title": "Environmental DNA",
@@ -2599,7 +2848,7 @@
    "notes": ""
   },
   {
-   "source_id": 80,
+   "source_id": 87,
    "key": "doi:10.1111/j.1538-4632.1995.tb00912.x",
    "type": "paper",
    "title": "Local Spatial Autocorrelation Statistics: Distributional Issues and an Application",
@@ -2628,7 +2877,7 @@
    "notes": ""
   },
   {
-   "source_id": 81,
+   "source_id": 88,
    "key": "doi:10.1117/12.2570390",
    "type": "paper",
    "title": "Stepped-frequency software-defined ground penetrating radar",
@@ -2656,7 +2905,7 @@
    "notes": ""
   },
   {
-   "source_id": 82,
+   "source_id": 89,
    "key": "doi:10.1117/12.921950",
    "type": "paper",
    "title": "Fusion of UHF-SAR with lidar elevation for precise buried object detection",
@@ -2686,7 +2935,42 @@
    "notes": ""
   },
   {
-   "source_id": 83,
+   "source_id": 90,
+   "key": "doi:10.1126/sciadv.aaw1949",
+   "type": "paper",
+   "title": "Decoding crystallography from high-resolution electron imaging and diffraction datasets with deep learning",
+   "authors": [
+    "J. A. Aguiar",
+    "M. L. Gong",
+    "R. R. Unocic",
+    "T. Tasdizen",
+    "B. D. Miller"
+   ],
+   "year": 2019,
+   "venue": "Science Advances (vol 5, issue 10, art eaaw1949)",
+   "doi": "10.1126/sciadv.aaw1949",
+   "url": "https://doi.org/10.1126/sciadv.aaw1949",
+   "aliases": [],
+   "tags": [
+    "adjacent",
+    "method-reference",
+    "tem",
+    "vision"
+   ],
+   "verified": "yes",
+   "verified_date": "2026-10-21",
+   "verified_how": "Crossref record resolved and title matches the citing text",
+   "license": null,
+   "registry_ids": [
+    "2100"
+   ],
+   "cited_in": [
+    "docs/research/vision-detection-tools.md"
+   ],
+   "notes": "From Liu 2021 reference list. Adjacent."
+  },
+  {
+   "source_id": 91,
    "key": "doi:10.1126/science.abg2533",
    "type": "paper",
    "title": "Electron ptychography achieves atomic-resolution limits set by lattice vibrations",
@@ -2708,6 +2992,7 @@
    "url": "https://doi.org/10.1126/science.abg2533",
    "aliases": [],
    "tags": [
+    "adjacent",
     "method-reference",
     "tem",
     "vision"
@@ -2725,7 +3010,7 @@
    "notes": "Primary paper behind the Scientific American 'highest-resolution atomic image' piece (electron ptychography)."
   },
   {
-   "source_id": 84,
+   "source_id": 92,
    "key": "doi:10.1177/1088767906296234",
    "type": "paper",
    "title": "Using Ground-Penetrating Radar to Locate Clandestine Graves of Homicide Victims",
@@ -2753,7 +3038,7 @@
    "notes": ""
   },
   {
-   "source_id": 85,
+   "source_id": 93,
    "key": "doi:10.1177/14613557251340913",
    "type": "paper",
    "title": "Benefits and barriers: An exploratory study of drone use and LiDAR technology application in UK policing",
@@ -2782,7 +3067,7 @@
    "notes": ""
   },
   {
-   "source_id": 86,
+   "source_id": 94,
    "key": "doi:10.1186/s40494-021-00544-x",
    "type": "paper",
    "title": "Structured-light 3D scanning of exhibited historical clothing—a first-ever methodical trial and its results",
@@ -2813,7 +3098,7 @@
    "notes": ""
   },
   {
-   "source_id": 87,
+   "source_id": 95,
    "key": "doi:10.1186/s40679-020-00070-x",
    "type": "paper",
    "title": "Detection of defects in atomic-resolution images of materials using cycle analysis",
@@ -2836,6 +3121,7 @@
    "url": "https://doi.org/10.1186/s40679-020-00070-x",
    "aliases": [],
    "tags": [
+    "adjacent",
     "method-reference",
     "tem",
     "vision"
@@ -2853,7 +3139,7 @@
    "notes": "Rule-based graph/cycle analysis (no training). CC BY 4.0."
   },
   {
-   "source_id": 88,
+   "source_id": 96,
    "key": "doi:10.1186/s42252-025-00073-x",
    "type": "review",
    "title": "Atomic-scale characterization: a review of advances in microscopy, spectroscopy, and machine learning",
@@ -2868,6 +3154,7 @@
    "url": "https://doi.org/10.1186/s42252-025-00073-x",
    "aliases": [],
    "tags": [
+    "adjacent",
     "method-reference",
     "tem",
     "vision"
@@ -2885,7 +3172,7 @@
    "notes": "Review; proposes a framework including unsupervised clustering. CC BY-NC-ND 4.0. Author's other relevant work: none in microscopy; first author works on composites, diffusion modelling and probabilistic FEA fatigue (e.g. 10.1088/2631-8695/ae31cc)."
   },
   {
-   "source_id": 89,
+   "source_id": 97,
    "key": "doi:10.12794/metadc33201",
    "type": "thesis",
    "title": "Thermal Identification of Clandestine Burials: A Signature Analysis and Image Classification Approach",
@@ -2913,7 +3200,7 @@
    "notes": "UNT thesis (digital.library.unt.edu ark:/67531/metadc33201)."
   },
   {
-   "source_id": 90,
+   "source_id": 98,
    "key": "doi:10.1373/clinchem.2008.112797",
    "type": "review",
    "title": "The MIQE Guidelines: Minimum Information for Publication of Quantitative Real-Time PCR Experiments",
@@ -2955,7 +3242,7 @@
    "notes": ""
   },
   {
-   "source_id": 91,
+   "source_id": 99,
    "key": "doi:10.1385/0-89603-443-7:279",
    "type": "paper",
    "title": "The Use of Capillary Electrophoresis in Genotyping STR Loci",
@@ -2986,7 +3273,7 @@
    "notes": "Book chapter; Crossref gives no year."
   },
   {
-   "source_id": 92,
+   "source_id": 100,
    "key": "doi:10.1520/jfs15022j",
    "type": "paper",
    "title": "Human and Insect Mitochondrial DNA Analysis from Maggots",
@@ -3019,7 +3306,7 @@
    "notes": ""
   },
   {
-   "source_id": 93,
+   "source_id": 101,
    "key": "doi:10.1520/jfs2003248",
    "type": "paper",
    "title": "STR Typing of Human DNA from Fly Larvae Fed on Decomposing Bodies",
@@ -3049,7 +3336,7 @@
    "notes": ""
   },
   {
-   "source_id": 94,
+   "source_id": 102,
    "key": "doi:10.1520/jfs2004017",
    "type": "paper",
    "title": "Using Accumulated Degree-Days to Estimate the Postmortem Interval from Decomposed Human Remains",
@@ -3082,7 +3369,7 @@
    "notes": ""
   },
   {
-   "source_id": 95,
+   "source_id": 103,
    "key": "doi:10.2136/sssaj1984.03615995004800060013x",
    "type": "paper",
    "title": "Effect of Water‐Filled Pore Space on Carbon Dioxide and Nitrous Oxide Production in Tilled and Nontilled Soils",
@@ -3111,7 +3398,42 @@
    "notes": ""
   },
   {
-   "source_id": 96,
+   "source_id": 104,
+   "key": "doi:10.2147/ijn.s138624",
+   "type": "paper",
+   "title": "Quantum dots in imaging, drug delivery and sensor applications",
+   "authors": [
+    "Cristian Matea",
+    "Teodora Mocan",
+    "Flaviu Tabaran",
+    "Teodora Pop",
+    "Ofelia Mosteanu",
+    "Cosmin Puia",
+    "Cornel Iancu",
+    "Lucian Mocan"
+   ],
+   "year": 2017,
+   "venue": "International Journal of Nanomedicine (vol Volume 12, pp 5421-5431)",
+   "doi": "10.2147/ijn.s138624",
+   "url": "https://doi.org/10.2147/ijn.s138624",
+   "aliases": [],
+   "tags": [
+    "vision"
+   ],
+   "verified": "yes",
+   "verified_date": "2026-10-21",
+   "verified_how": "Crossref record resolved and title matches the citing text",
+   "license": null,
+   "registry_ids": [
+    "2100"
+   ],
+   "cited_in": [
+    "docs/research/vision-detection-tools.md"
+   ],
+   "notes": "Review, CC BY-NC 3.0. Not related to the SAR detector; recorded on request."
+  },
+  {
+   "source_id": 105,
    "key": "doi:10.2528/pierc15103004",
    "type": "paper",
    "title": "MINIATURIZATION OF DIPOLE ANTENNA FOR LOW FREQUENCY GROUND PENETRATING RADAR",
@@ -3140,7 +3462,7 @@
    "notes": ""
   },
   {
-   "source_id": 97,
+   "source_id": 106,
    "key": "doi:10.3389/fmolb.2023.1093519",
    "type": "paper",
    "title": "NanoSTR: A method for detection of target short tandem repeats based on nanopore sequencing data",
@@ -3175,7 +3497,7 @@
    "notes": ""
   },
   {
-   "source_id": 98,
+   "source_id": 107,
    "key": "doi:10.3390/app11125588",
    "type": "paper",
    "title": "Scanning of Historical Clothes Using 3D Scanners: Comparison of Goals, Tools, and Methods",
@@ -3206,7 +3528,7 @@
    "notes": ""
   },
   {
-   "source_id": 99,
+   "source_id": 108,
    "key": "doi:10.3390/bios15080494",
    "type": "review",
    "title": "Bioinformation and Monitoring Technology for Environmental DNA Analysis: A Review",
@@ -3238,7 +3560,7 @@
    "notes": ""
   },
   {
-   "source_id": 100,
+   "source_id": 109,
    "key": "doi:10.3390/electronics10202527",
    "type": "paper",
    "title": "Improving Deep Object Detection Algorithms for Game Scenes",
@@ -3268,7 +3590,7 @@
    "notes": "About game-scene object detection; cited only as a detection-method paper. The pasted 'game technology' claims are NOT cited."
   },
   {
-   "source_id": 101,
+   "source_id": 110,
    "key": "doi:10.3390/insects16101018",
    "type": "review",
    "title": "Thermal Ecology and Forensic Implications of Blow Fly (Family: Calliphoridae) Maggot Mass Dynamics: A Review",
@@ -3297,7 +3619,7 @@
    "notes": ""
   },
   {
-   "source_id": 102,
+   "source_id": 111,
    "key": "doi:10.3390/rs11040399",
    "type": "paper",
    "title": "Fast Spectral Clustering for Unsupervised Hyperspectral Image Classification",
@@ -3329,7 +3651,7 @@
    "notes": "Unsupervised spectral clustering for hyperspectral images; benchmarks, not graves."
   },
   {
-   "source_id": 103,
+   "source_id": 112,
    "key": "doi:10.3390/rs16040670",
    "type": "paper",
    "title": "Person Mobility Algorithm and Geographic Information System for Search and Rescue Missions Planning",
@@ -3360,7 +3682,7 @@
    "notes": ""
   },
   {
-   "source_id": 104,
+   "source_id": 113,
    "key": "doi:10.3390/s20051285",
    "type": "paper",
    "title": "LiDAR-Based System and Optical VHR Data for Building Detection and Mapping",
@@ -3392,7 +3714,7 @@
    "notes": ""
   },
   {
-   "source_id": 105,
+   "source_id": 114,
    "key": "doi:10.3997/1873-0604.2017007",
    "type": "paper",
    "title": "A controlled monitoring study of simulated clandestine graves using 3D ground penetrating radar",
@@ -3422,7 +3744,7 @@
    "notes": ""
   },
   {
-   "source_id": 106,
+   "source_id": 115,
    "key": "doi:10.4103/jfsm.jfsm_85_22",
    "type": "review",
    "title": "Geoforensic Methods for Detecting Clandestine Graves and Buried Forensic Objects in Criminal Investigations – A Review",
@@ -3450,7 +3772,7 @@
    "notes": ""
   },
   {
-   "source_id": 107,
+   "source_id": 116,
    "key": "doi:10.61091/jpms202413224",
    "type": "paper",
    "title": "Studying the Role of Soil Factors on Degree of Degradation of DNA of Human Remains",
@@ -3482,7 +3804,7 @@
    "notes": ""
   },
   {
-   "source_id": 108,
+   "source_id": 117,
    "key": "d4h-isrid",
    "type": "guide",
    "title": "Dr. Robert Koester's Lost Person Behavior and How to Contribute to ISRID",
@@ -3509,7 +3831,7 @@
    "notes": "Vendor blog (D4H, incident software) interview. HOW TO CONTRIBUTE DATA: teams email incident data to Robert Koester at the dbs-sar.com address given on the D4H page; D4H's Lost Person Behavior module produces an ISRID-compatible 'silver' report that can be exported by date range and emailed at year end. Also summarises the displacement, dispersion, elevation, track-offset and watershed models. Context for 800 only; numbers come from the ISRID PDFs, not this blog."
   },
   {
-   "source_id": 109,
+   "source_id": 118,
    "key": "isrid",
    "type": "dataset",
    "title": "International Search & Rescue Incident Database (ISRID) / Lost Person Behavior tables (2ISRID.pdf, Dementia.pdf)",
@@ -3541,7 +3863,7 @@
    "notes": "Dementia category distances taken from p.164 into data/isrid_distances.json."
   },
   {
-   "source_id": 110,
+   "source_id": 119,
    "key": "sarbayes",
    "type": "guide",
    "title": "SARBayes: Bayesian methods for WiSAR",
@@ -3569,7 +3891,7 @@
    "notes": "Project blog that uses ISRID to study lost-person behaviour and survival; posts on probability maps, MapScore and evaluating LPB models. Context link for 800 and the probability maps only; blog, so no numbers are taken from it."
   },
   {
-   "source_id": 111,
+   "source_id": 120,
    "key": "gh:AidanWelch/OpenTrafficCamMap",
    "type": "repo",
    "title": "A crowdsourced database of traffic cameras",
@@ -3597,7 +3919,7 @@
    "notes": "Last push 2024-10-05."
   },
   {
-   "source_id": 112,
+   "source_id": 121,
    "key": "gh:HumanSignal/label-studio",
    "type": "repo",
    "title": "Label Studio is a multi-type data labeling and annotation tool with standardized output format",
@@ -3623,7 +3945,7 @@
    "notes": "Last push 2026-10-21."
   },
   {
-   "source_id": 113,
+   "source_id": 122,
    "key": "gh:OpenTrafficCam",
    "type": "repo",
    "title": "OpenTrafficCam",
@@ -3649,7 +3971,7 @@
    "notes": "GitHub organisation (OTVision/OTAnalytics), GPL-licensed tools reviewed in 2100."
   },
   {
-   "source_id": 114,
+   "source_id": 123,
    "key": "gh:PermitStack/permitstack-python",
    "type": "repo",
    "title": "Official PermitStack Python SDK: 116M+ U.S. building permits across 8,000+ cities via one REST API",
@@ -3677,7 +3999,7 @@
    "notes": "Reviewed in 2080. Commercial permit API SDK; not integrated. Last push 2026-10-21."
   },
   {
-   "source_id": 115,
+   "source_id": 124,
    "key": "gh:YangtianFang2002/Practical-SAR-Despeckling-Codes",
    "type": "repo",
    "title": "Recent Practical Code Implementations for SAR Intensity Image Despeckling Algorithms",
@@ -3703,7 +4025,7 @@
    "notes": "Last push 2025-05-11."
   },
   {
-   "source_id": 116,
+   "source_id": 125,
    "key": "gh:btplan/atomsegnet-edge-stability",
    "type": "repo",
    "title": "btplan/atomsegnet-edge-stability",
@@ -3714,6 +4036,7 @@
    "url": "https://github.com/btplan/atomsegnet-edge-stability",
    "aliases": [],
    "tags": [
+    "adjacent",
     "method-reference",
     "tem",
     "vision"
@@ -3731,7 +4054,7 @@
    "notes": "Third-party experiment scripts testing AtomSegNet stability at nanoparticle edges vs interior under image degradation (one TEM image). No licence file (all rights reserved by default). Created 2026-05-05, 0 stars; unreviewed. Last push 2026-05-05."
   },
   {
-   "source_id": 117,
+   "source_id": 126,
    "key": "gh:cvat-ai/cvat",
    "type": "repo",
    "title": "CVAT is a leading data annotation platform for image, video, audio, and 3D datasets. It offers open-source, cloud, and enterprise products, as well as labeling services, with AI-assisted labeling, quality assurance, team collaboration, analytics, and developer APIs.",
@@ -3757,7 +4080,7 @@
    "notes": "Last push 2026-10-21."
   },
   {
-   "source_id": 118,
+   "source_id": 127,
    "key": "gh:ffeldhaus/soil",
    "type": "repo",
    "title": "Soil Game",
@@ -3779,7 +4102,33 @@
    "notes": "NOT RELEVANT to SAR: 'SOIL – Multiplayer Resource Management', a web farming-simulation game (Angular/Firebase), Apache-2.0, created 2025-12-12, last push 2026-10-20. Recorded so it is not re-checked; not cited in any doc."
   },
   {
-   "source_id": 119,
+   "source_id": 128,
+   "key": "gh:georgezoto/Convolutional-Neural-Networks",
+   "type": "guide",
+   "title": "Convolutional Neural Networks repository for all projects of Course 4 of 5 of the Deep Learning Specialization covering CNNs and classical architectures like LeNet-5, AlexNet, GoogleNet Inception Network, VGG-16, ResNet, 1x1 Convos, OverFeat, R-CNN, Fast R-CNN, Faster R-CNN, YOLO, YOLO9000, DeepFace, FaceNet and Neural Style Transfer.",
+   "authors": [],
+   "year": null,
+   "venue": "GitHub georgezoto/Convolutional-Neural-Networks",
+   "doi": null,
+   "url": "https://github.com/georgezoto/Convolutional-Neural-Networks",
+   "aliases": [],
+   "tags": [
+    "vision"
+   ],
+   "verified": "yes",
+   "verified_date": "2026-10-21",
+   "verified_how": "gh api repos/georgezoto/Convolutional-Neural-Networks",
+   "license": "none (no licence file)",
+   "registry_ids": [
+    "2100"
+   ],
+   "cited_in": [
+    "docs/research/vision-detection-tools.md"
+   ],
+   "notes": "Personal Deeplearning.ai Course 4 coursework notebooks. No licence; course material may carry Coursera/deeplearning.ai terms. Background guide only. Last push 2019-11-10."
+  },
+  {
+   "source_id": 129,
    "key": "gh:midnghtsapphire/Radar",
    "type": "repo",
    "title": "DIY-style ground penetrating radar",
@@ -3805,7 +4154,7 @@
    "notes": "Last push 2025-12-02."
   },
   {
-   "source_id": 120,
+   "source_id": 130,
    "key": "gh:midnghtsapphire/coldtrace",
    "type": "repo",
    "title": "midnghtsapphire/coldtrace",
@@ -3831,7 +4180,36 @@
    "notes": "Not reachable with gh api (404: private, renamed or missing)."
   },
   {
-   "source_id": 121,
+   "source_id": 131,
+   "key": "gh:minhminhminh0112/AtomSegNet-TEMImageNet-train-on-circularMask",
+   "type": "repo",
+   "title": "An attempt to train the TEMImageNet on the AtomSegNet using the circular mask as ground-truth label.",
+   "authors": [],
+   "year": null,
+   "venue": "GitHub minhminhminh0112/AtomSegNet-TEMImageNet-train-on-circularMask",
+   "doi": null,
+   "url": "https://github.com/minhminhminh0112/AtomSegNet-TEMImageNet-train-on-circularMask",
+   "aliases": [],
+   "tags": [
+    "adjacent",
+    "method-reference",
+    "tem",
+    "vision"
+   ],
+   "verified": "yes",
+   "verified_date": "2026-10-21",
+   "verified_how": "gh api repos/minhminhminh0112/AtomSegNet-TEMImageNet-train-on-circularMask",
+   "license": "none",
+   "registry_ids": [
+    "2100"
+   ],
+   "cited_in": [
+    "docs/research/vision-detection-tools.md"
+   ],
+   "notes": "Student-style retraining attempt (U-Net, circular-mask labels, Dice eval). No licence. Unreviewed. Adjacent. Last push 2024-07-09."
+  },
+  {
+   "source_id": 132,
    "key": "gh:miricip/GPRino",
    "type": "repo",
    "title": "Low-cost FMCW Ground Penetrating Radar (GPR)",
@@ -3857,7 +4235,7 @@
    "notes": "Last push 2026-10-07."
   },
   {
-   "source_id": 122,
+   "source_id": 133,
    "key": "gh:opencv/opencv",
    "type": "repo",
    "title": "Open Source Computer Vision Library",
@@ -3883,7 +4261,7 @@
    "notes": "Last push 2026-10-21."
   },
   {
-   "source_id": 123,
+   "source_id": 134,
    "key": "gh:python-ring-doorbell/python-ring-doorbell",
    "type": "repo",
    "title": "Python Ring Door Bell is a library written in Python 3 that exposes the Ring.com devices as Python objects.",
@@ -3909,7 +4287,7 @@
    "notes": "Unofficial Ring API client; see opendata/RING.md. Last push 2026-02-28."
   },
   {
-   "source_id": 124,
+   "source_id": 135,
    "key": "gh:stevedvy/BackgroundCheckAPI",
    "type": "repo",
    "title": "The most reliable source of background screening records. A frequent automated update process ensures the reliability & availability of up-to-date records collection. Easy & Accurate Background records,  Employment Background,  Criminal History, Police & Arrest Records, Warrants, Free offenders in USA, U.S. people records, background check api",
@@ -3935,7 +4313,7 @@
    "notes": "REJECTED in 2080: README-only (2018), people/background-check data. No code that touches people is added. Last push 2018-06-20."
   },
   {
-   "source_id": 125,
+   "source_id": 136,
    "key": "gh:ultralytics/ultralytics",
    "type": "repo",
    "title": "Ultralytics YOLO27, YOLO26, YOLO11, YOLOv8 — object detection, instance segmentation, semantic segmentation, image classification, pose estimation, object tracking",
@@ -3961,7 +4339,7 @@
    "notes": "AGPL-3.0, deliberately NOT used by sar/vision (2110). Last push 2026-10-21."
   },
   {
-   "source_id": 126,
+   "source_id": 137,
    "key": "gh:user79/Radar",
    "type": "repo",
    "title": "DIY-style ground penetrating radar",
@@ -3987,7 +4365,7 @@
    "notes": "Upstream of midnghtsapphire/Radar fork. Last push 2025-12-02."
   },
   {
-   "source_id": 127,
+   "source_id": 138,
    "key": "gh:usnistgov/tem_analysis",
    "type": "repo",
    "title": "Image Processing Scheme to Visualize and Analyze Time Resolved TEM Video Images",
@@ -4015,7 +4393,7 @@
    "notes": "Method reference for vision/template.py baseline (Hussaini 2018). Licence: NIST public-domain notice (17 USC 105); copies must keep the notice and disclaimer. GitHub shows NOASSERTION. Last push 2017-04-13. Archived."
   },
   {
-   "source_id": 128,
+   "source_id": 139,
    "key": "gh:xinhuolin/AtomSegNet",
    "type": "repo",
    "title": "AtomSegNet",
@@ -4043,7 +4421,65 @@
    "notes": "UCI DeepEM Lab. PyQt5 app (Code_Atom_Seg_Ui.py) + pretrained U-Net/NestedUNet weights (utils/utils.py load_model) for atom segmentation, denoise, background removal, super-res; watershed + regionprops centres. Pins PyTorch 1.3/torchvision 0.4/scikit-image<=0.18.3. Adjacent; weights not reused. Last push 2022-06-17."
   },
   {
-   "source_id": 129,
+   "source_id": 140,
+   "key": "gh:xinhuolin/TEM-ImageNet-v1.3",
+   "type": "repo",
+   "title": "TEM-ImageNet",
+   "authors": [],
+   "year": null,
+   "venue": "GitHub xinhuolin/TEM-ImageNet-v1.3",
+   "doi": null,
+   "url": "https://github.com/xinhuolin/TEM-ImageNet-v1.3",
+   "aliases": [],
+   "tags": [
+    "adjacent",
+    "method-reference",
+    "tem",
+    "vision"
+   ],
+   "verified": "yes",
+   "verified_date": "2026-10-21",
+   "verified_how": "gh api repos/xinhuolin/TEM-ImageNet-v1.3",
+   "license": "none",
+   "registry_ids": [
+    "2100"
+   ],
+   "cited_in": [
+    "docs/research/vision-detection-tools.md"
+   ],
+   "notes": "TEMImageNet v1.3 data release (circularMask, gaussianMask, noNoise etc. label folders). NO licence file and none stated in README: all rights reserved by default; do not redistribute or train shipped models on it without permission. Adjacent. Last push 2020-08-13."
+  },
+  {
+   "source_id": 141,
+   "key": "gh:xinhuolin/TomoFillNet",
+   "type": "repo",
+   "title": "TomoFillNet",
+   "authors": [],
+   "year": null,
+   "venue": "GitHub xinhuolin/TomoFillNet",
+   "doi": null,
+   "url": "https://github.com/xinhuolin/TomoFillNet",
+   "aliases": [],
+   "tags": [
+    "adjacent",
+    "method-reference",
+    "tem",
+    "vision"
+   ],
+   "verified": "yes",
+   "verified_date": "2026-10-21",
+   "verified_how": "gh api repos/xinhuolin/TomoFillNet",
+   "license": "GPL-3.0",
+   "registry_ids": [
+    "2100"
+   ],
+   "cited_in": [
+    "docs/research/vision-detection-tools.md"
+   ],
+   "notes": "Tomography de-artifact app (WBP/SART). GPL-3.0: do not copy into permissive modules. Adjacent. Last push 2020-07-31."
+  },
+  {
+   "source_id": 142,
    "key": "svc:3dep",
    "type": "dataset",
    "title": "USGS 3DEP elevation ImageServer and The National Map S3",
@@ -4083,7 +4519,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 130,
+   "source_id": 143,
    "key": "svc:caltrans",
    "type": "dataset",
    "title": "Caltrans CWWP2 camera feeds",
@@ -4110,7 +4546,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 131,
+   "source_id": 144,
    "key": "svc:cdem",
    "type": "dataset",
    "title": "Copernicus DEM GLO-30 (AWS open data bucket)",
@@ -4140,7 +4576,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 132,
+   "source_id": 145,
    "key": "svc:cdse",
    "type": "dataset",
    "title": "Copernicus Data Space Ecosystem STAC",
@@ -4171,7 +4607,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 133,
+   "source_id": 146,
    "key": "svc:census",
    "type": "dataset",
    "title": "US Census Geocoder API",
@@ -4204,7 +4640,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 134,
+   "source_id": 147,
    "key": "svc:cmr",
    "type": "dataset",
    "title": "NASA Common Metadata Repository (CMR search + STAC) and LP DAAC cloud data",
@@ -4247,7 +4683,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 135,
+   "source_id": 148,
    "key": "svc:columbus",
    "type": "dataset",
    "title": "City of Columbus ArcGIS REST services (zoning/building layers)",
@@ -4275,7 +4711,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 136,
+   "source_id": 149,
    "key": "svc:columbus-permits",
    "type": "dataset",
    "title": "City of Columbus Accela permit portal (CapHome)",
@@ -4302,7 +4738,7 @@
    "notes": "Web portal, link only; no scraping beyond terms."
   },
   {
-   "source_id": 137,
+   "source_id": 150,
    "key": "svc:dataverse",
    "type": "dataset",
    "title": "https://dataverse.harvard.edu",
@@ -4329,7 +4765,7 @@
    "notes": ""
   },
   {
-   "source_id": 138,
+   "source_id": 151,
    "key": "svc:e84",
    "type": "dataset",
    "title": "Element 84 Earth Search STAC (AWS open data, Sentinel-2 COGs)",
@@ -4370,7 +4806,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 139,
+   "source_id": 152,
    "key": "svc:ea",
    "type": "dataset",
    "title": "Environment Agency (England) LiDAR composite DTM 1 m WCS and survey portal",
@@ -4399,7 +4835,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 140,
+   "source_id": 153,
    "key": "svc:edl",
    "type": "dataset",
    "title": "NASA Earthdata Login (URS)",
@@ -4431,7 +4867,7 @@
    "notes": "Login service. CAVEAT: sar/coldtrace/README.md line 117 says https://urs.earthrs.gov, which looks like a typo for https://urs.earthdata.nasa.gov; flagged, not edited."
   },
   {
-   "source_id": 141,
+   "source_id": 154,
    "key": "svc:entwine",
    "type": "dataset",
    "title": "USGS 3DEP lidar point clouds (usgs-entwine EPT bucket)",
@@ -4460,7 +4896,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 142,
+   "source_id": 155,
    "key": "svc:maplibre",
    "type": "dataset",
    "title": "MapLibre demo tiles style",
@@ -4487,7 +4923,7 @@
    "notes": "Basemap style used by coldtrace/index.html."
   },
   {
-   "source_id": 143,
+   "source_id": 156,
    "key": "svc:mpc",
    "type": "dataset",
    "title": "Microsoft Planetary Computer STAC + SAS token API",
@@ -4519,7 +4955,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 144,
+   "source_id": 157,
    "key": "svc:neon",
    "type": "dataset",
    "title": "NEON AOP discrete lidar point cloud (DP1.30001.001) product page and API",
@@ -4548,7 +4984,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 145,
+   "source_id": 158,
    "key": "svc:nwis",
    "type": "dataset",
    "title": "USGS NWIS instantaneous-values water service",
@@ -4581,7 +5017,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 146,
+   "source_id": 159,
    "key": "svc:nws",
    "type": "dataset",
    "title": "NOAA/NWS API (api.weather.gov)",
@@ -4612,7 +5048,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 147,
+   "source_id": 160,
    "key": "svc:ohgo",
    "type": "dataset",
    "title": "Ohio DOT OHGO public API",
@@ -4644,7 +5080,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 148,
+   "source_id": 161,
    "key": "svc:openmeteo",
    "type": "dataset",
    "title": "Open-Meteo historical weather archive API",
@@ -4671,7 +5107,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 149,
+   "source_id": 162,
    "key": "svc:osm",
    "type": "dataset",
    "title": "OpenStreetMap Overpass API and Nominatim",
@@ -4702,7 +5138,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 150,
+   "source_id": 163,
    "key": "svc:otopo",
    "type": "dataset",
    "title": "OpenTopography (global DEM API)",
@@ -4736,7 +5172,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 151,
+   "source_id": 164,
    "key": "svc:sh",
    "type": "dataset",
    "title": "Sentinel Hub Process API and docs",
@@ -4768,7 +5204,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 152,
+   "source_id": 165,
    "key": "svc:suitcase",
    "type": "product",
    "title": "https://thesuitcasedetective.com/about/terms-conditions/",
@@ -4797,7 +5233,7 @@
    "notes": ""
   },
   {
-   "source_id": 153,
+   "source_id": 166,
    "key": "svc:tsa",
    "type": "product",
    "title": "RFC 3161 timestamp authorities (DigiCert, FreeTSA)",
@@ -4827,7 +5263,7 @@
    "notes": "Tool endpoints for evidence timestamping; not a citation of results."
   },
   {
-   "source_id": 154,
+   "source_id": 167,
    "key": "svc:walabot",
    "type": "product",
    "title": "https://support.walabot.com/hc/en-us/articles/360015452958-What-can-Walabot-DIY-devices-detect",
@@ -4860,7 +5296,7 @@
    "notes": ""
   },
   {
-   "source_id": 155,
+   "source_id": 168,
    "key": "svc:wayback",
    "type": "dataset",
    "title": "Internet Archive Wayback Machine (CDX API)",
@@ -4893,7 +5329,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 156,
+   "source_id": 169,
    "key": "svc:zenodo",
    "type": "dataset",
    "title": "https://zenodo.org",
@@ -4918,7 +5354,7 @@
    "notes": ""
   },
   {
-   "source_id": 157,
+   "source_id": 170,
    "key": "url:fsigen-cadnap",
    "type": "paper",
    "title": "CaDNAP canine 13-STR population data (1,184 dogs)",
@@ -4944,7 +5380,7 @@
    "notes": "CAVEAT: the citing URL in soil-edna-detection.md is cut at '(19' by the link scanner because of parentheses; the full URL is stored here."
   },
   {
-   "source_id": 158,
+   "source_id": 171,
    "key": "url:http://gpradar.eu/onewebmedia/TU1208_GPRforeducationaluse_November2017_FerraraChizhPietrelli.pdf",
    "type": "guide",
    "title": "Ferrara, Chizh, Pietrelli (2017) GPR for educational use, COST TU1208",
@@ -4970,7 +5406,7 @@
    "notes": "Host did not respond on 2026-10-21."
   },
   {
-   "source_id": 159,
+   "source_id": 172,
    "key": "url:https://apps.dtic.mil/sti/pdfs/ADA511593.pdf",
    "type": "guide",
    "title": "DTIC report ADA511593",
@@ -4997,7 +5433,7 @@
    "notes": ""
   },
   {
-   "source_id": 160,
+   "source_id": 173,
    "key": "url:https://arxiv.org/abs/2012.09093",
    "type": "paper",
    "title": "TEMImageNet Training Library and AtomSegNet Deep-Learning Models ... (preprint)",
@@ -5029,10 +5465,10 @@
    "cited_in": [
     "docs/research/vision-detection-tools.md"
    ],
-   "notes": "Preprint of 10.1038/s41598-021-84499-w (cite the published version)."
+   "notes": "Preprint of 10.1038/s41598-021-84499-w (cite the published version). 2012.09093v1 is the same item (deduped)."
   },
   {
-   "source_id": 161,
+   "source_id": 174,
    "key": "url:https://arxiv.org/abs/2307.16177",
    "type": "paper",
    "title": "arXiv 2307.16177",
@@ -5058,7 +5494,7 @@
    "notes": ""
   },
   {
-   "source_id": 162,
+   "source_id": 175,
    "key": "url:https://arxiv.org/abs/2311.14936",
    "type": "paper",
    "title": "Single-image based deep learning for precise atomic defects identification",
@@ -5074,6 +5510,7 @@
    "url": "https://arxiv.org/abs/2311.14936",
    "aliases": [],
    "tags": [
+    "adjacent",
     "method-reference",
     "tem",
     "vision"
@@ -5091,7 +5528,7 @@
    "notes": "Preprint, not peer-reviewed."
   },
   {
-   "source_id": 163,
+   "source_id": 176,
    "key": "url:https://arxiv.org/abs/2502.17372",
    "type": "paper",
    "title": "arXiv 2502.17372",
@@ -5118,7 +5555,7 @@
    "notes": ""
   },
   {
-   "source_id": 164,
+   "source_id": 177,
    "key": "url:https://biomeme.com/",
    "type": "product",
    "title": "Mobile CBRN Biodefense & Point-of-Care Diagnostics | Biomeme",
@@ -5144,7 +5581,7 @@
    "notes": ""
   },
   {
-   "source_id": 165,
+   "source_id": 178,
    "key": "url:https://citation-file-format.github.io",
    "type": "guide",
    "title": "Citation File Format (CFF)",
@@ -5169,7 +5606,7 @@
    "notes": ""
   },
   {
-   "source_id": 166,
+   "source_id": 179,
    "key": "url:https://corescholar.libraries.wright.edu/etd_all/676",
    "type": "paper",
    "title": "\"UHF-SAR and LIDAR Complementary Sensor Fusion for Unexploded Buried Mu\" by Randy S. Depoy Jr.",
@@ -5195,7 +5632,33 @@
    "notes": ""
   },
   {
-   "source_id": 167,
+   "source_id": 180,
+   "key": "url:https://cs231n.github.io/convolutional-networks/",
+   "type": "guide",
+   "title": "CS231n: Convolutional Neural Networks (course notes)",
+   "authors": [],
+   "year": null,
+   "venue": "Stanford CS231n",
+   "doi": null,
+   "url": "https://cs231n.github.io/convolutional-networks/",
+   "aliases": [],
+   "tags": [
+    "vision"
+   ],
+   "verified": "yes",
+   "verified_date": "2026-10-21",
+   "verified_how": "page HTTP 200; gh api licence",
+   "license": "MIT (cs231n/cs231n.github.io repo)",
+   "registry_ids": [
+    "2100"
+   ],
+   "cited_in": [
+    "docs/research/vision-detection-tools.md"
+   ],
+   "notes": "Background guide only."
+  },
+  {
+   "source_id": 181,
    "key": "url:https://dash.harvard.edu",
    "type": "guide",
    "title": "DASH Home",
@@ -5219,7 +5682,7 @@
    "notes": ""
   },
   {
-   "source_id": 168,
+   "source_id": 182,
    "key": "url:https://dbs-sar.com/Newsletter/082605.htm",
    "type": "product",
    "title": "New Page 0",
@@ -5246,7 +5709,7 @@
    "notes": ""
   },
   {
-   "source_id": 169,
+   "source_id": 183,
    "key": "url:https://developer.acconeer.com/download/a121-datasheet/",
    "type": "product",
    "title": "Acconeer A121 pulsed coherent radar datasheet",
@@ -5272,7 +5735,7 @@
    "notes": ""
   },
   {
-   "source_id": 170,
+   "source_id": 184,
    "key": "url:https://digital.library.unt.edu/ark:/67531/metadc33201/",
    "type": "paper",
    "title": "DAM",
@@ -5298,7 +5761,7 @@
    "notes": ""
   },
   {
-   "source_id": 171,
+   "source_id": 185,
    "key": "url:https://download.pytorch.org/whl/cpu",
    "type": "guide",
    "title": "PyTorch CPU wheel index",
@@ -5325,7 +5788,7 @@
    "notes": ""
   },
   {
-   "source_id": 172,
+   "source_id": 186,
    "key": "url:https://edcftp.cr.usgs.gov/project/lpdaac/GEDI_L2/gedi_l2b_product_data_dictionary.html",
    "type": "guide",
    "title": "GEDI L2B Product Data Dictionary",
@@ -5352,7 +5815,7 @@
    "notes": ""
   },
   {
-   "source_id": 173,
+   "source_id": 187,
    "key": "url:https://egusphere.copernicus.org/preprints/2026/egusphere-2026-5071/",
    "type": "paper",
    "title": "EGUsphere - Key parameters to improve prediction of the drift and resurfacing of human bodies following drowning in rivers",
@@ -5379,7 +5842,7 @@
    "notes": ""
   },
   {
-   "source_id": 174,
+   "source_id": 188,
    "key": "url:https://en.wikipedia.org/wiki/Atomic_force_microscopy",
    "type": "guide",
    "title": "Atomic force microscopy (Wikipedia)",
@@ -5405,7 +5868,7 @@
    "notes": "Background only; not used for any claim."
   },
   {
-   "source_id": 175,
+   "source_id": 189,
    "key": "url:https://en.wikipedia.org/wiki/Chemical_imaging",
    "type": "guide",
    "title": "Chemical imaging (Wikipedia)",
@@ -5432,7 +5895,7 @@
    "notes": "Background only."
   },
   {
-   "source_id": 176,
+   "source_id": 190,
    "key": "url:https://eprints.kingston.ac.uk/id/eprint/27894",
    "type": "paper",
    "title": "Kingston University eprint 27894",
@@ -5459,7 +5922,35 @@
    "notes": ""
   },
   {
-   "source_id": 177,
+   "source_id": 191,
+   "key": "url:https://gist.github.com/JiaxiangZheng/a60cc8fe1bf6e20c1a41abc98131d518",
+   "type": "guide",
+   "title": "CNN.py: convolutional neural network implemented with python (gist)",
+   "authors": [
+    "JiaxiangZheng"
+   ],
+   "year": 2017,
+   "venue": "GitHub Gist",
+   "doi": null,
+   "url": "https://gist.github.com/JiaxiangZheng/a60cc8fe1bf6e20c1a41abc98131d518",
+   "aliases": [],
+   "tags": [
+    "vision"
+   ],
+   "verified": "yes",
+   "verified_date": "2026-10-21",
+   "verified_how": "gh api gists",
+   "license": "None stated",
+   "registry_ids": [
+    "2100"
+   ],
+   "cited_in": [
+    "docs/research/vision-detection-tools.md"
+   ],
+   "notes": "Single-file NumPy/TensorFlow-1 MNIST CNN teaching demo, ported from hsmyy/zhihuzhuanlan. Not used."
+  },
+  {
+   "source_id": 192,
    "key": "url:https://hackaday.io/project/175115-gprino",
    "type": "product",
    "title": "GPRino | Hackaday.io",
@@ -5485,7 +5976,7 @@
    "notes": ""
   },
   {
-   "source_id": 178,
+   "source_id": 193,
    "key": "url:https://hdsr.mitpress.mit.edu",
    "type": "guide",
    "title": "Harvard Data Science Review",
@@ -5509,7 +6000,7 @@
    "notes": ""
   },
   {
-   "source_id": 179,
+   "source_id": 194,
    "key": "url:https://ieeexplore.ieee.org/document/10906350",
    "type": "paper",
    "title": "IEEE Xplore document 10906350 (title not confirmed)",
@@ -5537,7 +6028,7 @@
    "notes": "UNVERIFIED: title, authors and DOI unknown. Nothing relies on it."
   },
   {
-   "source_id": 180,
+   "source_id": 195,
    "key": "url:https://iscd.org/learn/resources/dxa-atlas/",
    "type": "guide",
    "title": "DXA Atlas - ISCD",
@@ -5563,7 +6054,7 @@
    "notes": ""
   },
   {
-   "source_id": 181,
+   "source_id": 196,
    "key": "url:https://itis.swiss/virtual-population/tissue-properties/database/dielectric-properties/",
    "type": "guide",
    "title": "Dielectric Properties » IT'IS Foundation",
@@ -5589,7 +6080,7 @@
    "notes": ""
   },
   {
-   "source_id": 182,
+   "source_id": 197,
    "key": "url:https://jblindsay.github.io/ghrg/WhiteboxTools/",
    "type": "product",
    "title": "WhiteboxTools | Home",
@@ -5615,7 +6106,7 @@
    "notes": ""
   },
   {
-   "source_id": 183,
+   "source_id": 198,
    "key": "url:https://journal.yuanpingjia.com.cn/Journal/ArticleDetails/696607",
    "type": "paper",
    "title": "Hong et al. 2022 mmWave imaging paper (journal article page)",
@@ -5641,7 +6132,7 @@
    "notes": "No DOI found."
   },
   {
-   "source_id": 184,
+   "source_id": 199,
    "key": "url:https://journalofsar.com/",
    "type": "guide",
    "title": "Journal of Search and Rescue – Free, Peer-Reviewed Research Into SAR",
@@ -5668,7 +6159,7 @@
    "notes": ""
   },
   {
-   "source_id": 185,
+   "source_id": 200,
    "key": "url:https://lpdaac.usgs.gov/products/gedi01_bv002/",
    "type": "dataset",
    "title": "GEDI L1B Geolocated Waveform Data Global Footprint Level V002 | NASA Earthdata",
@@ -5694,7 +6185,7 @@
    "notes": ""
   },
   {
-   "source_id": 186,
+   "source_id": 201,
    "key": "url:https://lpdaac.usgs.gov/products/gedi02_av002/",
    "type": "dataset",
    "title": "GEDI L2A Elevation and Height Metrics Data Global Footprint Level V002 | NASA Earthdata",
@@ -5720,7 +6211,7 @@
    "notes": ""
   },
   {
-   "source_id": 187,
+   "source_id": 202,
    "key": "url:https://midnghtsapphire.github.io/revvel-standards/docs/coldtrace/",
    "type": "guide",
    "title": "revvel-standards coldtrace docs (GitHub Pages)",
@@ -5746,7 +6237,7 @@
    "notes": "CAVEAT: returned 404 (GitHub Pages 'Site not found') on 2026-10-21; link in coldtrace/README.md is dead or unpublished."
   },
   {
-   "source_id": 188,
+   "source_id": 203,
    "key": "url:https://namus.nij.ojp.gov/",
    "type": "dataset",
    "title": "NamUs (National Missing and Unidentified Persons System)",
@@ -5772,7 +6263,7 @@
    "notes": ""
   },
   {
-   "source_id": 189,
+   "source_id": 204,
    "key": "url:https://nanoporetech.com/",
    "type": "product",
    "title": "Welcome to Oxford Nanopore Technologies",
@@ -5798,7 +6289,7 @@
    "notes": ""
   },
   {
-   "source_id": 190,
+   "source_id": 205,
    "key": "url:https://nasa-earthrise.github.io/training_Getting_started_with_GEDI_spaceborne_lidar/intro-to-waveform-lidar",
    "type": "guide",
    "title": "Introduction to Full Waveform Lidar | Getting Started with GEDI Spaceborne Lidar for Ecosystem Applications",
@@ -5824,7 +6315,7 @@
    "notes": ""
   },
   {
-   "source_id": 191,
+   "source_id": 206,
    "key": "url:https://ntrs.nasa.gov/api/citations/20210024091/downloads/Neigh2021.pdf",
    "type": "paper",
    "title": "Neigh et al. 2021 (NASA NTRS 20210024091)",
@@ -5850,7 +6341,7 @@
    "notes": ""
   },
   {
-   "source_id": 192,
+   "source_id": 207,
    "key": "url:https://ocw.mit.edu/courses/res-ll-003-build-a-small-radar-system-capable-of-sensing-range-doppler-and-synthetic-aperture-radar-imaging-january-iap-2011/",
    "type": "guide",
    "title": "Build a Small Radar System Capable of Sensing Range, Doppler, and Synthetic Aperture Radar Imaging | MIT OpenCourseWare | Free Online Course Materials",
@@ -5876,7 +6367,7 @@
    "notes": ""
   },
   {
-   "source_id": 193,
+   "source_id": 208,
    "key": "url:https://ojs.iscram.org/index.php/Proceedings/article/view/197",
    "type": "paper",
    "title": "Assessing Drone Performance and Probability of Detection for Search and Rescue Operation in Northern Canada | Proceedings of the International ISCRAM ",
@@ -5903,7 +6394,7 @@
    "notes": ""
   },
   {
-   "source_id": 194,
+   "source_id": 209,
    "key": "url:https://orcid.org/register",
    "type": "guide",
    "title": "ORCID",
@@ -5927,7 +6418,7 @@
    "notes": ""
   },
   {
-   "source_id": 195,
+   "source_id": 210,
    "key": "url:https://patents.google.com/",
    "type": "product",
    "title": "Google Patents",
@@ -5953,7 +6444,7 @@
    "notes": ""
   },
   {
-   "source_id": 196,
+   "source_id": 211,
    "key": "url:https://patents.google.com/patent/US10578735B2/en",
    "type": "patent",
    "title": "US10578735B2 - Multilook coherent change detection - Google Patents",
@@ -5979,7 +6470,7 @@
    "notes": ""
   },
   {
-   "source_id": 197,
+   "source_id": 212,
    "key": "url:https://patents.google.com/patent/US10895637B1/en",
    "type": "patent",
    "title": "US10895637B1 - Systems and methods for mapping manmade objects buried in subterranean surfaces using an unmanned aerial vehicle integrated with radar ",
@@ -6005,7 +6496,7 @@
    "notes": ""
   },
   {
-   "source_id": 198,
+   "source_id": 213,
    "key": "url:https://patents.google.com/patent/US11221292B2/en",
    "type": "patent",
    "title": "US11221292B2 - Method utilizing in-situ, subsurface, near-infrared spectroscopy to detect buried human remains - Google Patents",
@@ -6031,7 +6522,7 @@
    "notes": ""
   },
   {
-   "source_id": 199,
+   "source_id": 214,
    "key": "url:https://patents.google.com/patent/US11580725B2/en",
    "type": "patent",
    "title": "US11580725B2 - Systems, devices and methods for imaging objects within or behind a medium using electromagnetic array - Google Patents",
@@ -6057,7 +6548,7 @@
    "notes": ""
   },
   {
-   "source_id": 200,
+   "source_id": 215,
    "key": "url:https://patents.google.com/patent/US11725202B2/en",
    "type": "patent",
    "title": "US11725202B2 - Soil-based DNA extraction - Google Patents",
@@ -6083,7 +6574,7 @@
    "notes": ""
   },
   {
-   "source_id": 201,
+   "source_id": 216,
    "key": "url:https://patents.google.com/patent/US7999722B2/en",
    "type": "patent",
    "title": "US7999722B2 - Through-wall imaging device - Google Patents",
@@ -6109,7 +6600,7 @@
    "notes": ""
   },
   {
-   "source_id": 202,
+   "source_id": 217,
    "key": "url:https://patents.google.com/patent/US9696421B2/en",
    "type": "patent",
    "title": "US9696421B2 - Through wall sensing system using WiFi/cellular radar - Google Patents",
@@ -6135,7 +6626,7 @@
    "notes": ""
   },
   {
-   "source_id": 203,
+   "source_id": 218,
    "key": "url:https://patents.google.com/patent/WO2000025108A1/en",
    "type": "patent",
    "title": "WO2000025108A1 - Method and apparatus for locating hidden corpses by detecting volatile gas combinations - Google Patents",
@@ -6161,7 +6652,7 @@
    "notes": ""
   },
   {
-   "source_id": 204,
+   "source_id": 219,
    "key": "url:https://pmc.ncbi.nlm.nih.gov/articles/PMC9889824/",
    "type": "paper",
    "title": "PMC9889824",
@@ -6187,7 +6678,7 @@
    "notes": "PMC article link from soil-edna-detection.md; metadata not re-fetched in 2200."
   },
   {
-   "source_id": 205,
+   "source_id": 220,
    "key": "url:https://pubmed.ncbi.nlm.nih.gov/42859054/",
    "type": "paper",
    "title": "PubMed record 42859054 (ACS Sensors 2026 centrifugal soil-to-DNA prep)",
@@ -6213,7 +6704,7 @@
    "notes": "PubMed alias for 10.1021/acssensors.6c01885."
   },
   {
-   "source_id": 206,
+   "source_id": 221,
    "key": "url:https://pypi.org/project/viaverde-traffic/",
    "type": "product",
    "title": "viaverde-traffic (PyPI)",
@@ -6239,7 +6730,7 @@
    "notes": ""
   },
   {
-   "source_id": 207,
+   "source_id": 222,
    "key": "url:https://sites.google.com/view/temimagenet",
    "type": "dataset",
    "title": "TEM ImageNet (UCI DeepEM Lab)",
@@ -6248,7 +6739,9 @@
    "venue": "Google Sites",
    "doi": null,
    "url": "https://sites.google.com/view/temimagenet",
-   "aliases": [],
+   "aliases": [
+    "https://sites.google.com/view/temimagenet/home"
+   ],
    "tags": [
     "method-reference",
     "synthetic-data",
@@ -6258,7 +6751,7 @@
    "verified": "yes",
    "verified_date": "2026-10-21",
    "verified_how": "site fetched 2026-10-21",
-   "license": "Not stated on site; check GitHub data release before reuse",
+   "license": "None stated: site states no licence and the GitHub data release xinhuolin/TEM-ImageNet-v1.3 has no licence file (all rights reserved by default)",
    "registry_ids": [
     "2100"
    ],
@@ -6268,7 +6761,7 @@
    "notes": "Synthetic ADF-STEM library with ground-truth labels (segmentation, Gaussian maps, denoise, super-res) and atom coordinates; v1.3 data on GitHub; DOE BES award DE-SC0021204. Adjacent."
   },
   {
-   "source_id": 208,
+   "source_id": 223,
    "key": "url:https://trace.tennessee.edu/entities/publication/a52cb7b6-25e1-4bd2-89b3-152c00101c12",
    "type": "paper",
    "title": "The Preservation and Persistence of Human DNA in Soil during Cadaver Decomposition",
@@ -6294,7 +6787,7 @@
    "notes": ""
   },
   {
-   "source_id": 209,
+   "source_id": 224,
    "key": "url:https://umbra.space/open-data/",
    "type": "dataset",
    "title": "Umbra SAR open data program",
@@ -6320,7 +6813,7 @@
    "notes": ""
   },
   {
-   "source_id": 210,
+   "source_id": 225,
    "key": "url:https://www-pub.iaea.org/MTCD/Publications/PDF/p15962-snl48.pdf",
    "type": "product",
    "title": "IAEA Soils Newsletter 48 (PDF)",
@@ -6346,7 +6839,7 @@
    "notes": ""
   },
   {
-   "source_id": 211,
+   "source_id": 226,
    "key": "url:https://www.aafs.org/sites/default/files/media/documents/AAFS-2016-K25.pdf",
    "type": "paper",
    "title": "K25 Methamphetamine, Amphetamine, and Norephedrine Levels in Dermestid Beetles From the Consumption of Dosed, Buried Rat Remains",
@@ -6378,7 +6871,7 @@
    "notes": "Conference abstract, not peer-reviewed; rat model. Drugs detected in beetle larvae, pupae, adults and frass."
   },
   {
-   "source_id": 212,
+   "source_id": 227,
    "key": "url:https://www.dco.uscg.mil/Portals/9/CG-5R/nsarc/DetExpReport_2004_final_s.pdf",
    "type": "guide",
    "title": "USCG/NSARC detection experiments report (2004)",
@@ -6405,7 +6898,7 @@
    "notes": ""
   },
   {
-   "source_id": 213,
+   "source_id": 228,
    "key": "url:https://www.earthdata.nasa.gov/learn/trainings/spaceborne-lidar-monitoring-vegetation-structure-biomass-using-gedi",
    "type": "guide",
    "title": "Spaceborne Lidar for Monitoring Vegetation Structure and Biomass using GEDI | NASA Earthdata",
@@ -6431,7 +6924,7 @@
    "notes": ""
   },
   {
-   "source_id": 214,
+   "source_id": 229,
    "key": "url:https://www.iaea.org/newscenter/news/assessing-soil-with-gamma-ray-spectrometry-and-digital-technology",
    "type": "product",
    "title": "IAEA news: Assessing soil with gamma-ray spectrometry and digital technology",
@@ -6457,7 +6950,7 @@
    "notes": ""
   },
   {
-   "source_id": 215,
+   "source_id": 230,
    "key": "url:https://www.iaea.org/projects/crp/d12015",
    "type": "product",
    "title": "IAEA coordinated research project D12015",
@@ -6483,7 +6976,7 @@
    "notes": ""
   },
   {
-   "source_id": 216,
+   "source_id": 231,
    "key": "url:https://www.infineon.com/part/BGT60TR13C",
    "type": "product",
    "title": "BGT60TR13C - 60 GHz radar sensors for IoT | Infineon Technologies",
@@ -6509,7 +7002,7 @@
    "notes": ""
   },
   {
-   "source_id": 217,
+   "source_id": 232,
    "key": "url:https://www.jetir.org/papers/JETIR1810B66.pdf",
    "type": "paper",
    "title": "JETIR1810B66 (JETIR 2018) clandestine-grave detection paper",
@@ -6535,7 +7028,7 @@
    "notes": "CAVEAT: copies wording from Pringle et al. 2012 (Earth-Science Reviews, 10.1016/j.earscirev.2012.05.006). Do not cite as independent evidence."
   },
   {
-   "source_id": 218,
+   "source_id": 233,
    "key": "url:https://www.nature.com/articles/d42473-022-00106-0",
    "type": "article",
    "title": "Atomic magnetism finally caught on camera",
@@ -6563,7 +7056,7 @@
    "notes": "SPONSORED/vendor content (JEOL MARS magnetic-field-free STEM); no Crossref DOI (d42473 id 404 at Crossref). Background only."
   },
   {
-   "source_id": 219,
+   "source_id": 234,
    "key": "url:https://www.promega.com/products/forensic-dna-analysis-ce/str-amplification/paradyme-27gy-str-system/",
    "type": "product",
    "title": "Paradyme™ 27GY STR System",
@@ -6592,7 +7085,7 @@
    "notes": ""
   },
   {
-   "source_id": 220,
+   "source_id": 235,
    "key": "url:https://www.raspberrypi.com/products/raspberry-pi-5/",
    "type": "product",
    "title": "Raspberry Pi 5 product page",
@@ -6618,7 +7111,7 @@
    "notes": ""
   },
   {
-   "source_id": 221,
+   "source_id": 236,
    "key": "url:https://www.raspberrypi.com/products/raspberry-pi-pico/",
    "type": "product",
    "title": "Raspberry Pi Pico product page",
@@ -6644,7 +7137,7 @@
    "notes": ""
   },
   {
-   "source_id": 222,
+   "source_id": 237,
    "key": "url:https://www.raspberrypi.com/products/raspberry-pi-zero-2-w/",
    "type": "product",
    "title": "Raspberry Pi Zero 2 W product page",
@@ -6670,7 +7163,7 @@
    "notes": ""
   },
   {
-   "source_id": 223,
+   "source_id": 238,
    "key": "url:https://www.sciencedirect.com/topics/agricultural-and-biological-sciences/chemical-imaging",
    "type": "guide",
    "title": "Chemical Imaging - ScienceDirect Topics (Agricultural and Biological Sciences)",
@@ -6697,7 +7190,7 @@
    "notes": "Elsevier auto-generated topic page of book/article excerpts. Background only."
   },
   {
-   "source_id": 224,
+   "source_id": 239,
    "key": "url:https://www.scmp.com/news/china/science/article/3163290/chinese-body-scanner-can-see-through-30-layers-clothing-using",
    "type": "guide",
    "title": "SCMP news report on a Chinese mmWave body scanner (Hong et al. 2022)",
@@ -6723,7 +7216,7 @@
    "notes": "News report. Underlying Hong 2022 paper (Chinese journal) has no DOI found; see journal.yuanpingjia.com.cn row."
   },
   {
-   "source_id": 225,
+   "source_id": 240,
    "key": "url:https://www.ssrn.com",
    "type": "guide",
    "title": "SSRN preprint server",
@@ -6747,7 +7240,7 @@
    "notes": ""
   },
   {
-   "source_id": 226,
+   "source_id": 241,
    "key": "url:https://www.ti.com/tool/IWR6843ISK",
    "type": "product",
    "title": "IWR6843ISK Evaluation board | TI.com",
@@ -6773,7 +7266,7 @@
    "notes": ""
   },
   {
-   "source_id": 227,
+   "source_id": 242,
    "key": "url:https://www.uspto.gov/patents/basics/using-legal-services/pro-bono/patent-pro-bono-program",
    "type": "guide",
    "title": "Patent Pro Bono Program: Free patent legal assistance | USPTO",
@@ -6799,7 +7292,7 @@
    "notes": ""
   },
   {
-   "source_id": 228,
+   "source_id": 243,
    "key": "url:https://www.uspto.gov/patents/laws/micro-entity-status",
    "type": "guide",
    "title": "Micro entity status | USPTO",
@@ -6825,7 +7318,7 @@
    "notes": ""
   },
   {
-   "source_id": 229,
+   "source_id": 244,
    "key": "url:https://www.uspto.gov/sites/default/files/documents/USPTO-fee-schedule_current.pdf",
    "type": "guide",
    "title": "USPTO fee schedule (current, PDF)",
@@ -6851,7 +7344,7 @@
    "notes": ""
   },
   {
-   "source_id": 230,
+   "source_id": 245,
    "key": "url:https://www.youtube.com/watch?v=D-AC-KunXEc",
    "type": "video",
    "title": "What is chemical imaging? How can AI can help us with it? | FT-IR and Raman Microscopy | ACI & OPUS",
@@ -6881,7 +7374,7 @@
    "notes": "VENDOR video (Bruker). Presenter given as Di Yan by the requester, not confirmed from metadata. Covers adaptive chemical imaging (ACI) with FT-IR/Raman microscopy. Marketing, background only."
   },
   {
-   "source_id": 231,
+   "source_id": 246,
    "key": "url:https://www.youtube.com/watch?v=k0S5irotxy0",
    "type": "video",
    "title": "Meet GEDI! (SciTech Daily)",
