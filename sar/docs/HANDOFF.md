@@ -198,6 +198,31 @@ Merges public frames, Ring events/recordings/snapshots and satellite scene IDs f
 - Before this, `lpb` (800) had only `lpb_table.unverified.example.json` (hand-typed "Koester data", refused by default). `blue-ocean-sar/realdata/lost_person_behavior.py` uses the separate UK 2003 handbook (Perkins et al.) and is unchanged.
 - Tests: `cd lpb && python3 -m unittest test_isrid` checks printed values (e.g. temperate mountain p95 8.3 km; urban p75 3.2 km; track offset p95 307 m).
 
+## 13. Optional detector retraining (2110, `vision/`)
+Off by default (`--detector none`). Output is **candidates for human review**, never identifications.
+Licences: torchvision/torch BSD, OpenCV Apache-2.0. Ultralytics (AGPL) is not used.
+
+1. **Install (optional):** `pip install --index-url https://download.pytorch.org/whl/cpu torch torchvision` then
+   `pip install -r vision/requirements-vision.txt`. Without these, the core still runs and the torch/cv2 tests skip.
+2. **Stage test items (no case items, no people):** lay out backpacks, jackets, shoes, bags and bright fabric on
+   2–3 different sites (grass, leaf litter, scrub). Log each item and its GPS position on a sheet.
+3. **Photograph:** fly or walk several passes per site at 2–3 heights or angles and times of day. Save as
+   `images/<site>/<flight>/<frame>.jpg`. The site/flight folders are what keep the train/test split leak-free.
+   Keep images out of git; record only their SHA-256.
+4. **Label:** self-host CVAT or Label Studio on the box. Use one box per item, one class per item type, and the
+   same class names everywhere. Two people label a 10% overlap to check agreement. Export **COCO 1.0**.
+5. **Train:** `python3 -m vision.detect train --coco labels.json --images images --epochs 10 --out out/vision/model.pt`
+   (MobileNetV3 Faster R-CNN, COCO-pretrained, CPU is fine for a few hundred frames). Whole site/flight groups
+   are held out for test.
+6. **Evaluate:** `python3 -m vision.detect eval --coco labels.json --images images --weights out/vision/model.pt`.
+   Report per-class recall and mAP on held-out groups only. Compare with the template baseline and with "no detector".
+7. **Run on frames (optional):** `python3 -m vision.detect --detector frcnn --weights out/vision/model.pt
+   --classes out/vision/model.classes.json out/frames/*.json`, or the training-free baseline
+   `--detector template --template item.png`. Then
+   `python3 -m cameras.timeline merge out/frames/*.json out/detections/*.json --out out/timeline.jsonl`.
+   Candidates appear as `detector_candidate` with `review_status: unreviewed`.
+8. **Tests:** `python3 -m unittest vision.test_vision` (synthetic images generated in the test; one CPU training step).
+
 ## 8. Guardrails
 - CI is manual only (`sar-tests` and `daily_sar_run`, both workflow_dispatch). There is no schedule and no auto-commit; outputs go to artifacts. The notebook's daily cron and commit-back step were deliberately not carried over.
 - Ring credentials are optional env vars or a mode-600 token cache. They are never in the repo and never printed.

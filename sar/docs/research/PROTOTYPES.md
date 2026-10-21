@@ -20,6 +20,7 @@ Status meanings:
 | Clandestine grave detection: literature + phased workflow (priors → NDVI → lidar Gi* → thermal → GPR/ER) | PROTOTYPE / RESEARCH | 2080 | `docs/research/clandestine-grave-detection.md`; next: a thermal ingest stub and an ER/conductivity record format; PermitStack disturbance-date lookup is an idea only |
 | Ported search-system (ranking, county runner, assay QC, evidence log, fall physics) | PROTOTYPE | 1400–1450 / 2090 | `search_system/README.md` audit; next: run VALIDATION_PROTOCOL on ≥20 resolved cases (offline, case-files repo); merge Gi*/void/qPCR overlap with 1110/1100/1300 |
 | Optional vision detection on camera/drone frames (template → small YOLO; OTVision tracking) | PROTOTYPE / RESEARCH | 2100 | `docs/research/vision-detection-tools.md`; next: OpenCV template-match stub behind `--detector` (default none) on 1911 frames |
+| Detector retraining starter (`vision/`) | PROTOTYPE | 2110 | Photograph a staged test strip (HANDOFF §13), label in CVAT, train 10 epochs on CPU, report held-out-site recall; template baseline first |
 | Notebook Doppler / SDR corrector | EVALUATED OUT | 1900 | Keep out of SAR; if wanted later, rebuild on SGP4/TLE in a radio-tools repo |
 | Notebook "camera telemetry" as vendor ALPR scrape | EVALUATED OUT | — | Replaced by 1910 public feeds + own Ring |
 | Notebook hard-coded STAC/3DEP/Wayback/ArcGIS + typed targets | EVALUATED OUT | — | Replaced by 900-series |

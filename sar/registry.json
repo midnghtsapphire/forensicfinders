@@ -492,6 +492,20 @@
       "what": "PROTOTYPE: optional, off-by-default detection for 1911-1913 frames (OpenCV template, YOLO AGPL note), OpenTrafficCam GPL tracking, CVAT/Label Studio labelling, HERIDAL/SARD datasets; verified",
       "kind": "doc",
       "status": "PROTOTYPE / RESEARCH"
+    },
+    "2110": {
+      "name": "vision",
+      "path": "vision",
+      "what": "PROTOTYPE, optional and OFF by default: --detector none|template|frcnn; COCO/CVAT/Label Studio loader, site/flight group split, torchvision Faster R-CNN (BSD) fine-tune/eval (mAP + per-class recall), OpenCV template baseline, candidates written as 1913 detector_candidate events for human review",
+      "status": "PROTOTYPE",
+      "test_cwd": ".",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "vision.test_vision"
+      ],
+      "requires": "optional: pip install -r vision/requirements-vision.txt (torch/cv2 tests skip without them)"
     }
   },
   "deselected_tests": {

@@ -68,6 +68,7 @@ New here? Read this file first, then [`docs/HANDOFF.md`](docs/HANDOFF.md).
 | 2080 | `docs/research/clandestine-grave-detection.md` | PROTOTYPE: verified grave-detection literature review + phased search workflow; optional permit connector idea |
 | 2090 | `search_system/docs` | PROPRIETARY process notes: validation protocol, patent prep, reward priority, adjacent-tech research |
 | 2100 | `docs/research/vision-detection-tools.md` | PROTOTYPE: optional local vision detection, tracking, labelling workflow, SAR datasets |
+| 2110 | `vision` | PROTOTYPE, off by default: template / Faster R-CNN detector, leak-free splits, 1913 review candidates |
 
 IDs are permanent. Never reuse a retired number. A child ID such as 910 runs its parent's tests (900).
 
