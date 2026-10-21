@@ -185,7 +185,8 @@ Merges public frames, Ring events/recordings/snapshots and satellite scene IDs f
 
 ## 11. Research prototypes (2000+)
 - `docs/research/PROTOTYPES.md` — every notebook/research idea with status and next small step.
-- `docs/research/soil-edna-detection.md` (ID **2000**, PROTOTYPE / RESEARCH) — crawl → walk → run for human then canine soil eDNA / CDI chemistry. Cited papers only; no claimed results. Next step is a spiked-soil panel feeding qPCR QC (1300).
+- `docs/research/soil-edna-detection.md` (ID **2000**, PROTOTYPE / RESEARCH)
+- `docs/research/phone-gpr-addon.md` (ID **2020**, PROTOTYPE) — phone/USB mmWave crawl → low-freq GPR walk → pipeline hook to 1120. Closest existing GitHub: `midnghtsapphire/Radar` (benchtop FMCW fork, not phone). — crawl → walk → run for human then canine soil eDNA / CDI chemistry. Cited papers only; no claimed results. Next step is a spiked-soil panel feeding qPCR QC (1300).
 
 ## 8. Guardrails
 - CI is manual only (`sar-tests` and `daily_sar_run`, both workflow_dispatch). There is no schedule and no auto-commit; outputs go to artifacts. The notebook's daily cron and commit-back step were deliberately not carried over.

@@ -56,6 +56,7 @@ New here? Read this file first, then [`docs/HANDOFF.md`](docs/HANDOFF.md).
 | 1913 | `cameras/timeline.py` | Merge camera frames/events and satellite scenes into a sorted SAR timeline (JSONL) |
 | 2000 | `docs/research/soil-edna-detection.md` | PROTOTYPE/RESEARCH: crawl-walk-run roadmap for human (then canine) soil eDNA and CDI chemistry; cited sources only, no claimed results |
 | 2010 | `docs/research/PROTOTYPES.md` | Index of notebook/research ideas with status and next small step |
+| 2020 | `docs/research/phone-gpr-addon.md` | PROTOTYPE: phone/USB mmWave & low-freq GPR add-on roadmap; cites Walabot/Infineon/TI/Acconeer/GPRino; ties to 1120 dielectric model |
 
 IDs are permanent. Never reuse a retired number. A child ID such as 910 runs its parent's tests (900).
 

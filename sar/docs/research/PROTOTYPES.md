@@ -12,6 +12,7 @@ Status meanings:
 | Sourced taphonomy / dielectric / Gi* void detector / Admiralty table / qPCR QC | SHIPPED | 1000–1300 | Field-label a DEM for Gi* ROC (`void_detector curve`) |
 | Public traffic cams + Ring (own account) + timeline merger | SHIPPED | 1910–1913 | Live Ring login with Audrey's token cache; add more public DOT sources to `cameras/sources.json` |
 | Soil human (then canine) eDNA / CDI chemistry → portable kits → remote proxies | PROTOTYPE / RESEARCH | 2000 | `docs/research/soil-edna-detection.md` crawl: spiked-soil panel + published mtDNA assay + 1300 QC |
+| Phone-attached GPR / mmWave / UWB sensor | PROTOTYPE / RESEARCH | 2020 | Buy one raw-export kit (Infineon BGT60 or TI IWR6843); three labelled wall/paver scenes; see `phone-gpr-addon.md`. Closest existing repo: public fork `midnghtsapphire/Radar` (benchtop FMCW, not phone) |
 | Notebook Doppler / SDR corrector | EVALUATED OUT | 1900 | Keep out of SAR; if wanted later, rebuild on SGP4/TLE in a radio-tools repo |
 | Notebook "camera telemetry" as vendor ALPR scrape | EVALUATED OUT | — | Replaced by 1910 public feeds + own Ring |
 | Notebook hard-coded STAC/3DEP/Wayback/ArcGIS + typed targets | EVALUATED OUT | — | Replaced by 900-series |

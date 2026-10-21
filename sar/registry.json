@@ -354,6 +354,13 @@
       "path": "docs/research/PROTOTYPES.md",
       "what": "Index of notebook/research ideas with status and next small step",
       "kind": "doc"
+    },
+    "2020": {
+      "name": "docs/research/phone-gpr-addon",
+      "path": "docs/research/phone-gpr-addon.md",
+      "what": "PROTOTYPE: phone/USB mmWave & low-freq GPR add-on roadmap; cites Walabot/Infineon/TI/Acconeer/GPRino; ties to 1120 dielectric model",
+      "kind": "doc",
+      "status": "PROTOTYPE / RESEARCH"
     }
   },
   "deselected_tests": {
