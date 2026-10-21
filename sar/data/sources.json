@@ -4692,6 +4692,63 @@
   },
   {
    "source_id": 145,
+   "key": "gh:alexandrx/lidar_cloud_to_image",
+   "type": "repo",
+   "title": "Conversion from 3D LiDAR pointcloud to images",
+   "authors": [],
+   "year": null,
+   "venue": "GitHub alexandrx/lidar_cloud_to_image",
+   "doi": null,
+   "url": "https://github.com/alexandrx/lidar_cloud_to_image",
+   "aliases": [],
+   "tags": [
+    "lidar"
+   ],
+   "verified": "yes",
+   "verified_date": "2026-10-21",
+   "verified_how": "gh api repos/alexandrx/lidar_cloud_to_image",
+   "license": "Apache-2.0 per package.xml (<license>Apache 2</license>); no LICENSE file",
+   "registry_ids": [
+    "925",
+    "1410",
+    "2060"
+   ],
+   "cited_in": [
+    "docs/research/full-waveform-lidar.md"
+   ],
+   "notes": "C++/ROS1 (catkin, Autoware flags): Velodyne/Ouster scans to range/intensity/reflectivity/noise images. Inspired by PRBonn/cloud_to_image. Vehicle frames, not aerial DTM. 109 stars, last push 2019-05-14. Reference only."
+  },
+  {
+   "source_id": 146,
+   "key": "gh:awi-response/LidarProcessing",
+   "type": "repo",
+   "title": "Pipeline to process Lidar pointclouds from aerial campaigns into DEMs",
+   "authors": [],
+   "year": null,
+   "venue": "GitHub awi-response/LidarProcessing",
+   "doi": null,
+   "url": "https://github.com/awi-response/LidarProcessing",
+   "aliases": [],
+   "tags": [
+    "dtm",
+    "lidar"
+   ],
+   "verified": "yes",
+   "verified_date": "2026-10-21",
+   "verified_how": "gh api repos/awi-response/LidarProcessing",
+   "license": "none",
+   "registry_ids": [
+    "925",
+    "1410",
+    "2060"
+   ],
+   "cited_in": [
+    "docs/research/full-waveform-lidar.md"
+   ],
+   "notes": "AWI aerial-campaign pipeline (PDAL, laspy, rasterio): DSM/DTM/CHM; code references SMRF and CSF ground filters, TIN + fill. NO licence: read, do not copy. Closest analogue to 925."
+  },
+  {
+   "source_id": 147,
    "key": "gh:btplan/atomsegnet-edge-stability",
    "type": "repo",
    "title": "btplan/atomsegnet-edge-stability",
@@ -4720,7 +4777,7 @@
    "notes": "Third-party experiment scripts testing AtomSegNet stability at nanoparticle edges vs interior under image degradation (one TEM image). No licence file (all rights reserved by default). Created 2026-05-05, 0 stars; unreviewed. Last push 2026-05-05."
   },
   {
-   "source_id": 146,
+   "source_id": 148,
    "key": "gh:cvat-ai/cvat",
    "type": "repo",
    "title": "CVAT is a leading data annotation platform for image, video, audio, and 3D datasets. It offers open-source, cloud, and enterprise products, as well as labeling services, with AI-assisted labeling, quality assurance, team collaboration, analytics, and developer APIs.",
@@ -4746,7 +4803,7 @@
    "notes": "Last push 2026-10-21."
   },
   {
-   "source_id": 147,
+   "source_id": 149,
    "key": "gh:erickfaria/LidarToolkit",
    "type": "repo",
    "title": "A Python-based toolkit for processing and analyzing LiDAR (Light Detection and Ranging) data. This project provides tools to read, filter, classify, and visualize point clouds, as well as generate Digital Elevation Models (DEMs). Perfect for anyone working with geospatial data or remote sensing!",
@@ -4775,7 +4832,7 @@
    "notes": "Small 2025 Python lidar toolkit (read, filter, classify, DEM). MIT, 0 stars. Unreviewed; reference for the 1410 ground-filter gap. Last push 2025-03-23."
   },
   {
-   "source_id": 148,
+   "source_id": 150,
    "key": "gh:ffeldhaus/soil",
    "type": "repo",
    "title": "Soil Game",
@@ -4797,7 +4854,7 @@
    "notes": "NOT RELEVANT to SAR: 'SOIL – Multiplayer Resource Management', a web farming-simulation game (Angular/Firebase), Apache-2.0, created 2025-12-12, last push 2026-10-20. Recorded so it is not re-checked; not cited in any doc."
   },
   {
-   "source_id": 149,
+   "source_id": 151,
    "key": "gh:gduscher/MSE672-Introduction-to-TEM",
    "type": "repo",
    "title": "MSE672 Course of the MSE Department at UTK in the Spring Semester 2025",
@@ -4829,7 +4886,7 @@
    "notes": "MSE672 course notebooks (Duscher, UTK). CH3_09-Z_Contrast.ipynb and its github.io page are one row."
   },
   {
-   "source_id": 150,
+   "source_id": 152,
    "key": "gh:georgezoto/Convolutional-Neural-Networks",
    "type": "guide",
    "title": "Convolutional Neural Networks repository for all projects of Course 4 of 5 of the Deep Learning Specialization covering CNNs and classical architectures like LeNet-5, AlexNet, GoogleNet Inception Network, VGG-16, ResNet, 1x1 Convos, OverFeat, R-CNN, Fast R-CNN, Faster R-CNN, YOLO, YOLO9000, DeepFace, FaceNet and Neural Style Transfer.",
@@ -4855,7 +4912,7 @@
    "notes": "Personal Deeplearning.ai Course 4 coursework notebooks. No licence; course material may carry Coursera/deeplearning.ai terms. Background guide only. Last push 2019-11-10."
   },
   {
-   "source_id": 151,
+   "source_id": 153,
    "key": "gh:midnghtsapphire/Radar",
    "type": "repo",
    "title": "DIY-style ground penetrating radar",
@@ -4881,7 +4938,7 @@
    "notes": "Last push 2025-12-02."
   },
   {
-   "source_id": 152,
+   "source_id": 154,
    "key": "gh:midnghtsapphire/coldtrace",
    "type": "repo",
    "title": "midnghtsapphire/coldtrace",
@@ -4907,7 +4964,7 @@
    "notes": "Not reachable with gh api (404: private, renamed or missing)."
   },
   {
-   "source_id": 153,
+   "source_id": 155,
    "key": "gh:minhminhminh0112/AtomSegNet-TEMImageNet-train-on-circularMask",
    "type": "repo",
    "title": "An attempt to train the TEMImageNet on the AtomSegNet using the circular mask as ground-truth label.",
@@ -4936,7 +4993,7 @@
    "notes": "Student-style retraining attempt (U-Net, circular-mask labels, Dice eval). No licence. Unreviewed. Adjacent. Last push 2024-07-09."
   },
   {
-   "source_id": 154,
+   "source_id": 156,
    "key": "gh:miricip/GPRino",
    "type": "repo",
    "title": "Low-cost FMCW Ground Penetrating Radar (GPR)",
@@ -4962,7 +5019,7 @@
    "notes": "Last push 2026-10-07."
   },
   {
-   "source_id": 155,
+   "source_id": 157,
    "key": "gh:opencv/opencv",
    "type": "repo",
    "title": "Open Source Computer Vision Library",
@@ -4988,7 +5045,7 @@
    "notes": "Last push 2026-10-21."
   },
   {
-   "source_id": 156,
+   "source_id": 158,
    "key": "gh:python-ring-doorbell/python-ring-doorbell",
    "type": "repo",
    "title": "Python Ring Door Bell is a library written in Python 3 that exposes the Ring.com devices as Python objects.",
@@ -5014,7 +5071,7 @@
    "notes": "Unofficial Ring API client; see opendata/RING.md. Last push 2026-02-28."
   },
   {
-   "source_id": 157,
+   "source_id": 159,
    "key": "gh:sanya186/LiDAR-Data-preprocessor",
    "type": "repo",
    "title": "LiDAR image preprocessing and visualization tool (Gradio)",
@@ -5042,7 +5099,7 @@
    "notes": "Gradio/Colab demo on 2D LiDAR depth IMAGES (KITTI PNG/JPG): DFT/iDFT, median/mean filtering, PCA/SVD stats, histograms. No point-cloud I/O, ground filter or DTM; does not fill the 1410 gap. No licence (all rights reserved by default). Created 2025-11-08, 0 stars. Last push 2025-11-08."
   },
   {
-   "source_id": 158,
+   "source_id": 160,
    "key": "gh:stevedvy/BackgroundCheckAPI",
    "type": "repo",
    "title": "The most reliable source of background screening records. A frequent automated update process ensures the reliability & availability of up-to-date records collection. Easy & Accurate Background records,  Employment Background,  Criminal History, Police & Arrest Records, Warrants, Free offenders in USA, U.S. people records, background check api",
@@ -5068,7 +5125,36 @@
    "notes": "REJECTED in 2080: README-only (2018), people/background-check data. No code that touches people is added. Last push 2018-06-20."
   },
   {
-   "source_id": 159,
+   "source_id": 161,
+   "key": "gh:t-luanamn/LiDAR-Data-Processing-Pipeline",
+   "type": "repo",
+   "title": "This document outlines a basic LiDAR (Light Detection and Ranging) data processing pipeline, which cleans raw point cloud data, extracts ground points, and generates a Digital Elevation Model (DEM).",
+   "authors": [],
+   "year": null,
+   "venue": "GitHub t-luanamn/LiDAR-Data-Processing-Pipeline",
+   "doi": null,
+   "url": "https://github.com/t-luanamn/LiDAR-Data-Processing-Pipeline",
+   "aliases": [],
+   "tags": [
+    "dtm",
+    "lidar"
+   ],
+   "verified": "yes",
+   "verified_date": "2026-10-21",
+   "verified_how": "gh api repos/t-luanamn/LiDAR-Data-Processing-Pipeline",
+   "license": "Unlicense",
+   "registry_ids": [
+    "925",
+    "1410",
+    "2060"
+   ],
+   "cited_in": [
+    "docs/research/full-waveform-lidar.md"
+   ],
+   "notes": "Unlicense. Notebooks + PDAL pipeline.json: keep class 2, filters.outlier radius 1.0 min_k 3, writers.gdal IDW 1 m. No own ground classification (same gap as 1410). Reusable but superseded by 925."
+  },
+  {
+   "source_id": 162,
    "key": "gh:ultralytics/ultralytics",
    "type": "repo",
    "title": "Ultralytics YOLO27, YOLO26, YOLO11, YOLOv8 — object detection, instance segmentation, semantic segmentation, image classification, pose estimation, object tracking",
@@ -5094,7 +5180,7 @@
    "notes": "AGPL-3.0, deliberately NOT used by sar/vision (2110). Last push 2026-10-21."
   },
   {
-   "source_id": 160,
+   "source_id": 163,
    "key": "gh:user79/Radar",
    "type": "repo",
    "title": "DIY-style ground penetrating radar",
@@ -5120,7 +5206,7 @@
    "notes": "Upstream of midnghtsapphire/Radar fork. Last push 2025-12-02."
   },
   {
-   "source_id": 161,
+   "source_id": 164,
    "key": "gh:usnistgov/tem_analysis",
    "type": "repo",
    "title": "Image Processing Scheme to Visualize and Analyze Time Resolved TEM Video Images",
@@ -5148,7 +5234,7 @@
    "notes": "Method reference for vision/template.py baseline (Hussaini 2018). Licence: NIST public-domain notice (17 USC 105); copies must keep the notice and disclaimer. GitHub shows NOASSERTION. Last push 2017-04-13. Archived."
   },
   {
-   "source_id": 162,
+   "source_id": 165,
    "key": "gh:xinhuolin/AtomSegNet",
    "type": "repo",
    "title": "AtomSegNet",
@@ -5176,7 +5262,7 @@
    "notes": "UCI DeepEM Lab. PyQt5 app (Code_Atom_Seg_Ui.py) + pretrained U-Net/NestedUNet weights (utils/utils.py load_model) for atom segmentation, denoise, background removal, super-res; watershed + regionprops centres. Pins PyTorch 1.3/torchvision 0.4/scikit-image<=0.18.3. Adjacent; weights not reused. Last push 2022-06-17."
   },
   {
-   "source_id": 163,
+   "source_id": 166,
    "key": "gh:xinhuolin/TEM-ImageNet-v1.3",
    "type": "repo",
    "title": "TEM-ImageNet",
@@ -5205,7 +5291,7 @@
    "notes": "TEMImageNet v1.3 data release (circularMask, gaussianMask, noNoise etc. label folders). NO licence file and none stated in README: all rights reserved by default; do not redistribute or train shipped models on it without permission. Adjacent. Last push 2020-08-13."
   },
   {
-   "source_id": 164,
+   "source_id": 167,
    "key": "gh:xinhuolin/TomoFillNet",
    "type": "repo",
    "title": "TomoFillNet",
@@ -5234,7 +5320,7 @@
    "notes": "Tomography de-artifact app (WBP/SART). GPL-3.0: do not copy into permissive modules. Adjacent. Last push 2020-07-31."
   },
   {
-   "source_id": 165,
+   "source_id": 168,
    "key": "svc:3dep",
    "type": "dataset",
    "title": "USGS 3DEP elevation ImageServer and The National Map S3",
@@ -5274,7 +5360,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 166,
+   "source_id": 169,
    "key": "svc:caltrans",
    "type": "dataset",
    "title": "Caltrans CWWP2 camera feeds",
@@ -5301,7 +5387,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 167,
+   "source_id": 170,
    "key": "svc:cdem",
    "type": "dataset",
    "title": "Copernicus DEM GLO-30 (AWS open data bucket)",
@@ -5331,7 +5417,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 168,
+   "source_id": 171,
    "key": "svc:cdse",
    "type": "dataset",
    "title": "Copernicus Data Space Ecosystem STAC",
@@ -5362,7 +5448,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 169,
+   "source_id": 172,
    "key": "svc:census",
    "type": "dataset",
    "title": "US Census Geocoder API",
@@ -5395,7 +5481,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 170,
+   "source_id": 173,
    "key": "svc:cmr",
    "type": "dataset",
    "title": "NASA Common Metadata Repository (CMR search + STAC) and LP DAAC cloud data",
@@ -5438,7 +5524,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 171,
+   "source_id": 174,
    "key": "svc:columbus",
    "type": "dataset",
    "title": "City of Columbus ArcGIS REST services (zoning/building layers)",
@@ -5466,7 +5552,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 172,
+   "source_id": 175,
    "key": "svc:columbus-permits",
    "type": "dataset",
    "title": "City of Columbus Accela permit portal (CapHome)",
@@ -5493,7 +5579,7 @@
    "notes": "Web portal, link only; no scraping beyond terms."
   },
   {
-   "source_id": 173,
+   "source_id": 176,
    "key": "svc:dataverse",
    "type": "dataset",
    "title": "https://dataverse.harvard.edu",
@@ -5520,7 +5606,7 @@
    "notes": ""
   },
   {
-   "source_id": 174,
+   "source_id": 177,
    "key": "svc:e84",
    "type": "dataset",
    "title": "Element 84 Earth Search STAC (AWS open data, Sentinel-2 COGs)",
@@ -5561,7 +5647,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 175,
+   "source_id": 178,
    "key": "svc:ea",
    "type": "dataset",
    "title": "Environment Agency (England) LiDAR composite DTM 1 m WCS and survey portal",
@@ -5590,7 +5676,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 176,
+   "source_id": 179,
    "key": "svc:edl",
    "type": "dataset",
    "title": "NASA Earthdata Login (URS)",
@@ -5622,7 +5708,7 @@
    "notes": "Login service. CAVEAT: sar/coldtrace/README.md line 117 says https://urs.earthrs.gov, which looks like a typo for https://urs.earthdata.nasa.gov; flagged, not edited."
   },
   {
-   "source_id": 177,
+   "source_id": 180,
    "key": "svc:entwine",
    "type": "dataset",
    "title": "USGS 3DEP lidar point clouds (usgs-entwine EPT bucket)",
@@ -5651,7 +5737,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 178,
+   "source_id": 181,
    "key": "svc:maplibre",
    "type": "dataset",
    "title": "MapLibre demo tiles style",
@@ -5678,7 +5764,7 @@
    "notes": "Basemap style used by coldtrace/index.html."
   },
   {
-   "source_id": 179,
+   "source_id": 182,
    "key": "svc:mpc",
    "type": "dataset",
    "title": "Microsoft Planetary Computer STAC + SAS token API",
@@ -5710,7 +5796,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 180,
+   "source_id": 183,
    "key": "svc:neon",
    "type": "dataset",
    "title": "NEON AOP discrete lidar point cloud (DP1.30001.001) product page and API",
@@ -5739,7 +5825,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 181,
+   "source_id": 184,
    "key": "svc:nwis",
    "type": "dataset",
    "title": "USGS NWIS instantaneous-values water service",
@@ -5772,7 +5858,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 182,
+   "source_id": 185,
    "key": "svc:nws",
    "type": "dataset",
    "title": "NOAA/NWS API (api.weather.gov)",
@@ -5803,7 +5889,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 183,
+   "source_id": 186,
    "key": "svc:ohgo",
    "type": "dataset",
    "title": "Ohio DOT OHGO public API",
@@ -5835,7 +5921,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 184,
+   "source_id": 187,
    "key": "svc:openmeteo",
    "type": "dataset",
    "title": "Open-Meteo historical weather archive API",
@@ -5862,7 +5948,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 185,
+   "source_id": 188,
    "key": "svc:osm",
    "type": "dataset",
    "title": "OpenStreetMap Overpass API and Nominatim",
@@ -5893,7 +5979,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 186,
+   "source_id": 189,
    "key": "svc:otopo",
    "type": "dataset",
    "title": "OpenTopography (global DEM API)",
@@ -5927,7 +6013,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 187,
+   "source_id": 190,
    "key": "svc:sh",
    "type": "dataset",
    "title": "Sentinel Hub Process API and docs",
@@ -5959,7 +6045,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 188,
+   "source_id": 191,
    "key": "svc:suitcase",
    "type": "product",
    "title": "https://thesuitcasedetective.com/about/terms-conditions/",
@@ -5988,7 +6074,7 @@
    "notes": ""
   },
   {
-   "source_id": 189,
+   "source_id": 192,
    "key": "svc:tsa",
    "type": "product",
    "title": "RFC 3161 timestamp authorities (DigiCert, FreeTSA)",
@@ -6018,7 +6104,7 @@
    "notes": "Tool endpoints for evidence timestamping; not a citation of results."
   },
   {
-   "source_id": 190,
+   "source_id": 193,
    "key": "svc:walabot",
    "type": "product",
    "title": "https://support.walabot.com/hc/en-us/articles/360015452958-What-can-Walabot-DIY-devices-detect",
@@ -6051,7 +6137,7 @@
    "notes": ""
   },
   {
-   "source_id": 191,
+   "source_id": 194,
    "key": "svc:wayback",
    "type": "dataset",
    "title": "Internet Archive Wayback Machine (CDX API)",
@@ -6084,7 +6170,7 @@
    "notes": "API endpoint"
   },
   {
-   "source_id": 192,
+   "source_id": 195,
    "key": "svc:zenodo",
    "type": "dataset",
    "title": "https://zenodo.org",
@@ -6109,7 +6195,7 @@
    "notes": ""
   },
   {
-   "source_id": 193,
+   "source_id": 196,
    "key": "url:fsigen-cadnap",
    "type": "paper",
    "title": "CaDNAP canine 13-STR population data (1,184 dogs)",
@@ -6135,7 +6221,7 @@
    "notes": "CAVEAT: the citing URL in soil-edna-detection.md is cut at '(19' by the link scanner because of parentheses; the full URL is stored here."
   },
   {
-   "source_id": 194,
+   "source_id": 197,
    "key": "url:http://gpradar.eu/onewebmedia/TU1208_GPRforeducationaluse_November2017_FerraraChizhPietrelli.pdf",
    "type": "guide",
    "title": "Ferrara, Chizh, Pietrelli (2017) GPR for educational use, COST TU1208",
@@ -6161,7 +6247,7 @@
    "notes": "Host did not respond on 2026-10-21."
   },
   {
-   "source_id": 195,
+   "source_id": 198,
    "key": "url:https://apps.dtic.mil/sti/pdfs/ADA511593.pdf",
    "type": "guide",
    "title": "DTIC report ADA511593",
@@ -6188,7 +6274,7 @@
    "notes": ""
   },
   {
-   "source_id": 196,
+   "source_id": 199,
    "key": "url:https://apps.nationalmap.gov/lidar-explorer/",
    "type": "dataset",
    "title": "USGS Lidar Explorer Map",
@@ -6217,7 +6303,7 @@
    "notes": "Web app for finding 3DEP lidar projects."
   },
   {
-   "source_id": 197,
+   "source_id": 200,
    "key": "url:https://arijolma.org/category/software-development/",
    "type": "guide",
    "title": "Arijolma: DEM, DTM and DSM explainer (flood-mapping post, software-development category)",
@@ -6246,7 +6332,7 @@
    "notes": "Terminology only. Site is mostly affiliate buying guides; do not cite for numbers."
   },
   {
-   "source_id": 198,
+   "source_id": 201,
    "key": "url:https://arxiv.org/abs/2012.09093",
    "type": "paper",
    "title": "TEMImageNet Training Library and AtomSegNet Deep-Learning Models ... (preprint)",
@@ -6281,7 +6367,7 @@
    "notes": "Preprint of 10.1038/s41598-021-84499-w (cite the published version). 2012.09093v1 is the same item (deduped)."
   },
   {
-   "source_id": 199,
+   "source_id": 202,
    "key": "url:https://arxiv.org/abs/2106.01718",
    "type": "paper",
    "title": "https://arxiv.org/abs/2106.01718",
@@ -6307,7 +6393,7 @@
    "notes": ""
   },
   {
-   "source_id": 200,
+   "source_id": 203,
    "key": "url:https://arxiv.org/abs/2307.16177",
    "type": "paper",
    "title": "arXiv 2307.16177",
@@ -6333,7 +6419,7 @@
    "notes": ""
   },
   {
-   "source_id": 201,
+   "source_id": 204,
    "key": "url:https://arxiv.org/abs/2311.14936",
    "type": "paper",
    "title": "Single-image based deep learning for precise atomic defects identification",
@@ -6367,7 +6453,7 @@
    "notes": "Preprint, not peer-reviewed."
   },
   {
-   "source_id": 202,
+   "source_id": 205,
    "key": "url:https://arxiv.org/abs/2502.17372",
    "type": "paper",
    "title": "arXiv 2502.17372",
@@ -6394,7 +6480,43 @@
    "notes": ""
   },
   {
-   "source_id": 203,
+   "source_id": 206,
+   "key": "url:https://arxiv.org/abs/2607.14639",
+   "type": "paper",
+   "title": "Image-to-Point Cloud Registration Made Easy with Rectified Flow-based LiDAR Upsampling",
+   "authors": [
+    "Reon Tabata",
+    "Kenji Koide",
+    "Shuji Oishi",
+    "Masashi Yokozuka",
+    "Taku Okawara",
+    "Aoki Takanose",
+    "Jun Miura"
+   ],
+   "year": 2026,
+   "venue": "arXiv preprint 2607.14639",
+   "doi": null,
+   "url": "https://arxiv.org/abs/2607.14639",
+   "aliases": [],
+   "tags": [
+    "lidar"
+   ],
+   "verified": "yes",
+   "verified_date": "2026-10-21",
+   "verified_how": "arXiv export API + abs page read 2026-10-21",
+   "license": "arXiv non-exclusive distribution licence 1.0",
+   "registry_ids": [
+    "925",
+    "1410",
+    "2060"
+   ],
+   "cited_in": [
+    "docs/research/full-waveform-lidar.md"
+   ],
+   "notes": "LiDAR scan -> dense intensity image (conditional rectified flow) -> feature match to camera -> PnP-RANSAC. Self-reported R3LIVE: 4.89 deg / 1.63 m, 0.68 s. Example of lidar-as-image; camera-lidar registration, not terrain."
+  },
+  {
+   "source_id": 207,
    "key": "url:https://biomeme.com/",
    "type": "product",
    "title": "Mobile CBRN Biodefense & Point-of-Care Diagnostics | Biomeme",
@@ -6420,7 +6542,7 @@
    "notes": ""
   },
   {
-   "source_id": 204,
+   "source_id": 208,
    "key": "url:https://citation-file-format.github.io",
    "type": "guide",
    "title": "Citation File Format (CFF)",
@@ -6445,7 +6567,7 @@
    "notes": ""
   },
   {
-   "source_id": 205,
+   "source_id": 209,
    "key": "url:https://corescholar.libraries.wright.edu/etd_all/676",
    "type": "paper",
    "title": "\"UHF-SAR and LIDAR Complementary Sensor Fusion for Unexploded Buried Mu\" by Randy S. Depoy Jr.",
@@ -6471,7 +6593,7 @@
    "notes": ""
   },
   {
-   "source_id": 206,
+   "source_id": 210,
    "key": "url:https://cs231n.github.io/convolutional-networks/",
    "type": "guide",
    "title": "CS231n: Convolutional Neural Networks (course notes)",
@@ -6497,7 +6619,7 @@
    "notes": "Background guide only."
   },
   {
-   "source_id": 207,
+   "source_id": 211,
    "key": "url:https://dash.harvard.edu",
    "type": "guide",
    "title": "DASH Home",
@@ -6521,7 +6643,7 @@
    "notes": ""
   },
   {
-   "source_id": 208,
+   "source_id": 212,
    "key": "url:https://dataplexa.com/2035-deep-learning-lesson-35-feature-maps-and-filters/",
    "type": "guide",
    "title": "Deep Learning Lesson 35: Feature Maps and Filters (Dataplexa)",
@@ -6550,7 +6672,7 @@
    "notes": "Chosen over Dataplexa Computer Vision Lesson 35 (Building CNNs) as the filters lesson; confirm intended page. Learning/background only."
   },
   {
-   "source_id": 209,
+   "source_id": 213,
    "key": "url:https://datascience.stackexchange.com/questions/55545/in-cnn-why-do-we-increase-the-number-of-filters-in-deeper-convolution-layers-fo",
    "type": "guide",
    "title": "In CNN, why do we increase the number of filters in deeper convolution layers? (Data Science SE Q 55545, 2019)",
@@ -6579,7 +6701,7 @@
    "notes": "Q&A. Learning/background only."
   },
   {
-   "source_id": 210,
+   "source_id": 214,
    "key": "url:https://dbs-sar.com/Newsletter/082605.htm",
    "type": "product",
    "title": "New Page 0",
@@ -6606,7 +6728,7 @@
    "notes": ""
   },
   {
-   "source_id": 211,
+   "source_id": 215,
    "key": "url:https://developer.acconeer.com/download/a121-datasheet/",
    "type": "product",
    "title": "Acconeer A121 pulsed coherent radar datasheet",
@@ -6632,7 +6754,7 @@
    "notes": ""
   },
   {
-   "source_id": 212,
+   "source_id": 216,
    "key": "url:https://digital.library.unt.edu/ark:/67531/metadc33201/",
    "type": "paper",
    "title": "DAM",
@@ -6658,7 +6780,7 @@
    "notes": ""
   },
   {
-   "source_id": 213,
+   "source_id": 217,
    "key": "url:https://download.pytorch.org/whl/cpu",
    "type": "guide",
    "title": "PyTorch CPU wheel index",
@@ -6685,7 +6807,7 @@
    "notes": ""
   },
   {
-   "source_id": 214,
+   "source_id": 218,
    "key": "url:https://edcftp.cr.usgs.gov/project/lpdaac/GEDI_L2/gedi_l2b_product_data_dictionary.html",
    "type": "guide",
    "title": "GEDI L2B Product Data Dictionary",
@@ -6712,7 +6834,7 @@
    "notes": ""
   },
   {
-   "source_id": 215,
+   "source_id": 219,
    "key": "url:https://egusphere.copernicus.org/preprints/2026/egusphere-2026-5071/",
    "type": "paper",
    "title": "EGUsphere - Key parameters to improve prediction of the drift and resurfacing of human bodies following drowning in rivers",
@@ -6739,7 +6861,7 @@
    "notes": ""
   },
   {
-   "source_id": 216,
+   "source_id": 220,
    "key": "url:https://en.wikipedia.org/wiki/Annular_dark-field_imaging",
    "type": "guide",
    "title": "Annular dark-field imaging (Wikipedia)",
@@ -6769,7 +6891,7 @@
    "notes": "ADF-STEM background; adjacent. Learning/background only."
   },
   {
-   "source_id": 217,
+   "source_id": 221,
    "key": "url:https://en.wikipedia.org/wiki/Atomic_force_microscopy",
    "type": "guide",
    "title": "Atomic force microscopy (Wikipedia)",
@@ -6795,7 +6917,7 @@
    "notes": "Background only; not used for any claim."
   },
   {
-   "source_id": 218,
+   "source_id": 222,
    "key": "url:https://en.wikipedia.org/wiki/Chemical_imaging",
    "type": "guide",
    "title": "Chemical imaging (Wikipedia)",
@@ -6822,7 +6944,7 @@
    "notes": "Background only."
   },
   {
-   "source_id": 219,
+   "source_id": 223,
    "key": "url:https://enif.unl.edu/tem-images",
    "type": "guide",
    "title": "TEM Images | Electron Nanoscopy Instrumentation Facility | Nebraska",
@@ -6850,7 +6972,7 @@
    "notes": "Facility image gallery; background only."
   },
   {
-   "source_id": 220,
+   "source_id": 224,
    "key": "url:https://eprints.kingston.ac.uk/id/eprint/27894",
    "type": "paper",
    "title": "Kingston University eprint 27894",
@@ -6877,7 +6999,7 @@
    "notes": ""
   },
   {
-   "source_id": 221,
+   "source_id": 225,
    "key": "url:https://gist.github.com/JiaxiangZheng/a60cc8fe1bf6e20c1a41abc98131d518",
    "type": "guide",
    "title": "CNN.py: convolutional neural network implemented with python (gist)",
@@ -6905,7 +7027,7 @@
    "notes": "Single-file NumPy/TensorFlow-1 MNIST CNN teaching demo, ported from hsmyy/zhihuzhuanlan. Not used."
   },
   {
-   "source_id": 222,
+   "source_id": 226,
    "key": "url:https://hackaday.io/project/175115-gprino",
    "type": "product",
    "title": "GPRino | Hackaday.io",
@@ -6931,7 +7053,7 @@
    "notes": ""
   },
   {
-   "source_id": 223,
+   "source_id": 227,
    "key": "url:https://hdsr.mitpress.mit.edu",
    "type": "guide",
    "title": "Harvard Data Science Review",
@@ -6955,7 +7077,7 @@
    "notes": ""
   },
   {
-   "source_id": 224,
+   "source_id": 228,
    "key": "url:https://ieeexplore.ieee.org/document/10906350",
    "type": "paper",
    "title": "IEEE Xplore document 10906350 (title not confirmed)",
@@ -6983,7 +7105,7 @@
    "notes": "UNVERIFIED: title, authors and DOI unknown. Nothing relies on it."
   },
   {
-   "source_id": 225,
+   "source_id": 229,
    "key": "url:https://iscd.org/learn/resources/dxa-atlas/",
    "type": "guide",
    "title": "DXA Atlas - ISCD",
@@ -7009,7 +7131,7 @@
    "notes": ""
   },
   {
-   "source_id": 226,
+   "source_id": 230,
    "key": "url:https://itis.swiss/virtual-population/tissue-properties/database/dielectric-properties/",
    "type": "guide",
    "title": "Dielectric Properties » IT'IS Foundation",
@@ -7035,7 +7157,7 @@
    "notes": ""
   },
   {
-   "source_id": 227,
+   "source_id": 231,
    "key": "url:https://jblindsay.github.io/ghrg/WhiteboxTools/",
    "type": "product",
    "title": "WhiteboxTools | Home",
@@ -7061,7 +7183,7 @@
    "notes": ""
   },
   {
-   "source_id": 228,
+   "source_id": 232,
    "key": "url:https://journal.yuanpingjia.com.cn/Journal/ArticleDetails/696607",
    "type": "paper",
    "title": "Hong et al. 2022 mmWave imaging paper (journal article page)",
@@ -7087,7 +7209,7 @@
    "notes": "No DOI found."
   },
   {
-   "source_id": 229,
+   "source_id": 233,
    "key": "url:https://journalofsar.com/",
    "type": "guide",
    "title": "Journal of Search and Rescue – Free, Peer-Reviewed Research Into SAR",
@@ -7114,7 +7236,7 @@
    "notes": ""
   },
   {
-   "source_id": 230,
+   "source_id": 234,
    "key": "url:https://lpdaac.usgs.gov/products/gedi01_bv002/",
    "type": "dataset",
    "title": "GEDI L1B Geolocated Waveform Data Global Footprint Level V002 | NASA Earthdata",
@@ -7140,7 +7262,7 @@
    "notes": ""
   },
   {
-   "source_id": 231,
+   "source_id": 235,
    "key": "url:https://lpdaac.usgs.gov/products/gedi02_av002/",
    "type": "dataset",
    "title": "GEDI L2A Elevation and Height Metrics Data Global Footprint Level V002 | NASA Earthdata",
@@ -7166,7 +7288,7 @@
    "notes": ""
   },
   {
-   "source_id": 232,
+   "source_id": 236,
    "key": "url:https://midnghtsapphire.github.io/revvel-standards/docs/coldtrace/",
    "type": "guide",
    "title": "revvel-standards coldtrace docs (GitHub Pages)",
@@ -7192,7 +7314,7 @@
    "notes": "CAVEAT: returned 404 (GitHub Pages 'Site not found') on 2026-10-21; link in coldtrace/README.md is dead or unpublished."
   },
   {
-   "source_id": 233,
+   "source_id": 237,
    "key": "url:https://namus.nij.ojp.gov/",
    "type": "dataset",
    "title": "NamUs (National Missing and Unidentified Persons System)",
@@ -7218,7 +7340,7 @@
    "notes": ""
   },
   {
-   "source_id": 234,
+   "source_id": 238,
    "key": "url:https://nanoporetech.com/",
    "type": "product",
    "title": "Welcome to Oxford Nanopore Technologies",
@@ -7244,7 +7366,7 @@
    "notes": ""
   },
   {
-   "source_id": 235,
+   "source_id": 239,
    "key": "url:https://nasa-earthrise.github.io/training_Getting_started_with_GEDI_spaceborne_lidar/intro-to-waveform-lidar",
    "type": "guide",
    "title": "Introduction to Full Waveform Lidar | Getting Started with GEDI Spaceborne Lidar for Ecosystem Applications",
@@ -7270,7 +7392,7 @@
    "notes": ""
   },
   {
-   "source_id": 236,
+   "source_id": 240,
    "key": "url:https://ntrs.nasa.gov/api/citations/20210024091/downloads/Neigh2021.pdf",
    "type": "paper",
    "title": "Neigh et al. 2021 (NASA NTRS 20210024091)",
@@ -7296,7 +7418,7 @@
    "notes": ""
   },
   {
-   "source_id": 237,
+   "source_id": 241,
    "key": "url:https://ocw.mit.edu/courses/res-ll-003-build-a-small-radar-system-capable-of-sensing-range-doppler-and-synthetic-aperture-radar-imaging-january-iap-2011/",
    "type": "guide",
    "title": "Build a Small Radar System Capable of Sensing Range, Doppler, and Synthetic Aperture Radar Imaging | MIT OpenCourseWare | Free Online Course Materials",
@@ -7322,7 +7444,7 @@
    "notes": ""
   },
   {
-   "source_id": 238,
+   "source_id": 242,
    "key": "url:https://ojs.iscram.org/index.php/Proceedings/article/view/197",
    "type": "paper",
    "title": "Assessing Drone Performance and Probability of Detection for Search and Rescue Operation in Northern Canada | Proceedings of the International ISCRAM ",
@@ -7349,7 +7471,7 @@
    "notes": ""
   },
   {
-   "source_id": 239,
+   "source_id": 243,
    "key": "url:https://opensourceoptions.com/how-to-create-a-dem-or-raster-from-a-lidar-point-cloud/",
    "type": "guide",
    "title": "How to Create a DEM (or Raster) from a Lidar Point Cloud",
@@ -7380,7 +7502,7 @@
    "notes": "PDAL pipeline: reprojection, reset classes, filters.elm, filters.outlier, filters.smrf, keep class 2. Blog guide; reference for the 1410 gap."
   },
   {
-   "source_id": 240,
+   "source_id": 244,
    "key": "url:https://orcid.org/register",
    "type": "guide",
    "title": "ORCID",
@@ -7404,7 +7526,7 @@
    "notes": ""
   },
   {
-   "source_id": 241,
+   "source_id": 245,
    "key": "url:https://patents.google.com/",
    "type": "product",
    "title": "Google Patents",
@@ -7430,7 +7552,7 @@
    "notes": ""
   },
   {
-   "source_id": 242,
+   "source_id": 246,
    "key": "url:https://patents.google.com/patent/US10578735B2/en",
    "type": "patent",
    "title": "US10578735B2 - Multilook coherent change detection - Google Patents",
@@ -7456,7 +7578,7 @@
    "notes": ""
   },
   {
-   "source_id": 243,
+   "source_id": 247,
    "key": "url:https://patents.google.com/patent/US10895637B1/en",
    "type": "patent",
    "title": "US10895637B1 - Systems and methods for mapping manmade objects buried in subterranean surfaces using an unmanned aerial vehicle integrated with radar ",
@@ -7482,7 +7604,7 @@
    "notes": ""
   },
   {
-   "source_id": 244,
+   "source_id": 248,
    "key": "url:https://patents.google.com/patent/US11221292B2/en",
    "type": "patent",
    "title": "US11221292B2 - Method utilizing in-situ, subsurface, near-infrared spectroscopy to detect buried human remains - Google Patents",
@@ -7508,7 +7630,7 @@
    "notes": ""
   },
   {
-   "source_id": 245,
+   "source_id": 249,
    "key": "url:https://patents.google.com/patent/US11580725B2/en",
    "type": "patent",
    "title": "US11580725B2 - Systems, devices and methods for imaging objects within or behind a medium using electromagnetic array - Google Patents",
@@ -7534,7 +7656,7 @@
    "notes": ""
   },
   {
-   "source_id": 246,
+   "source_id": 250,
    "key": "url:https://patents.google.com/patent/US11725202B2/en",
    "type": "patent",
    "title": "US11725202B2 - Soil-based DNA extraction - Google Patents",
@@ -7560,7 +7682,7 @@
    "notes": ""
   },
   {
-   "source_id": 247,
+   "source_id": 251,
    "key": "url:https://patents.google.com/patent/US7999722B2/en",
    "type": "patent",
    "title": "US7999722B2 - Through-wall imaging device - Google Patents",
@@ -7586,7 +7708,7 @@
    "notes": ""
   },
   {
-   "source_id": 248,
+   "source_id": 252,
    "key": "url:https://patents.google.com/patent/US9696421B2/en",
    "type": "patent",
    "title": "US9696421B2 - Through wall sensing system using WiFi/cellular radar - Google Patents",
@@ -7612,7 +7734,7 @@
    "notes": ""
   },
   {
-   "source_id": 249,
+   "source_id": 253,
    "key": "url:https://patents.google.com/patent/WO2000025108A1/en",
    "type": "patent",
    "title": "WO2000025108A1 - Method and apparatus for locating hidden corpses by detecting volatile gas combinations - Google Patents",
@@ -7638,7 +7760,7 @@
    "notes": ""
   },
   {
-   "source_id": 250,
+   "source_id": 254,
    "key": "url:https://pdal.io/en/stable/tutorial/ground-filters.html",
    "type": "guide",
    "title": "PDAL Ground Filter Tutorial",
@@ -7667,7 +7789,7 @@
    "notes": ""
   },
   {
-   "source_id": 251,
+   "source_id": 255,
    "key": "url:https://pmc.ncbi.nlm.nih.gov/articles/PMC9889824/",
    "type": "paper",
    "title": "PMC9889824",
@@ -7693,7 +7815,7 @@
    "notes": "PMC article link from soil-edna-detection.md; metadata not re-fetched in 2200."
   },
   {
-   "source_id": 252,
+   "source_id": 256,
    "key": "url:https://proceedings.mlr.press/v161/brutzkus21a.html",
    "type": "paper",
    "title": "An Optimization and Generalization Analysis for Max-Pooling Networks",
@@ -7725,7 +7847,7 @@
    "notes": "No journal DOI (an Underline talk recording has its own DataCite DOI). AUAI PDF https://www.auai.org/uai2021/pdf/uai2021.634.pdf timed out on 2026-10-21; PMLR page resolved. Theory; background."
   },
   {
-   "source_id": 253,
+   "source_id": 257,
    "key": "url:https://pubmed.ncbi.nlm.nih.gov/42859054/",
    "type": "paper",
    "title": "PubMed record 42859054 (ACS Sensors 2026 centrifugal soil-to-DNA prep)",
@@ -7751,7 +7873,7 @@
    "notes": "PubMed alias for 10.1021/acssensors.6c01885."
   },
   {
-   "source_id": 254,
+   "source_id": 258,
    "key": "url:https://pypi.org/project/viaverde-traffic/",
    "type": "product",
    "title": "viaverde-traffic (PyPI)",
@@ -7777,7 +7899,7 @@
    "notes": ""
   },
   {
-   "source_id": 255,
+   "source_id": 259,
    "key": "url:https://sites.google.com/view/temimagenet",
    "type": "dataset",
    "title": "TEM ImageNet (UCI DeepEM Lab)",
@@ -7808,7 +7930,7 @@
    "notes": "Synthetic ADF-STEM library with ground-truth labels (segmentation, Gaussian maps, denoise, super-res) and atom coordinates; v1.3 data on GitHub; DOE BES award DE-SC0021204. Adjacent."
   },
   {
-   "source_id": 256,
+   "source_id": 260,
    "key": "url:https://stackoverflow.com/questions/59221527/why-conv2d-has-different-number-of-filters-in-each-layer",
    "type": "guide",
    "title": "Why Conv2D has different number of filters in each layer (Stack Overflow Q 59221527, 2019)",
@@ -7837,7 +7959,7 @@
    "notes": "Q&A. Learning/background only."
   },
   {
-   "source_id": 257,
+   "source_id": 261,
    "key": "url:https://stackoverflow.com/questions/69612166/i-have-seen-many-cnns-using-number-of-filters-such-as-these8-16-32-64-128-256-5",
    "type": "guide",
    "title": "Why CNNs use filter counts 8,16,32...512 (Stack Overflow Q 69612166, 2021)",
@@ -7866,7 +7988,7 @@
    "notes": "Q&A. Learning/background only."
   },
   {
-   "source_id": 258,
+   "source_id": 262,
    "key": "url:https://trace.tennessee.edu/entities/publication/a52cb7b6-25e1-4bd2-89b3-152c00101c12",
    "type": "paper",
    "title": "The Preservation and Persistence of Human DNA in Soil during Cadaver Decomposition",
@@ -7892,7 +8014,7 @@
    "notes": ""
   },
   {
-   "source_id": 259,
+   "source_id": 263,
    "key": "url:https://umbra.space/open-data/",
    "type": "dataset",
    "title": "Umbra SAR open data program",
@@ -7918,7 +8040,7 @@
    "notes": ""
   },
   {
-   "source_id": 260,
+   "source_id": 264,
    "key": "url:https://unanswered.io/guide/cnn-filter-size-and-number-guide",
    "type": "guide",
    "title": "CNN Filter Size & Number: Guide to Optimal Choices (Unanswered)",
@@ -7947,7 +8069,7 @@
    "notes": "Anonymous Q&A-style guide site; unreviewed. Learning/background only."
   },
   {
-   "source_id": 261,
+   "source_id": 265,
    "key": "url:https://www-pub.iaea.org/MTCD/Publications/PDF/p15962-snl48.pdf",
    "type": "product",
    "title": "IAEA Soils Newsletter 48 (PDF)",
@@ -7973,7 +8095,7 @@
    "notes": ""
   },
   {
-   "source_id": 262,
+   "source_id": 266,
    "key": "url:https://www.aafs.org/sites/default/files/media/documents/AAFS-2016-K25.pdf",
    "type": "paper",
    "title": "K25 Methamphetamine, Amphetamine, and Norephedrine Levels in Dermestid Beetles From the Consumption of Dosed, Buried Rat Remains",
@@ -8005,7 +8127,7 @@
    "notes": "Conference abstract, not peer-reviewed; rat model. Drugs detected in beetle larvae, pupae, adults and frass."
   },
   {
-   "source_id": 263,
+   "source_id": 267,
    "key": "url:https://www.dco.uscg.mil/Portals/9/CG-5R/nsarc/DetExpReport_2004_final_s.pdf",
    "type": "guide",
    "title": "USCG/NSARC detection experiments report (2004)",
@@ -8032,7 +8154,7 @@
    "notes": ""
   },
   {
-   "source_id": 264,
+   "source_id": 268,
    "key": "url:https://www.earthdata.nasa.gov/centers/lp-daac",
    "type": "dataset",
    "title": "Land Processes Distributed Active Archive Center (LP DAAC)",
@@ -8059,7 +8181,7 @@
    "notes": "Archive home (lpdaac.usgs.gov redirects to the same title). Hosts GEDI products used in 2060."
   },
   {
-   "source_id": 265,
+   "source_id": 269,
    "key": "url:https://www.earthdata.nasa.gov/learn/trainings/spaceborne-lidar-monitoring-vegetation-structure-biomass-using-gedi",
    "type": "guide",
    "title": "Spaceborne Lidar for Monitoring Vegetation Structure and Biomass using GEDI | NASA Earthdata",
@@ -8085,7 +8207,7 @@
    "notes": ""
   },
   {
-   "source_id": 266,
+   "source_id": 270,
    "key": "url:https://www.emergentmind.com/topics/annular-dark-field-scanning-transmission-electron-microscopy-adf-stem",
    "type": "guide",
    "title": "ADF-STEM: Advanced Atomic-Resolution Imaging (Emergent Mind topic page)",
@@ -8113,7 +8235,7 @@
    "notes": "AI-generated summary page; guide only, nothing cited from it."
   },
   {
-   "source_id": 267,
+   "source_id": 271,
    "key": "url:https://www.geeksforgeeks.org/cnn-introduction-to-pooling-layer/",
    "type": "guide",
    "title": "Introduction to Pooling Layer in CNN (GeeksforGeeks)",
@@ -8142,7 +8264,7 @@
    "notes": "CNN tutorial. Learning/background only."
   },
   {
-   "source_id": 268,
+   "source_id": 272,
    "key": "url:https://www.geeksforgeeks.org/deep-learning/kernels-filters-in-convolutional-neural-network/",
    "type": "guide",
    "title": "Kernels (Filters) in convolutional neural network (GeeksforGeeks)",
@@ -8171,7 +8293,7 @@
    "notes": "CNN tutorial. Learning/background only."
   },
   {
-   "source_id": 269,
+   "source_id": 273,
    "key": "url:https://www.globalsino.com/EM/page1245.html",
    "type": "guide",
    "title": "(HAADF) STEM Images of Silicon (GlobalSino page 1245)",
@@ -8201,7 +8323,7 @@
    "notes": "Personal reference page summarising Voyles et al., Nature 416 (2002) 826. Fetch provider got 403 via curl; content read via WebFetch. Learning/background only."
   },
   {
-   "source_id": 270,
+   "source_id": 274,
    "key": "url:https://www.iaea.org/newscenter/news/assessing-soil-with-gamma-ray-spectrometry-and-digital-technology",
    "type": "product",
    "title": "IAEA news: Assessing soil with gamma-ray spectrometry and digital technology",
@@ -8227,7 +8349,7 @@
    "notes": ""
   },
   {
-   "source_id": 271,
+   "source_id": 275,
    "key": "url:https://www.iaea.org/projects/crp/d12015",
    "type": "product",
    "title": "IAEA coordinated research project D12015",
@@ -8253,7 +8375,7 @@
    "notes": ""
   },
   {
-   "source_id": 272,
+   "source_id": 276,
    "key": "url:https://www.infineon.com/part/BGT60TR13C",
    "type": "product",
    "title": "BGT60TR13C - 60 GHz radar sensors for IoT | Infineon Technologies",
@@ -8279,7 +8401,7 @@
    "notes": ""
   },
   {
-   "source_id": 273,
+   "source_id": 277,
    "key": "url:https://www.jems-swiss.ch/Home/Help/ADFImager.htm",
    "type": "product",
    "title": "JEMS ADF Imager (multislice STEM image simulation dialog)",
@@ -8308,7 +8430,7 @@
    "notes": "Help page for BF/ADF/HAADF multislice simulation in JEMS. Background; not integrated."
   },
   {
-   "source_id": 274,
+   "source_id": 278,
    "key": "url:https://www.jetir.org/papers/JETIR1810B66.pdf",
    "type": "paper",
    "title": "JETIR1810B66 (JETIR 2018) clandestine-grave detection paper",
@@ -8334,7 +8456,7 @@
    "notes": "CAVEAT: copies wording from Pringle et al. 2012 (Earth-Science Reviews, 10.1016/j.earscirev.2012.05.006). Do not cite as independent evidence."
   },
   {
-   "source_id": 275,
+   "source_id": 279,
    "key": "url:https://www.nature.com/articles/d42473-022-00106-0",
    "type": "article",
    "title": "Atomic magnetism finally caught on camera",
@@ -8362,7 +8484,7 @@
    "notes": "SPONSORED/vendor content (JEOL MARS magnetic-field-free STEM); no Crossref DOI (d42473 id 404 at Crossref). Background only."
   },
   {
-   "source_id": 276,
+   "source_id": 280,
    "key": "url:https://www.promega.com/products/forensic-dna-analysis-ce/str-amplification/paradyme-27gy-str-system/",
    "type": "product",
    "title": "Paradyme™ 27GY STR System",
@@ -8391,7 +8513,7 @@
    "notes": ""
   },
   {
-   "source_id": 277,
+   "source_id": 281,
    "key": "url:https://www.raspberrypi.com/products/raspberry-pi-5/",
    "type": "product",
    "title": "Raspberry Pi 5 product page",
@@ -8417,7 +8539,7 @@
    "notes": ""
   },
   {
-   "source_id": 278,
+   "source_id": 282,
    "key": "url:https://www.raspberrypi.com/products/raspberry-pi-pico/",
    "type": "product",
    "title": "Raspberry Pi Pico product page",
@@ -8443,7 +8565,7 @@
    "notes": ""
   },
   {
-   "source_id": 279,
+   "source_id": 283,
    "key": "url:https://www.raspberrypi.com/products/raspberry-pi-zero-2-w/",
    "type": "product",
    "title": "Raspberry Pi Zero 2 W product page",
@@ -8469,7 +8591,7 @@
    "notes": ""
   },
   {
-   "source_id": 280,
+   "source_id": 284,
    "key": "url:https://www.researchgate.net/figure/fig6_230872372",
    "type": "paper",
    "title": "ResearchGate figure fig6_230872372 (publication 230872372, underlying paper not identified)",
@@ -8496,7 +8618,7 @@
    "notes": "UNVERIFIED: underlying DOI unknown. Nothing relies on it."
   },
   {
-   "source_id": 281,
+   "source_id": 285,
    "key": "url:https://www.researchgate.net/publication/333353262",
    "type": "article",
    "title": "ResearchGate figure fig3_333353262 (underlying publication not identified)",
@@ -8524,7 +8646,7 @@
    "notes": "UNVERIFIED: ResearchGate 403 to automated fetches; web searches did not resolve publication 333353262. Ask for the figure's full URL or title."
   },
   {
-   "source_id": 282,
+   "source_id": 286,
    "key": "url:https://www.sciencedirect.com/topics/agricultural-and-biological-sciences/chemical-imaging",
    "type": "guide",
    "title": "Chemical Imaging - ScienceDirect Topics (Agricultural and Biological Sciences)",
@@ -8551,7 +8673,7 @@
    "notes": "Elsevier auto-generated topic page of book/article excerpts. Background only."
   },
   {
-   "source_id": 283,
+   "source_id": 287,
    "key": "url:https://www.scmp.com/news/china/science/article/3163290/chinese-body-scanner-can-see-through-30-layers-clothing-using",
    "type": "guide",
    "title": "SCMP news report on a Chinese mmWave body scanner (Hong et al. 2022)",
@@ -8577,7 +8699,7 @@
    "notes": "News report. Underlying Hong 2022 paper (Chinese journal) has no DOI found; see journal.yuanpingjia.com.cn row."
   },
   {
-   "source_id": 284,
+   "source_id": 288,
    "key": "url:https://www.ssrn.com",
    "type": "guide",
    "title": "SSRN preprint server",
@@ -8601,7 +8723,7 @@
    "notes": ""
   },
   {
-   "source_id": 285,
+   "source_id": 289,
    "key": "url:https://www.ti.com/tool/IWR6843ISK",
    "type": "product",
    "title": "IWR6843ISK Evaluation board | TI.com",
@@ -8627,7 +8749,7 @@
    "notes": ""
   },
   {
-   "source_id": 286,
+   "source_id": 290,
    "key": "url:https://www.uspto.gov/patents/basics/using-legal-services/pro-bono/patent-pro-bono-program",
    "type": "guide",
    "title": "Patent Pro Bono Program: Free patent legal assistance | USPTO",
@@ -8653,7 +8775,7 @@
    "notes": ""
   },
   {
-   "source_id": 287,
+   "source_id": 291,
    "key": "url:https://www.uspto.gov/patents/laws/micro-entity-status",
    "type": "guide",
    "title": "Micro entity status | USPTO",
@@ -8679,7 +8801,7 @@
    "notes": ""
   },
   {
-   "source_id": 288,
+   "source_id": 292,
    "key": "url:https://www.uspto.gov/sites/default/files/documents/USPTO-fee-schedule_current.pdf",
    "type": "guide",
    "title": "USPTO fee schedule (current, PDF)",
@@ -8705,7 +8827,7 @@
    "notes": ""
   },
   {
-   "source_id": 289,
+   "source_id": 293,
    "key": "url:https://www.youtube.com/watch?v=D-AC-KunXEc",
    "type": "video",
    "title": "What is chemical imaging? How can AI can help us with it? | FT-IR and Raman Microscopy | ACI & OPUS",
@@ -8735,7 +8857,7 @@
    "notes": "VENDOR video (Bruker). Presenter given as Di Yan by the requester, not confirmed from metadata. Covers adaptive chemical imaging (ACI) with FT-IR/Raman microscopy. Marketing, background only."
   },
   {
-   "source_id": 290,
+   "source_id": 294,
    "key": "url:https://www.youtube.com/watch?v=k0S5irotxy0",
    "type": "video",
    "title": "Meet GEDI! (SciTech Daily)",

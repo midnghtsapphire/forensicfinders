@@ -91,3 +91,34 @@ Pipeline: `build_dtm(xyz, method="idw"|"tin", engine="auto"|"pdal"|"pmf", out_pa
 - These numbers show the code works on an easy synthetic case only. Real clouds (steep terrain, dense low vegetation, bridges) need parameter tuning, and comparison against a USGS-classified 3DEP tile is the next check.
 
 1410 `fetch_lidar_dtm_3dep` is unchanged (it still keeps provider class 2). Its docstring now points to 925 for unclassified clouds. [erickfaria/LidarToolkit](https://github.com/erickfaria/LidarToolkit) (MIT) was a reference only; nothing was taken from it.
+
+## Lidar as images: what transfers and what doesn't (added 2026-10-21)
+
+**"Reprocess lidar into ADF-STEM images" is not a real workflow.** The phrase comes from an AI-generated summary. ADF-STEM (annular dark-field scanning transmission electron microscopy) images are formed by electrons scattered from atomic columns in a nanometre-thick specimen. Lidar is laser ranging over metres to kilometres. No processing step turns one into the other, and the STEM physics (for example, Z-contrast intensity scaling with atomic number) has no lidar counterpart.
+
+**What does transfer** is generic image analysis applied after rasterising lidar:
+- **Rasterise first.** Grid the point cloud into an **elevation image** (DTM, DSM, or a local-relief / DTM-difference image; see 925 `lidar_dtm.py` and 1410) or an **intensity / range image** (per-cell return intensity, or the sensor's native range image).
+- **Then apply image methods**, including those also used on STEM images:
+  - template matching, such as normalised cross-correlation of a depression or mound template, as in 2060;
+  - blob detection and local-maximum or centroid finding, such as sub-pixel centroids of compact anomalies;
+  - morphology and thresholding.
+- Only the image-processing step is shared. Evidence for a burial or object still comes from terrain physics and ground truth, not from any TEM analogy.
+
+Related code (references only, nothing copied):
+- [alexandrx/lidar_cloud_to_image](https://github.com/alexandrx/lidar_cloud_to_image) (2019, C++/ROS1).
+  - Converts spinning-lidar scans (Velodyne/Ouster) into range, intensity, reflectivity and noise images.
+  - No GitHub licence file, but `package.xml` declares Apache 2. Treat it as Apache-2.0 per the package manifest, and confirm before reuse.
+  - Inspired by PRBonn/cloud_to_image.
+  - It is for vehicle sensor frames, not aerial DTMs.
+- [awi-response/LidarProcessing](https://github.com/awi-response/LidarProcessing) (AWI, Python).
+  - An aerial-campaign pipeline: PDAL, laspy and rasterio produce DSM, DTM and CHM. Its code references SMRF and CSF ground filters and TIN gridding with fill.
+  - **No licence** (all rights reserved by default), so read it but do not copy.
+  - It is the closest analogue to 925.
+- [t-luanamn/LiDAR-Data-Processing-Pipeline](https://github.com/t-luanamn/LiDAR-Data-Processing-Pipeline) (2025, notebooks).
+  - **Unlicense** (public domain).
+  - Its `pipeline.json` keeps provider class 2, then runs `filters.outlier` (radius 1.0 m, min_k 3) and `writers.gdal` IDW at 1 m. That is essentially the 1410 approach plus an outlier step. It does no ground classification of its own.
+  - Trivially reusable, but 925 already covers it.
+- Tabata et al., [arXiv:2607.14639](https://arxiv.org/abs/2607.14639) (2026), *Image-to-Point Cloud Registration Made Easy with Rectified Flow-based LiDAR Upsampling*.
+  - It treats lidar as an imaging sensor: it densifies a sparse scan into a lidar intensity image with conditional rectified flow, matches it to a camera image, and solves pose with PnP-RANSAC.
+  - Its results are self-reported on R3LIVE.
+  - It is a real example of the "lidar → image → image methods" pattern, for camera–lidar registration rather than terrain.
