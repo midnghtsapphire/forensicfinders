@@ -311,9 +311,48 @@
       "kind": "doc"
     },
     "1910": {
-      "name": "docs/CAMERA_TELEMETRY_DESIGN",
-      "path": "docs/CAMERA_TELEMETRY_DESIGN.md",
-      "what": "Camera telemetry design; requires warrant/consent/MOU; no code",
+      "name": "cameras",
+      "path": "cameras",
+      "what": "Public webcam/traffic-cam + Ring (own account) connectors and frame-to-timeline merger",
+      "test_cwd": ".",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "cameras.test_cameras"
+      ],
+      "requires": "pip install ring_doorbell (Ring only)",
+      "source": "new; Caltrans CWWP2 public feeds + ring_doorbell"
+    },
+    "1911": {
+      "name": "cameras/public_cams",
+      "path": "cameras/public_cams.py",
+      "what": "Data-driven public camera registry (sources.json); list + timestamped snapshots with SHA-256 metadata",
+      "parent": "1910"
+    },
+    "1912": {
+      "name": "cameras/ring_cam",
+      "path": "cameras/ring_cam.py",
+      "what": "Ring via ring_doorbell: devices, history, download, snapshot; token cache mode 600; credentials from env only",
+      "parent": "1910"
+    },
+    "1913": {
+      "name": "cameras/timeline",
+      "path": "cameras/timeline.py",
+      "what": "Merge camera frames/events and satellite scenes into a sorted SAR timeline (JSONL)",
+      "parent": "1910"
+    },
+    "2000": {
+      "name": "docs/research/soil-edna-detection",
+      "path": "docs/research/soil-edna-detection.md",
+      "what": "PROTOTYPE/RESEARCH: crawl-walk-run roadmap for human (then canine) soil eDNA and CDI chemistry; cited sources only, no claimed results",
+      "kind": "doc",
+      "status": "PROTOTYPE / RESEARCH"
+    },
+    "2010": {
+      "name": "docs/research/PROTOTYPES",
+      "path": "docs/research/PROTOTYPES.md",
+      "what": "Index of notebook/research ideas with status and next small step",
       "kind": "doc"
     }
   },

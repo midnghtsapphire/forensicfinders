@@ -50,7 +50,12 @@ New here? Read this file first, then [`docs/HANDOFF.md`](docs/HANDOFF.md).
 | 1200 | `forensic_models/reliability.py` | Deterministic Admiralty A–F/1–6 grading from a versioned lookup table (reliability_rubric.json) |
 | 1300 | `forensic_models/qpcr_qc.py` | qPCR QC from QuantStudio/Bio-Rad CFX exports: efficiency, R², NTC/EB, IPC ΔCq inhibition |
 | 1900 | `docs/DOPPLER_EVALUATION.md` | Evaluation: notebook Doppler corrector does not belong (doc only, no code) |
-| 1910 | `docs/CAMERA_TELEMETRY_DESIGN.md` | Camera telemetry design; requires warrant/consent/MOU; no code |
+| 1910 | `cameras` | Public webcam/traffic-cam + Ring (own account) connectors and frame-to-timeline merger |
+| 1911 | `cameras/public_cams.py` | Data-driven public camera registry (sources.json); list + timestamped snapshots with SHA-256 metadata |
+| 1912 | `cameras/ring_cam.py` | Ring via ring_doorbell: devices, history, download, snapshot; token cache mode 600; credentials from env only |
+| 1913 | `cameras/timeline.py` | Merge camera frames/events and satellite scenes into a sorted SAR timeline (JSONL) |
+| 2000 | `docs/research/soil-edna-detection.md` | PROTOTYPE/RESEARCH: crawl-walk-run roadmap for human (then canine) soil eDNA and CDI chemistry; cited sources only, no claimed results |
+| 2010 | `docs/research/PROTOTYPES.md` | Index of notebook/research ideas with status and next small step |
 
 IDs are permanent. Never reuse a retired number. A child ID such as 910 runs its parent's tests (900).
 

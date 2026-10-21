@@ -106,7 +106,7 @@ On 2026-10-21 this found 3 before and 3 after Sentinel-2 scenes per sector. Mean
 - **Targets:** the "targets" were typed coordinates with typed confidences (0.84–0.965). Nothing computed them.
 - **Taphonomic kinetics:** `calculate_decay_kinetics` uses constants with no source.
 - **Admiralty scorer:** maps the type of source to an A–F grade by keyword; it's an opinion, not the NATO procedure.
-- **Missing files:** "camera telemetry", "self-healing listener", `verify_connectors.py`, `config.yaml`, `docker-compose.yml`, `.env.example`, `sar_pipeline.yml` and the MCP schemas were **not in the zip**. A "v2" package with a daily `verify_connectors.yml` wasn't in it either.
+- **Missing files:** "camera telemetry" (now built as 1910), "self-healing listener", `verify_connectors.py`, `config.yaml`, `docker-compose.yml`, `.env.example`, `sar_pipeline.yml` and the MCP schemas were **not in the zip**. A "v2" package with a daily `verify_connectors.yml` wasn't in it either.
 - **`run_county.py`:** generates its DEM with `np.random.normal`.
 
 ## 7. Troubleshooting (all hit for real)
@@ -140,7 +140,8 @@ v = gd.gpr_velocity(e)                            # m/ns
 | 1110 | `gistar.gi_star(grid)`. Verified equal to PySAL `esda.G_Local(star=True)` with queen lattice weights |
 | 1200 | `reliability.grade("instrument_record", "original_file_with_hash", "documented", corroborations=2)` gives `A1`. Edit `reliability_rubric.json` and bump `version` to change the house rubric |
 | 1300 | `qpcr_qc.qc(qpcr_qc.read_export(open("run.csv").read(), "quantstudio"), "ASSAY", ipc_target="IPC")`. Layouts: `quantstudio`, `biorad_cfx`, or pass your own column map |
-| 1900, 1910 | Docs only: why the Doppler corrector was dropped, and the camera-telemetry design (legal authority first) |
+| 1900 | Doc only: why the Doppler corrector was dropped |
+| 1910–1913 | Public cams, Ring, timeline merger (section 10) |
 
 **Still needs real-world validation:**
 - Gi* thresholds against labelled field outcomes.
@@ -152,7 +153,41 @@ v = gd.gpr_velocity(e)                            # m/ns
 
 The Vass formula and Megyesi regression are published models with wide error bands, not exact clocks.
 
+## 10. Cameras (1910): public feeds, Ring, and the timeline
+Install once for Ring: `pip install ring_doorbell`. Run everything from `sar/`. There are no app-level legal gates; the platforms enforce their own access rules.
+
+### Public webcams and traffic cams (1911)
+1. List registered sources: `python3 -m cameras.public_cams sources`
+2. The registry is `cameras/sources.json` (data-driven). Supported types today: `caltrans_cctv` (Caltrans CWWP2 511 JSON) and `static_list` (your own public snapshot URLs). Add a new Caltrans district by copying an existing entry; no code change.
+3. List cameras: `python3 -m cameras.public_cams list caltrans-d03`
+4. Filter by distance: `python3 -m cameras.public_cams list caltrans-d03 --near 38.48 -121.51 5`
+5. Capture a timestamped frame + metadata JSON (SHA-256):  
+   `python3 -m cameras.public_cams snap caltrans-d03 caltrans-3-1 --out-dir out/frames`  
+   Repeat with `--repeat 5 --interval 60` for a time series.
+
+### Ring (Audrey's own account) (1912)
+1. Copy `cameras/.env.example` and fill `RING_USERNAME` / `RING_PASSWORD` (and `RING_OTP` if Ring asks) for the first login only.
+2. List devices: `python3 -m cameras.ring_cam devices`
+3. Event history: `python3 -m cameras.ring_cam history "Front Door" --limit 20`
+4. Download a recording: `python3 -m cameras.ring_cam download "Front Door" EVENT_ID --out-dir out/ring`
+5. On-demand snapshot: `python3 -m cameras.ring_cam snapshot "Front Door" --out-dir out/ring`  
+   After the first login, only the token cache at `~/.config/forensicfinders/ring_token.json` (mode 600) is used. Credentials are never printed.
+
+### Frame-to-timeline merger (1913)
+```bash
+python3 -m cameras.timeline merge out/frames/*.json out/ring/*.json \
+  --sectors out/SYNTH-0001_sectors.json --out out/timeline.jsonl
+```
+Merges public frames, Ring events/recordings/snapshots and satellite scene IDs from `run_sectors` into one sorted JSONL timeline (`t_utc`, `kind`, `source_id`, `label`, optional `lat`/`lon`/`media_path`/`sha256`).
+
+### Tests
+`python3 -m unittest cameras.test_cameras` (offline, mocked). Live public snapshot: `SAR_LIVE_TESTS=1 python3 -m unittest cameras.test_cameras.Public.test_live_caltrans_snapshot`. Ring live check needs Audrey's env credentials (not run in CI).
+
+## 11. Research prototypes (2000+)
+- `docs/research/PROTOTYPES.md` — every notebook/research idea with status and next small step.
+- `docs/research/soil-edna-detection.md` (ID **2000**, PROTOTYPE / RESEARCH) — crawl → walk → run for human then canine soil eDNA / CDI chemistry. Cited papers only; no claimed results. Next step is a spiked-soil panel feeding qPCR QC (1300).
+
 ## 8. Guardrails
 - CI is manual only (`sar-tests` and `daily_sar_run`, both workflow_dispatch). There is no schedule and no auto-commit; outputs go to artifacts. The notebook's daily cron and commit-back step were deliberately not carried over.
-- There are no camera or ALPR credentials (Ring, Arlo, Reolink, Flock) anywhere. Accessing those needs legal authority and stays outside this repo.
+- Ring credentials are optional env vars or a mode-600 token cache. They are never in the repo and never printed.
 - The `case/` contents never get committed here.
