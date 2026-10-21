@@ -97,6 +97,8 @@ On 2026-10-21 this found 3 before and 3 after Sentinel-2 scenes per sector. Mean
 - **Wayback CDX:** live API confirmed and fixture recorded. The box's own network couldn't complete TLS to web.archive.org; GitHub runners should work.
 - **MCP server:** stdio, 5 tools.
 
+**Rebuilt in the sar-make-it-work PR (1000-series):** decay kinetics, soil N, the void detector, Gi*, dielectric/GPR math, the reliability scorer and qPCR QC. See section 9.
+
 **Aspirational or fake in the Gemini Notebook bootstrap (`master_unified_sar_bootstrap.py`, v4.0.0 "PRODUCTION"):**
 - **STAC search:** a bug (bare dates give HTTP 400) made it *always* fall back to a hard-coded fake scene, `S2A_MSIL2A_20261015T…`. It still reported success.
 - **3DEP:** made no request at all. It returned `"status": "Active"` and `"smrf_filter": "Applied (Canopy Removed)"` as constants.
@@ -121,6 +123,34 @@ On 2026-10-21 this found 3 before and 3 after Sentinel-2 scenes per sector. Mean
 | Health-check step shows no `status` output | Fixed: `verify_connectors` appends `status=…` to `$GITHUB_OUTPUT`; the action writes `FAIL` if the script died first |
 | Outputs missing at `/workspace/out` | Paths are now relative: `${{ github.workspace }}/out` in CI, `sar/out` locally |
 | `ConnectorError: host not allowlisted` | `netio.allow_host("your.gis.host")` |
+
+## 9. Forensic models (1000-series, added in the sar-make-it-work PR)
+**Rule:** every constant lives in `forensic_models/constants.json` with a DOI or URL. Anything with no defensible published value is `user_required`. The code refuses to run until you supply it with a source:
+```python
+from forensic_models import constants, gpr_dielectric as gd
+c = constants.load(overrides={"eps_soap": {"value": 4.0, "source": "lab measurement, sample #12, 2026-11-02"}})
+e = gd.eps_eff(theta=0.25, f_sap=0.3, consts=c)   # ε_soil from Topp (1980) at θ
+v = gd.gpr_velocity(e)                            # m/ns
+```
+| ID | Try it |
+|---|---|
+| 1010 | `taphonomy.megyesi_add(20)`, `taphonomy.vass_pmi(60, 12, 70, buried=True)`, `taphonomy.topp_eps(0.25)` |
+| 1020 | `soil_nitrogen.simulate(...)` needs `k_ammonification` and `k_nitrification` overrides with a source |
+| 1100 | `python3 -m forensic_models.void_detector demo`. Then `validate cfg.json` / `run cfg.json --out-dir case/out` with tiles `{"id","dem_path"}` or `{"id","bbox"}` (fetched from 3DEP), optional `baseline_dem_path` (epoch difference), `sign` low/high/both. ROC: `curve labels.csv --png roc.png` (columns `score,label`) |
+| 1110 | `gistar.gi_star(grid)`. Verified equal to PySAL `esda.G_Local(star=True)` with queen lattice weights |
+| 1200 | `reliability.grade("instrument_record", "original_file_with_hash", "documented", corroborations=2)` gives `A1`. Edit `reliability_rubric.json` and bump `version` to change the house rubric |
+| 1300 | `qpcr_qc.qc(qpcr_qc.read_export(open("run.csv").read(), "quantstudio"), "ASSAY", ipc_target="IPC")`. Layouts: `quantstudio`, `biorad_cfx`, or pass your own column map |
+| 1900, 1910 | Docs only: why the Doppler corrector was dropped, and the camera-telemetry design (legal authority first) |
+
+**Still needs real-world validation:**
+- Gi* thresholds against labelled field outcomes.
+- The ε_fat value at your antenna frequency.
+- A measured ε_soap.
+- Site rate constants.
+- qPCR acceptance limits against your lab's SOP.
+- The house reliability rubric, reviewed with the agency.
+
+The Vass formula and Megyesi regression are published models with wide error bands, not exact clocks.
 
 ## 8. Guardrails
 - CI is manual only (`sar-tests` and `daily_sar_run`, both workflow_dispatch). There is no schedule and no auto-commit; outputs go to artifacts. The notebook's daily cron and commit-back step were deliberately not carried over.

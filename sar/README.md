@@ -41,6 +41,16 @@ New here? Read this file first, then [`docs/HANDOFF.md`](docs/HANDOFF.md).
 | 950 | `geo_connectors/mcp_server.py` | stdio MCP server: search_stac_satellite, query_usgs_lidar, sample_usgs_elevation, wayback_cdx_diff, arcgis_query |
 | 960 | `geo_connectors/verify_connectors.py` | Live health check of all 5 endpoints; writes out/health.json and status=PASS|FAIL to $GITHUB_OUTPUT (used by aegis-health-check) |
 | 970 | `geo_connectors/run_sectors.py` | Sector pipeline from a case config: cloud-filtered STAC, COG ΔNDVI, 3DEP centre elevation (used by aegis-sar-runner) |
+| 1000 | `forensic_models` | Sourced, data-driven forensic models (constants.json: every constant has a DOI/URL; unsourced ones are user_required) |
+| 1010 | `forensic_models/taphonomy.py` | Megyesi ADD from TBS, Vass PMI (aerobic/burial), Topp θ↔ε, saponified fraction (rate user-supplied) |
+| 1020 | `forensic_models/soil_nitrogen.py` | Grave-soil N pathway with sourced Q10 and WFPS optimum; site rates must be supplied |
+| 1100 | `forensic_models/void_detector.py` | validate/run/demo/curve: real DEMs (file or 3DEP via 920) → detrend or epoch diff → Gi* anomaly cells; ROC/AUC only from user labels |
+| 1110 | `forensic_models/gistar.py` | Getis-Ord Gi* (queen, self-inclusive, binary); matches PySAL esda to 1e-9 |
+| 1120 | `forensic_models/gpr_dielectric.py` | eps_eff=(1-θ)[ε_fat(1-f_sap)+ε_soap f_sap]+θ ε_soil, v=0.3/√ε, reflection coefficient, depth from TWT |
+| 1200 | `forensic_models/reliability.py` | Deterministic Admiralty A–F/1–6 grading from a versioned lookup table (reliability_rubric.json) |
+| 1300 | `forensic_models/qpcr_qc.py` | qPCR QC from QuantStudio/Bio-Rad CFX exports: efficiency, R², NTC/EB, IPC ΔCq inhibition |
+| 1900 | `docs/DOPPLER_EVALUATION.md` | Evaluation: notebook Doppler corrector does not belong (doc only, no code) |
+| 1910 | `docs/CAMERA_TELEMETRY_DESIGN.md` | Camera telemetry design; requires warrant/consent/MOU; no code |
 
 IDs are permanent. Never reuse a retired number. A child ID such as 910 runs its parent's tests (900).
 

@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
-      - run: pip install numpy rasterio piexif pillow -r sar/coldtrace/backend/requirements-test.txt
+      - run: pip install numpy rasterio piexif pillow esda libpysal -r sar/coldtrace/backend/requirements-test.txt
       - run: python3 sar/registry.py --test-all
   live:
     if: ${{ inputs.live && vars.SAR_LIVE_ALLOWED != '0' }}

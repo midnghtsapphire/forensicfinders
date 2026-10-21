@@ -248,6 +248,73 @@
       "path": "geo_connectors/run_sectors.py",
       "what": "Sector pipeline from a case config: cloud-filtered STAC, COG ΔNDVI, 3DEP centre elevation (used by aegis-sar-runner)",
       "parent": "900"
+    },
+    "1000": {
+      "name": "forensic_models",
+      "path": "forensic_models",
+      "what": "Sourced, data-driven forensic models (constants.json: every constant has a DOI/URL; unsourced ones are user_required)",
+      "test_cwd": ".",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "forensic_models.test_forensic_models"
+      ],
+      "source": "Gemini Notebook models, rebuilt"
+    },
+    "1010": {
+      "name": "forensic_models/taphonomy",
+      "path": "forensic_models/taphonomy.py",
+      "what": "Megyesi ADD from TBS, Vass PMI (aerobic/burial), Topp θ↔ε, saponified fraction (rate user-supplied)",
+      "parent": "1000"
+    },
+    "1020": {
+      "name": "forensic_models/soil_nitrogen",
+      "path": "forensic_models/soil_nitrogen.py",
+      "what": "Grave-soil N pathway with sourced Q10 and WFPS optimum; site rates must be supplied",
+      "parent": "1000"
+    },
+    "1100": {
+      "name": "forensic_models/void_detector",
+      "path": "forensic_models/void_detector.py",
+      "what": "validate/run/demo/curve: real DEMs (file or 3DEP via 920) → detrend or epoch diff → Gi* anomaly cells; ROC/AUC only from user labels",
+      "parent": "1000"
+    },
+    "1110": {
+      "name": "forensic_models/gistar",
+      "path": "forensic_models/gistar.py",
+      "what": "Getis-Ord Gi* (queen, self-inclusive, binary); matches PySAL esda to 1e-9",
+      "parent": "1000"
+    },
+    "1120": {
+      "name": "forensic_models/gpr_dielectric",
+      "path": "forensic_models/gpr_dielectric.py",
+      "what": "eps_eff=(1-θ)[ε_fat(1-f_sap)+ε_soap f_sap]+θ ε_soil, v=0.3/√ε, reflection coefficient, depth from TWT",
+      "parent": "1000"
+    },
+    "1200": {
+      "name": "forensic_models/reliability",
+      "path": "forensic_models/reliability.py",
+      "what": "Deterministic Admiralty A–F/1–6 grading from a versioned lookup table (reliability_rubric.json)",
+      "parent": "1000"
+    },
+    "1300": {
+      "name": "forensic_models/qpcr_qc",
+      "path": "forensic_models/qpcr_qc.py",
+      "what": "qPCR QC from QuantStudio/Bio-Rad CFX exports: efficiency, R², NTC/EB, IPC ΔCq inhibition",
+      "parent": "1000"
+    },
+    "1900": {
+      "name": "docs/DOPPLER_EVALUATION",
+      "path": "docs/DOPPLER_EVALUATION.md",
+      "what": "Evaluation: notebook Doppler corrector does not belong (doc only, no code)",
+      "kind": "doc"
+    },
+    "1910": {
+      "name": "docs/CAMERA_TELEMETRY_DESIGN",
+      "path": "docs/CAMERA_TELEMETRY_DESIGN.md",
+      "what": "Camera telemetry design; requires warrant/consent/MOU; no code",
+      "kind": "doc"
     }
   },
   "deselected_tests": {

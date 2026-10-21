@@ -1,0 +1,18 @@
+{
+  "version": "2026-10-21.1",
+  "reference": "NATO AJP-2.1 / STANAG 2511 Admiralty code: reliability A (completely reliable) to F (cannot be judged); credibility 1 (confirmed) to 6 (cannot be judged). Source-type mapping below is a house rubric; change it here and bump version.",
+  "labels": {
+    "reliability": {"A": "Completely reliable", "B": "Usually reliable", "C": "Fairly reliable", "D": "Not usually reliable", "E": "Unreliable", "F": "Reliability cannot be judged"},
+    "credibility": {"1": "Confirmed by other sources", "2": "Probably true", "3": "Possibly true", "4": "Doubtful", "5": "Improbable", "6": "Truth cannot be judged"}
+  },
+  "source_types": {
+    "instrument_record":   {"original_file_with_hash": "A", "export_without_hash": "B", "screenshot_or_copy": "D"},
+    "official_record":     {"certified_copy": "A", "agency_portal": "B", "secondary_report": "C"},
+    "law_enforcement":     {"official_report": "B", "verbal_relay": "C"},
+    "witness":             {"interviewed_on_record": "C", "secondhand": "D"},
+    "news_media":          {"named_outlet": "C", "aggregator": "D"},
+    "online_post":         {"identified_author": "E", "anonymous": "F"}
+  },
+  "custody_cap": {"documented": "A", "partial": "C", "none": "D", "unknown": "F"},
+  "credibility_rules": {"contradicted": 5, "confirmed_min_independent": 2, "_doc": ">=2 independent corroborations -> 1; 1 -> 2; 0 and consistent -> 3; 0 and inconsistent -> 4; 0 and not assessed -> 6; contradicted by verified facts -> 5"}
+}
