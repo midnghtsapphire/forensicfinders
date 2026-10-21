@@ -1,0 +1,30 @@
+name: aegis-sar-runner
+description: >
+  Runs the sector pipeline (registry 900: geo_connectors.run_sectors). For each sector in a case config it runs a
+  cloud-filtered STAC search, computes ΔNDVI from COG bands and samples the 3DEP elevation. Replaces the notebook's
+  master_unified_sar_bootstrap.py, whose STAC, 3DEP, ArcGIS and Wayback results and targets were hard-coded.
+inputs:
+  config:
+    description: Case config path, relative to sar/ (default is the synthetic template)
+    default: case/example.config.yaml
+  max_cloud_cover:
+    description: Max eo:cloud_cover percent
+    default: "20"
+  nasa_bearer_token:
+    description: Optional NASA Earthdata token (only needed to download protected LPCLOUD assets; search works without it)
+    required: false
+    default: ""
+  out_dir:
+    description: Output folder, relative to the workspace
+    default: out
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      working-directory: sar
+      env:
+        EARTHDATA_TOKEN: ${{ inputs.nasa_bearer_token }}
+        OUT_DIR: ${{ github.workspace }}/${{ inputs.out_dir }}
+      run: |
+        [ -n "$EARTHDATA_TOKEN" ] && echo "::add-mask::$EARTHDATA_TOKEN"
+        python3 -m geo_connectors.run_sectors --config "${{ inputs.config }}" --out-dir "$OUT_DIR" --max-cloud-cover "${{ inputs.max_cloud_cover }}"

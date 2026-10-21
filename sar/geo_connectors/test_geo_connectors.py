@@ -134,6 +134,44 @@ class Mcp(unittest.TestCase):
         self.assertEqual(lines[0]["result"]["serverInfo"]["name"], "forensicfinders-geo"); self.assertEqual(len(lines[1]["result"]["tools"]), 5)
 
 
+
+class Ops(unittest.TestCase):
+    def test_verify_connectors_writes_github_output(self):
+        from geo_connectors import verify_connectors as vc
+        import tempfile
+        orig = dict(vc.CHECKS)
+        try:
+            vc.CHECKS.clear(); vc.CHECKS.update({"good": lambda: True, "bad": lambda: (_ for _ in ()).throw(http.ConnectorError("down"))})
+            with tempfile.TemporaryDirectory() as d:
+                gho = os.path.join(d, "gho"); os.environ["GITHUB_OUTPUT"] = gho
+                rc = vc.main(["--out", os.path.join(d, "h.json")])
+                self.assertEqual(rc, 1); self.assertEqual(open(gho).read(), "status=FAIL\n")
+                vc.CHECKS.pop("bad"); open(gho, "w").close()
+                self.assertEqual(vc.main(["--out", os.path.join(d, "h.json")]), 0); self.assertEqual(open(gho).read(), "status=PASS\n")
+        finally:
+            os.environ.pop("GITHUB_OUTPUT", None); vc.CHECKS.clear(); vc.CHECKS.update(orig)
+
+    def test_run_sectors_from_fixtures(self):
+        from geo_connectors import run_sectors as rs
+        calls = []
+        orig_search, orig_samples = rs.stac.search, rs.dep3.sample_elevations
+        rs.stac.search = lambda *a, **k: (calls.append(k.get("query")) or orig_search(NEUTRAL, "2025-06-01/2025-06-30", ["sentinel-2-l2a"], limit=2, max_items=3, opener=Replay("earthsearch_s2.json")))
+        rs.dep3.sample_elevations = lambda pts, **k: orig_samples([(-100.48, 41.02), (-100.46, 41.04)], opener=Replay("3dep_samples.json"))[:1]
+        try:
+            out = rs.run_sector({"id": "SECTOR-A", "bbox": NEUTRAL}, {"before": "2025-05-01/2025-05-31", "after": "2025-06-01/2025-06-30"}, 20, use_cog=False)
+        finally:
+            rs.stac.search, rs.dep3.sample_elevations = orig_search, orig_samples
+        self.assertEqual(calls[0], {"eo:cloud_cover": {"lt": 20}})
+        self.assertEqual(len(out["scenes_after"]), 3); self.assertEqual(out["ndvi"]["status"], "no_data")
+        self.assertTrue(out["centre_elevation"][0]["elevation_m"] > 700)
+
+    def test_example_case_config_is_synthetic(self):
+        from geo_connectors import run_sectors as rs
+        cfg = rs.load_config(str(HERE.parent / "case" / "example.config.yaml"))
+        self.assertTrue(cfg["case_id"].startswith("SYNTH-"))
+        for s in cfg["sectors"]:
+            w, so, e, n = s["bbox"]; self.assertTrue(-101 < w < e < -100 and 40.9 < so < n < 41.1)
+
 @unittest.skipUnless(LIVE, "set SAR_LIVE_TESTS=1 to hit the public endpoints")
 class Live(unittest.TestCase):
     def test_earth_search(self): self.assertTrue(stac.search(NEUTRAL, "2025-06-01/2025-06-30", ["sentinel-2-l2a"], max_items=1))

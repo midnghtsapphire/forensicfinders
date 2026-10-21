@@ -1,0 +1,37 @@
+name: aegis-health-check
+description: >
+  Live health check of the public geo endpoints (registry 900: Earth Search, CMR LPCLOUD, USGS 3DEP,
+  Wayback CDX, ArcGIS) on a neutral bbox. Writes status=PASS|FAIL to $GITHUB_OUTPUT. (The notebook
+  version declared this output but never wrote it.)
+inputs:
+  out_dir:
+    description: Output folder, relative to the workspace
+    default: out
+  skip:
+    description: Space-separated checks to skip (earth_search cmr_lpcloud usgs_3dep wayback_cdx arcgis)
+    default: ""
+  fail_on_error:
+    description: Fail the step when status is FAIL
+    default: "false"
+outputs:
+  status:
+    description: PASS or FAIL
+    value: ${{ steps.check.outputs.status }}
+runs:
+  using: composite
+  steps:
+    - id: check
+      shell: bash
+      working-directory: sar
+      env:
+        OUT_DIR: ${{ github.workspace }}/${{ inputs.out_dir }}
+        SKIP: ${{ inputs.skip }}
+      run: |
+        args=(--out "$OUT_DIR/health.json")
+        for s in $SKIP; do args+=(--skip "$s"); done
+        set +e
+        python3 -m geo_connectors.verify_connectors "${args[@]}"
+        rc=$?
+        set -e
+        grep -q '^status=' "$GITHUB_OUTPUT" || echo "status=FAIL" >> "$GITHUB_OUTPUT"
+        if [ "$rc" -ne 0 ] && [ "${{ inputs.fail_on_error }}" = "true" ]; then exit "$rc"; fi

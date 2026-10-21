@@ -236,6 +236,18 @@
       "path": "geo_connectors/mcp_server.py",
       "what": "stdio MCP server: search_stac_satellite, query_usgs_lidar, sample_usgs_elevation, wayback_cdx_diff, arcgis_query",
       "parent": "900"
+    },
+    "960": {
+      "name": "geo_connectors/verify_connectors",
+      "path": "geo_connectors/verify_connectors.py",
+      "what": "Live health check of all 5 endpoints; writes out/health.json and status=PASS|FAIL to $GITHUB_OUTPUT (used by aegis-health-check)",
+      "parent": "900"
+    },
+    "970": {
+      "name": "geo_connectors/run_sectors",
+      "path": "geo_connectors/run_sectors.py",
+      "what": "Sector pipeline from a case config: cloud-filtered STAC, COG ΔNDVI, 3DEP centre elevation (used by aegis-sar-runner)",
+      "parent": "900"
     }
   },
   "deselected_tests": {

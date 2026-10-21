@@ -53,6 +53,26 @@ fc = arcgis.query_layer("https://gis.example-city.gov/arcgis/rest/services/X/Fea
 ```
 Every call retries 429, 5xx and network errors with exponential backoff (1, 2, 4, 8 s plus jitter), then raises `ConnectorError`. Nothing is faked on failure.
 
+### Health check and sector run (960, 970)
+Health check against the live endpoints:
+```bash
+cd sar
+python3 -m geo_connectors.verify_connectors --out out/health.json
+```
+It prints `status=PASS|FAIL`; add `--skip wayback_cdx` if your network blocks archive.org.
+
+Sector run on the synthetic sectors:
+```bash
+python3 -m geo_connectors.run_sectors --config case/example.config.yaml --out-dir out
+```
+On 2026-10-21 this found 3 before and 3 after Sentinel-2 scenes per sector. Mean NDVI was about 0.40 → 0.71 (SECTOR-A) and 0.31 → 0.55 (SECTOR-B), May → June green-up. ΔNDVI values are computed, not typed.
+
+### In GitHub
+1. Go to Actions → **daily_sar_run** → Run workflow.
+2. Leave the config as the synthetic template; real case configs aren't in the repo.
+3. Download the `sar-run-<id>` artifact, which holds `health.json` and `<case>_sectors.json`.
+4. If the health status is `FAIL`, the sector step is skipped. Open `health.json` to see which endpoint failed.
+
 ## 4. Adding a case privately
 1. `cp case/example.config.yaml case/<case-id>.config.yaml`. Git ignores everything in `case/` except the template and the README; confirm with `git check-ignore -v case/<case-id>.config.yaml`.
 2. Fill in `authority`: the agency, the case or report number, and who authorised the work.
@@ -98,9 +118,11 @@ Every call retries 429, 5xx and network errors with exponential backoff (1, 2, 4
 | coldtrace `Status code 204 must not have a response body` | Fixed: `response_class=Response, response_model=None` |
 | coldtrace returns 424 `no_data` | Expected when no API keys are set; add keys to `.env` |
 | `node --experimental-strip-types` unsupported (CLE repo) | Use Node 22 or newer: `nvm install 22`. If `NPM_CONFIG_PREFIX` is set, unset it first |
+| Health-check step shows no `status` output | Fixed: `verify_connectors` appends `status=…` to `$GITHUB_OUTPUT`; the action writes `FAIL` if the script died first |
+| Outputs missing at `/workspace/out` | Paths are now relative: `${{ github.workspace }}/out` in CI, `sar/out` locally |
 | `ConnectorError: host not allowlisted` | `netio.allow_host("your.gis.host")` |
 
 ## 8. Guardrails
-- CI is manual only (`sar-tests`, workflow_dispatch). It has no schedule and no auto-commit.
+- CI is manual only (`sar-tests` and `daily_sar_run`, both workflow_dispatch). There is no schedule and no auto-commit; outputs go to artifacts. The notebook's daily cron and commit-back step were deliberately not carried over.
 - There are no camera or ALPR credentials (Ring, Arlo, Reolink, Flock) anywhere. Accessing those needs legal authority and stays outside this repo.
 - The `case/` contents never get committed here.

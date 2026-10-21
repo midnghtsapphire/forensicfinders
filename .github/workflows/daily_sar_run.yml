@@ -1,0 +1,46 @@
+# Name kept from the notebook, but it runs MANUALLY ONLY: no cron, no push trigger, no auto-commit.
+# Outputs are uploaded as a workflow artifact. Only the synthetic example config is in the repo, so
+# real case configs (gitignored, under sar/case/) can't run here. Run those locally or from the private case-files repo.
+# Calls only free public endpoints. The run is gated by repo variable SAR_LIVE_ALLOWED (set '0' to block).
+# If a paid or LLM step is ever added, also gate it with vars.REVVEL_LLM_ALLOW_CLOUD == '1'.
+name: daily_sar_run
+on:
+  workflow_dispatch:
+    inputs:
+      config:
+        description: Config path relative to sar/
+        default: case/example.config.yaml
+      max_cloud_cover:
+        description: Max cloud cover percent
+        default: "20"
+permissions:
+  contents: read
+concurrency:
+  group: sar-run
+  cancel-in-progress: false
+jobs:
+  run:
+    if: ${{ vars.SAR_LIVE_ALLOWED != '0' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install numpy rasterio pyyaml
+      - id: health
+        uses: ./.github/actions/aegis-health-check
+      - run: echo "health=${{ steps.health.outputs.status }}"
+      - if: ${{ steps.health.outputs.status == 'PASS' }}
+        uses: ./.github/actions/aegis-sar-runner
+        with:
+          config: ${{ inputs.config }}
+          max_cloud_cover: ${{ inputs.max_cloud_cover }}
+          nasa_bearer_token: ${{ secrets.EARTHDATA_TOKEN }}
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sar-run-${{ github.run_id }}
+          path: out/
+          if-no-files-found: warn
+          retention-days: 14

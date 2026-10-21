@@ -10,7 +10,7 @@ New here? Read this file first, then [`docs/HANDOFF.md`](docs/HANDOFF.md).
    pip install numpy rasterio piexif pillow -r sar/coldtrace/backend/requirements-test.txt
    ```
    On a Debian/Ubuntu system Python, add `--user --break-system-packages`, or use a venv.
-3. Run everything offline: `python3 sar/registry.py --test-all`. It should end with `ALL OK`. On 2026-10-21 that was 594 tests: 0 failed, about 30 skipped for optional dependencies or live checks.
+3. Run everything offline: `python3 sar/registry.py --test-all`. It should end with `ALL OK`. On 2026-10-21 that was 597 tests: 0 failed, about 30 skipped for optional dependencies or live checks.
 4. List the components: `python3 sar/registry.py`
 5. Test one component: `python3 sar/registry.py 910 --test`, or open its details with `python3 sar/registry.py 910`.
 
@@ -39,6 +39,8 @@ New here? Read this file first, then [`docs/HANDOFF.md`](docs/HANDOFF.md).
 | 930 | `geo_connectors/wayback.py` | Wayback CDX query and content-digest change list |
 | 940 | `geo_connectors/arcgis.py` | ArcGIS REST layer query, GeoJSON, resultOffset paging; municipal hosts via allow_host() |
 | 950 | `geo_connectors/mcp_server.py` | stdio MCP server: search_stac_satellite, query_usgs_lidar, sample_usgs_elevation, wayback_cdx_diff, arcgis_query |
+| 960 | `geo_connectors/verify_connectors.py` | Live health check of all 5 endpoints; writes out/health.json and status=PASS|FAIL to $GITHUB_OUTPUT (used by aegis-health-check) |
+| 970 | `geo_connectors/run_sectors.py` | Sector pipeline from a case config: cloud-filtered STAC, COG ΔNDVI, 3DEP centre elevation (used by aegis-sar-runner) |
 
 IDs are permanent. Never reuse a retired number. A child ID such as 910 runs its parent's tests (900).
 
@@ -46,6 +48,16 @@ IDs are permanent. Never reuse a retired number. A child ID such as 910 runs its
 - **Offline is the default.** Connector tests replay responses recorded from the real endpoints on 2026-10-21, kept in `geo_connectors/fixtures/`. The recording used a neutral bbox in the Nebraska Sandhills, not a case area.
 - **Live run:** `cd sar && SAR_LIVE_TESTS=1 python3 -m unittest -v geo_connectors.test_geo_connectors.Live`
 - **In GitHub Actions:** run the `sar-tests` workflow by hand and tick **live**. There is no schedule. Setting the repo variable `SAR_LIVE_ALLOWED=0` turns the live job off.
+
+## GitHub Actions (all manual)
+| Item | What it does |
+|---|---|
+| `.github/workflows/sar-tests.yml` | Offline test suite, plus an optional live job (tick **live**) |
+| `.github/workflows/daily_sar_run.yml` | Despite the name: **workflow_dispatch only**, no cron, no auto-commit. Health check, then the sector run; uploads `out/` as artifact `sar-run-<run id>` |
+| `.github/actions/aegis-health-check` | Runs registry 960. Output `status` = `PASS` or `FAIL` (really written to `$GITHUB_OUTPUT`). Inputs: `out_dir` (default `out`), `skip`, `fail_on_error` |
+| `.github/actions/aegis-sar-runner` | Runs registry 970. Inputs: `config` (relative to `sar/`, default the synthetic template), `max_cloud_cover` (default 20), `nasa_bearer_token` (optional, masked), `out_dir` |
+
+Both actions write under `${{ github.workspace }}/out`, not the notebook's hard-coded `/workspace/out`. Turn off every live run by setting the repo variable `SAR_LIVE_ALLOWED=0`. Optional secret: `EARTHDATA_TOKEN`.
 
 ## Real vs. aspirational
 Only things that actually ran are listed as real. See HANDOFF.md section 6 for the full list.
