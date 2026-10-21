@@ -422,6 +422,13 @@
       "what": "PROTOTYPE: small buried/surface personal items (zippers, rivets, buttons, fabric, soles) via metal detector, magnetometry, GPR, lidar, multispectral/thermal; cited forensic geophysics; adjacent clothing-imaging sources; crawl-first roadmap",
       "kind": "doc",
       "status": "PROTOTYPE / RESEARCH"
+    },
+    "2080": {
+      "name": "docs/research/clandestine-grave-detection",
+      "path": "docs/research/clandestine-grave-detection.md",
+      "what": "PROTOTYPE: verified literature review of grave-detection case studies (UAV NDVI, GPR/ER, thermal, lidar, geographic profiling); phased workflow mapped to 800/910/920/985/1100s/1120; PermitStack as optional disturbance-date connector idea; no claimed results",
+      "kind": "doc",
+      "status": "PROTOTYPE / RESEARCH"
     }
   },
   "deselected_tests": {

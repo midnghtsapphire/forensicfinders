@@ -64,6 +64,7 @@ New here? Read this file first, then [`docs/HANDOFF.md`](docs/HANDOFF.md).
 | 2040 | `docs/research/INVENTION-DISCLOSURE.md` | PROTOTYPE: invention disclosure (2020/811, 2030/980, 2000); prior art; not legal advice; keep private |
 | 2060 | `docs/research/full-waveform-lidar.md` | PROTOTYPE: full-waveform lidar (GEDI L1B/L2A, NEON AOP) for terrain under canopy; ties to 985 |
 | 2070 | `docs/research/buried-object-detection.md` | PROTOTYPE: small buried/surface personal items; cited forensic geophysics; crawl-first roadmap |
+| 2080 | `docs/research/clandestine-grave-detection.md` | PROTOTYPE: verified grave-detection literature review + phased search workflow; optional permit connector idea |
 
 IDs are permanent. Never reuse a retired number. A child ID such as 910 runs its parent's tests (900).
 
