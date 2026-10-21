@@ -1,0 +1,244 @@
+{
+ "source": {
+  "citation": "Hand-typed in universal-sar-app sar-engine.ts as 'Koester data'; not checked against ISRID / Lost Person Behavior (Koester 2008). Replace with sourced numbers.",
+  "verified": false
+ },
+ "profiles": [
+  {
+   "key": "human/child",
+   "when": {
+    "age": {
+     "max": 3
+    }
+   },
+   "speed_kmh": 0.5,
+   "p25_km": 0.2,
+   "p50_km": 0.4,
+   "p75_km": 0.8,
+   "p95_km": 1.6
+  },
+  {
+   "key": "human/child",
+   "when": {
+    "age": {
+     "max": 6
+    }
+   },
+   "speed_kmh": 1.0,
+   "p25_km": 0.4,
+   "p50_km": 0.9,
+   "p75_km": 1.8,
+   "p95_km": 3.2
+  },
+  {
+   "key": "human/child",
+   "when": {
+    "age": {
+     "max": 12
+    }
+   },
+   "speed_kmh": 2.0,
+   "p25_km": 0.6,
+   "p50_km": 1.4,
+   "p75_km": 2.8,
+   "p95_km": 5.0
+  },
+  {
+   "key": "human/child",
+   "when": {},
+   "speed_kmh": 2.5,
+   "p25_km": 0.8,
+   "p50_km": 2.0,
+   "p75_km": 4.0,
+   "p95_km": 7.0
+  },
+  {
+   "key": "human/hiker",
+   "when": {
+    "experience_level": "expert"
+   },
+   "speed_kmh": 4.0,
+   "p25_km": 2.0,
+   "p50_km": 5.0,
+   "p75_km": 10.0,
+   "p95_km": 20.0
+  },
+  {
+   "key": "human/hiker",
+   "when": {
+    "experience_level": "intermediate"
+   },
+   "speed_kmh": 3.0,
+   "p25_km": 1.5,
+   "p50_km": 3.5,
+   "p75_km": 7.0,
+   "p95_km": 14.0
+  },
+  {
+   "key": "human/hiker",
+   "when": {},
+   "speed_kmh": 2.5,
+   "p25_km": 1.0,
+   "p50_km": 2.5,
+   "p75_km": 5.0,
+   "p95_km": 10.0
+  },
+  {
+   "key": "human/elderly",
+   "when": {},
+   "speed_kmh": 1.0,
+   "p25_km": 0.2,
+   "p50_km": 0.6,
+   "p75_km": 1.2,
+   "p95_km": 2.5
+  },
+  {
+   "key": "human/fugitive",
+   "when": {},
+   "speed_kmh": 5.0,
+   "p25_km": 5.0,
+   "p50_km": 15.0,
+   "p75_km": 50.0,
+   "p95_km": 200.0
+  },
+  {
+   "key": "human/despondent",
+   "when": {},
+   "speed_kmh": 1.5,
+   "p25_km": 0.1,
+   "p50_km": 0.5,
+   "p75_km": 1.5,
+   "p95_km": 4.0
+  },
+  {
+   "key": "human/alzheimers",
+   "when": {},
+   "speed_kmh": 1.2,
+   "p25_km": 0.3,
+   "p50_km": 0.8,
+   "p75_km": 2.0,
+   "p95_km": 5.0
+  },
+  {
+   "key": "human/autistic",
+   "when": {},
+   "speed_kmh": 2.0,
+   "p25_km": 0.3,
+   "p50_km": 1.0,
+   "p75_km": 2.5,
+   "p95_km": 6.0
+  },
+  {
+   "key": "human/hunter",
+   "when": {},
+   "speed_kmh": 3.0,
+   "p25_km": 1.0,
+   "p50_km": 3.0,
+   "p75_km": 6.0,
+   "p95_km": 12.0
+  },
+  {
+   "key": "human/skier",
+   "when": {},
+   "speed_kmh": 3.5,
+   "p25_km": 0.5,
+   "p50_km": 1.5,
+   "p75_km": 3.0,
+   "p95_km": 8.0
+  },
+  {
+   "key": "human/snowboarder",
+   "when": {},
+   "speed_kmh": 3.5,
+   "p25_km": 0.5,
+   "p50_km": 1.5,
+   "p75_km": 3.0,
+   "p95_km": 8.0
+  },
+  {
+   "key": "animal/dog",
+   "when": {
+    "temperament": "fearful"
+   },
+   "speed_kmh": 0.5,
+   "p25_km": 0.1,
+   "p50_km": 0.3,
+   "p75_km": 0.8,
+   "p95_km": 2.0
+  },
+  {
+   "key": "animal/dog",
+   "when": {
+    "training_level": "advanced"
+   },
+   "speed_kmh": 2.0,
+   "p25_km": 0.3,
+   "p50_km": 1.0,
+   "p75_km": 2.5,
+   "p95_km": 5.0
+  },
+  {
+   "key": "animal/dog",
+   "when": {
+    "training_level": "service"
+   },
+   "speed_kmh": 2.0,
+   "p25_km": 0.3,
+   "p50_km": 1.0,
+   "p75_km": 2.5,
+   "p95_km": 5.0
+  },
+  {
+   "key": "animal/dog",
+   "when": {},
+   "speed_kmh": 3.0,
+   "p25_km": 0.5,
+   "p50_km": 2.0,
+   "p75_km": 5.0,
+   "p95_km": 10.0
+  },
+  {
+   "key": "animal/cat",
+   "when": {},
+   "speed_kmh": 0.5,
+   "p25_km": 0.05,
+   "p50_km": 0.15,
+   "p75_km": 0.5,
+   "p95_km": 1.5
+  },
+  {
+   "key": "animal/horse",
+   "when": {},
+   "speed_kmh": 6.0,
+   "p25_km": 2.0,
+   "p50_km": 5.0,
+   "p75_km": 15.0,
+   "p95_km": 40.0
+  },
+  {
+   "key": "vehicle/boat",
+   "when": {},
+   "speed_kmh": 15,
+   "p25_km": 5,
+   "p50_km": 20,
+   "p75_km": 50,
+   "p95_km": 150
+  },
+  {
+   "key": "object/default",
+   "when": {},
+   "speed_kmh": 0,
+   "p25_km": 0,
+   "p50_km": 0,
+   "p75_km": 0.01,
+   "p95_km": 0.05
+  }
+ ],
+ "default": {
+  "speed_kmh": 2.0,
+  "p25_km": 0.5,
+  "p50_km": 1.5,
+  "p75_km": 3.0,
+  "p95_km": 6.0
+ }
+}
