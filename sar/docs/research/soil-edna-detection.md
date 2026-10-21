@@ -97,6 +97,31 @@ Dog-specific assays and canine eDNA exist in ecology (e.g. conservation studies 
 
 ---
 
+## Additional verified sources (added 2026-10-21)
+Titles, authors and DOIs were checked against Crossref / PMC. Findings are the authors' own statements.
+Blog and marketing pages (nanotechsci, climate.com, MIT Technology Review, MGI) and the pasted "game technology"
+claims are **not** cited.
+
+| Source | What it is | Use here |
+|---|---|---|
+| Domenech MB, Amiotti NM, Costa JL, Castro-Franco M (2020). *Prediction of topsoil properties at field-scale by using C-band SAR data.* Int J Appl Earth Obs Geoinf 93:102197. doi:[10.1016/j.jag.2020.102197](https://doi.org/10.1016/j.jag.2020.102197) (PII S0303243419311353) | 51 Sentinel-1 GRD scenes + Random Forest to predict topsoil properties on two Argentine Pampas fields; relates C-band backscatter to apparent electrical conductivity | Soil *properties*, not DNA. Context for the remote "Run" tier and SAR change (980): backscatter tracks soil state, so a soil-change anomaly needs a property baseline |
+| Nagesh D, Kumari K, Tripathi A, Chittayil Raveendran V, Dalal J, Sekar P et al. (2026). *Intelligent Soil Analytics for Forensic Applications: Emerging Technologies, Trends, and Transformative Paradigms.* Engineering Reports 8(2):e70538 (Wiley). doi:[10.1002/eng2.70538](https://doi.org/10.1002/eng2.70538) | Review: nanobiosensors, DNA metagenomics for microbial fingerprinting, proximal/remote soil sensing, ML classification | Its ">90% classification accuracy" refers to studies it reviews, not to our use case. Do not quote it as a performance figure |
+| Garg D, Patel N, Rawat A, Rosado AS (2024). *Cutting edge tools in the field of soil microbiology.* Curr Res Microb Sci 6:100226. doi:[10.1016/j.crmicr.2024.100226](https://doi.org/10.1016/j.crmicr.2024.100226) | Review of metagenomic sequencing methods in soil microbiology and their limits | Background for the necrobiome / microbial-fingerprint idea (canine and "blue-ocean" rows) |
+| IAEA (2025). CRP **D12015** *Combining Gamma Ray Sensing and Digital Technology for Soil Moisture and Soil Property Mapping* (approved 13 May 2025; 2025–2030) <https://www.iaea.org/projects/crp/d12015>; news 7 Jul 2025 <https://www.iaea.org/newscenter/news/assessing-soil-with-gamma-ray-spectrometry-and-digital-technology>; Cheng Y et al., *Portable Gamma-Ray Spectrometry for Non-Invasive Soil Texture Mapping*, IAEA Soils Newsletter 48(1), Jul 2025 <https://www-pub.iaea.org/MTCD/Publications/PDF/p15962-snl48.pdf> | Gamma-ray spectrometry (K, U, Th) on fixed, mobile or drone platforms for texture, carbon, nitrogen and moisture. The newsletter reports R² 0.80 (silt) and 0.78 (clay) for a ²³⁸U model at their Austrian sites | Soil-texture and moisture baseline for interpreting GPR (1120) and soil-change layers. Not a remains detector |
+| Zhao Y, Yavari K, Wang Y, Pi K, Van Cappellen P, Liu J (2022). *Deployment of functional DNA-based biosensors for environmental water analysis.* TrAC Trends Anal Chem 153:116639. doi:[10.1016/j.trac.2022.116639](https://doi.org/10.1016/j.trac.2022.116639) | Review of field deployment of functional DNA biosensors (aptamers/DNAzymes) for water | Water, not soil. Shows which field formats are mature enough to borrow |
+| Billington C, Schmidt J, Mundle R, Prenner E, Pang L et al. (2023). *Comparative quantitation of DNA water tracers using OptiQ, Qubit, and Nanodrop.* Agrosyst Geosci Environ 6(1):e20344 (Wiley/ACSESS). doi:[10.1002/agg2.20344](https://doi.org/10.1002/agg2.20344) | Compares three **portable** DNA quantitation instruments | Authors: all three agree at high concentration. Qubit and OptiQ (fluorescent) had LODs of **0.1–2 ng/mL** vs **5×10³ ng/mL** for Nanodrop |
+| Pang L, Abeysekera G, Hanning K, Premaratne A, Robson B et al. (2020). *Water tracking in surface water, groundwater and soils using free and alginate-chitosan encapsulated synthetic DNA tracers.* Water Res 184:116192. doi:[10.1016/j.watres.2020.116192](https://doi.org/10.1016/j.watres.2020.116192) | Synthetic DNA tracers tested in a stream, two aquifers and silt-loam lysimeters | DNA moves and persists differently by medium. Relevant to how far soil DNA could travel from a source (spiked-soil panel design) |
+| Kumar V, Guleria P (2020). *Application of DNA-Nanosensor for Environmental Monitoring: Recent Advances and Perspectives.* Curr Pollut Rep (online 12 Dec 2020; Crossref lists 10(4):765–785). doi:[10.1007/s40726-020-00165-1](https://doi.org/10.1007/s40726-020-00165-1); PMC7732738 | Review of DNA nanosensors for pollutants | Background only; pollutant targets, not human DNA |
+| Yoon H, Seo J, Shin S, Abdelhamid M, Pack SP et al. (2025). *Bioinformation and Monitoring Technology for Environmental DNA Analysis: A Review.* Biosensors 15(8):494. doi:[10.3390/bios15080494](https://doi.org/10.3390/bios15080494) | eDNA methods across air, soil, groundwater, sediment and water, including field-deployable detection | Up-to-date survey for the "Walk" tier (portable kits) |
+
+### Field meter choice for the 2020 Pi kit
+From Billington et al. (2023): for low-concentration DNA, a **fluorometer (Qubit or OptiQ class)** is the right field meter.
+A UV-absorbance micro-spectrophotometer (Nanodrop class) was about three orders of magnitude less sensitive in their test.
+So the Pi kit (`phone-gpr-addon.md`, 2020 / 811) should log a fluorometer's readings (manual entry or its export file)
+alongside GPS and time, and must not treat a Nanodrop-style reading near zero as "no DNA". Caveats: their samples were
+synthetic DNA tracers in water, not soil extracts. A fluorometer measures **total** dsDNA, not human DNA, so a human
+result still needs qPCR (1300 QC). Re-check each instrument's own LOD with our extraction kit before relying on it.
+
 ## STR typing from soil samples
 
 Literature and vendor sources only. Each entry was opened/verified on 2026-10-21 (America/Denver). **No performance or detection claims are made here**; these are citations for background reading.

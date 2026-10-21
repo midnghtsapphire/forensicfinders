@@ -29,4 +29,14 @@ Status meanings:
 | Canine eDNA field kit | IDEA | — | After human soil assay validates (2000) |
 | Hyperspectral / thermal flight add-on | IDEA | — | Collect labelled overflight data; do not score without ground samples |
 
+## Glossary
+- **eDNA** — *environmental DNA*: DNA recovered from soil, water or air (notes 2000, 2070). Code fields use
+  lowercase `edna_*`.
+- **EDNA / Edna** — Audrey's middle name. It is **not** a sensor, model or code name and must never be read as eDNA.
+  A grep on 2026-10-21 of forensicfinders and `/workspace/notebook-sar` found **no** uppercase `EDNA` or capitalised
+  `Edna` anywhere. Lowercase `edna_*` fields exist only in notebook outputs (`edna_lipids_um` in the
+  lindeman/fraysure candidate CSV/JSON files, `edna_protocol` in `fraysure_aranda_pipeline_results.json`).
+  Those mean eDNA. `edna_lipids_um` has no stated source or method, so treat it as unverified notebook output.
+  Nothing was renamed.
+
 Sources for research rows are only those cited inside the linked notes. Nothing here claims a detection result.
