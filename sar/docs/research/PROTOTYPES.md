@@ -33,6 +33,7 @@ Status meanings:
 | Hyperspectral / thermal flight add-on | IDEA | — | Collect labelled overflight data; do not score without ground samples |
 
 ## Glossary
+- **TEM**: *transmission electron microscopy*. It appears only in the adjacent method references in the vision note (2100). It is **not** a lidar or terrain term. For elevation, use DEM (digital elevation model), DTM (bare-earth terrain model) or DSM (surface model). "Terrain elevation model" is not standard.
 - **eDNA** — *environmental DNA*: DNA recovered from soil, water or air (notes 2000, 2070). Code fields use
   lowercase `edna_*`.
 - **EDNA / Edna** — Audrey's middle name. It is **not** a sensor, model or code name and must never be read as eDNA.

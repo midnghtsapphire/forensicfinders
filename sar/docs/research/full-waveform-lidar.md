@@ -43,3 +43,33 @@ waveform only (`python3 -m unittest geo_connectors.test_waveform`).
    the L2A ground elevation and with 3DEP (920). Record the differences; do not tune for them.
 2. **Walk:** same under canopy at one NEON site where AOP waveforms and discrete lidar overlap.
 3. **Run:** only if 1–2 agree, add GEDI ground points as a sparse layer for sector terrain maps.
+
+
+## Discrete-return lidar to bare-earth DTM: what the code does today (checked 2026-10-21)
+
+**Finding.** `search_system/remains_anomaly_pipeline.py` (1410), function `fetch_lidar_dtm_3dep`, builds a DTM with a PDAL pipeline that runs `readers.ept` (USGS 3DEP Entwine tiles), then `filters.range Classification[2:2]`, then `writers.gdal` (mean, nodata −9999).
+- It **does rasterise a DTM**, but only from points the data provider has **already classified as ground (class 2)**.
+- It does **no ground filtering of its own** (no `filters.smrf`, `filters.pmf`, `filters.csf`, `filters.elm` or outlier removal).
+- It does not use laspy.
+- It shells out to the `pdal` CLI. PDAL is not installed on this box or in CI, and there is no test of this function.
+- `geo_connectors/dep3.py` (920) instead pulls USGS's **pre-made** 3DEP DTM from the ImageServer. It also documents that the notebook's old "smrf_filter: Applied" output was fake.
+
+**Gap.**
+- Unclassified clouds, such as a team's own drone lidar, or projects with poor classification, would give an empty or wrong DTM.
+- There is no noise or outlier step.
+- `mean` gridding leaves holes where there are no ground returns; there is no IDW or TIN fill.
+- There is no check that a raster was actually produced.
+
+**Suggested fix (prototype, not built).** Add an optional "classify" mode: reset classes, run `filters.elm` and `filters.outlier`, then `filters.smrf`, keep class 2, and write with `writers.gdal` using `output_type idw` and a set radius. Make it skip cleanly when PDAL is absent, and test it on a small public sample cloud. References:
+- the [PDAL ground filter tutorial](https://pdal.io/en/stable/tutorial/ground-filters.html)
+- OpenSourceOptions, [How to Create a DEM (or Raster) from a Lidar Point Cloud](https://opensourceoptions.com/how-to-create-a-dem-or-raster-from-a-lidar-point-cloud/) (2021 blog guide)
+- [erickfaria/LidarToolkit](https://github.com/erickfaria/LidarToolkit) (MIT; small 2025 Python toolkit, unreviewed)
+- the arijolma.org DEM/DTM/DSM explainer ([category page](https://arijolma.org/category/software-development/)), an affiliate-style blog used for terminology only. The specific "bare-earth DEM guide" page could not be fetched (Cloudflare block).
+
+- [sanya186/LiDAR-Data-preprocessor](https://github.com/sanya186/LiDAR-Data-preprocessor) has **no licence** (all rights reserved by default). It was created 2025-11-08 and has 0 stars. It is a Gradio and Colab demo that works on **2D LiDAR depth images** (PNG or JPG, for example KITTI depth): DFT/iDFT, median and mean filtering, PCA/SVD stats and histograms. It does **not** read point clouds (no LAS/LAZ), filter ground or build a DTM, so it **does not fill the 1410 gap**. Recorded for completeness only.
+
+**Data access.**
+- [USGS Lidar Explorer](https://apps.nationalmap.gov/lidar-explorer/) for finding 3DEP projects.
+- NASA [LP DAAC](https://www.earthdata.nasa.gov/centers/lp-daac) for GEDI and other land products.
+
+**Terminology.** "TEM = terrain elevation model", as it appeared in a pasted AI snippet, is **not a standard term**. The standard terms are **DEM** (digital elevation model, often used loosely), **DTM** (bare-earth terrain) and **DSM** (top surface, including canopy and buildings). TEM means transmission electron microscopy (see the glossary in PROTOTYPES.md).
