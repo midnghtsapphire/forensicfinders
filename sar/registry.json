@@ -1,0 +1,18 @@
+{
+  "_doc": "Numeric lookup registry for the consolidated SAR toolchain. Look up by number: python3 sar/registry.py <id> [--test]. IDs are stable; never reuse a retired number.",
+  "components": {
+    "100": {"name": "blue-ocean-sar", "path": "blue-ocean-sar", "what": "Sensing toolchain: person finder, dual comms publisher, provenance, evidence package, opendata adapters, realdata terrain/NDVI/change/sweep-width modules", "test_cwd": "blue-ocean-sar", "test": ["python3", "-m", "unittest", "discover", "-s", ".", "-p", "test_*.py"], "source": "revvel-standards/docs/blue-ocean-sar"},
+    "110": {"name": "blue-ocean-sar/evidence", "path": "blue-ocean-sar/evidence", "what": "Evidence chain-of-custody package and importers", "parent": "100"},
+    "120": {"name": "blue-ocean-sar/opendata", "path": "blue-ocean-sar/opendata", "what": "Public open-data adapters (fixtures only in tests)", "parent": "100"},
+    "130": {"name": "blue-ocean-sar/realdata", "path": "blue-ocean-sar/realdata", "what": "DEM terrain, microtopography, Sentinel-2 NDVI/change, sweep width, field log, evidence scoring/fusion", "parent": "100"},
+    "200": {"name": "hfmr", "path": "hfmr", "what": "Historical forensic material reanalysis: acquisition, archive, retrieval, discovery, municipal/construction records, evidence engine", "test_cwd": ".", "test": ["python3", "-m", "unittest", "discover", "-s", "hfmr", "-t", "."], "source": "revvel-standards/docs/hfmr"},
+    "300": {"name": "sar-change-detection", "path": "sar-change-detection", "what": "SAR (radar) change detection", "test_cwd": "sar-change-detection", "test": ["python3", "-m", "unittest", "discover", "-p", "test_*.py"], "source": "revvel-standards/docs/sar-change-detection"},
+    "400": {"name": "sensor-fusion-grid", "path": "sensor-fusion-grid", "what": "Sensor fusion into a voxel grid", "test_cwd": "sensor-fusion-grid", "test": ["python3", "-m", "unittest", "discover", "-p", "test_*.py"], "source": "revvel-standards/docs/sensor-fusion-grid"},
+    "500": {"name": "gpr-wave-model", "path": "gpr-wave-model", "what": "Ground-penetrating-radar wave physics model", "test_cwd": "gpr-wave-model", "test": ["python3", "-m", "unittest", "discover", "-p", "test_*.py"], "source": "revvel-standards/docs/gpr-wave-model"},
+    "600": {"name": "cot-export", "path": "cot-export", "what": "Cursor-on-Target export for ATAK", "test_cwd": "cot-export", "test": ["python3", "-m", "unittest", "discover", "-p", "test_*.py"], "source": "revvel-standards/docs/cot-export"}
+  },
+  "deselected_tests": {
+    "evidence.test_importers.Columbus": "Needs realdata/columbus_records.py, which is left out (case-specific records)."
+  },
+  "llm": "No component calls an LLM. Any future LLM step must be optional, gated by SAR_LLM_ENABLE=1, and use a small local model through SAR_LLM_BASE_URL (OpenAI-compatible, e.g. Ollama http://localhost:11434/v1)."
+}
