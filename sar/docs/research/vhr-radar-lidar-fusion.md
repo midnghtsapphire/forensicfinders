@@ -95,6 +95,53 @@ Honest crawl limits: Umbra/Capella open catalogs are **sparse**. Most US work st
 - Prefer same geometry (orbit, look); refuse silent resample without a flag.
 - Band note in sidecar: never label X-band products as “penetrating”.
 
+### B1a — Optional speckle filtering before change detection
+
+Speckle is multiplicative noise in SAR intensity imagery; filtering it before a log-ratio
+can reduce false change cues, but it also blurs edges and can suppress small real changes.
+So in `sar_pair` (**980**) despeckling is **optional and off by default**
+(`despeckle_method=None`); the unfiltered behaviour is unchanged.
+
+**Shipped today (classical, numpy only, no training and no GPU):**
+- `lee_filter` — classical Lee (local linear MMSE under the multiplicative speckle model,
+  Lee 1980), parameterised by window size and number of looks.
+- `refined_lee_filter` — edge-aware variant: a small window where the local coefficient of
+  variation exceeds the speckle-only value (likely edge or point target), the large window
+  elsewhere.
+- Both are exercised against **synthetic Gamma-distributed speckle** on a step edge in
+  `test_sar_pair.py`; when filtering is on, the method/window/looks are recorded in the
+  GeoTIFF tags and the JSON sidecar so a run is reproducible.
+
+**Optional add-ons (not implemented here, not vendored):** the survey repository
+*Practical-SAR-Despeckling-Codes* (Yangtian Fang) collects recent single-image SAR
+intensity despecklers — <https://github.com/YangtianFang2002/Practical-SAR-Despeckling-Codes>.
+As of 2026-10-21 that repository publishes **no LICENSE file** (GitHub reports no license),
+so its code is *not* copied or vendored into this repo; only the citation and the method
+list are recorded here.
+
+| Method (from that repo) | Paradigm | Needs deep learning? | Needs a GPU? |
+|---|---|---|---|
+| CL-SAR-Despeckling (ISPRS 2024) | self-/contrastive-supervised CNN | yes | yes, in practice for training; GPU strongly preferred for inference |
+| SAR-USE (TGRS 2023) | unsupervised + supervised CNN | yes | yes for training |
+| Speckle2Void (TGRS 2021) | unsupervised (blind-spot) CNN, TensorFlow | yes | yes for training |
+| MRDDANet (TGRS 2021) | supervised CNN | yes | yes for training |
+| SAR-CAM (JSTARS 2021) | supervised CNN | yes | yes for training |
+| MONet (TGRS 2020) | supervised CNN | yes | yes for training |
+| NR-SAR-DL (TGRS 2020) | supervised CNN, TensorFlow | yes | yes for training |
+| SAR-CNN (IEEE SPL 2017) | supervised CNN | yes | yes for training |
+| SAR-BM3D (TGRS 2011) | numerical (non-local, MATLAB) | **no** | no |
+| PPB (TIP 2009) | numerical (non-local, MATLAB) | **no** | no |
+
+The re-implementations in that repo are organised as BasicSR training configs (PyTorch), i.e.
+they assume a training dataset and GPU training before any use. The two numerical methods
+(SAR-BM3D, PPB) are MATLAB downloads from their original authors, under those authors' own terms.
+Adopting any of them here would need a license check first; the classical Lee filters above
+are our own implementation and carry no such constraint.
+
+Reference: Fang Y, Liu R, Peng Y, Guan J, Li D, Tian X. *Contrastive learning for real SAR image
+despeckling.* ISPRS J. Photogramm. Remote Sens. 218:376–391 (2024). DOI:
+[10.1016/j.isprsjprs.2024.11.003](https://doi.org/10.1016/j.isprsjprs.2024.11.003).
+
 ### B2 — Lidar micro-relief add-on
 - Inputs: DTM or LAS→DTM (810 / 3DEP / OpenTopography).
 - Outputs: detrended residual height; Gi* hot/cold cells (**1110**); optional nDSM if DSM+DTM exist (building/canopy mask — Ullo-style, not person detect).
