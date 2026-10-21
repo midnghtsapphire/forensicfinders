@@ -121,6 +121,14 @@ Searches used: [Google Patents](https://patents.google.com/), USPTO Patent Publi
 | WO2000025108A1 — volatile gas combinations to locate corpses | https://patents.google.com/patent/WO2000025108A1/en | Gas sensors. Different modality from eDNA. |
 | Emmons (2015) thesis — human mtDNA persistence in grave soil | https://trace.tennessee.edu/entities/publication/a52cb7b6-25e1-4bd2-89b3-152c00101c12 | Scientific prior art for recoverability. Evans’ disclosure is a **product ladder + QC + canine sequencing**, not the biological observation alone. |
 | Hirashima et al. (2022) FSI — BSA/skim milk soil DNA extraction (abstract) | https://doi.org/10.1016/j.forsciint.2022.111284 | Extraction additive study. Inputs to crawl chemistry; not a SAR-integrated human→canine kit claim by itself. |
+| Lang et al. (2023) — NanoSTR, STR detection from nanopore sequencing data | https://doi.org/10.3389/fmolb.2023.1093519 | Cited as STR-calling method literature (nanopore path). Not soil-specific; no claim of soil performance. |
+| Butler (1998) MiMB 98 — capillary electrophoresis genotyping of STR loci (Springer protocol) | https://doi.org/10.1385/0-89603-443-7:279 | Standard CE STR protocol reference for the typing step. |
+| *Ecological Indicators* (2025) — eDNA for soil health monitoring (review) | https://doi.org/10.1016/j.ecolind.2025.113438 | Soil eDNA methods/review background for sample prep; non-forensic scope. |
+| Promega **Paradyme™ 27GY STR System** (product page) | https://www.promega.com/products/forensic-dna-analysis-ce/str-amplification/paradyme-27gy-str-system/ | Example commercial CE STR chemistry cited for the typing step; no endorsement or validation claim. |
+| Ali & Rasheed (2024) JPMS 13(2):164–169 — soil factors and degradation of STR DNA from skeletal remains | https://doi.org/10.61091/jpms202413224 | Published soil-chemistry effect on STR recovery from remains; cited as background, not as our result. |
+| Xu et al. (2026) *ACS Sens* — centrifugal microfluidic soil-to-DNA prep (Soil-on-a-Disc), CRISPR/Cas12a readout | https://doi.org/10.1021/acssensors.6c01885 (PMID 42859054) | Soil-to-DNA sample-prep format; target in the paper is a **plant pathogen**, not human DNA. |
+| Linacre et al. (2011) — ISFG recommendations, non-human (animal) DNA in forensic genetics | https://doi.org/10.1016/j.fsigen.2010.10.017 | Governing recommendations for the later canine add-on. |
+| Validation of two canine STR multiplex-assays following the ISFG recommendations (2013) | https://doi.org/10.1016/j.fsigen.2013.07.002 | Real published canine 13-STR panel cited for the canine add-on; not implemented here. |
 
 ---
 

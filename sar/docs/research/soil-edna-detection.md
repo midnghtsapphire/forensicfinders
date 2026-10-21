@@ -94,3 +94,29 @@ Dog-specific assays and canine eDNA exist in ecology (e.g. conservation studies 
 5. For remote sensing: labelled polygons of known disturbed vs undisturbed ground with dates.
 
 **This document does not claim any detection performance.** Next engineering step lives under crawl above; code belongs in a future registry ID only after the spiked panel exists.
+
+---
+
+## STR typing from soil samples
+
+Literature and vendor sources only. Each entry was opened/verified on 2026-10-21 (America/Denver). **No performance or detection claims are made here**; these are citations for background reading.
+
+### Sources
+
+1. **NanoSTR: A method for detection of target short tandem repeats based on nanopore sequencing data.** Lang J, Xu Z, Wang Y, Sun J, Yang Z. *Frontiers in Molecular Biosciences* 10:1093519 (2023). DOI: [10.3389/fmolb.2023.1093519](https://doi.org/10.3389/fmolb.2023.1093519) · PMC: [PMC9889824](https://pmc.ncbi.nlm.nih.gov/articles/PMC9889824/) · PMID 36743210.
+2. **The Use of Capillary Electrophoresis in Genotyping STR Loci.** Butler JM. In: Lincoln PJ, Thomson J (eds), *Forensic DNA Profiling Protocols*, Methods in Molecular Biology vol. 98, Humana Press (1998), pp. 279–289. DOI: [10.1385/0-89603-443-7:279](https://doi.org/10.1385/0-89603-443-7:279). (Newer Springer protocol in the same series: Hill CR, *Capillary Electrophoresis and 5-Channel LIF Detection of a 26plex Autosomal STR Assay for Human Identification*, in *DNA Electrophoresis Protocols for Forensic Genetics*, MiMB vol. 830, Humana (2012) — DOI: [10.1007/978-1-61779-461-2_2](https://doi.org/10.1007/978-1-61779-461-2_2).)
+3. **Environmental DNA as a tool for soil health monitoring and unveiling new ecological frontiers.** *Ecological Indicators* (2025), article 113438. DOI: [10.1016/j.ecolind.2025.113438](https://doi.org/10.1016/j.ecolind.2025.113438) · ScienceDirect: https://www.sciencedirect.com/science/article/pii/S1470160X25003681. Systematic review of 723 soil-eDNA papers (2001–2023).
+4. **Paradyme™ 27GY STR System** (Promega product page; 8-dye multiplex, 23 autosomal STRs + 3 Y-STRs + Amelogenin + QIS/QIL, Cat.# RS2705 / RS2720). https://www.promega.com/products/forensic-dna-analysis-ce/str-amplification/paradyme-27gy-str-system/
+5. **Studying the Role of Soil Factors on Degree of Degradation of DNA of Human Remains.** Ali SS, Rasheed MN. *Journal of Pioneering Medical Sciences* 13(2):164–169 (2024). DOI: [10.61091/jpms202413224](https://doi.org/10.61091/jpms202413224).
+6. **Centrifugal Microfluidic Soil-to-DNA Preparation for the Portable Detection of *Phytophthora infestans* Using a CRISPR/Cas12a-Based Quantum Dot Fluorescent Lateral Flow Assay.** Xu C, Cao L, Li S, Ye W, Zhao J, Li X, Luo S, Zhang L, Liu G, Gao F, Wang Y. *ACS Sensors* (2026, online 10 Oct 2026). DOI: [10.1021/acssensors.6c01885](https://doi.org/10.1021/acssensors.6c01885) · PMID [42859054](https://pubmed.ncbi.nlm.nih.gov/42859054/). Note: the "Soil-on-a-Disc" chip in this paper is applied to a **plant pathogen** target, not human DNA; it is cited for the soil-to-DNA sample-prep format only.
+7. **ISFG: Recommendations regarding the use of non-human (animal) DNA in forensic genetic investigations.** Linacre A, et al. *Forensic Science International: Genetics* 5(5):501–505 (2011). DOI: [10.1016/j.fsigen.2010.10.017](https://doi.org/10.1016/j.fsigen.2010.10.017).
+8. **Validation of two canine STR multiplex-assays following the ISFG recommendations for non-human DNA analysis.** *Forensic Science International: Genetics* (2013); 13 STRs + 2 sex markers, repeat-based nomenclature, allelic ladders, 295 dogs (AT/DE). DOI: [10.1016/j.fsigen.2013.07.002](https://doi.org/10.1016/j.fsigen.2013.07.002). Later population data: CaDNAP 13-STR panel in 1,184 dogs — https://www.fsigenetics.com/article/S1872-4973(19)30181-4/abstract
+
+### Workflow outline (plain research terms — proposed reading order, not validated)
+
+1. **Sample prep.** Collect soil cores with blanks and spiked controls in the same batch; extract DNA with a soil kit or a microfluidic soil-to-DNA cartridge format (source 6); handle humic/inhibitor carryover explicitly. Background on soil eDNA method choices: source 3.
+2. **Human-specific qPCR screen.** Run a published human-specific qPCR assay on each extract to decide whether anything downstream is worth attempting, and log every instrument export through the existing QC path (registry **1300**). Soil chemistry effects on recoverable human DNA: source 5.
+3. **STR typing.** For extracts that pass the screen, type STRs either by a capillary-electrophoresis multiplex kit (protocol background: source 2; example commercial chemistry: source 4) or by nanopore sequencing with STR-aware calling (source 1).
+4. **Canine STR panel — later add-on.** Only after the human path is validated, add a real published canine panel following the ISFG non-human recommendations (source 7) — e.g. the 13-STR canine multiplex validated against those recommendations (source 8) — reusing the same extraction and QC path.
+
+No step above has been run on case or research soil in this project; nothing here asserts sensitivity, specificity, or recovery.
