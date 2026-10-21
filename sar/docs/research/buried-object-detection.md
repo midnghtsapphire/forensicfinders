@@ -32,6 +32,59 @@ These describe how clothing materials look to *other* sensors. They are not fiel
 - ISCD DXA Atlas: <https://iscd.org/learn/resources/dxa-atlas/>. Reference images that include
   clothing and external artifacts in DXA scans.
 
+## Near-surface imaging: what a security scanner can and cannot tell us
+- **News source:** Stephen Chen, *Chinese body scanner can see through 30 layers of clothing using space tech*,
+  South China Morning Post, 13 Jan 2022 (22:30 HKT).
+  <https://www.scmp.com/news/china/science/article/3163290/chinese-body-scanner-can-see-through-30-layers-clothing-using>.
+  The article says "space radar technology" (synthetic aperture), a mirror-sized unit with 32 small antennas,
+  millimetre-level resolution, and a printed "S" still identifiable through up to 30 garment layers. It names
+  Prof. Liu Jinsong's team at Huazhong University of Science and Technology and a paper in *Optics and
+  Optoelectronic Technology*.
+- **Underlying paper (found by title/authors; no DOI located):** Hong Weitao, Chen Hanjiang, Zhang Ze, You Chengwu,
+  Liu Jinsong, Wang Kejia, Yang Zhengang (2022). 毫米波步进频连续波SAR成像系统研究 (*Research on a millimetre-wave
+  stepped-frequency continuous-wave SAR imaging system*). 光学与光电技术 (Optics & Optoelectronic Technology)
+  2022(01):58–64. Abstract mirror: <https://journal.yuanpingjia.com.cn/Journal/ArticleDetails/696607>.
+  **Technology: millimetre-wave SFCW SAR, not terahertz.** The abstract does not state the band. It reports
+  resolution of about 8–9 mm (x), 12 mm (y) and 40 mm (z), a best imaging range of **5–16 cm** from the antennas,
+  and penetration of five common fabrics "at normal clothing thickness".
+- **Relevance:** it shows mmWave SAR can image small, mm-scale contrast through dry textiles. That fits the
+  *surface* case: a zipper, rivet or button under leaf litter or a garment, scanned at close range.
+- **Limits for buried items:** clothing is thin, dry and low-loss. Soil is not. Moist soil has much higher
+  permittivity and conductivity, so attenuation at tens of GHz rises steeply and depth falls to millimetres
+  or centimetres. The 5–16 cm stand-off and the 40 mm range resolution also mean a handheld scan right on the
+  ground surface. Treat this as evidence for dry-surface or litter-covered items only. Deeper burial is GPR work
+  (hundreds of MHz to a few GHz; see the GPR rows above and 1120). We make no claim that this system works on soil.
+
+## Matching a found item to public unsolved-case listings (lookup-table design only)
+**Sources**
+- **The Suitcase Detective — *Searchable Database of Personal Items for Unsolved Cases*.**
+  <https://thesuitcasedetective.com/searchable-database-of-personal-items-for-unsolved-cases/> (page dated 8 Jul 2025).
+  This is the personal-items table of *Never Quit Looking*, which the site's terms describe as "a section of The
+  Suitcase Detective … not a separate legal entity, investigative agency, law enforcement agency, or official tip
+  line". The Suitcase Detective calls itself an independently operated mystery and true-crime website. It is
+  **not** an official source. Each item row links to the case record in the main Never Quit Looking database.
+  - **Fields shown:** Photo, Description, Victim Identity (name, Record ID, Status: Missing Person / Unidentified /
+    Unidentified Remains), Category (Clothing, Jewelry, Tattoo, Vehicle, Possessions (Other)…), Color, Year,
+    Brand or Make, Specific Type, Design, Location (Tattoo), Name.
+  - **Terms** (<https://thesuitcasedetective.com/about/terms-conditions/>): a limited, non-commercial use
+    licence. Prohibited uses include "Scrape, crawl, or systematically extract content using automated tools",
+    redistribution, derivative works, and framing or mirroring. Permission requests go to the address listed in
+    the terms. Their disclaimer says to verify details with official sources. (Their robots.txt allows all
+    crawlers, but the terms still forbid scraping, so we follow the terms.)
+- **NamUs** (National Missing and Unidentified Persons System, NIJ / U.S. DOJ): <https://namus.nij.ojp.gov/>.
+  Unidentified-person case pages include clothing and personal-effects details. I did not find a terms-of-use
+  page at a predictable URL on 2026-10-21. Until one is read, use manual search only and store case URLs.
+
+**Design (no scraping, links only)**
+- `sar/data/item_lookup.csv` (future; not created here) holds *our* scene items and *pointers*, never copied listings:
+  `scene_item_id, category, color, brand, specific_type, design_note, source (suitcase|namus), case_url,
+  case_record_id, checked_by, checked_at, match_strength (none|weak|possible), note`.
+- A person searches each site by hand using the site's own filters (category, color, brand, type) and pastes
+  the URL and record ID. No photos, descriptions or names are copied into the repo.
+- `match_strength` is an analyst label for triage, never an identification. Any "possible" goes to the agency
+  that owns the case (NamUs case contact, or police for Never Quit Looking entries), not to the public.
+- Before any automation, get written permission from The Suitcase Detective and read the NamUs terms. Until then, all lookups are manual.
+
 ## Roadmap (start simple)
 1. **Crawl:** a hand metal detector over a labelled test strip of zippers, rivets and buttons at
    0, 5, 10 and 20 cm. Log hits and misses with GPS. The aim is a written detection table, not a claim.
