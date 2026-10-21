@@ -144,3 +144,31 @@ Observations:
 - **HERIDAL** (person detection, about 1.6k 4000×3000 UAV images, Croatia/BiH). The Zenodo VOC repack ([doi:10.5281/zenodo.5662351](https://doi.org/10.5281/zenodo.5662351)) and Accenture/AIR both state **CC BY 3.0**.
 - **SARD** (Sambolek & Ivašić-Kos, 1,981 frames, [doi:10.21227/ahxm-k331](https://doi.org/10.21227/ahxm-k331)) is on IEEE DataPort. Its DataCite record states **CC BY 4.0**; download needs an IEEE account and subscription.
 - Both label **people**, not dropped items. They are useful for pretraining and false-alarm measurement; item classes still need the staged-strip collection in HANDOFF §13.
+
+## Background reading: CNN basics and ADF / Z-contrast STEM (learning only, added 2026-10-21)
+
+These sources are for learning and background only. None is cited for a result, and no code or text was copied from them.
+
+**CNN tutorials and Q&A (guides).**
+- GeeksforGeeks, [Introduction to Pooling Layer in CNN](https://www.geeksforgeeks.org/cnn-introduction-to-pooling-layer/).
+- GeeksforGeeks, [Kernels (Filters) in convolutional neural network](https://www.geeksforgeeks.org/deep-learning/kernels-filters-in-convolutional-neural-network/).
+- Unanswered, [CNN Filter Size & Number: Guide to Optimal Choices](https://unanswered.io/guide/cnn-filter-size-and-number-guide). An anonymous Q&A-style site; treat it as unreviewed.
+- Dataplexa, [Deep Learning Lesson 35: Feature Maps and Filters](https://dataplexa.com/2035-deep-learning-lesson-35-feature-maps-and-filters/). Dataplexa also has a Computer Vision "Lesson 35: Building CNNs"; this row is the Deep Learning lesson on filters.
+- Stack Overflow, [Why Conv2D has different number of filters in each layer](https://stackoverflow.com/questions/59221527/why-conv2d-has-different-number-of-filters-in-each-layer) (2019).
+- Stack Overflow, [Why filter counts such as 8, 16, 32 ... 512 are chosen](https://stackoverflow.com/questions/69612166/i-have-seen-many-cnns-using-number-of-filters-such-as-these8-16-32-64-128-256-5) (2021).
+- Data Science Stack Exchange, [Why increase the number of filters in deeper convolution layers](https://datascience.stackexchange.com/questions/55545/in-cnn-why-do-we-increase-the-number-of-filters-in-deeper-convolution-layers-fo) (2019).
+
+The common answer across these is that later layers use more filters because their feature maps are smaller and represent more abstract, combinatorial features. Powers of two are a convention, not a requirement. That is consistent with the MobileNetV3 backbone used in 2110/2120.
+
+**Theory.** Brutzkus & Globerson, [An Optimization and Generalization Analysis for Max-Pooling Networks](https://proceedings.mlr.press/v161/brutzkus21a.html), UAI 2021 (PMLR vol 161; accepted-paper id 634). It is a theoretical analysis of a max-pooling CNN on a pattern-detection distribution. There is no journal DOI.
+
+**ADF / Z-contrast STEM (adjacent; TEM = transmission electron microscopy).**
+- Wikipedia, [Annular dark-field imaging](https://en.wikipedia.org/wiki/Annular_dark-field_imaging).
+- GlobalSino, [(HAADF) STEM Images of Silicon](https://www.globalsino.com/EM/page1245.html). A personal reference page summarising Voyles et al. 2002 (Sb dopant atoms in Si).
+- G. Duscher, MSE672 *Z-Contrast Imaging* notebook: [CH3_09-Z_Contrast.ipynb](https://github.com/gduscher/MSE672-Introduction-to-TEM/blob/main/Imaging/CH3_09-Z_Contrast.ipynb), also published as a [web page](https://gduscher.github.io/MSE672-Introduction-to-TEM/imaging/ch3-09-z-contrast). The repo is MIT-licensed.
+- Pennycook et al., *Atomic-Resolution Z-Contrast Imaging and Its Application to Compositional Ordering and Segregation*, MRS Proc. 583 (1999), doi:10.1557/PROC-583-235. There is a faculty-hosted copy at [UNC Charlotte (Y. Zhang)](https://coefs.charlotte.edu/yzhang47/files/2018/08/atomicresolution_zcontrast_imaging_and_its_application_to_compositional_ordering_and_segregation.pdf). It is a publisher copy, so link only.
+- Jones & Nellist, *STEM Image Post-processing for Instability and Aberration Correction for Transfer Function Extension*, J. Phys.: Conf. Ser. 371 (2012) 012001, doi:10.1088/1742-6596/371/1/012001 (ResearchGate [254495853](https://www.researchgate.net/publication/254495853)). It corrects scan distortion and focal-series aberrations in HAADF images.
+- Esser & Etheridge, *Complementary ADF-STEM* (already in the table as doi:10.1016/j.ultramic.2022.113627). The arXiv preprint is [arXiv:2206.01744](https://arxiv.org/abs/2206.01744).
+- JEMS (P. Stadelmann), [ADF Imager help page](https://www.jems-swiss.ch/Home/Help/ADFImager.htm). This is the multislice STEM image-simulation dialog of the commercial JEMS software.
+- Vu, Lam, Hatch & Lidke, *Quantum dots for quantitative imaging: from single molecules to tissue*, Cell Tissue Res. (2015), doi:10.1007/s00441-014-2087-2 ([PMC4382208](https://pmc.ncbi.nlm.nih.gov/articles/PMC4382208/)).
+- ResearchGate figure [fig3_333353262](https://www.researchgate.net/publication/333353262). **Unverified:** ResearchGate returns 403 to automated fetches, and searches did not resolve the publication behind this figure id.
