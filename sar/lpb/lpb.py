@@ -18,6 +18,7 @@ The first profile whose key matches and whose "when" conditions all hold wins.
 """
 import json
 import math
+import os
 
 FIELDS = ("speed_kmh", "p25_km", "p50_km", "p75_km", "p95_km")
 
@@ -34,7 +35,7 @@ def load_table(path_or_obj, allow_unverified=False):
     if not src.get("verified") and not allow_unverified:
         raise UnverifiedTable(f"table source not verified: {src.get('citation')}")
     for p in t.get("profiles", []) + ([t["default"]] if "default" in t else []):
-        vals = [p[f] for f in FIELDS]
+        vals = [p.get(f) if f != "speed_kmh" else (p.get(f) or 0) for f in FIELDS]
         if any(v < 0 for v in vals) or vals[1:] != sorted(vals[1:]):
             raise ValueError(f"bad profile {p.get('key', 'default')}: percentiles must be >=0 and non-decreasing")
     return t
@@ -60,7 +61,7 @@ def profile(table, subject_type, subtype=None, attrs=None):
     attrs = attrs or {}
     for p in table.get("profiles", []):
         if p["key"] == key and _holds(p.get("when", {}), attrs):
-            return {f: p[f] for f in FIELDS} | {"matched": key, "citation": table["source"]["citation"]}
+            return {f: p.get(f) for f in FIELDS} | {"matched": key, "citation": table["source"]["citation"]}
     if "default" in table:
         return {f: table["default"][f] for f in FIELDS} | {"matched": "default", "citation": table["source"]["citation"]}
     return None  # no data: caller must not invent a radius
@@ -78,3 +79,23 @@ def haversine_km(lat1, lon1, lat2, lon2):
     dl, dp = math.radians(lon2 - lon1), math.radians(lat2 - lat1)
     a = math.sin(dp / 2) ** 2 + math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) * math.sin(dl / 2) ** 2
     return 2 * r * math.asin(math.sqrt(a))
+
+
+ISRID_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "isrid_distances.json")
+
+
+def load_isrid(path=ISRID_PATH):
+    """Load sar/data/isrid_distances.json (Koester 2008, printed ISRID tables) as an lpb table.
+
+    Profiles are keyed "human/<category>" with when={"ecoregion", "terrain"}; urban rows use
+    terrain "any". Each profile keeps n, page and url. speed_kmh is None (not in the tables).
+    There is no default: an unlisted category returns None, so no radius is invented."""
+    d = json.load(open(path))
+    profiles = []
+    for r in d["distances"]:
+        when = {"ecoregion": r["ecoregion"]}
+        if r["terrain"] != "any":
+            when["terrain"] = r["terrain"]
+        profiles.append({"key": f"human/{r['category']}", "when": when, "speed_kmh": None,
+                         **{f: r[f] for f in FIELDS[1:]}, "n": r["n"], "page": r["page"], "url": r["url"]})
+    return load_table({"source": d["source"], "profiles": profiles})

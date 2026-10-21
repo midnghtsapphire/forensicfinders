@@ -145,7 +145,7 @@
     "800": {
       "name": "lpb",
       "path": "lpb",
-      "what": "Data-driven lost-person-behavior distance rings; tables must cite a source (unverified tables refused by default)",
+      "what": "Data-driven lost-person-behavior distance rings; tables must cite a source (unverified tables refused by default); real ISRID values (Koester 2008, Dementia p.164) in data/isrid_distances.json via lpb.load_isrid()",
       "test_cwd": "lpb",
       "test": [
         "python3",

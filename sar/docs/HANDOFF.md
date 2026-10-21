@@ -189,6 +189,14 @@ Merges public frames, Ring events/recordings/snapshots and satellite scene IDs f
 - `docs/research/phone-gpr-addon.md` (ID **2020**, PROTOTYPE) — phone/USB mmWave crawl → low-freq GPR walk → Pi 5/Zero 2 W field host + GPS; logger stub **811**. Closest existing GitHub: `midnghtsapphire/Radar` (benchtop FMCW, not phone).
 - `docs/research/vhr-radar-lidar-fusion.md` (ID **2030**, PROTOTYPE)
 - `docs/research/INVENTION-DISCLOSURE.md` (ID **2040**, PROTOTYPE) — Evans concepts 2020/811, 2030/980, 2000; prior-art table; **not legal advice**; keep repo private until provisional filed. — VHR SAR + lidar micro-relief; **recommend option B** (two add-ons + shared GeoTIFF/GeoJSON). Maps to 920/910/1100s/1913; crawl stub **980** `sar_pair`. Corrects X-band “penetrates vegetation” myths. No claimed results.
+- `docs/research/full-waveform-lidar.md` (**2060**) + `geo_connectors/waveform.py` (**985**); `docs/research/buried-object-detection.md` (**2070**, incl. mmWave scanner limits and a links-only unsolved-case item lookup design).
+
+## 12. ISRID distance rings (800)
+- `data/isrid_distances.json`: values transcribed from Koester (2008) *Lost Person Behavior*, dbS Productions, ISBN 978-1-879471-39-9, using the publisher's free excerpts. Every distance row has `n`, `page` and `url`.
+- **Coverage is Dementia (1051) only** (p.164 distances in km/mi; p.164–165 elevation, mobility, dispersion, track offset, find location, scenario, survivability). The requested excerpt `2ISRID.pdf` (pp.15–17) describes ISRID's goals and inclusion/exclusion criteria and has **no tables**. Other categories need the printed book; add them with page numbers.
+- `lpb.load_isrid()` returns a verified lpb table: `lpb.rings(lpb.profile(t, "human", "dementia", {"ecoregion": "temperate", "terrain": "mountain"}))`. Urban rows ignore terrain. An unlisted category returns no rings, never a made-up radius.
+- Before this, `lpb` (800) had only `lpb_table.unverified.example.json` (hand-typed "Koester data", refused by default). `blue-ocean-sar/realdata/lost_person_behavior.py` uses the separate UK 2003 handbook (Perkins et al.) and is unchanged.
+- Tests: `cd lpb && python3 -m unittest test_isrid` checks printed values (e.g. temperate mountain p95 8.3 km; urban p75 3.2 km; track offset p95 307 m).
 
 ## 8. Guardrails
 - CI is manual only (`sar-tests` and `daily_sar_run`, both workflow_dispatch). There is no schedule and no auto-commit; outputs go to artifacts. The notebook's daily cron and commit-back step were deliberately not carried over.
