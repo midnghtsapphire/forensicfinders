@@ -1,0 +1,6 @@
+__pycache__/
+out/
+cases/
+truth.json
+truth.sha256
+*.pkl

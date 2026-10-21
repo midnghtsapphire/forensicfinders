@@ -429,6 +429,62 @@
       "what": "PROTOTYPE: verified literature review of grave-detection case studies (UAV NDVI, GPR/ER, thermal, lidar, geographic profiling); phased workflow mapped to 800/910/920/985/1100s/1120; PermitStack as optional disturbance-date connector idea; no claimed results",
       "kind": "doc",
       "status": "PROTOTYPE / RESEARCH"
+    },
+    "1400": {
+      "name": "search_system",
+      "path": "search_system",
+      "what": "PROTOTYPE, PROPRIETARY: ported burial-search ranking system (Audrey's search-system zip); synthetic tests; audit in search_system/README.md",
+      "status": "PROTOTYPE",
+      "test_cwd": "search_system",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "test_search_system"
+      ],
+      "requires": "pip install numpy scipy pandas scikit-learn"
+    },
+    "1410": {
+      "name": "search_system/remains_anomaly_pipeline",
+      "path": "search_system/remains_anomaly_pipeline.py",
+      "what": "PROTOTYPE: lidar DoD mound/sink signature + layer fusion + calibrated P(grave); leakage fixed",
+      "parent": "1400",
+      "status": "PROTOTYPE"
+    },
+    "1420": {
+      "name": "search_system/run_county",
+      "path": "search_system/run_county.py",
+      "what": "PROTOTYPE: county tiling/ingest/config validation/sweep/GeoTIFF export",
+      "parent": "1400",
+      "status": "PROTOTYPE"
+    },
+    "1430": {
+      "name": "search_system/field_confirmation",
+      "path": "search_system/field_confirmation.py",
+      "what": "PROTOTYPE: qPCR assay QC + ordered calls; culvert/void detector",
+      "parent": "1400",
+      "status": "PROTOTYPE"
+    },
+    "1440": {
+      "name": "search_system/coldcase_master",
+      "path": "search_system/coldcase_master.py",
+      "what": "PROTOTYPE: sealed-truth case harness + SHA-256 hash-chained evidence log, verify_chain, anchor manifest",
+      "parent": "1400",
+      "status": "PROTOTYPE"
+    },
+    "1450": {
+      "name": "search_system/fall_physics",
+      "path": "search_system/fall_physics.py",
+      "what": "PROTOTYPE: Monte-Carlo fall/slide landing distribution, ellipse, recovery percentile",
+      "parent": "1400",
+      "status": "PROTOTYPE"
+    },
+    "2090": {
+      "name": "search_system/docs",
+      "path": "search_system/docs",
+      "what": "PROPRIETARY process notes ported from search-system: VALIDATION_PROTOCOL, PATENT_PREP (not legal advice), REWARD_PRIORITY, BLUE_OCEAN_RESEARCH; no case cohort",
+      "kind": "doc",
+      "status": "PROTOTYPE / RESEARCH"
     }
   },
   "deselected_tests": {

@@ -18,6 +18,7 @@ Status meanings:
 | Full-waveform lidar ground under canopy (GEDI L1B/L2A, NEON AOP) | PROTOTYPE / RESEARCH | 2060 / 985 | `docs/research/full-waveform-lidar.md`; run `waveform` 985 on a few L1B shots, compare with L2A ground and 3DEP (920) |
 | Small buried/surface personal items (zippers, rivets, buttons, fabric, soles) | PROTOTYPE / RESEARCH | 2070 | `docs/research/buried-object-detection.md`; metal-detector test strip at 0–20 cm with GPS log, then magnetometer + GPR |
 | Clandestine grave detection: literature + phased workflow (priors → NDVI → lidar Gi* → thermal → GPR/ER) | PROTOTYPE / RESEARCH | 2080 | `docs/research/clandestine-grave-detection.md`; next: a thermal ingest stub and an ER/conductivity record format; PermitStack disturbance-date lookup is an idea only |
+| Ported search-system (ranking, county runner, assay QC, evidence log, fall physics) | PROTOTYPE | 1400–1450 / 2090 | `search_system/README.md` audit; next: run VALIDATION_PROTOCOL on ≥20 resolved cases (offline, case-files repo); merge Gi*/void/qPCR overlap with 1110/1100/1300 |
 | Notebook Doppler / SDR corrector | EVALUATED OUT | 1900 | Keep out of SAR; if wanted later, rebuild on SGP4/TLE in a radio-tools repo |
 | Notebook "camera telemetry" as vendor ALPR scrape | EVALUATED OUT | — | Replaced by 1910 public feeds + own Ring |
 | Notebook hard-coded STAC/3DEP/Wayback/ArcGIS + typed targets | EVALUATED OUT | — | Replaced by 900-series |

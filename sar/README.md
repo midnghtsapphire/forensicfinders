@@ -52,6 +52,7 @@ New here? Read this file first, then [`docs/HANDOFF.md`](docs/HANDOFF.md).
 | 1120 | `forensic_models/gpr_dielectric.py` | eps_eff=(1-θ)[ε_fat(1-f_sap)+ε_soap f_sap]+θ ε_soil, v=0.3/√ε, reflection coefficient, depth from TWT |
 | 1200 | `forensic_models/reliability.py` | Deterministic Admiralty A–F/1–6 grading from a versioned lookup table (reliability_rubric.json) |
 | 1300 | `forensic_models/qpcr_qc.py` | qPCR QC from QuantStudio/Bio-Rad CFX exports: efficiency, R², NTC/EB, IPC ΔCq inhibition |
+| 1400 | `search_system` | PROTOTYPE, PROPRIETARY: ported burial-search ranking (1410 pipeline, 1420 county, 1430 assay QC, 1440 evidence log, 1450 fall physics); audit in its README |
 | 1900 | `docs/DOPPLER_EVALUATION.md` | Evaluation: notebook Doppler corrector does not belong (doc only, no code) |
 | 1910 | `cameras` | Public webcam/traffic-cam + Ring (own account) connectors and frame-to-timeline merger |
 | 1911 | `cameras/public_cams.py` | Data-driven public camera registry (sources.json); list + timestamped snapshots with SHA-256 metadata |
@@ -65,6 +66,7 @@ New here? Read this file first, then [`docs/HANDOFF.md`](docs/HANDOFF.md).
 | 2060 | `docs/research/full-waveform-lidar.md` | PROTOTYPE: full-waveform lidar (GEDI L1B/L2A, NEON AOP) for terrain under canopy; ties to 985 |
 | 2070 | `docs/research/buried-object-detection.md` | PROTOTYPE: small buried/surface personal items; cited forensic geophysics; crawl-first roadmap |
 | 2080 | `docs/research/clandestine-grave-detection.md` | PROTOTYPE: verified grave-detection literature review + phased search workflow; optional permit connector idea |
+| 2090 | `search_system/docs` | PROPRIETARY process notes: validation protocol, patent prep, reward priority, adjacent-tech research |
 
 IDs are permanent. Never reuse a retired number. A child ID such as 910 runs its parent's tests (900).
 
