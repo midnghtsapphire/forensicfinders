@@ -10,7 +10,7 @@ def topp_theta(eps, consts=None):
 
 def topp_eps(theta, consts=None):
     b = value(consts or load(), "topp_inverse")
-    if not 0 <= theta <= 0.6:
+    if not 0 <= theta <= 0.55:
         raise ValueError("Topp (1980) was fitted for volumetric water content of about 0 to 0.55")
     return b["b0"] + b["b1"] * theta + b["b2"] * theta ** 2 + b["b3"] * theta ** 3
 
