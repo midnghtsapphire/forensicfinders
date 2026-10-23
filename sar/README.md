@@ -45,7 +45,7 @@ New here? Read this file first, then [`docs/HANDOFF.md`](docs/HANDOFF.md).
 | 970 | `geo_connectors/run_sectors.py` | Sector pipeline from a case config: cloud-filtered STAC, COG ΔNDVI, 3DEP centre elevation (used by aegis-sar-runner) |
 | 980 | `geo_connectors/sar_pair.py` | Pairwise SAR GeoTIFF amplitude-ratio (dB) + coherent-change index; synthetic tests; crawl for 2030 |
 | 985 | `geo_connectors/waveform.py` | Gaussian decomposition of a 1-D lidar waveform; peaks + last (ground) return; synthetic tests; see 2060 |
-| 1000 | `forensic_models` | Sourced, data-driven forensic models (constants.json: every constant has a DOI/URL; unsourced ones are user_required) |
+| 1000 | `forensic_models` | Sourced, data-driven forensic models (constants.json: published values cite DOI/URL; user_required values document why no universal source exists) |
 | 1010 | `forensic_models/taphonomy.py` | Megyesi ADD from TBS, Vass PMI (aerobic/burial), Topp θ↔ε, saponified fraction (rate user-supplied) |
 | 1020 | `forensic_models/soil_nitrogen.py` | Grave-soil N pathway with sourced Q10 and WFPS optimum; site rates must be supplied |
 | 1100 | `forensic_models/void_detector.py` | validate/run/demo/curve: real DEMs (file or 3DEP via 920) → detrend or epoch diff → Gi* anomaly cells; ROC/AUC only from user labels |
