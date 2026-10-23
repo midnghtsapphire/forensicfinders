@@ -31,8 +31,8 @@ def accumulated_degree_days(daily_mean_c, base_c=0.0):
 def vass_pmi(decomposition_pct, temp_c, humidity_pct, buried=False, consts=None):
     c = consts or load()
     v = value(c, "vass_aerobic")
-    if temp_c <= 0 or humidity_pct <= 0:
-        raise ValueError("Vass formula needs temperature > 0 degC and humidity > 0 %")
+    if not 0 <= decomposition_pct <= 100 or temp_c <= 0 or not 0 < humidity_pct <= 100:
+        raise ValueError("Vass formula needs decomposition 0-100 %, temperature > 0 degC, and humidity > 0 and <= 100 %")
     pmi = v["k"] * (decomposition_pct / 100.0) / (v["c"] * temp_c * humidity_pct)
     return pmi * value(c, "vass_anaerobic_factor") if buried else pmi
 
