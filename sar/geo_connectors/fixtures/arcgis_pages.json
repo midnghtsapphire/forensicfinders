@@ -1,0 +1,12 @@
+[
+ {
+  "url": "https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/0/query?where=st%3D%27NE%27&outFields=%2A&f=geojson&outSR=4326&resultOffset=0&resultRecordCount=2",
+  "body": null,
+  "response": "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"id\":2108,\"geometry\":{\"type\":\"Point\",\"coordinates\":[-96.743192079999972,40.268448890000059]},\"properties\":{\"objectid\":2108,\"areaname\":\"Beatrice\",\"class\":\"city\",\"st\":\"NE\",\"capital\":\"N\",\"pop2000\":12496}},{\"type\":\"Feature\",\"id\":2109,\"geometry\":{\"type\":\"Point\",\"coordinates\":[-95.934134978999964,41.158518113000071]},\"properties\":{\"objectid\":2109,\"areaname\":\"Bellevue\",\"class\":\"city\",\"st\":\"NE\",\"capital\":\"N\",\"pop2000\":44382}}],\"exceededTransferLimit\":true}"
+ },
+ {
+  "url": "https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer/0/query?where=st%3D%27NE%27&outFields=%2A&f=geojson&outSR=4326&resultOffset=2&resultRecordCount=2",
+  "body": null,
+  "response": "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"id\":2110,\"geometry\":{\"type\":\"Point\",\"coordinates\":[-96.133790868999938,41.183539102000054]},\"properties\":{\"objectid\":2110,\"areaname\":\"Chalco\",\"class\":\"CDP\",\"st\":\"NE\",\"capital\":\"N\",\"pop2000\":10736}},{\"type\":\"Feature\",\"id\":2111,\"geometry\":{\"type\":\"Point\",\"coordinates\":[-97.35853001199996,41.432784911000056]},\"properties\":{\"objectid\":2111,\"areaname\":\"Columbus\",\"class\":\"city\",\"st\":\"NE\",\"capital\":\"N\",\"pop2000\":20971}}],\"exceededTransferLimit\":true}"
+ }
+]

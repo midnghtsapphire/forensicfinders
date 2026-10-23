@@ -1,0 +1,7 @@
+[
+ {
+  "url": "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer/getSamples?geometry=%7B%22points%22%3A+%5B%5B-100.48%2C+41.02%5D%2C+%5B-100.46%2C+41.04%5D%5D%2C+%22spatialReference%22%3A+%7B%22wkid%22%3A+4326%7D%7D&geometryType=esriGeometryMultipoint&returnFirstValueOnly=true&f=json",
+  "body": null,
+  "response": "{\"samples\":[{\"location\":{\"x\":-100.48,\"y\":41.020000000000003,\"spatialReference\":{\"wkid\":4326,\"latestWkid\":4326}},\"locationId\":0,\"value\":\"817.140930176\",\"rasterId\":13794,\"resolution\":3.086419871794868e-05},{\"location\":{\"x\":-100.45999999999999,\"y\":41.039999999999999,\"spatialReference\":{\"wkid\":4326,\"latestWkid\":4326}},\"locationId\":1,\"value\":\"816.877563477\",\"rasterId\":13794,\"resolution\":3.086419871794868e-05}]}"
+ }
+]

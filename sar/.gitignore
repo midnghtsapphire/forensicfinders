@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+case/*
+!case/README.md
+!case/example.config.yaml
+.env

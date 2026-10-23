@@ -1,0 +1,7 @@
+[
+ {
+  "url": "https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer/exportImage?bbox=-100.5%2C41.0%2C-100.495%2C41.005&bboxSR=4326&size=16%2C16&format=tiff&pixelType=F32&interpolation=RSP_BilinearInterpolation&f=json",
+  "body": null,
+  "response": "{\"href\":\"https://elevation.nationalmap.gov/arcgis/rest/directories/elevation_output/3DEPElevation_ImageServer/_ags_99200fa0_3dfd_400c_8b47_173ec2b2233e.tif\",\"width\":16,\"height\":16,\"extent\":{\"xmin\":-11187699.289414061,\"ymin\":5012341.6638475163,\"xmax\":-11186961.762579963,\"ymax\":5013079.1906816158,\"spatialReference\":{\"wkid\":102100,\"latestWkid\":3857}},\"scale\":0}"
+ }
+]

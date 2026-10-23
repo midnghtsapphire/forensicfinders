@@ -1,0 +1,257 @@
+{
+  "_doc": "Numeric lookup registry for the consolidated SAR toolchain. Look up by number: python3 sar/registry.py <id> [--test]. IDs are stable; never reuse a retired number.",
+  "components": {
+    "100": {
+      "name": "blue-ocean-sar",
+      "path": "blue-ocean-sar",
+      "what": "Sensing toolchain: person finder, dual comms publisher, provenance, evidence package, opendata adapters, realdata terrain/NDVI/change/sweep-width modules",
+      "test_cwd": "blue-ocean-sar",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        ".",
+        "-p",
+        "test_*.py"
+      ],
+      "source": "revvel-standards/docs/blue-ocean-sar"
+    },
+    "110": {
+      "name": "blue-ocean-sar/evidence",
+      "path": "blue-ocean-sar/evidence",
+      "what": "Evidence chain-of-custody package and importers",
+      "parent": "100"
+    },
+    "120": {
+      "name": "blue-ocean-sar/opendata",
+      "path": "blue-ocean-sar/opendata",
+      "what": "Public open-data adapters (fixtures only in tests)",
+      "parent": "100"
+    },
+    "130": {
+      "name": "blue-ocean-sar/realdata",
+      "path": "blue-ocean-sar/realdata",
+      "what": "DEM terrain, microtopography, Sentinel-2 NDVI/change, sweep width, field log, evidence scoring/fusion",
+      "parent": "100"
+    },
+    "140": {
+      "name": "blue-ocean-sar/public_records_engine",
+      "path": "blue-ocean-sar/public_records_engine.py",
+      "what": "Pluggable public-records engine (no built-in data; Census Geocoder connector; authority required per connector)",
+      "parent": "100"
+    },
+    "150": {
+      "name": "blue-ocean-sar/master_sensor_wave_search",
+      "path": "blue-ocean-sar/master_sensor_wave_search_script_v2.py",
+      "what": "Multi-band GPR/sensor scoring script (covered by test_provenance.py, 22 tests)",
+      "parent": "100"
+    },
+    "200": {
+      "name": "hfmr",
+      "path": "hfmr",
+      "what": "Historical forensic material reanalysis: acquisition, archive, retrieval, discovery, municipal/construction records, evidence engine",
+      "test_cwd": ".",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "hfmr",
+        "-t",
+        "."
+      ],
+      "source": "revvel-standards/docs/hfmr"
+    },
+    "300": {
+      "name": "sar-change-detection",
+      "path": "sar-change-detection",
+      "what": "SAR (radar) change detection",
+      "test_cwd": "sar-change-detection",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-p",
+        "test_*.py"
+      ],
+      "source": "revvel-standards/docs/sar-change-detection"
+    },
+    "400": {
+      "name": "sensor-fusion-grid",
+      "path": "sensor-fusion-grid",
+      "what": "Sensor fusion into a voxel grid",
+      "test_cwd": "sensor-fusion-grid",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-p",
+        "test_*.py"
+      ],
+      "source": "revvel-standards/docs/sensor-fusion-grid"
+    },
+    "500": {
+      "name": "gpr-wave-model",
+      "path": "gpr-wave-model",
+      "what": "Ground-penetrating-radar wave physics model",
+      "test_cwd": "gpr-wave-model",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-p",
+        "test_*.py"
+      ],
+      "source": "revvel-standards/docs/gpr-wave-model"
+    },
+    "600": {
+      "name": "cot-export",
+      "path": "cot-export",
+      "what": "Cursor-on-Target export for ATAK",
+      "test_cwd": "cot-export",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-p",
+        "test_*.py"
+      ],
+      "source": "revvel-standards/docs/cot-export"
+    },
+    "700": {
+      "name": "coldtrace",
+      "path": "coldtrace",
+      "what": "Temporal GIS FastAPI backend (viewshed, NDVI/elevation change, heat map). No demo data: missing inputs answer {status: no_data} HTTP 424",
+      "test_cwd": ".",
+      "test": [
+        "python3",
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:warnings",
+        "coldtrace/backend/tests"
+      ],
+      "requires": "pip install -r coldtrace/backend/requirements-test.txt",
+      "source": "revvel-standards/coldtrace"
+    },
+    "800": {
+      "name": "lpb",
+      "path": "lpb",
+      "what": "Data-driven lost-person-behavior distance rings; tables must cite a source (unverified tables refused by default)",
+      "test_cwd": "lpb",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-p",
+        "test_*.py"
+      ],
+      "source": "universal-sar-app server/algorithms/sar-engine.ts (getMovementProfile)"
+    },
+    "810": {
+      "name": "instrument_input",
+      "path": "instrument_input",
+      "what": "LiDAR (LAS/CSV) and GPR (CSV) file input plus deterministic synthetic samples in local metres (no geo coords)",
+      "test_cwd": "instrument_input",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-p",
+        "test_*.py"
+      ],
+      "source": "replaces layer-peel src/components/sensor-mock.tsx as the data source"
+    },
+    "820": {
+      "name": "exif_metadata",
+      "path": "exif_metadata",
+      "what": "EXIF metadata reader (camera, datetime, GPS, software)",
+      "test_cwd": "exif_metadata",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-p",
+        "test_*.py"
+      ],
+      "requires": "pip install piexif pillow",
+      "source": "revvel-forensic-studio cli/src/forensic_analysis.py EXIFAnalyzer"
+    },
+    "900": {
+      "name": "geo_connectors",
+      "path": "geo_connectors",
+      "what": "Live public geo connectors with retry/backoff and host allowlist; recorded fixtures for offline tests; SAR_LIVE_TESTS=1 for live",
+      "test_cwd": ".",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "geo_connectors.test_geo_connectors"
+      ],
+      "source": "Gemini Notebook SAR bootstrap (master_unified_sar_bootstrap.py), rewritten to call the real endpoints"
+    },
+    "901": {
+      "name": "geo_connectors/netio",
+      "path": "geo_connectors/netio.py",
+      "what": "HTTP: https-only allowlist, 429/5xx/network retry with exponential backoff + jitter, size cap",
+      "parent": "900"
+    },
+    "910": {
+      "name": "geo_connectors/stac",
+      "path": "geo_connectors/stac.py",
+      "what": "STAC search (Element84 Earth Search S1/S2, NASA CMR LPCLOUD HLS) with paging; COG window read; NDVI, ΔNDVI, S1 log-ratio dB, sigma anomalies",
+      "parent": "900"
+    },
+    "920": {
+      "name": "geo_connectors/dep3",
+      "path": "geo_connectors/dep3.py",
+      "what": "USGS 3DEP DTM exportImage (GeoTIFF), getSamples point elevations, DTM difference",
+      "parent": "900"
+    },
+    "930": {
+      "name": "geo_connectors/wayback",
+      "path": "geo_connectors/wayback.py",
+      "what": "Wayback CDX query and content-digest change list",
+      "parent": "900"
+    },
+    "940": {
+      "name": "geo_connectors/arcgis",
+      "path": "geo_connectors/arcgis.py",
+      "what": "ArcGIS REST layer query, GeoJSON, resultOffset paging; municipal hosts via allow_host()",
+      "parent": "900"
+    },
+    "950": {
+      "name": "geo_connectors/mcp_server",
+      "path": "geo_connectors/mcp_server.py",
+      "what": "stdio MCP server: search_stac_satellite, query_usgs_lidar, sample_usgs_elevation, wayback_cdx_diff, arcgis_query",
+      "parent": "900"
+    },
+    "960": {
+      "name": "geo_connectors/verify_connectors",
+      "path": "geo_connectors/verify_connectors.py",
+      "what": "Live health check of all 5 endpoints; writes out/health.json and status=PASS|FAIL to $GITHUB_OUTPUT (used by aegis-health-check)",
+      "parent": "900"
+    },
+    "970": {
+      "name": "geo_connectors/run_sectors",
+      "path": "geo_connectors/run_sectors.py",
+      "what": "Sector pipeline from a case config: cloud-filtered STAC, COG ΔNDVI, 3DEP centre elevation (used by aegis-sar-runner)",
+      "parent": "900"
+    }
+  },
+  "deselected_tests": {
+    "evidence.test_importers.Columbus": "Needs realdata/columbus_records.py, which is left out (case-specific records)."
+  },
+  "llm": "No component calls an LLM. Any future LLM step must be optional, gated by SAR_LLM_ENABLE=1, and use a small local model through SAR_LLM_BASE_URL (OpenAI-compatible, e.g. Ollama http://localhost:11434/v1)."
+}
