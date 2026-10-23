@@ -18,6 +18,8 @@ REQUIRED = ("name", "tiles")
 
 def validate(cfg):
     errs = [f"missing key {k}" for k in REQUIRED if k not in cfg]
+    if "tiles" in cfg and not cfg["tiles"]:
+        errs.append("tiles must contain at least one tile")
     for i, t in enumerate(cfg.get("tiles", [])):
         if not (t.get("dem_path") or t.get("bbox")):
             errs.append(f"tile {i}: needs dem_path or bbox")
