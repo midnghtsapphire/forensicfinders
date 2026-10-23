@@ -13,3 +13,6 @@ public/__grok
 .env
 .env.*
 .DS_Store
+
+!.env.example
+!**/.env.example

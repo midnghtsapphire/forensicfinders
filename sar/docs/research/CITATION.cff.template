@@ -1,0 +1,51 @@
+# Citation File Format 1.2.0 — https://citation-file-format.github.io
+# Copy to the repository root as CITATION.cff, replace every TODO, then validate
+# (e.g. `pip install cffconvert && cffconvert --validate`) before cutting a release.
+# GitHub renders a "Cite this repository" button from this file; Zenodo reads it on release.
+cff-version: 1.2.0
+message: "If you use this software, please cite it using these metadata."
+title: "TODO: software or dataset title"
+abstract: "TODO: one or two sentences on what this code does. No performance claims."
+type: software
+authors:
+  - family-names: "Evans"
+    given-names: "Audrey"
+    orcid: "https://orcid.org/TODO-0000-0000-0000"
+    # affiliation: "TODO (optional)"
+  # - family-names: "TODO"
+  #   given-names: "TODO"
+  #   orcid: "https://orcid.org/TODO"
+version: "0.1.0"            # TODO: match the git tag of the release
+date-released: "YYYY-MM-DD" # TODO: release date
+license: "TODO-SPDX-ID"     # e.g. MIT, Apache-2.0, CC-BY-4.0 — must match LICENSE
+repository-code: "https://github.com/TODO/TODO"
+url: "https://github.com/TODO/TODO"
+keywords:
+  - "search and rescue"
+  - "TODO"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.TODO"
+    description: "Concept DOI — always resolves to the latest Zenodo version"
+  - type: doi
+    value: "10.5281/zenodo.TODO"
+    description: "Version DOI for this release"
+# Point at the preprint once it is posted, so citation managers prefer it.
+# preferred-citation:
+#   type: article
+#   title: "TODO: preprint title"
+#   authors:
+#     - family-names: "Evans"
+#       given-names: "Audrey"
+#       orcid: "https://orcid.org/TODO"
+#   year: TODO
+#   doi: "TODO"              # SSRN DOI if assigned
+#   url: "https://ssrn.com/abstract=TODO"
+references:
+  - type: data
+    title: "TODO: linked dataset title"
+    authors:
+      - family-names: "Evans"
+        given-names: "Audrey"
+    doi: "10.7910/DVN/TODO"  # Harvard Dataverse dataset DOI
+    url: "https://doi.org/10.7910/DVN/TODO"

@@ -1,0 +1,76 @@
+{
+  "_doc": "Every constant must carry a source (DOI or URL). Values marked status=user_required have no defensible published universal value; callers must supply them. Loader: forensic_models.constants.load().",
+  "constants": {
+    "topp_forward": {
+      "value": {"a0": -0.053, "a1": 0.0292, "a2": -0.00055, "a3": 0.0000043},
+      "units": "theta (m3/m3) = a0 + a1*eps + a2*eps^2 + a3*eps^3",
+      "source": "Topp, Davis & Annan (1980) Water Resources Research 16(3):574-582, doi:10.1029/WR016i003p00574",
+      "status": "published"
+    },
+    "topp_inverse": {
+      "value": {"b0": 3.03, "b1": 9.3, "b2": 146.0, "b3": -76.7},
+      "units": "eps = b0 + b1*theta + b2*theta^2 + b3*theta^3",
+      "source": "Topp, Davis & Annan (1980) Water Resources Research 16(3):574-582, doi:10.1029/WR016i003p00574",
+      "status": "published"
+    },
+    "megyesi_add": {
+      "value": {"a": 0.002, "b": 1.81, "se_add": 388.16},
+      "units": "ADD (degC-days) = 10^(a*TBS*TBS + b), +/- se_add",
+      "source": "Megyesi, Nawrocki & Haskell (2005) J Forensic Sci 50(3):618-626, doi:10.1520/JFS2004017",
+      "status": "published"
+    },
+    "vass_aerobic": {
+      "value": {"k": 1285.0, "c": 0.0103},
+      "units": "PMI (days) = k*(decomposition/100) / (c*T*H), T degC, H % relative humidity",
+      "source": "Vass (2011) Forensic Sci Int 204(1-3):34-40, doi:10.1016/j.forsciint.2010.04.052",
+      "status": "published"
+    },
+    "vass_anaerobic_factor": {
+      "value": 4.6,
+      "units": "burial PMI = factor * aerobic PMI",
+      "source": "Vass (2011) Forensic Sci Int 204(1-3):34-40, doi:10.1016/j.forsciint.2010.04.052",
+      "status": "published"
+    },
+    "eps_fat": {
+      "value": 5.5,
+      "units": "relative permittivity, ~0.5-1 GHz (GPR band), non-infiltrated fat",
+      "source": "Gabriel, Lau & Gabriel (1996) Phys Med Biol 41(11):2271-2293, doi:10.1088/0031-9155/41/11/003; tabulated at https://itis.swiss/virtual-population/tissue-properties/database/dielectric-properties/",
+      "status": "published_approx",
+      "note": "Frequency dependent (roughly 5-6 between 0.3 and 1 GHz). Pull the exact value for your antenna frequency from the IT'IS table."
+    },
+    "eps_soap": {
+      "value": null,
+      "units": "relative permittivity of adipocere (saponified fat)",
+      "source": "No published GPR-band permittivity for adipocere found; measure on a reference sample or cite your source",
+      "status": "user_required"
+    },
+    "k_saponification": {
+      "value": null,
+      "units": "1/year",
+      "source": "Adipocere formation is condition dependent (e.g. Forbes, Stuart & Dent (2005) Forensic Sci Int 154(1):44-52, doi:10.1016/j.forsciint.2004.09.109); no universal rate exists",
+      "status": "user_required"
+    },
+    "q10_soil": {
+      "value": 2.0,
+      "units": "temperature factor f_T = Q10^((T - Tref)/10)",
+      "source": "Kätterer et al. (1998) Biol Fertil Soils 27:258-262, doi:10.1007/s003740050430 (Q10 near 2 for soil organic-matter decomposition)",
+      "status": "published_approx"
+    },
+    "wfps_nitrification_optimum": {
+      "value": 0.6,
+      "units": "water-filled pore space fraction of peak aerobic microbial activity",
+      "source": "Linn & Doran (1984) Soil Sci Soc Am J 48(6):1267-1272, doi:10.2136/sssaj1984.03615995004800060013x",
+      "status": "published"
+    },
+    "k_ammonification": {
+      "value": null, "units": "1/day",
+      "source": "Site specific; the notebook's 0.4 had no source. Fit from field cores or cite a study for your soil",
+      "status": "user_required"
+    },
+    "k_nitrification": {
+      "value": null, "units": "1/day",
+      "source": "Site specific; the notebook's 0.08 had no source",
+      "status": "user_required"
+    }
+  }
+}

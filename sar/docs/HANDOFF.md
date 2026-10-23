@@ -97,6 +97,8 @@ On 2026-10-21 this found 3 before and 3 after Sentinel-2 scenes per sector. Mean
 - **Wayback CDX:** live API confirmed and fixture recorded. The box's own network couldn't complete TLS to web.archive.org; GitHub runners should work.
 - **MCP server:** stdio, 5 tools.
 
+**Rebuilt in the sar-make-it-work PR (1000-series):** decay kinetics, soil N, the void detector, Gi*, dielectric/GPR math, the reliability scorer and qPCR QC. See section 9.
+
 **Aspirational or fake in the Gemini Notebook bootstrap (`master_unified_sar_bootstrap.py`, v4.0.0 "PRODUCTION"):**
 - **STAC search:** a bug (bare dates give HTTP 400) made it *always* fall back to a hard-coded fake scene, `S2A_MSIL2A_20261015T…`. It still reported success.
 - **3DEP:** made no request at all. It returned `"status": "Active"` and `"smrf_filter": "Applied (Canopy Removed)"` as constants.
@@ -104,7 +106,7 @@ On 2026-10-21 this found 3 before and 3 after Sentinel-2 scenes per sector. Mean
 - **Targets:** the "targets" were typed coordinates with typed confidences (0.84–0.965). Nothing computed them.
 - **Taphonomic kinetics:** `calculate_decay_kinetics` uses constants with no source.
 - **Admiralty scorer:** maps the type of source to an A–F grade by keyword; it's an opinion, not the NATO procedure.
-- **Missing files:** "camera telemetry", "self-healing listener", `verify_connectors.py`, `config.yaml`, `docker-compose.yml`, `.env.example`, `sar_pipeline.yml` and the MCP schemas were **not in the zip**. A "v2" package with a daily `verify_connectors.yml` wasn't in it either.
+- **Missing files:** "camera telemetry" (now built as 1910), "self-healing listener", `verify_connectors.py`, `config.yaml`, `docker-compose.yml`, `.env.example`, `sar_pipeline.yml` and the MCP schemas were **not in the zip**. A "v2" package with a daily `verify_connectors.yml` wasn't in it either.
 - **`run_county.py`:** generates its DEM with `np.random.normal`.
 
 ## 7. Troubleshooting (all hit for real)
@@ -122,7 +124,131 @@ On 2026-10-21 this found 3 before and 3 after Sentinel-2 scenes per sector. Mean
 | Outputs missing at `/workspace/out` | Paths are now relative: `${{ github.workspace }}/out` in CI, `sar/out` locally |
 | `ConnectorError: host not allowlisted` | `netio.allow_host("your.gis.host")` |
 
+## 9. Forensic models (1000-series, added in the sar-make-it-work PR)
+**Rule:** every constant lives in `forensic_models/constants.json` with a DOI or URL. Anything with no defensible published value is `user_required`. The code refuses to run until you supply it with a source:
+```python
+from forensic_models import constants, gpr_dielectric as gd
+c = constants.load(overrides={"eps_soap": {"value": 4.0, "source": "lab measurement, sample #12, 2026-11-02"}})
+e = gd.eps_eff(theta=0.25, f_sap=0.3, consts=c)   # ε_soil from Topp (1980) at θ
+v = gd.gpr_velocity(e)                            # m/ns
+```
+| ID | Try it |
+|---|---|
+| 1010 | `taphonomy.megyesi_add(20)`, `taphonomy.vass_pmi(60, 12, 70, buried=True)`, `taphonomy.topp_eps(0.25)` |
+| 1020 | `soil_nitrogen.simulate(...)` needs `k_ammonification` and `k_nitrification` overrides with a source |
+| 1100 | `python3 -m forensic_models.void_detector demo`. Then `validate cfg.json` / `run cfg.json --out-dir case/out` with tiles `{"id","dem_path"}` or `{"id","bbox"}` (fetched from 3DEP), optional `baseline_dem_path` (epoch difference), `sign` low/high/both. ROC: `curve labels.csv --png roc.png` (columns `score,label`) |
+| 1110 | `gistar.gi_star(grid)`. Verified equal to PySAL `esda.G_Local(star=True)` with queen lattice weights |
+| 1200 | `reliability.grade("instrument_record", "original_file_with_hash", "documented", corroborations=2)` returns a dict with `result["grade"] == "A1"`. Edit `reliability_rubric.json` and bump `version` to change the house rubric |
+| 1300 | `qpcr_qc.qc(qpcr_qc.read_export(open("run.csv").read(), "quantstudio"), "ASSAY", ipc_target="IPC")`. Layouts: `quantstudio`, `biorad_cfx`, or pass your own column map |
+| 1900 | Doc only: why the Doppler corrector was dropped |
+| 1910–1913 | Public cams, Ring, timeline merger (section 10) |
+
+**Still needs real-world validation:**
+- Gi* thresholds against labelled field outcomes.
+- The ε_fat value at your antenna frequency.
+- A measured ε_soap.
+- Site rate constants.
+- qPCR acceptance limits against your lab's SOP.
+- The house reliability rubric, reviewed with the agency.
+
+The Vass formula and Megyesi regression are published models with wide error bands, not exact clocks.
+
+## 10. Cameras (1910): public feeds, Ring, and the timeline
+Install once for Ring: `pip install ring_doorbell`. Run everything from `sar/`. There are no app-level legal gates; the platforms enforce their own access rules.
+
+### Public webcams and traffic cams (1911)
+1. List registered sources: `python3 -m cameras.public_cams sources`
+2. The registry is `cameras/sources.json` (data-driven). Supported types today: `caltrans_cctv` (Caltrans CWWP2 511 JSON) and `static_list` (your own public snapshot URLs). Add a new Caltrans district by copying an existing entry; no code change.
+3. List cameras: `python3 -m cameras.public_cams list caltrans-d03`
+4. Filter by distance: `python3 -m cameras.public_cams list caltrans-d03 --near 38.48 -121.51 5`
+5. Capture a timestamped frame + metadata JSON (SHA-256):  
+   `python3 -m cameras.public_cams snap caltrans-d03 caltrans-3-1 --out-dir out/frames`  
+   Repeat with `--repeat 5 --interval 60` for a time series.
+
+### Ring (Audrey's own account) (1912)
+1. Copy `cameras/.env.example` and fill `RING_USERNAME` / `RING_PASSWORD` (and `RING_OTP` if Ring asks) for the first login only.
+2. List devices: `python3 -m cameras.ring_cam devices`
+3. Event history: `python3 -m cameras.ring_cam history "Front Door" --limit 20`
+4. Download a recording: `python3 -m cameras.ring_cam download "Front Door" EVENT_ID --out-dir out/ring`
+5. On-demand snapshot: `python3 -m cameras.ring_cam snapshot "Front Door" --out-dir out/ring`  
+   After the first login, only the token cache at `~/.config/forensicfinders/ring_token.json` (mode 600) is used. Credentials are never printed.
+
+### Frame-to-timeline merger (1913)
+```bash
+python3 -m cameras.timeline merge out/frames/*.json out/ring/*.json \
+  --sectors out/SYNTH-0001_sectors.json --out out/timeline.jsonl
+```
+Merges public frames, Ring events/recordings/snapshots and satellite scene IDs from `run_sectors` into one sorted JSONL timeline (`t_utc`, `kind`, `source_id`, `label`, optional `lat`/`lon`/`media_path`/`sha256`).
+
+### Tests
+`python3 -m unittest cameras.test_cameras` (offline, mocked). Live public snapshot: `SAR_LIVE_TESTS=1 python3 -m unittest cameras.test_cameras.Public.test_live_caltrans_snapshot`. Ring live check needs Audrey's env credentials (not run in CI).
+
+## 11. Research prototypes (2000+)
+- `docs/research/PROTOTYPES.md` — every notebook/research idea with status and next small step.
+- `docs/research/soil-edna-detection.md` (ID **2000**, PROTOTYPE / RESEARCH) — crawl → walk → run for human then canine soil eDNA / CDI chemistry. Cited papers only; no claimed results. Next step is a spiked-soil panel feeding qPCR QC (1300). Related FSI abstract (paywalled): Hirashima et al. 2022 DOI 10.1016/j.forsciint.2022.111284 (BSA aids soil DNA extraction).
+- `docs/research/phone-gpr-addon.md` (ID **2020**, PROTOTYPE) — phone/USB mmWave crawl → low-freq GPR walk → Pi 5/Zero 2 W field host + GPS; logger stub **811**. Closest existing GitHub: `midnghtsapphire/Radar` (benchtop FMCW, not phone).
+- `docs/research/vhr-radar-lidar-fusion.md` (ID **2030**, PROTOTYPE)
+- `docs/research/INVENTION-DISCLOSURE.md` (ID **2040**, PROTOTYPE) — Evans concepts 2020/811, 2030/980, 2000; prior-art table; **not legal advice**; keep repo private until provisional filed. — VHR SAR + lidar micro-relief; **recommend option B** (two add-ons + shared GeoTIFF/GeoJSON). Maps to 920/910/1100s/1913; crawl stub **980** `sar_pair`. Corrects X-band “penetrates vegetation” myths. No claimed results.
+- `docs/research/full-waveform-lidar.md` (**2060**) + `geo_connectors/waveform.py` (**985**); `docs/research/buried-object-detection.md` (**2070**, incl. mmWave scanner limits and a links-only unsolved-case item lookup design).
+
+## 12. ISRID distance rings (800)
+- `data/isrid_distances.json`: values transcribed from Koester (2008) *Lost Person Behavior*, dbS Productions, ISBN 978-1-879471-39-9, using the publisher's free excerpts. Every distance row has `n`, `page` and `url`.
+- **Coverage is Dementia (1051) only** (p.164 distances in km/mi; p.164–165 elevation, mobility, dispersion, track offset, find location, scenario, survivability). The requested excerpt `2ISRID.pdf` (pp.15–17) describes ISRID's goals and inclusion/exclusion criteria and has **no tables**. Other categories need the printed book; add them with page numbers.
+- `lpb.load_isrid()` returns a verified lpb table: `lpb.rings(lpb.profile(t, "human", "dementia", {"ecoregion": "temperate", "terrain": "mountain"}))`. Urban rows ignore terrain. An unlisted category returns no rings, never a made-up radius.
+- Before this, `lpb` (800) had only `lpb_table.unverified.example.json` (hand-typed "Koester data", refused by default). `blue-ocean-sar/realdata/lost_person_behavior.py` uses the separate UK 2003 handbook (Perkins et al.) and is unchanged.
+- Tests: `cd lpb && python3 -m unittest test_isrid` checks printed values (e.g. temperate mountain p95 8.3 km; urban p75 3.2 km; track offset p95 307 m).
+
+## 13. Optional detector retraining (2110, `vision/`)
+Off by default (`--detector none`). Output is **candidates for human review**, never identifications.
+Licences: torchvision/torch BSD, OpenCV Apache-2.0. Ultralytics (AGPL) is not used.
+
+1. **Install (optional):** `pip install --index-url https://download.pytorch.org/whl/cpu torch torchvision` then
+   `pip install -r vision/requirements-vision.txt`. Without these, the core still runs and the torch/cv2 tests skip.
+2. **Stage test items (no case items, no people):** lay out backpacks, jackets, shoes, bags and bright fabric on
+   2–3 different sites (grass, leaf litter, scrub). Log each item and its GPS position on a sheet.
+3. **Photograph:** fly or walk several passes per site at 2–3 heights or angles and times of day. Save as
+   `images/<site>/<flight>/<frame>.jpg`. The site/flight folders are what keep the train/test split leak-free.
+   Keep images out of git; record only their SHA-256.
+4. **Label:** self-host CVAT or Label Studio on the box. Use one box per item, one class per item type, and the
+   same class names everywhere. Two people label a 10% overlap to check agreement. Export **COCO 1.0**.
+5. **Train:** `python3 -m vision.detect train --coco labels.json --images images --epochs 10 --out out/vision/model.pt`
+   (MobileNetV3 Faster R-CNN, COCO-pretrained, CPU is fine for a few hundred frames). Whole site/flight groups
+   are held out for test.
+6. **Evaluate:** `python3 -m vision.detect eval --coco labels.json --images images --weights out/vision/model.pt`.
+   Report per-class recall and mAP on held-out groups only. Compare with the template baseline and with "no detector".
+7. **Run on frames (optional):** `python3 -m vision.detect --detector frcnn --weights out/vision/model.pt
+   --classes out/vision/model.classes.json out/frames/*.json`, or the training-free baseline
+   `--detector template --template item.png`. Then
+   `python3 -m cameras.timeline merge out/frames/*.json out/detections/*.json --out out/timeline.jsonl`.
+   Candidates appear as `detector_candidate` with `review_status: unreviewed`.
+8. **Tests:** `python3 -m unittest vision.test_vision` (synthetic images generated in the test; one CPU training step).
+9. **Synthetic-label demo (2120, SYNTHETIC ONLY):** `python -m vision.synth_demo --out /tmp/synth_demo --steps 300 --pretrained`
+   trains briefly on generated scenes and evaluates on held-out background types against RX / local-colour baselines.
+   Results and caveats are in `docs/research/vision-detection-tools.md`. It is a pipeline check, not evidence of field recall.
+   Next: HERIDAL (CC BY 3.0) / SARD (IEEE DataPort, CC BY 4.0 per DataCite, account needed) for real flights.
+
 ## 8. Guardrails
 - CI is manual only (`sar-tests` and `daily_sar_run`, both workflow_dispatch). There is no schedule and no auto-commit; outputs go to artifacts. The notebook's daily cron and commit-back step were deliberately not carried over.
-- There are no camera or ALPR credentials (Ring, Arlo, Reolink, Flock) anywhere. Accessing those needs legal authority and stays outside this repo.
+- Ring credentials are optional env vars or a mode-600 token cache. They are never in the repo and never printed.
 - The `case/` contents never get committed here.
+
+
+## 14. Sources table (2200)
+
+Every DOI or URL cited in `sar/` belongs in `sar/data/sources.json`. After adding a citation:
+
+1. Add a row with `source_id`, `type`, `verified` and `verified_date`, plus a `license` for repos and data.
+2. Run `python3 sar/sources.py --render`.
+3. Run `python3 sar/sources.py --check`.
+
+`test_sources.py` fails if a cited DOI is missing or SOURCES.md is stale. The placeholder DOIs in `CITATION.cff.template` are excluded.
+
+
+## 15. Lidar bare-earth DTM (925, `geo_connectors/lidar_dtm.py`)
+PROTOTYPE. Use it when a point cloud is unclassified or its ground classes are unreliable (for example a team's own drone lidar).
+`build_dtm(xyz, method="idw"|"tin", out_path="dtm.tif")` runs outlier removal, then a ground filter (python-pdal SMRF if installed, else the built-in PMF), then gridding, hole fill and a GeoTIFF check.
+- Read LAS/LAZ with `read_las` (needs laspy).
+- Demo: `python3 -m geo_connectors.lidar_dtm`.
+- Tests: `python3 -m unittest geo_connectors.test_lidar_dtm` (synthetic cloud; RMSE vs known surface).
+- Tuning knobs are `cell`, `max_window`, `slope` and the thresholds. Check a known-classified 3DEP tile before trusting a new area.
+- Details and synthetic results are in `docs/research/full-waveform-lidar.md`.

@@ -1,0 +1,246 @@
+{
+ "source": {
+  "citation": "Koester, R.J. (2008). Lost Person Behavior: A Search and Rescue Guide on Where to Look—for Land, Air and Water. Charlottesville, VA: dbS Productions. ISBN 978-1-879471-39-9.",
+  "verified": true,
+  "verified_note": "Transcribed 2026-10-21 from the publisher's sample excerpt Dementia.pdf (book pp. 161-166). The ISRID chapter excerpt 2ISRID.pdf (pp. 15-17) describes the database and has no distance tables. Only categories whose printed tables were read are included; add others only from the printed book with page numbers.",
+  "excerpts": {
+   "isrid_chapter": "https://dbs-sar.com/LPB/2ISRID.pdf (pp. 15-17)",
+   "dementia": "https://dbs-sar.com/LPB/Dementia.pdf"
+  }
+ },
+ "distances": [
+  {
+   "category": "dementia",
+   "isrid_code": 1051,
+   "ecoregion": "temperate",
+   "terrain": "mountain",
+   "n": 95,
+   "p25_km": 0.3,
+   "p50_km": 0.8,
+   "p75_km": 1.9,
+   "p95_km": 8.3,
+   "p_mi": {
+    "p25": 0.2,
+    "p50": 0.5,
+    "p75": 1.2,
+    "p95": 5.1
+   },
+   "page": 164,
+   "table": "Distance (horizontal) from the IPP (kilometers)",
+   "url": "https://dbs-sar.com/LPB/Dementia.pdf"
+  },
+  {
+   "category": "dementia",
+   "isrid_code": 1051,
+   "ecoregion": "temperate",
+   "terrain": "flat",
+   "n": 175,
+   "p25_km": 0.3,
+   "p50_km": 1.0,
+   "p75_km": 2.4,
+   "p95_km": 12.8,
+   "p_mi": {
+    "p25": 0.2,
+    "p50": 0.6,
+    "p75": 1.5,
+    "p95": 7.9
+   },
+   "page": 164,
+   "table": "Distance (horizontal) from the IPP (kilometers)",
+   "url": "https://dbs-sar.com/LPB/Dementia.pdf"
+  },
+  {
+   "category": "dementia",
+   "isrid_code": 1051,
+   "ecoregion": "dry",
+   "terrain": "mountain",
+   "n": 14,
+   "p25_km": 1.0,
+   "p50_km": 1.9,
+   "p75_km": 3.1,
+   "p95_km": 6.1,
+   "p_mi": {
+    "p25": 0.6,
+    "p50": 1.2,
+    "p75": 1.9,
+    "p95": 3.8
+   },
+   "page": 164,
+   "table": "Distance (horizontal) from the IPP (kilometers)",
+   "url": "https://dbs-sar.com/LPB/Dementia.pdf"
+  },
+  {
+   "category": "dementia",
+   "isrid_code": 1051,
+   "ecoregion": "dry",
+   "terrain": "flat",
+   "n": 15,
+   "p25_km": 0.5,
+   "p50_km": 1.6,
+   "p75_km": 3.6,
+   "p95_km": 11.8,
+   "p_mi": {
+    "p25": 0.3,
+    "p50": 1.0,
+    "p75": 2.2,
+    "p95": 7.3
+   },
+   "page": 164,
+   "table": "Distance (horizontal) from the IPP (kilometers)",
+   "url": "https://dbs-sar.com/LPB/Dementia.pdf"
+  },
+  {
+   "category": "dementia",
+   "isrid_code": 1051,
+   "ecoregion": "urban",
+   "terrain": "any",
+   "n": 336,
+   "p25_km": 0.3,
+   "p50_km": 1.1,
+   "p75_km": 3.2,
+   "p95_km": 12.6,
+   "p_mi": {
+    "p25": 0.2,
+    "p50": 0.7,
+    "p75": 2.0,
+    "p95": 7.8
+   },
+   "page": 164,
+   "table": "Distance (horizontal) from the IPP (kilometers)",
+   "url": "https://dbs-sar.com/LPB/Dementia.pdf"
+  }
+ ],
+ "other_stats": {
+  "dementia": {
+   "page": "164-165",
+   "url": "https://dbs-sar.com/LPB/Dementia.pdf",
+   "elevation_change_ft": {
+    "temperate": {
+     "uphill_pct": 19,
+     "downhill_pct": 42,
+     "same_pct": 39,
+     "p50_uphill_ft": 75,
+     "p50_downhill_ft": 60
+    },
+    "dry": {
+     "uphill_pct": 50,
+     "downhill_pct": 38,
+     "same_pct": 13,
+     "p50_uphill_ft": 317,
+     "p50_downhill_ft": 187
+    },
+    "note": "only the 50% row is printed; column alignment of p50 values read from the layout"
+   },
+   "mobility_hours": {
+    "temperate": {
+     "n": 42,
+     "p25": 0,
+     "p50": 0.25,
+     "p75": 3.8,
+     "p95": 18
+    },
+    "dry": {
+     "n": 6,
+     "p50": 4.5
+    }
+   },
+   "dispersion_angle_deg": {
+    "temperate": {
+     "n": 11,
+     "p25": 11,
+     "p50": 23,
+     "p75": 66,
+     "p95": 70
+    }
+   },
+   "track_offset_m": {
+    "n": 110,
+    "p25": 4,
+    "p50": 15,
+    "p75": 71,
+    "p95": 307
+   },
+   "find_location_pct": {
+    "n": {
+     "temperate": 207,
+     "dry": 7,
+     "urban": 223
+    },
+    "temperate": {
+     "structure": 20,
+     "road": 18,
+     "linear": 9,
+     "drainage": 9,
+     "water": 7,
+     "brush": 6,
+     "woods": 17,
+     "field": 14
+    },
+    "dry": {
+     "structure": 29,
+     "road": 14,
+     "drainage": 14,
+     "water": 14,
+     "field": 29
+    },
+    "urban": {
+     "structure": 35,
+     "road": 36,
+     "linear": 9,
+     "drainage": 4,
+     "water": 6,
+     "brush": 1,
+     "woods": 3,
+     "field": 6
+    }
+   },
+   "scenario_pct": {
+    "n": 1050,
+    "lost": 96,
+    "investigative": 2,
+    "overdue": 1
+   },
+   "survivability_outcome_pct": {
+    "wilderness": {
+     "uninjured": 73,
+     "injured": 17,
+     "fatality": 8,
+     "no_trace": 2
+    },
+    "urban": {
+     "uninjured": 80,
+     "injured": 14,
+     "fatality": 6,
+     "no_trace": 5
+    }
+   },
+   "alive_by_elapsed": [
+    {
+     "elapsed": "<24 h",
+     "alive_pct": 95,
+     "n": 736
+    },
+    {
+     "elapsed": ">24 h",
+     "alive_pct": 77,
+     "n": 79
+    },
+    {
+     "elapsed": ">48 h",
+     "alive_pct": 60,
+     "n": 30
+    },
+    {
+     "elapsed": ">72 h",
+     "alive_pct": 60,
+     "n": 20
+    },
+    {
+     "elapsed": ">96 h",
+     "alive_pct": 46,
+     "n": 13
+    }
+   ]
+  }
+ }
+}

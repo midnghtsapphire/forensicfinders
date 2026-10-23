@@ -1,0 +1,12 @@
+{
+  "_doc": "Public camera source registry. type selects the parser in public_cams.py. Add a source by adding an entry; no code change needed for supported types.",
+  "sources": {
+    "caltrans-d03": {"type": "caltrans_cctv", "url": "https://cwwp2.dot.ca.gov/data/d3/cctv/cctvStatusD03.json", "publisher": "Caltrans (California DOT) CWWP2 public CCTV feed", "docs": "https://cwwp2.dot.ca.gov/documentation/cctv/cctv.htm"},
+    "caltrans-d04": {"type": "caltrans_cctv", "url": "https://cwwp2.dot.ca.gov/data/d4/cctv/cctvStatusD04.json", "publisher": "Caltrans CWWP2", "docs": "https://cwwp2.dot.ca.gov/documentation/cctv/cctv.htm"},
+    "caltrans-d07": {"type": "caltrans_cctv", "url": "https://cwwp2.dot.ca.gov/data/d7/cctv/cctvStatusD07.json", "publisher": "Caltrans CWWP2", "docs": "https://cwwp2.dot.ca.gov/documentation/cctv/cctv.htm"},
+    "caltrans-d11": {"type": "caltrans_cctv", "url": "https://cwwp2.dot.ca.gov/data/d11/cctv/cctvStatusD11.json", "publisher": "Caltrans CWWP2", "docs": "https://cwwp2.dot.ca.gov/documentation/cctv/cctv.htm"},
+    "example-static": {"type": "static_list", "publisher": "Template: list your own public snapshot URLs", "cameras": [
+      {"id": "EXAMPLE-1", "name": "Example public webcam", "image_url": "https://cwwp2.dot.ca.gov/data/d3/cctv/image/hwy5atpocket/hwy5atpocket.jpg", "lat": null, "lon": null}
+    ]}
+  }
+}

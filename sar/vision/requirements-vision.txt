@@ -1,0 +1,9 @@
+# Optional detector (2110). Not needed for the core. CPU wheels:
+#   pip install --index-url https://download.pytorch.org/whl/cpu torch torchvision
+torch>=2.2          # BSD-3-Clause
+torchvision>=0.17   # BSD-3-Clause; COCO-pretrained weights download on first train
+opencv-python-headless>=4.8   # Apache-2.0 (template baseline)
+pillow>=10
+numpy>=1.24
+torchmetrics>=1.3   # Apache-2.0; optional, for mAP in `eval`
+pycocotools>=2.0    # BSD; used by torchmetrics mAP

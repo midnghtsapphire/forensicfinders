@@ -145,7 +145,7 @@
     "800": {
       "name": "lpb",
       "path": "lpb",
-      "what": "Data-driven lost-person-behavior distance rings; tables must cite a source (unverified tables refused by default)",
+      "what": "Data-driven lost-person-behavior distance rings; tables must cite a source (unverified tables refused by default); real ISRID values (Koester 2008, Dementia p.164) in data/isrid_distances.json via lpb.load_isrid()",
       "test_cwd": "lpb",
       "test": [
         "python3",
@@ -210,7 +210,7 @@
     "910": {
       "name": "geo_connectors/stac",
       "path": "geo_connectors/stac.py",
-      "what": "STAC search (Element84 Earth Search S1/S2, NASA CMR LPCLOUD HLS) with paging; COG window read; NDVI, ΔNDVI, S1 log-ratio dB, sigma anomalies",
+      "what": "STAC search (Element84 Earth Search S1/S2, NASA CMR LPCLOUD HLS) with paging; COG window read; NDVI, \u0394NDVI, S1 log-ratio dB, sigma anomalies",
       "parent": "900"
     },
     "920": {
@@ -218,6 +218,21 @@
       "path": "geo_connectors/dep3.py",
       "what": "USGS 3DEP DTM exportImage (GeoTIFF), getSamples point elevations, DTM difference",
       "parent": "900"
+    },
+    "925": {
+      "name": "geo_connectors/lidar_dtm",
+      "path": "geo_connectors/lidar_dtm.py",
+      "what": "PROTOTYPE: point cloud -> bare-earth DTM GeoTIFF: kNN/MAD outlier removal, ground filter (python-pdal SMRF if installed, else own numpy PMF after Zhang 2003), IDW or TIN gridding, hole fill, raster validation; tested on a synthetic cloud vs known surface",
+      "status": "PROTOTYPE",
+      "parent": "900",
+      "test_cwd": ".",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "geo_connectors.test_lidar_dtm"
+      ],
+      "requires": "numpy, scipy; optional rasterio (GeoTIFF), laspy (LAS/LAZ), python-pdal (SMRF); tests skip without them"
     },
     "930": {
       "name": "geo_connectors/wayback",
@@ -246,8 +261,301 @@
     "970": {
       "name": "geo_connectors/run_sectors",
       "path": "geo_connectors/run_sectors.py",
-      "what": "Sector pipeline from a case config: cloud-filtered STAC, COG ΔNDVI, 3DEP centre elevation (used by aegis-sar-runner)",
+      "what": "Sector pipeline from a case config: cloud-filtered STAC, COG \u0394NDVI, 3DEP centre elevation (used by aegis-sar-runner)",
       "parent": "900"
+    },
+    "1000": {
+      "name": "forensic_models",
+      "path": "forensic_models",
+      "what": "Sourced, data-driven forensic models (constants.json: every constant has a DOI/URL; unsourced ones are user_required)",
+      "test_cwd": ".",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "forensic_models.test_forensic_models"
+      ],
+      "source": "Gemini Notebook models, rebuilt"
+    },
+    "1010": {
+      "name": "forensic_models/taphonomy",
+      "path": "forensic_models/taphonomy.py",
+      "what": "Megyesi ADD from TBS, Vass PMI (aerobic/burial), Topp \u03b8\u2194\u03b5, saponified fraction (rate user-supplied)",
+      "parent": "1000"
+    },
+    "1020": {
+      "name": "forensic_models/soil_nitrogen",
+      "path": "forensic_models/soil_nitrogen.py",
+      "what": "Grave-soil N pathway with sourced Q10 and WFPS optimum; site rates must be supplied",
+      "parent": "1000"
+    },
+    "1100": {
+      "name": "forensic_models/void_detector",
+      "path": "forensic_models/void_detector.py",
+      "what": "validate/run/demo/curve: real DEMs (file or 3DEP via 920) \u2192 detrend or epoch diff \u2192 Gi* anomaly cells; ROC/AUC only from user labels",
+      "parent": "1000"
+    },
+    "1110": {
+      "name": "forensic_models/gistar",
+      "path": "forensic_models/gistar.py",
+      "what": "Getis-Ord Gi* (queen, self-inclusive, binary); matches PySAL esda to 1e-9",
+      "parent": "1000"
+    },
+    "1120": {
+      "name": "forensic_models/gpr_dielectric",
+      "path": "forensic_models/gpr_dielectric.py",
+      "what": "eps_eff=(1-\u03b8)[\u03b5_fat(1-f_sap)+\u03b5_soap f_sap]+\u03b8 \u03b5_soil, v=0.3/\u221a\u03b5, reflection coefficient, depth from TWT",
+      "parent": "1000"
+    },
+    "1200": {
+      "name": "forensic_models/reliability",
+      "path": "forensic_models/reliability.py",
+      "what": "Deterministic Admiralty A\u2013F/1\u20136 grading from a versioned lookup table (reliability_rubric.json)",
+      "parent": "1000"
+    },
+    "1300": {
+      "name": "forensic_models/qpcr_qc",
+      "path": "forensic_models/qpcr_qc.py",
+      "what": "qPCR QC from QuantStudio/Bio-Rad CFX exports: efficiency, R\u00b2, NTC/EB, IPC \u0394Cq inhibition",
+      "parent": "1000"
+    },
+    "1900": {
+      "name": "docs/DOPPLER_EVALUATION",
+      "path": "docs/DOPPLER_EVALUATION.md",
+      "what": "Evaluation: notebook Doppler corrector does not belong (doc only, no code)",
+      "kind": "doc"
+    },
+    "1910": {
+      "name": "cameras",
+      "path": "cameras",
+      "what": "Public webcam/traffic-cam + Ring (own account) connectors and frame-to-timeline merger",
+      "test_cwd": ".",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "cameras.test_cameras"
+      ],
+      "requires": "pip install ring_doorbell (Ring only)",
+      "source": "new; Caltrans CWWP2 public feeds + ring_doorbell"
+    },
+    "1911": {
+      "name": "cameras/public_cams",
+      "path": "cameras/public_cams.py",
+      "what": "Data-driven public camera registry (sources.json); list + timestamped snapshots with SHA-256 metadata",
+      "parent": "1910"
+    },
+    "1912": {
+      "name": "cameras/ring_cam",
+      "path": "cameras/ring_cam.py",
+      "what": "Ring via ring_doorbell: devices, history, download, snapshot; token cache mode 600; credentials from env only",
+      "parent": "1910"
+    },
+    "1913": {
+      "name": "cameras/timeline",
+      "path": "cameras/timeline.py",
+      "what": "Merge camera frames/events and satellite scenes into a sorted SAR timeline (JSONL)",
+      "parent": "1910"
+    },
+    "2000": {
+      "name": "docs/research/soil-edna-detection",
+      "path": "docs/research/soil-edna-detection.md",
+      "what": "PROTOTYPE/RESEARCH: crawl-walk-run roadmap for human (then canine) soil eDNA and CDI chemistry; cited sources only, no claimed results",
+      "kind": "doc",
+      "status": "PROTOTYPE / RESEARCH"
+    },
+    "2010": {
+      "name": "docs/research/PROTOTYPES",
+      "path": "docs/research/PROTOTYPES.md",
+      "what": "Index of notebook/research ideas with status and next small step",
+      "kind": "doc"
+    },
+    "2020": {
+      "name": "docs/research/phone-gpr-addon",
+      "path": "docs/research/phone-gpr-addon.md",
+      "what": "PROTOTYPE: phone/USB mmWave & low-freq GPR add-on roadmap + Raspberry Pi field host BOM/wiring; cites Walabot/Infineon/TI/Acconeer/GPRino; ties to 1120 and 811 logger",
+      "kind": "doc",
+      "status": "PROTOTYPE / RESEARCH"
+    },
+    "811": {
+      "name": "instrument_input/pi_radar_logger",
+      "path": "instrument_input/pi_radar_logger.py",
+      "what": "Pi field logger stub: capture dir, GPS JSONL, synthetic radar burst, phone preview JSON (see phone-gpr-addon.md Pi section)",
+      "parent": "810",
+      "status": "PROTOTYPE"
+    },
+    "980": {
+      "name": "geo_connectors/sar_pair",
+      "path": "geo_connectors/sar_pair.py",
+      "what": "Pairwise SAR GeoTIFF amplitude-ratio (dB) and coherent-change index; synthetic pair writers; crawl stub for 2030 B1",
+      "parent": "900",
+      "test_cwd": ".",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "geo_connectors.test_sar_pair"
+      ]
+    },
+    "2030": {
+      "name": "docs/research/vhr-radar-lidar-fusion",
+      "path": "docs/research/vhr-radar-lidar-fusion.md",
+      "what": "PROTOTYPE: crawl-walk-run for VHR SAR + lidar micro-relief; recommends two add-ons (B) with shared GeoTIFF/GeoJSON; verified citations; no claimed results",
+      "kind": "doc",
+      "status": "PROTOTYPE / RESEARCH"
+    },
+    "2040": {
+      "name": "docs/research/INVENTION-DISCLOSURE",
+      "path": "docs/research/INVENTION-DISCLOSURE.md",
+      "what": "PROTOTYPE: invention disclosure for Evans concepts 2020/811, 2030/980, 2000; prior-art links; not legal advice; keep private until provisional filed",
+      "kind": "doc",
+      "status": "PROTOTYPE / RESEARCH"
+    },
+    "985": {
+      "name": "geo_connectors/waveform",
+      "path": "geo_connectors/waveform.py",
+      "what": "Gaussian decomposition of 1-D full-waveform lidar; peaks + last (ground) return; synthetic tests; see 2060",
+      "parent": "900",
+      "test_cwd": ".",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "geo_connectors.test_waveform"
+      ]
+    },
+    "2060": {
+      "name": "docs/research/full-waveform-lidar",
+      "path": "docs/research/full-waveform-lidar.md",
+      "what": "PROTOTYPE: full-waveform lidar (GEDI L1B/L2A, NEON AOP) for SAR terrain under canopy; ARSET training; earthaccess/NEON API; ties to 985; no claimed results",
+      "kind": "doc",
+      "status": "PROTOTYPE / RESEARCH"
+    },
+    "2070": {
+      "name": "docs/research/buried-object-detection",
+      "path": "docs/research/buried-object-detection.md",
+      "what": "PROTOTYPE: small buried/surface personal items (zippers, rivets, buttons, fabric, soles) via metal detector, magnetometry, GPR, lidar, multispectral/thermal; cited forensic geophysics; adjacent clothing-imaging sources; crawl-first roadmap",
+      "kind": "doc",
+      "status": "PROTOTYPE / RESEARCH"
+    },
+    "2080": {
+      "name": "docs/research/clandestine-grave-detection",
+      "path": "docs/research/clandestine-grave-detection.md",
+      "what": "PROTOTYPE: verified literature review of grave-detection case studies (UAV NDVI, GPR/ER, thermal, lidar, geographic profiling); phased workflow mapped to 800/910/920/985/1100s/1120; PermitStack as optional disturbance-date connector idea; no claimed results",
+      "kind": "doc",
+      "status": "PROTOTYPE / RESEARCH"
+    },
+    "1400": {
+      "name": "search_system",
+      "path": "search_system",
+      "what": "PROTOTYPE, PROPRIETARY: ported burial-search ranking system (Audrey's search-system zip); synthetic tests; audit in search_system/README.md",
+      "status": "PROTOTYPE",
+      "test_cwd": "search_system",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "test_search_system"
+      ],
+      "requires": "pip install numpy scipy pandas scikit-learn"
+    },
+    "1410": {
+      "name": "search_system/remains_anomaly_pipeline",
+      "path": "search_system/remains_anomaly_pipeline.py",
+      "what": "PROTOTYPE: lidar DoD mound/sink signature + layer fusion + calibrated P(grave); leakage fixed",
+      "parent": "1400",
+      "status": "PROTOTYPE"
+    },
+    "1420": {
+      "name": "search_system/run_county",
+      "path": "search_system/run_county.py",
+      "what": "PROTOTYPE: county tiling/ingest/config validation/sweep/GeoTIFF export",
+      "parent": "1400",
+      "status": "PROTOTYPE"
+    },
+    "1430": {
+      "name": "search_system/field_confirmation",
+      "path": "search_system/field_confirmation.py",
+      "what": "PROTOTYPE: qPCR assay QC + ordered calls; culvert/void detector",
+      "parent": "1400",
+      "status": "PROTOTYPE"
+    },
+    "1440": {
+      "name": "search_system/coldcase_master",
+      "path": "search_system/coldcase_master.py",
+      "what": "PROTOTYPE: sealed-truth case harness + SHA-256 hash-chained evidence log, verify_chain, anchor manifest",
+      "parent": "1400",
+      "status": "PROTOTYPE"
+    },
+    "1450": {
+      "name": "search_system/fall_physics",
+      "path": "search_system/fall_physics.py",
+      "what": "PROTOTYPE: Monte-Carlo fall/slide landing distribution, ellipse, recovery percentile",
+      "parent": "1400",
+      "status": "PROTOTYPE"
+    },
+    "2090": {
+      "name": "search_system/docs",
+      "path": "search_system/docs",
+      "what": "PROPRIETARY process notes ported from search-system: VALIDATION_PROTOCOL, PATENT_PREP (not legal advice), REWARD_PRIORITY, BLUE_OCEAN_RESEARCH; no case cohort",
+      "kind": "doc",
+      "status": "PROTOTYPE / RESEARCH"
+    },
+    "2100": {
+      "name": "docs/research/vision-detection-tools",
+      "path": "docs/research/vision-detection-tools.md",
+      "what": "PROTOTYPE: optional, off-by-default detection for 1911-1913 frames (OpenCV template, YOLO AGPL note), OpenTrafficCam GPL tracking, CVAT/Label Studio labelling, HERIDAL/SARD datasets; verified",
+      "kind": "doc",
+      "status": "PROTOTYPE / RESEARCH"
+    },
+    "2110": {
+      "name": "vision",
+      "path": "vision",
+      "what": "PROTOTYPE, optional and OFF by default: --detector none|template|frcnn; COCO/CVAT/Label Studio loader, site/flight group split, torchvision Faster R-CNN (BSD) fine-tune/eval (mAP + per-class recall), OpenCV template baseline, candidates written as 1913 detector_candidate events for human review",
+      "status": "PROTOTYPE",
+      "test_cwd": ".",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "vision.test_vision"
+      ],
+      "requires": "optional: pip install -r vision/requirements-vision.txt (torch/cv2 tests skip without them)"
+    },
+    "2120": {
+      "name": "vision/synth",
+      "path": "vision/synth.py",
+      "what": "PROTOTYPE, SYNTHETIC ONLY: procedural backgrounds + composited jacket/backpack shapes with exact boxes (seeded), held-out background families, brief CPU Faster R-CNN MobileNetV3 fine-tune vs unsupervised RX / local-colour anomaly baselines (vision/anomaly.py, vision/synth_demo.py); not field-validated",
+      "status": "PROTOTYPE",
+      "parent": "2110",
+      "test_cwd": ".",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "vision.test_synth"
+      ],
+      "requires": "numpy; scipy + Pillow for anomaly/split tests; torch/torchvision for the demo smoke test (skips without)"
+    },
+    "2200": {
+      "name": "sources",
+      "path": "data/sources.json",
+      "what": "Master sources lookup table (papers, reviews, theses, datasets/API endpoints, repos, products, guides, videos, patents, articles) with verification status, licence, registry IDs and caveats; sources.py loads it, renders docs/research/SOURCES.md and fails if any doc/code DOI is missing",
+      "status": "RESEARCH INDEX",
+      "test_cwd": ".",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "test_sources"
+      ]
+    },
+    "2210": {
+      "name": "docs/research/INSECT_TRACES",
+      "path": "docs/research/INSECT_TRACES.md",
+      "what": "PROTOTYPE research note: insect trace evidence (puparia, larval gut DNA, fly artefacts, entomotoxicology, dermestid frass), detectability by eye/camera/sample, crawl-walk-run plan, field-validation gaps; verified sources",
+      "kind": "doc",
+      "status": "PROTOTYPE / RESEARCH"
     }
   },
   "deselected_tests": {
