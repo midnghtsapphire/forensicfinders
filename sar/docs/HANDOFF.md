@@ -138,7 +138,7 @@ v = gd.gpr_velocity(e)                            # m/ns
 | 1020 | `soil_nitrogen.simulate(...)` needs `k_ammonification` and `k_nitrification` overrides with a source |
 | 1100 | `python3 -m forensic_models.void_detector demo`. Then `validate cfg.json` / `run cfg.json --out-dir case/out` with tiles `{"id","dem_path"}` or `{"id","bbox"}` (fetched from 3DEP), optional `baseline_dem_path` (epoch difference), `sign` low/high/both. ROC: `curve labels.csv --png roc.png` (columns `score,label`) |
 | 1110 | `gistar.gi_star(grid)`. Verified equal to PySAL `esda.G_Local(star=True)` with queen lattice weights |
-| 1200 | `reliability.grade("instrument_record", "original_file_with_hash", "documented", corroborations=2)` gives `A1`. Edit `reliability_rubric.json` and bump `version` to change the house rubric |
+| 1200 | `reliability.grade("instrument_record", "original_file_with_hash", "documented", corroborations=2)` returns a dict with `result["grade"] == "A1"`. Edit `reliability_rubric.json` and bump `version` to change the house rubric |
 | 1300 | `qpcr_qc.qc(qpcr_qc.read_export(open("run.csv").read(), "quantstudio"), "ASSAY", ipc_target="IPC")`. Layouts: `quantstudio`, `biorad_cfx`, or pass your own column map |
 | 1900 | Doc only: why the Doppler corrector was dropped |
 | 1910–1913 | Public cams, Ring, timeline merger (section 10) |
