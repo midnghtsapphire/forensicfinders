@@ -189,3 +189,190 @@ class Live(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class DecodeSeam(unittest.TestCase):
+    """read_cog_window must route its band through the decode seam (sar/decode_hooks.py).
+
+    rasterio is an optional dependency, so rather than skip -- a skipped test proves
+    nothing -- these stub the three rasterio names read_cog_window imports inside its own
+    body. The assertions compare returned VALUES against what the hook produced, so if the
+    seam were removed from read_cog_window the band would come back unmodified and these
+    fail. That is the mutation test, built into the assertion.
+    """
+    def setUp(self):
+        import decode_hooks
+        decode_hooks.clear()
+        self.hooks = decode_hooks
+        self.saved = {k: sys.modules.get(k) for k in ("rasterio", "rasterio.warp", "rasterio.windows")}
+
+    def tearDown(self):
+        self.hooks.clear()
+        for k, v in self.saved.items():
+            if v is None:
+                sys.modules.pop(k, None)
+            else:
+                sys.modules[k] = v
+
+    def _stub(self, arr):
+        import types
+        ds = type("DS", (), {"crs": "EPSG:32614", "transform": (1, 0, 0, 0, -1, 0),
+                             "read": lambda s, *a, **k: arr,
+                             "__enter__": lambda s: s, "__exit__": lambda s, *a: False})()
+        rio = types.ModuleType("rasterio"); rio.open = lambda href: ds
+        warp = types.ModuleType("rasterio.warp"); warp.transform_bounds = lambda *a, **k: (0.0, 0.0, 1.0, 1.0)
+        wins = types.ModuleType("rasterio.windows"); wins.from_bounds = lambda *a, **k: "WIN"
+        rio.warp, rio.windows = warp, wins
+        sys.modules.update({"rasterio": rio, "rasterio.warp": warp, "rasterio.windows": wins})
+
+    def test_unhooked_band_is_unchanged(self):
+        import numpy as np
+        self._stub(np.array([[1.0, 2.0], [3.0, 4.0]]))
+        out = stac.read_cog_window("https://example.org/b.tif", NEUTRAL)
+        self.assertEqual(out.tolist(), [[1.0, 2.0], [3.0, 4.0]])
+
+    def test_hook_reaches_read_cog_window(self):
+        import numpy as np
+        self._stub(np.array([[1.0, 2.0], [3.0, 4.0]]))
+        self.hooks.register("plus100", lambda p, m: p + 100.0)
+        out = stac.read_cog_window("https://example.org/b.tif", NEUTRAL)
+        self.assertEqual(out.tolist(), [[101.0, 102.0], [103.0, 104.0]])
+
+    def test_receipt_describes_the_decode(self):
+        import numpy as np
+        self._stub(np.array([[1.0]]))
+        self.hooks.register("noop", lambda p, m: p)
+        meta = {}
+        stac.read_cog_window("https://example.org/b.tif", NEUTRAL, meta=meta)
+        self.assertEqual(meta["decode_hooks_applied"], ["noop"])
+        self.assertEqual(meta["decoder"], "read_cog_window")
+        self.assertEqual(meta["href"], "https://example.org/b.tif")
+
+    def test_one_registry_is_shared_with_instrument_input(self):
+        """Both callers must import the SAME decode_hooks module object, or a hook
+        registered once would apply to rasters but not to instrument files."""
+        sys.path.insert(0, str(HERE.parent / "instrument_input"))
+        import instrument_input as ii
+        self.assertIs(ii.decode_hooks, self.hooks)
+
+
+class Hyp3Pairs(unittest.TestCase):
+    """Pair selection for ASF HyP3, replayed from a live jsonlite response recorded
+    2026-10-24 over the neutral Nebraska Sandhills bbox (no case areas).
+
+    The assertions are about behaviour that would be wrong in a way nothing else catches:
+    pairing across tracks produces an interferogram of the sensor moving, not the ground.
+    """
+    def setUp(self):
+        from geo_connectors import hyp3
+        self.h = hyp3
+        hyp3.allow_asf_hosts()
+        self.raw = (FX / "asf_slc_search.json").read_bytes()
+
+    def _opener(self):
+        data = self.raw
+
+        class R:
+            def read(s, n=-1): return data
+            def geturl(s): return "https://api.daac.asf.alaska.edu/services/search/param"
+            def __enter__(s): return s
+            def __exit__(s, *a): return False
+        return lambda req, timeout=30: R()
+
+    def _granules(self):
+        return self.h.search_slc(NEUTRAL, "2024-06-01", "2024-07-15", opener=self._opener())
+
+    def test_fixture_parses_into_granules(self):
+        g = self._granules()
+        self.assertEqual(len(g), 8)
+        self.assertTrue(all(x["granule"] for x in g))
+        self.assertTrue(all(isinstance(x["path"], int) for x in g))
+
+    def test_field_rename_raises_instead_of_pairing_on_none(self):
+        """If ASF drops granuleName, every record would otherwise compare equal on None."""
+        with self.assertRaises(http.ConnectorError) as cm:
+            self.h.normalise({"path": 85, "flightDirection": "DESCENDING", "startTime": "2024-07-14T12:53:09Z"})
+        self.assertIn("granuleName", str(cm.exception))
+
+    def test_never_pairs_across_path_or_direction(self):
+        pairs = self.h.interferometric_pairs(self._granules(), min_days=0, max_days=10000)
+        self.assertTrue(pairs, "fixture should contain at least one same-track pair")
+        by_name = {g["granule"]: g for g in self._granules()}
+        for p in pairs:
+            a, b = by_name[p["reference"]], by_name[p["secondary"]]
+            self.assertEqual(a["path"], b["path"])
+            self.assertEqual(a["direction"], b["direction"])
+            self.assertEqual(a["polarization"], b["polarization"])
+
+    def test_fixture_really_does_contain_mixed_tracks(self):
+        """Guards the guard: if the fixture had one track, the test above would pass empty."""
+        tracks = {(g["path"], g["direction"]) for g in self._granules()}
+        self.assertGreater(len(tracks), 1)
+
+    def test_reference_is_the_earlier_acquisition(self):
+        for p in self.h.interferometric_pairs(self._granules(), min_days=0, max_days=10000):
+            self.assertLess(p["reference_time"], p["secondary_time"])
+            self.assertGreater(p["days"], 0)
+
+    def test_baseline_window_is_enforced(self):
+        wide = self.h.interferometric_pairs(self._granules(), min_days=0, max_days=10000)
+        none = self.h.interferometric_pairs(self._granules(), min_days=900, max_days=1000)
+        self.assertEqual(none, [], "no pair should survive an impossible baseline window")
+        self.assertTrue(wide)
+
+    def test_can_insar_false_is_excluded(self):
+        g = self._granules()
+        for x in g:
+            x["can_insar"] = False
+        self.assertEqual(self.h.interferometric_pairs(g, min_days=0, max_days=10000), [])
+
+    def test_summarise_tracks_counts_every_granule(self):
+        g = self._granules()
+        self.assertEqual(sum(self.h.summarise_tracks(g).values()), len(g))
+
+    def test_submit_uses_the_burst_endpoint_only_when_asked(self):
+        calls = []
+
+        class FakeClient:
+            def submit_insar_job(s, ref, sec, name):
+                calls.append(("scene", ref, sec, name)); return object()
+
+            def submit_insar_isce_burst_job(s, ref, sec, name):
+                calls.append(("burst", ref, sec, name)); return object()
+
+        pairs = [{"reference": "A", "secondary": "B"}, {"reference": "C", "secondary": "D"}]
+        self.h.submit_insar(pairs, "run", FakeClient(), burst=False)
+        self.h.submit_insar(pairs, "run", FakeClient(), burst=True, limit=1)
+        self.assertEqual([c[0] for c in calls], ["scene", "scene", "burst"])
+        self.assertEqual(calls[0][1:], ("A", "B", "run-001"))
+        self.assertEqual(calls[2][1:], ("A", "B", "run-001"))
+
+    def test_missing_credentials_say_what_to_do(self):
+        import os
+        saved = {k: os.environ.pop(k, None) for k in ("EARTHDATA_USERNAME", "EARTHDATA_PASSWORD")}
+        try:
+            with self.assertRaises(http.ConnectorError) as cm:
+                self.h.earthdata_auth(netrc_path=str(FX / "does_not_exist_netrc"))
+            self.assertIn("EARTHDATA_USERNAME", str(cm.exception))
+            self.assertIn("urs.earthdata.nasa.gov", str(cm.exception))
+        finally:
+            for k, v in saved.items():
+                if v is not None:
+                    os.environ[k] = v
+
+    def test_same_pass_slices_are_never_paired(self):
+        """Regression: path 107 carries frames 128 and 132 taken 25 s apart on one pass.
+        Keyed without frame they paired with each other, giving days = 0.0 -- a pair with
+        no temporal baseline, over different ground. Asking for min_days=0 must not
+        resurrect that."""
+        pairs = self.h.interferometric_pairs(self._granules(), min_days=0, max_days=10000)
+        self.assertTrue(pairs)
+        for p in pairs:
+            self.assertGreaterEqual(p["days"], self.h.MIN_SEPARATION_DAYS)
+
+    def test_every_pair_shares_a_frame_and_repeats_on_the_cycle(self):
+        """The fixture's four tracks each repeat at 12 days. Anything else is a mispair."""
+        pairs = self.h.interferometric_pairs(self._granules(), min_days=0, max_days=10000)
+        self.assertEqual(len(pairs), 4)
+        self.assertTrue(all(abs(p["days"] - 12.0) < 0.01 for p in pairs), [p["days"] for p in pairs])
+        self.assertTrue(all(p["frame"] is not None for p in pairs))
