@@ -22,8 +22,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Complete Python set so microtopo (scipy), burial calibration (scikit-learn),
-# change-detection plots (matplotlib), schema validation (jsonschema), etc. actually run
-# instead of skipping
+# change-detection plots (matplotlib), schema validation (jsonschema),
+# and coldtrace component 700 (pytest + backend deps) actually run instead of failing/skipping
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir \
         numpy \
@@ -33,7 +33,14 @@ RUN pip install --no-cache-dir --upgrade pip && \
         pillow \
         jsonschema \
         matplotlib \
-        scikit-learn
+        scikit-learn \
+        reportlab \
+        fastapi \
+        pydantic-settings \
+        httpx \
+        pytest \
+        pytest-mock \
+        pytest-asyncio
 
 WORKDIR /repo
 CMD ["python3", "sar/registry.py", "--test-all"]
