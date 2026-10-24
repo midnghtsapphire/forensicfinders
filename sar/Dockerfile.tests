@@ -23,7 +23,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Complete Python set so microtopo (scipy), burial calibration (scikit-learn),
 # change-detection plots (matplotlib), schema validation (jsonschema),
-# and coldtrace component 700 (pytest + backend deps) actually run instead of failing/skipping
+# coldtrace pytest suite (component 700), and reportlab paths actually run
+# instead of skipping or failing
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir \
         numpy \
