@@ -88,12 +88,23 @@ class LocalTSA:
             f.write(data)
 
     def reply(self, tsq):
-        p = subprocess.run(["openssl", "ts", "-reply", "-config", os.path.join(self.dir, "tsa.cnf"),
-                            "-queryfile", "/dev/stdin", "-section", "tsa_config1"],
-                           input=tsq, capture_output=True, check=False)
-        if p.returncode != 0:
-            raise RuntimeError(p.stderr.decode())
-        return p.stdout
+        with tempfile.NamedTemporaryFile(suffix=".tsq", delete=False) as qf:
+            qf.write(tsq)
+            qpath = qf.name
+        try:
+            p = subprocess.run(
+                ["openssl", "ts", "-reply", "-config", os.path.join(self.dir, "tsa.cnf"),
+                 "-queryfile", qpath, "-section", "tsa_config1"],
+                capture_output=True, check=False
+            )
+            if p.returncode != 0:
+                raise RuntimeError(p.stderr.decode())
+            return p.stdout
+        finally:
+            try:
+                os.unlink(qpath)
+            except OSError:
+                pass
 
     def transport(self, url, tsq, timeout=30.0):
         return self.reply(tsq)
