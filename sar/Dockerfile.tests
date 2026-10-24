@@ -1,0 +1,39 @@
+# sar/Dockerfile.tests
+# Complete offline test image for python3 sar/registry.py --test-all
+# Build from repo root:
+#   docker build -f sar/Dockerfile.tests -t forensicfinders-sar-tests .
+# Run (source mounted so you always test the current tree):
+#   docker run --rm -v "$PWD:/repo" -w /repo forensicfinders-sar-tests
+
+FROM python:3.12-bookworm
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1
+
+# System packages: openssl (TSA/evidence), poppler-utils, GDAL for rasterio, build tools
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        openssl \
+        poppler-utils \
+        build-essential \
+        libgdal-dev \
+        gdal-bin \
+        ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Complete Python set so microtopo (scipy), burial calibration (scikit-learn),
+# change-detection plots (matplotlib), schema validation (jsonschema), etc. actually run
+# instead of skipping
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir \
+        numpy \
+        scipy \
+        rasterio \
+        piexif \
+        pillow \
+        jsonschema \
+        matplotlib \
+        scikit-learn
+
+WORKDIR /repo
+CMD ["python3", "sar/registry.py", "--test-all"]
