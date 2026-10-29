@@ -32,6 +32,7 @@ New here? Read this file first, then [`docs/HANDOFF.md`](docs/HANDOFF.md).
 | 800 | `lpb` | Data-driven lost-person-behavior distance rings; tables must cite a source (unverified tables refused by default) |
 | 810 | `instrument_input` | LiDAR (LAS/CSV) and GPR (CSV) file input plus deterministic synthetic samples in local metres (no geo coords) |
 | 820 | `exif_metadata` | EXIF metadata reader (camera, datetime, GPS, software) |
+| 850 | `decode_hooks` | Decode seam: the one place sensor data is conditioned after decoding. Hooks registered here run inside `read_cog_window` (910) and `read_points`/`read_gpr_csv` (810). Identity until a hook is registered, so it changes nothing on its own |
 | 900 | `geo_connectors` | Live public geo connectors with retry/backoff and host allowlist; recorded fixtures for offline tests; SAR_LIVE_TESTS=1 for live |
 | 901 | `geo_connectors/netio.py` | HTTP: https-only allowlist, 429/5xx/network retry with exponential backoff + jitter, size cap |
 | 910 | `geo_connectors/stac.py` | STAC search (Element84 Earth Search S1/S2, NASA CMR LPCLOUD HLS) with paging; COG window read; NDVI, ΔNDVI, S1 log-ratio dB, sigma anomalies |
@@ -42,10 +43,13 @@ New here? Read this file first, then [`docs/HANDOFF.md`](docs/HANDOFF.md).
 | 960 | `geo_connectors/verify_connectors.py` | Live health check of all 5 endpoints; writes out/health.json and status=PASS|FAIL to $GITHUB_OUTPUT (used by aegis-health-check) |
 | 970 | `geo_connectors/run_sectors.py` | Sector pipeline from a case config: cloud-filtered STAC, COG ΔNDVI, 3DEP centre elevation (used by aegis-sar-runner) |
 
+| 980 | `geo_connectors/hyp3.py` | ASF HyP3 Sentinel-1 InSAR: finds same-track, same-frame interferometric pairs and submits them to ASF's free cloud processing (8000 credits/month). Earthdata login from env or `~/.netrc`, never argv |
+
 IDs are permanent. Never reuse a retired number. A child ID such as 910 runs its parent's tests (900).
 
 ## Offline vs. live
 - **Offline is the default.** Connector tests replay responses recorded from the real endpoints on 2026-10-21, kept in `geo_connectors/fixtures/`. The recording used a neutral bbox in the Nebraska Sandhills, not a case area.
+- **HyP3 / ASF fixture:** `geo_connectors/fixtures/asf_slc_search.json` was recorded live on 2026-10-24 from the ASF search API over the same neutral Nebraska Sandhills bbox. Searching ASF needs no credentials; only submitting jobs does.
 - **Live run:** `cd sar && SAR_LIVE_TESTS=1 python3 -m unittest -v geo_connectors.test_geo_connectors.Live`
 - **In GitHub Actions:** run the `sar-tests` workflow by hand and tick **live**. There is no schedule. Setting the repo variable `SAR_LIVE_ALLOWED=0` turns the live job off.
 
