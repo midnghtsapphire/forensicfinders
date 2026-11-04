@@ -82,13 +82,15 @@ by something that fails if the fix is reverted (RVS-VERIFY-001). It ranks low wh
 | 1 | `multi_proxy` tests import and run under component 100 | **Highest** | Red main. `GREEN_MAIN_STANDARD.md` makes it a fleet emergency outranking feature work. Defect reproduced before the change, measured after, guard mutation-tested. Nothing judgement-shaped in it. |
 | 2 | `forensic_pipeline/tests/test_snow_wells_pipes.py` has never run | **High** | Same defect class as 1, found by the same audit. Measurable: the file errors on collection today. One obvious fix shape. Its own absence of a registry entry is the bug, so the postcondition is checkable. |
 | 3 | Orphan detection for test files no component runs | **High** | This is item 2's regression test, not separate work. `GREEN_MAIN_STANDARD.md` requires a regression test per fix, and the failure mode being guarded is precisely "a test file exists that nothing executes". Shipped with 2. |
-| 4 | Port `anti-scaffolding-enforcer.yml` / `no-root-junk.yml` as a pre-commit hook | **Medium** | Clearly useful — §1 and §5 drifted because forensicfinders inherits the standards by convention and enforces none of them. Dropped below 2 because Actions cannot run on this account (billing lock), so the honest form is a local hook, and a hook that blocks her own commits is a working-habit change I should not impose silently. |
+| 4 | Port `anti-scaffolding-enforcer.yml` / `no-root-junk.yml` as a pre-commit hook | **Medium, then blocked** | Clearly useful — §1 and §5 drifted because forensicfinders inherits the standards by convention and enforces none of them. Ranked below 2 because Actions cannot run on this account (billing lock), so the honest form is a local hook, and a hook that blocks her own commits is a working-habit change I should not impose silently. **Attempting it then showed it is blocked by item 6, not merely lower priority** — see section 3. |
 | 5 | Conventional Commits going forward | **Medium-high, but not a task** | 9 of the last 10 commits fail `AGENTS.md`. Nothing to build; it is applied by doing it. Every commit I have made follows it. |
 | 6 | Finish or remove the 7 `multi_proxy` scaffolding instances | **Low** | `loader.py` raises `NotImplementedError` on every call, so the module cannot be used as committed, and `VISITING_AGENTS.md` §1 forbids shipping it. But "remove" is forbidden outright by the never-delete rule, and "finish" means choosing rasterio/laspy read paths, band ordering and nodata handling for real products — inventing those would be exactly the failure Audrey warned about. Needs her, see section 3. |
 | 7 | Fill the `WR:` field in the REVVEL-DISABLED headers | **Low** | Seven headers read `WR: UNASSIGNED`. A numbering scheme is a fleet-wide governance convention, not a local choice, and `revvel-standards` already has a numeric register for other products. Picking one here would fork it. Needs her. |
 
-Worked in order. 1 shipped as PR #5. 2 and 3 shipped together as the PR this document
-accompanies. 4 through 7 left, with 6 and 7 blocked on decisions that are hers.
+Worked in order. 1 shipped as PR #5. 2 and 3 shipped together as PR #7. 4 was attempted
+and turned out to be blocked by 6 rather than merely lower-priority, so the real order
+is 6 then 4; 5 is not a task; 6 and 7 are decisions that are hers. Section 3 says what
+each needs.
 
 ---
 
@@ -100,6 +102,20 @@ accompanies. 4 through 7 left, with 6 and 7 blocked on decisions that are hers.
   and `register(decoders=...)` are the whole API needed once the answer exists.
 - **`multi_proxy/loader.py`.** Raises `NotImplementedError` on every call. Finishing it
   needs the real read paths; removing it is not allowed. Left exactly as committed.
+- **The scaffolding gate (item 4), because item 6 blocks it.** This came out of trying
+  it, not out of ranking it, so it is worth stating plainly. A scaffolding check added
+  as a registry component today has only two possible outcomes, and both are
+  unacceptable: it fails, which makes main red for a defect it was added to *report*
+  rather than one it introduced; or it ships with the seven known instances in an
+  allowlist, which converts a violation into a blessed exception and is the "append
+  rather than reconcile" pattern `GREEN_MAIN_STANDARD.md` §4 was written about. So the
+  gate cannot land clean until the scaffolding it would catch is resolved, and that
+  resolution is item 6, which is yours. The order is therefore 6 then 4, not 4 then 6.
+- **`.github/workflows/sar-tests-selfhosted.yml` and `sar/docs/SELF_HOSTED_CI.md`.**
+  Both are finished and both are still untracked in the main checkout, dated
+  2026-10-24. They are not mine — they predate this session — and a side session
+  commits only files it changed itself, so I did not commit them. Flagging them rather
+  than quietly adopting them: they are ready whenever you want them in.
 - **`WR:` numbering.** Left as `UNASSIGNED` in all seven headers rather than invented.
 - **The 25 remaining component-100 failures.** All Windows-platform: openssl/TSA
   configuration, POSIX `0600` and directory-private checks, symlinks, TLS. Untouched,
