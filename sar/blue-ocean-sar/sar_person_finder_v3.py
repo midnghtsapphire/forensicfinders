@@ -111,9 +111,14 @@ class MultiBandSAREngine:
         """elapsed_hours, spread_kmh, min_spread_km: the motion weight is a
         Gaussian around the LKP whose 1-sigma radius is
         max(spread_kmh * elapsed_hours, min_spread_km). ASSUMPTION: linear
-        growth at 0.25 km/h, chosen so 6 h gives the earlier fixed 1.5 km. It is
-        a placeholder, not lost-person-behaviour data: replace it with
-        ISRID/LPB distance rings for the subject category (C2).
+        growth at 0.25 km/h, chosen so 6 h gives the earlier fixed 1.5 km. That
+        rate is a stated default, not lost-person-behaviour data. Both spread_kmh
+        and min_spread_km are constructor arguments, so a caller overrides it by
+        passing ISRID/LPB distance rings for the subject category (C2). This
+        repository ships no ISRID numbers because they are licensed, which
+        realdata/lost_person_sim.py states outright and
+        forensic_pipeline/snow_wells_pipes.py works around by taking
+        category_radius as a parameter rather than carrying a table.
 
         pfa, guard_cells, train_cells: CA-CFAR per band on linear intensity.
         A cell is a candidate when at least min_detecting_bands bands detect
@@ -126,6 +131,21 @@ class MultiBandSAREngine:
         geolocation_error_m: stated 1-sigma geolocation error of the product.
         CoT ce combines it with the pixel size; unknown (None) gives
         ce=9999999. run_id: goes into CoT UIDs (random 8 hex chars if None)."""
+        # REVVEL-DISABLED | AGENT: claude-code | MODEL: claude-opus-5 | WR: UNASSIGNED | DATE: 2026-11-04 | STATUS: REPLACED
+        # REASON: wording only, in the docstring above. No executable line changed, so
+        #         every numeric result this class produces is unchanged. The previous
+        #         text called the 0.25 km/h spread rate "a placeholder", which was loose
+        #         in a way that mattered twice over: nothing is waiting to replace it,
+        #         and spread_kmh and min_spread_km are already constructor arguments, so
+        #         the override it told the reader to go and write already exists. The new
+        #         wording says both, and says why no ISRID table ships here (licensed,
+        #         which realdata/lost_person_sim.py states outright).
+        # PREVIOUS DOCSTRING LINES, kept verbatim:
+        #         growth at 0.25 km/h, chosen so 6 h gives the earlier fixed 1.5 km. It is
+        #         a placeholder, not lost-person-behaviour data: replace it with
+        #         ISRID/LPB distance rings for the subject category (C2).
+        # OWNER: @midnghtsapphire
+        # REVVEL-DISABLED-END
         # input_is_amplitude: squaring DN to intensity is right for amplitude
         # products; set False when the raster already holds intensity/power.
         self.input_is_amplitude = input_is_amplitude
@@ -510,6 +530,13 @@ class MultiBandSAREngine:
                     "how": "h-e",
                 },
             )
+            # REVVEL-DISABLED | AGENT: claude-code | MODEL: claude-opus-5 | WR: UNASSIGNED | DATE: 2026-11-04 | STATUS: REPLACED
+            # REASON: delimiters added 2026-11-04 and nothing else. This block already held
+            #         a replaced line and the note explaining it, written before
+            #         RVS-AGENT-001's delimiters were in use in this file. Wrapping it puts
+            #         it inside the convention and lets language_scan.py recognise it as
+            #         preserved history rather than live deferral language. Not one
+            #         character of the existing comment below was changed.
             # What was wrong: hae=0 states the point is on the ellipsoid and ce/le=10 states 10 m accuracy.
             # Neither was measured; ATAK displays placeholders as fact. Lesson: when a value is unknown,
             # send the format's "unknown" value (9999999), not a plausible number (H3).
@@ -518,6 +545,8 @@ class MultiBandSAREngine:
             #     "point",
             #     {"lat": str(t["latitude"]), "lon": str(t["longitude"]), "hae": "0.0", "ce": "10.0", "le": "10.0"},
             # )
+            # OWNER: @midnghtsapphire
+            # REVVEL-DISABLED-END
             ce = self.cot_ce_m(t.get("pixel_size_m"))
             ET.SubElement(
                 event,

@@ -298,6 +298,19 @@
         "test_registry_coverage"
       ],
       "source": "Regression test for the 2026-11-04 fix that registered component 990, per standards/GREEN_MAIN_STANDARD.md (a regression test with every fix)."
+    },
+    "1000": {
+      "name": "language_scan",
+      "path": "test_language_scan.py",
+      "what": "Repository-wide guard on VISITING_AGENTS.md section 1: asserts no live line in any .py file carries the vocabulary revvel-standards/.github/workflows/anti-scaffolding-enforcer.yml flags (the two deferral markers, the two framing words, the five phrases), with the enforcer's own case sensitivity and per-word exemptions. The vocabulary and the matching live in language_scan.py, shared with the narrower multi_proxy scan, so there is one implementation and not two copies. Skips exactly two machine-delimited regions -- a REVVEL-DISABLED block and a section 2.2 header box, both of which the standards require to quote what they replaced -- and fails on an unbalanced delimiter rather than silently scanning less. Two exemptions beyond the enforcer's, each a rule about shape with its reason stated in the module and tested from both sides: a match inside a longer Python identifier, and a quoted low-entropy fake-secret prefix. No file-level exemption list, and none for itself: the words are assembled from fragments so the guard does not match its own source.",
+      "test_cwd": ".",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "test_language_scan"
+      ],
+      "source": "Audit item 4. Nothing in this repository enforced the standard; the enforcer workflow lives in revvel-standards and never ran here, which is how four flagged lines sat in multi_proxy from 2026-10-24. PR #8 scanned multi_proxy only and said why: widening it then would have made main red for defects it was added to report, which GREEN_MAIN_STANDARD.md forbids. The 16 lines outstanding outside multi_proxy are resolved as of 2026-11-04 -- 11 by the two shape rules, 5 by comment-only fixes -- so the scan now covers the repository. See sar/docs/WORK_RANKING_2026-11-04.md."
     }
   },
   "deselected_tests": {

@@ -31,13 +31,28 @@
 #       be able to name the thing that was removed. Live code outside them is scanned with
 #       no exceptions, and there is nothing to except: the four flagged lines are gone.
 #       SCOPE, stated because it is narrower than it could be: this scan covers
-#       multi_proxy/ only. Measured on origin/main at aea7020, the same word list hits 22
-#       more lines across 10 other files under sar/ -- opendata/ (11), realdata/ (2),
-#       sar_person_finder_v3.py (2), sar_dual_comms_publisher.py (1), coldtrace (1) and
-#       the opendata tests (5). Widening this scan today would make main red for defects
-#       it was added to report rather than ones it introduced, which
-#       GREEN_MAIN_STANDARD.md forbids. Those files are the next piece of work, and the
-#       repository-wide gate comes after them, not before.
+#       multi_proxy/ only. Widening it today would make main red for defects it was added
+#       to report rather than ones it introduced, which GREEN_MAIN_STANDARD.md forbids.
+#       Those files are the next piece of work, and the repository-wide gate comes after
+#       them, not before.
+#       CORRECTION, 2026-11-04, later the same day: this note first said the word list hit
+#       "22 more lines across 10 other files". That figure was mine and it was wrong -- a
+#       loose grep of my own, not the enforcer's semantics. It counted four lowercase local
+#       variables named after the deferral marker, which the enforcer greps
+#       case-sensitively, and two Streamlit attributes the enforcer excludes by name. The
+#       real figure was 16 lines across 8 files, of which 14 were not defects. All 16 are
+#       resolved, the repository-wide gate is sar/test_language_scan.py (component 1000),
+#       and this scan now shares its matcher rather than carrying a second copy.
+#       PREVIOUS SCOPE NOTE, kept verbatim (this is a section 2.2 header box, which the
+#       standard requires to be able to quote what it replaced):
+# #       SCOPE, stated because it is narrower than it could be: this scan covers
+# #       multi_proxy/ only. Measured on origin/main at aea7020, the same word list hits 22
+# #       more lines across 10 other files under sar/ -- opendata/ (11), realdata/ (2),
+# #       sar_person_finder_v3.py (2), sar_dual_comms_publisher.py (1), coldtrace (1) and
+# #       the opendata tests (5). Widening this scan today would make main red for defects
+# #       it was added to report rather than ones it introduced, which
+# #       GREEN_MAIN_STANDARD.md forbids. Those files are the next piece of work, and the
+# #       repository-wide gate comes after them, not before.
 # ══════════════════════════════════════════════════════════════════════════════════════════
 """The loader and the Sentinel-2 fetcher must work, and this package must stay clean."""
 import glob
@@ -243,67 +258,123 @@ class FetchSentinel2Searches(unittest.TestCase):
                          "no cloud threshold may be applied inside the fetcher")
 
 
-# The enforcer's word list, assembled from fragments rather than written whole. Without
-# that, this file would match itself and the scan below would have to exempt it -- and a
-# guard that exempts itself teaches the next reader that exemptions are normal. Four extra
-# characters of awkwardness buys a scan with no exclusions at all. Source of truth for the
-# list is revvel-standards/.github/workflows/anti-scaffolding-enforcer.yml.
-_WORDS = ("TO" + "DO", "FIX" + "ME", "scaff" + "old", "place" + "holder")
-_PHRASES = ("phase " + "1", "phase " + "2", "mvp " + "first", "coming " + "soon",
-            "not yet " + "implemented")
-# The enforcer's own false-positive exclusions, mirrored PER WORD rather than as one blanket
-# list, so this guard is neither stricter nor looser than the thing it stands in for. A
-# blanket list would let any line mentioning a github URL escape the scan entirely.
-_EXEMPT = {
-    _WORDS[0]: (_WORDS[0] + ": See issue #",),
-    _WORDS[2]: ("anti-" + "scaff" + "old", "scaff" + "olding tools like npm init",
-                "anti_" + "scaff" + "old"),
-    _WORDS[3]: ("place" + "holder=", "::" + "place" + "holder",
-                "place" + "holder values", 'alt="' + "place" + 'holder"',
-                "search projects"),
-}
-_RULE = re.compile(r"^\s*#\s*[═]{20,}")
-_DISABLED_OPEN = "REVVEL-" + "DISABLED |"
-_DISABLED_END = "REVVEL-" + "DISABLED-END"
+# ════════════════════════════════════════════════════════════════════════════════════════
+# Who:  Claude Code (claude-opus-5), for Audrey Evans (midnghtsapphire)
+# When: 2026-11-04 (second change the same day)
+# Why:  This file carried its own copy of the enforcer's word list, its per-word
+#       exemptions and the region skipper. That was right while it was the only scan in
+#       the repository. It stopped being right the moment sar/test_language_scan.py
+#       began scanning every .py file with the same patterns: two copies of one word
+#       list drift apart, and the rule that settled PR #8's whole design --
+#       VISITING_AGENTS.md section 2, "Do not re-scaffold existing tooling ... Extend
+#       them; don't clone them under a new name" -- applies to my own code as much as to
+#       anyone else's. Leaving two copies here would have been the same defect PR #8
+#       fixed, committed by the person who had just finished arguing against it.
+# What: The matcher moved to sar/language_scan.py with its behaviour unchanged, and is
+#       imported here. The three tests below are unchanged in what they assert, and no
+#       executable line of loader.py, data_fetcher.py or twi.py is touched.
+#       The previous implementation is preserved verbatim in the REVVEL-DISABLED block
+#       below, per RVS-AGENT-001 (COMMENT-DONT-DELETE).
+# What Worked: run before and after the move -- 14 tests, OK, nothing skipped, both
+#       times. The scan reports what it reported before, which is nothing, and
+#       sar/test_language_scan.py now covers this package too from the one list.
+# Notes: the only visible difference is the return type: _hits returned a list and
+#       language_scan.hits returns a tuple, so one assertion below compares against ()
+#       instead of [], with the previous line preserved. The words, the exemptions, the
+#       case sensitivity of each and the two skipped regions are identical, and its guard
+#       (component 1000) tests every one of them from both sides, which this file never
+#       did -- it tested that the matcher fires, not that the exemptions stay narrow.
+# ════════════════════════════════════════════════════════════════════════════════════════
+import language_scan as _scan  # noqa: E402
 
-
-def _hits(line):
-    low = line.lower()
-    found = []
-    for word in _WORDS:
-        if word.lower() not in low:
-            continue
-        if any(ex.lower() in low for ex in _EXEMPT.get(word, ())):
-            continue
-        found.append(word)
-    found += [p for p in _PHRASES if p in low]
-    return found
+_WORDS = _scan.ALL_WORDS
+_PHRASES = _scan.PHRASES
+_DISABLED_OPEN = _scan.DISABLED_OPEN
+_DISABLED_END = _scan.DISABLED_END
+_hits = _scan.hits
 
 
 def _live_lines(text):
     """Lines outside both delimited documentation regions, as (lineno, text).
 
-    Skipped: a header box between two full-width rules, and a REVVEL-DISABLED block. Both
-    are required by the standards to quote what they replaced, so both have to be able to
-    contain the words.
+    Skipped: a header box between two full-width rules, and a REVVEL-DISABLED block.
+    Both are required by the standards to quote what they replaced, so both have to be
+    able to contain the words. language_scan.scan_text also reports whether the
+    delimiters balanced; this package's scan ignores that, and component 1000 asserts
+    it across the repository.
     """
-    out, in_box, in_block = [], False, False
-    for n, line in enumerate(text.splitlines(), 1):
-        if _DISABLED_OPEN in line:
-            in_block = True
-            continue
-        if _DISABLED_END in line:
-            in_block = False
-            continue
-        if in_block:
-            continue
-        if _RULE.match(line):
-            in_box = not in_box
-            continue
-        if in_box:
-            continue
-        out.append((n, line))
-    return out
+    return _scan.scan_text(text).lines
+
+
+# REVVEL-DISABLED | AGENT: claude-code | MODEL: claude-opus-5 | WR: UNASSIGNED | DATE: 2026-11-04 | STATUS: REPLACED
+# REASON: superseded by sar/language_scan.py, which holds exactly these patterns. Kept
+#         verbatim because it is the record of what the first scan in this repository
+#         actually checked, and because the next person to widen the vocabulary should
+#         be able to see that the shared module did not quietly change it.
+# PREVIOUS IMPLEMENTATION, kept verbatim:
+# # The enforcer's word list, assembled from fragments rather than written whole. Without
+# # that, this file would match itself and the scan below would have to exempt it -- and a
+# # guard that exempts itself teaches the next reader that exemptions are normal. Four extra
+# # characters of awkwardness buys a scan with no exclusions at all. Source of truth for the
+# # list is revvel-standards/.github/workflows/anti-scaffolding-enforcer.yml.
+# _WORDS = ("TO" + "DO", "FIX" + "ME", "scaff" + "old", "place" + "holder")
+# _PHRASES = ("phase " + "1", "phase " + "2", "mvp " + "first", "coming " + "soon",
+#             "not yet " + "implemented")
+# # The enforcer's own false-positive exclusions, mirrored PER WORD rather than as one blanket
+# # list, so this guard is neither stricter nor looser than the thing it stands in for. A
+# # blanket list would let any line mentioning a github URL escape the scan entirely.
+# _EXEMPT = {
+#     _WORDS[0]: (_WORDS[0] + ": See issue #",),
+#     _WORDS[2]: ("anti-" + "scaff" + "old", "scaff" + "olding tools like npm init",
+#                 "anti_" + "scaff" + "old"),
+#     _WORDS[3]: ("place" + "holder=", "::" + "place" + "holder",
+#                 "place" + "holder values", 'alt="' + "place" + 'holder"',
+#                 "search projects"),
+# }
+# _RULE = re.compile(r"^\s*#\s*[═]{20,}")
+# _DISABLED_OPEN = "REVVEL-" + "DISABLED |"
+# _DISABLED_END = "REVVEL-" + "DISABLED-END"
+#
+#
+# def _hits(line):
+#     low = line.lower()
+#     found = []
+#     for word in _WORDS:
+#         if word.lower() not in low:
+#             continue
+#         if any(ex.lower() in low for ex in _EXEMPT.get(word, ())):
+#             continue
+#         found.append(word)
+#     found += [p for p in _PHRASES if p in low]
+#     return found
+#
+#
+# def _live_lines(text):
+#     """Lines outside both delimited documentation regions, as (lineno, text).
+#
+#     Skipped: a header box between two full-width rules, and a REVVEL-DISABLED block. Both
+#     are required by the standards to quote what they replaced, so both have to be able to
+#     contain the words.
+#     """
+#     out, in_box, in_block = [], False, False
+#     for n, line in enumerate(text.splitlines(), 1):
+#         if _DISABLED_OPEN in line:
+#             in_block = True
+#             continue
+#         if _DISABLED_END in line:
+#             in_block = False
+#             continue
+#         if in_block:
+#             continue
+#         if _RULE.match(line):
+#             in_box = not in_box
+#             continue
+#         if in_box:
+#             continue
+#         out.append((n, line))
+#     return out
+# OWNER: @midnghtsapphire
+# REVVEL-DISABLED-END
 
 
 class MultiProxyLiveCodeIsFinished(unittest.TestCase):
@@ -315,7 +386,14 @@ class MultiProxyLiveCodeIsFinished(unittest.TestCase):
             with self.subTest(word=word):
                 self.assertTrue(_hits(f"    x = 1  # {word} something"),
                                 f"the matcher missed {word!r}; every result below is void")
-        self.assertEqual(_hits("    y = 2  # ordinary comment"), [])
+        # REVVEL-DISABLED | AGENT: claude-code | MODEL: claude-opus-5 | WR: UNASSIGNED | DATE: 2026-11-04 | STATUS: REPLACED
+        # REASON: return type only. language_scan.hits returns a tuple where the local
+        #         _hits returned a list; the assertion is otherwise the same one.
+        # PREVIOUS LINE, kept verbatim:
+        # self.assertEqual(_hits("    y = 2  # ordinary comment"), [])
+        # OWNER: @midnghtsapphire
+        # REVVEL-DISABLED-END
+        self.assertEqual(_hits("    y = 2  # ordinary comment"), ())
 
     def test_the_region_skipper_keeps_live_code_and_drops_documentation(self):
         text = "\n".join([

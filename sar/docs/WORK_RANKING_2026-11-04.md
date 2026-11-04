@@ -143,22 +143,52 @@ status was wrong: blocked, not deprioritised.
   resolution is item 6, which is yours. The order is therefore 6 then 4, not 4 then 6.
 
   **Updated 2026-11-04, after PR #8.** Item 6 is no longer the blocker and was never
-  yours. The blocker is now counted rather than guessed. Measured on `aea7020`, the
+  yours. ~~The blocker is now counted rather than guessed. Measured on `aea7020`, the
   enforcer's own word list hits **22 lines across 10 files** under `sar/` outside
-  `multi_proxy`:
+  `multi_proxy`:~~
 
   | | | | |
   |---|---|---|---|
-  | `opendata/` | 11 | `sar_person_finder_v3.py` | 2 |
-  | `opendata` tests | 5 | `sar_dual_comms_publisher.py` | 1 |
-  | `realdata/` | 2 | `coldtrace` | 1 |
+  | ~~`opendata/`~~ | ~~11~~ | ~~`sar_person_finder_v3.py`~~ | ~~2~~ |
+  | ~~`opendata` tests~~ | ~~5~~ | ~~`sar_dual_comms_publisher.py`~~ | ~~1~~ |
+  | ~~`realdata/`~~ | ~~2~~ | ~~`coldtrace`~~ | ~~1~~ |
 
-  PR #8 ships a scan of `multi_proxy/` only, for exactly the §4 reason above — widening it
-  today makes main red for defects it reports rather than introduces. So the order is now
-  **those 10 files, then the repository-wide gate**. Each of those 22 lines needs the same
-  question PR #8 answered for `multi_proxy`: is this an unfinished clone of something the
-  repository already has, or does finishing it need a decision? That is answerable file by
-  file and does not need you until a file turns out to be the second kind.
+  ~~PR #8 ships a scan of `multi_proxy/` only, for exactly the §4 reason above — widening it~~
+  ~~today makes main red for defects it reports rather than introduces. So the order is now~~
+  ~~**those 10 files, then the repository-wide gate**. Each of those 22 lines needs the same~~
+  ~~question PR #8 answered for `multi_proxy`: is this an unfinished clone of something the~~
+  ~~repository already has, or does finishing it need a decision? That is answerable file by~~
+  ~~file and does not need you until a file turns out to be the second kind.~~
+
+  **Corrected 2026-11-04, later the same day.** That count was mine and it was wrong, and
+  it is struck through above rather than removed because a document that quietly drops a
+  bad number is worth nothing as a record. It came from a loose `grep -i` of my own rather
+  than the enforcer's actual semantics, in two ways: `-i TODO` matched four lowercase
+  local variables named `todo` in `opendata/ring_export.py`, where the enforcer greps that
+  marker **case-sensitively**; and it counted two Streamlit `placeholder="choose"`
+  attributes in `realdata/ryverly_app.py`, which the enforcer **excludes by name**. The
+  real figure, re-measured with the enforcer's exact patterns and then reproduced
+  mechanically by `sar/language_scan.py`, is **16 lines across 8 files**:
+
+  | What | Lines | What they actually are |
+  |---|---|---|
+  | `opendata/records_adapter.py` | 4 | `_placeholders()` — in a URI template the variable slots really are called that (RFC 6570) |
+  | `opendata` tests, 4 files | 7 | the `"placeholder-"` prefix on deliberately low-entropy fake secrets, so scanners do not trip |
+  | `sar_person_finder_v3.py` | 2 | one loose word for a stated default; one note on an already-fixed defect |
+  | `sar_dual_comms_publisher.py` | 1 | a note on an already-fixed defect, beside the preserved original |
+  | `coldtrace/…/sentinel.py` | 1 | a stale claim about a demo mode that never existed |
+
+  **Fourteen of the sixteen were not defects at all**, and that is what the wrong number
+  hid: item 4 was never blocked by ten files' worth of unfinished work. The order **6 then
+  4** did hold, but item 4's size was overstated by my own measurement. The narrow lesson
+  is not about ranking — it is that a number quoted from a grep which merely *resembles*
+  the gate is not a measurement. Run the gate's own patterns, or say the figure is a guess.
+
+  Resolved the same day: 11 of the 16 are exempted by two rules in `sar/language_scan.py`,
+  each a rule about *shape* rather than a list of forgiven files, each with its reason
+  stated and tested from both sides; the other 5 were fixed, all five comment-only, with
+  the previous text preserved per RVS-AGENT-001. The repository-wide gate is component
+  1000, it scans all 202 `.py` files, and it passes. Item 4 is done.
 - **`.github/workflows/sar-tests-selfhosted.yml` and `sar/docs/SELF_HOSTED_CI.md`.**
   Both are finished and both are still untracked in the main checkout, dated
   2026-10-24. They are not mine — they predate this session — and a side session

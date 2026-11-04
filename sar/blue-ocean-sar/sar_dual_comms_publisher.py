@@ -62,10 +62,17 @@ def build_sample_cot(now=None, stale_hours=24.0):
     return (
         f'<event version="2.0" uid="SAR-DUAL-COMMS-TEST" type="b-r-a-p-s" '
         f'time="{_cot_time(now)}" start="{_cot_time(now)}" stale="{_cot_time(stale)}" how="h-e">'
+        # REVVEL-DISABLED | AGENT: claude-code | MODEL: claude-opus-5 | WR: UNASSIGNED | DATE: 2026-11-04 | STATUS: REPLACED
+        # REASON: delimiters added 2026-11-04 and nothing else. Same situation as the block
+        #         in sar_person_finder_v3.py: a replaced line plus the note explaining it,
+        #         written before RVS-AGENT-001's delimiters were in use here. Not one
+        #         character of the existing comment below was changed.
         # What was wrong: hae=0 and ce/le=10 were placeholders that ATAK shows as a measured height and a
         # 10 m accuracy, and the remarks named an RF mesh this module cannot reach. Lesson: unknown is
         # 9999999 in CoT, and remarks describe only what was actually sent (H3, H4).
         # '<point lat="49.3837" lon="-122.9439" hae="0" ce="10" le="10"/>'
+        # OWNER: @midnghtsapphire
+        # REVVEL-DISABLED-END
         '<point lat="49.3837" lon="-122.9439" hae="9999999.0" ce="9999999.0" le="9999999.0"/>'
         '<detail><contact callsign="SAR-PRIMARY-TARGET-#1"/>'
         # "<remarks>[Dual Comms] Primary: TCP/IP TAK Server | Secondary: UDP RF Mesh 239.2.3.1:6969</remarks>"
