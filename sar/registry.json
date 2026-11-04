@@ -267,6 +267,37 @@
       "path": "geo_connectors/hyp3.py",
       "what": "ASF HyP3 Sentinel-1 InSAR: same-track/same-frame pair selection from the ASF search API, plus job submission via hyp3_sdk (free tier, Earthdata login from env or ~/.netrc, never argv)",
       "parent": "900"
+    },
+    "990": {
+      "name": "forensic_pipeline",
+      "path": "forensic_pipeline",
+      "what": "Private forensic pipeline: pure-function residuals for snow wells, rootball trenches, culvert ice trajectory, pipe airflow/odour, local image accent, ISRID priors, finder confirmation. Array-in/array-out, no I/O.",
+      "test_cwd": ".",
+      "test": [
+        "python3",
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:warnings",
+        "forensic_pipeline/tests"
+      ],
+      "note": "PYTEST, not unittest, and that is deliberate: forensic_pipeline/tests/test_snow_wells_pipes.py is written pytest-style (bare test_* functions, plain assert, pytest.approx). `unittest discover` collects only TestCase subclasses, so registering this directory under a unittest component would collect ZERO tests and report success -- coverage that reads green and runs nothing.",
+      "requires": "pytest, numpy, scipy (all three already installed by sar/Dockerfile.tests)",
+      "source": "Committed 2026-10-27/28 but covered by no component, so it had never executed. Registered 2026-11-04 after the governance audit found it; see sar/docs/WORK_RANKING_2026-11-04.md."
+    },
+    "995": {
+      "name": "registry_coverage",
+      "path": "test_registry_coverage.py",
+      "what": "Guard on this file: asserts every test_*.py in the repository is reachable by some component's test command, so a test file can never again be committed outside every scope and counted as coverage. Fails on a test-command shape it cannot interpret rather than ignoring it.",
+      "test_cwd": ".",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "test_registry_coverage"
+      ],
+      "source": "Regression test for the 2026-11-04 fix that registered component 990, per standards/GREEN_MAIN_STANDARD.md (a regression test with every fix)."
     }
   },
   "deselected_tests": {

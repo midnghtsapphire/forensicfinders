@@ -1,6 +1,43 @@
 import numpy as np
 import pytest
-from sar.forensic_pipeline.snow_wells_pipes import (
+# ══════════════════════════════════════════════════════════════════════════════════════════
+# Who:  Claude Code (claude-opus-5), for Audrey Evans (midnghtsapphire)
+# When: 2026-11-04
+# Why:  This file had never executed. Two independent reasons, both now fixed:
+#       (1) registry.json had no component covering forensic_pipeline/, so
+#           `python3 sar/registry.py --test-all` never reached it. Now component 990.
+#       (2) the import below could not resolve. `from sar.forensic_pipeline...` needs a
+#           top-level package named `sar` on sys.path, and there is none -- sar/ is the
+#           ROOT every component runs from (test_cwd "." means sar/), not a package. It
+#           has no __init__.py and giving it one would re-root the whole registry. So the
+#           import failed with `ModuleNotFoundError: No module named 'sar'` from every
+#           directory it could be launched in.
+# What: The module path loses its `sar.` prefix and becomes package-relative to sar/.
+#       The original line is preserved verbatim in the REVVEL-DISABLED block below per
+#       RVS-AGENT-001 (COMMENT-DONT-DELETE) -- nothing was removed. The imported names,
+#       every test body, every assertion and every tolerance are untouched; the only
+#       change is where Python looks for the module.
+# What Worked: `from forensic_pipeline.snow_wells_pipes import ...` together with the two
+#       new __init__.py files. Measured: 12 tests collected and passing, where the file
+#       previously errored during collection.
+# Notes: This suite runs under PYTEST, not unittest -- it is written pytest-style (bare
+#       test_* functions, plain assert, pytest.approx on line 46). `unittest discover`
+#       collects only TestCase subclasses, so registering this directory under a unittest
+#       component would have collected ZERO tests and reported success. Component 990 uses
+#       pytest for exactly that reason; see the entry in registry.json.
+# ══════════════════════════════════════════════════════════════════════════════════════════
+
+# REVVEL-DISABLED | AGENT: claude-code | MODEL: claude-opus-5 | WR: UNASSIGNED | DATE: 2026-11-04 | STATUS: REPLACED
+# REASON: absolute import through a non-existent top-level `sar` package. sar/ is the
+#         directory every registry component treats as its root, not an importable
+#         package, so this line raised ModuleNotFoundError: No module named 'sar' and the
+#         whole file errored during collection. Replaced by the package-relative import
+#         below; the names bound are identical, so no test behaviour changes.
+# PREVIOUS IMPORT, kept verbatim:
+# from sar.forensic_pipeline.snow_wells_pipes import (
+# OWNER: @midnghtsapphire
+# REVVEL-DISABLED-END
+from forensic_pipeline.snow_wells_pipes import (
     tree_well_residual,
     rootball_trench_residual,
     culvert_ice_trajectory,
