@@ -411,3 +411,14 @@
 - **Main:** untouched. **Deletions:** none. **Force pushes:** none.
 - **Licence:** UNLICENSED (private repo; licence pending Audrey)
 - **Approval:** Quartz-N APPROVE
+
+## 2026-11-05 07:29 MST (America/Denver) — Deepscan (Sense-Deepscan) — proposed specs for ERT, magnetometry, void detector (doc only)
+
+- **Actor:** Sense-Deepscan (Grok Bot) · **Requested by:** Sense-Strata task, for Audrey Evans
+- **What:** added spec doc `sar/docs/deepscan_module_specs_v0.md` (proposed ert-model 510, magnetometry-model 520, gpr-void-detector 530; no code, no registry edit).
+- **Why:** Sense-Strata task (Deepscan module specs v0).
+- **Sources cited:** Telford, Geldart & Sheriff, *Applied Geophysics* 2nd ed., CUP 1990 (ISBN 0-521-33938-3); Blakely, *Potential Theory in Gravity and Magnetic Applications*, CUP 1995 (doi:10.1017/CBO9780511549816); Daniels (ed.), *Ground Penetrating Radar* 2nd ed., IET 2004 (doi:10.1049/SBRA051E).
+- **Licences cited:** pyGIMLi Apache-2.0 (optional offline); SimPEG MIT (optional offline); numpy BSD-3 / Python PSF; OpenCV Apache-2.0 (optional); gprMax GPL-3 offline CLI only, never linked; Ultralytics AGPL FORBIDDEN.
+- **SHA / PR:** `sensecrew/deepscan/ert-mag-void-specs` @ **61a14e2** — https://github.com/midnghtsapphire/forensicfinders/pull/36 (draft)
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Approval:** Deepscan-N APPROVE
