@@ -6,14 +6,19 @@ Scans ONLY the SenseCrew game path: the paths of the sensegame 2300 block (regis
 are reachable only through adapters in adapter_allowlist.json (starts empty). Forbidden files
 and denylisted modules are never opened; a reference to one is a hit.
 
-Also flags dynamic imports (importlib.import_module / __import__ / runpy.*) whose argument
-is not a fixed string, fixed-string dynamic imports of denied names, and sys.modules lookups
-of denied names. Forbidden folder names (case, hfmr, evidence, case-files, case_files, …)
-match anywhere inside string literals and paths.
+Also flags:
+- dynamic imports (importlib.import_module / __import__ / runpy.*) whose argument is not a
+  fixed string; fixed-string args are checked against the denylist
+- sys.modules lookups of denied names
+- any exec / eval / compile call (fixed-string args are re-parsed and re-scanned)
+- getattr on importlib, builtins or sys when the attribute name is not a fixed string
+- Forbidden folder names (case, hfmr, evidence, case-files, case_files, …) anywhere inside
+  string literals and paths
 
-Exit 1 on any hit, 0 if clean. --strict (or auto when a 2300-block component exists) also
-fails when the game path is empty."""
-import ast, json, pathlib, re, sys
+When a 2300-block game entry is registered, also runs a fresh-subprocess loaded-modules check
+against that entry. Exit 1 on any hit, 0 if clean. --strict (or auto when a 2300-block
+component exists) also fails when the game path is empty."""
+import ast, json, pathlib, re, subprocess, sys, textwrap
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SAR = ROOT / "sar"
@@ -26,21 +31,20 @@ DENY_PATH = re.compile(
     r"records_adapter|opendata/fetch\.py$|sweep_width|search_theory|optimal_search"
 )
 GATED_DIRS = ("sar/blue-ocean-sar/opendata/", "sar/blue-ocean-sar/realdata/")
-# Forbidden folder names anywhere inside a string/path (not only at the start).
 REF = re.compile(
     r"[\"'][^\"']*/?(?:case|hfmr|evidence|case-files|case_files)/|"
     r"\b(?:dossier|public_records_engine|sweep_width|search_theory|optimal_search)\.py\b|"
     r"opendata[/.]fetch\b"
 )
-DYNAMIC_FUNCS = {
-    ("importlib", "import_module"),
-    ("importlib.import_module",),  # after `from importlib import import_module` tracked via alias
-    ("__", "import__"),  # placeholder; handled as Name '__import__'
-}
-RUNPY = {("runpy", "run_module"), ("runpy", "run_path")}
+DYNAMIC_TARGETS = {"importlib.import_module", "__import__", "runpy.run_module", "runpy.run_path",
+                   "import_module"}
+EXEC_TARGETS = {"exec", "eval", "compile", "builtins.exec", "builtins.eval", "builtins.compile"}
+GETATTR_HOSTS = {"importlib", "builtins", "sys"}
+
 
 def rel(p, root):
     return p.resolve().relative_to(root.resolve()).as_posix()
+
 
 def block_paths(registry, root):
     out = []
@@ -49,8 +53,8 @@ def block_paths(registry, root):
             out.append(root / "sar" / v["path"])
     return out
 
+
 def should_be_strict(registry, argv):
-    """Strict when --strict is passed, or auto when a 2300-block component exists."""
     if "--strict" in argv:
         return True
     if "--no-strict" in argv:
@@ -58,8 +62,8 @@ def should_be_strict(registry, argv):
     return any(k.isdigit() and int(k) in BLOCK and v.get("path")
                for k, v in registry.get("components", {}).items())
 
+
 def resolve(name, level, here, roots):
-    """Map an import to a local .py file, or None if not local."""
     parts = name.split(".") if name else []
     bases = [here.parent] if level == 0 else [here.parents[level - 1]]
     if level == 0:
@@ -71,18 +75,14 @@ def resolve(name, level, here, roots):
                 return f
     return None
 
+
 def _const_str(node):
     if isinstance(node, ast.Constant) and isinstance(node.value, str):
         return node.value
     return None
 
-def _denied_in_name(name):
-    return DENY_MODULES & set(name.replace("-", "_").split(".")) | (
-        DENY_MODULES & set(name.split("."))
-    ) | ({p for p in DENY_MODULES if p in name.split(".") or name == p or name.startswith(p + ".")})
 
 def _call_qualname(node, aliases):
-    """Return a dotted name for Call.func if resolvable (e.g. 'importlib.import_module')."""
     if isinstance(node, ast.Name):
         return aliases.get(node.id, node.id)
     if isinstance(node, ast.Attribute):
@@ -90,72 +90,160 @@ def _call_qualname(node, aliases):
         return f"{base}.{node.attr}" if base else node.attr
     return None
 
+
+def _denied_in(name):
+    parts = set(name.replace("\\", "/").replace("-", "_").split(".")) | set(name.replace("\\", "/").split("."))
+    bad = DENY_MODULES & parts
+    for p in DENY_MODULES:
+        if name == p or name.startswith(p + ".") or f"/{p}/" in f"/{name.replace(chr(92), '/')}/":
+            bad.add(p)
+    for folder in DENY_FOLDERS:
+        if re.search(rf"(^|/)({re.escape(folder)})(/|$)", name.replace("\\", "/")):
+            bad.add(folder)
+    return bad
+
+
+def _scan_source_snippet(src, hits, r, lineno, via):
+    """Re-parse a fixed-string exec/eval/compile argument and report forbidden imports in it."""
+    try:
+        tree = ast.parse(src)
+    except SyntaxError:
+        hits.append((r, lineno, f"{via} (unparseable payload)", src[:80]))
+        return
+    for node in ast.walk(tree):
+        mods = []
+        if isinstance(node, ast.Import):
+            mods = [a.name for a in node.names]
+        elif isinstance(node, ast.ImportFrom):
+            mods = [node.module or ""] + [
+                ((node.module + ".") if node.module else "") + a.name for a in node.names
+            ]
+        for name in mods:
+            bad = _denied_in(name)
+            if bad:
+                hits.append((r, lineno, f"import of {sorted(bad)[0]} (via {via})", name))
+        if isinstance(node, ast.Call):
+            q = _call_qualname(node.func, {"__import__": "__import__"})
+            if q in DYNAMIC_TARGETS or q == "__import__":
+                arg = node.args[0] if node.args else None
+                fixed = _const_str(arg) if arg is not None else None
+                if fixed is None:
+                    hits.append((r, lineno, f"dynamic import ({q}) (via {via})", "(non-literal)"))
+                else:
+                    bad = _denied_in(fixed)
+                    if bad:
+                        hits.append((r, lineno, f"import of {sorted(bad)[0]} (via {via})", fixed))
+
+
 def _scan_dynamic(node, aliases, hits, r):
     if not isinstance(node, ast.Call):
         return
     q = _call_qualname(node.func, aliases)
     if q is None:
         return
-    dynamic_names = {"importlib.import_module", "__import__", "runpy.run_module", "runpy.run_path",
-                     "import_module"}  # bare after `from importlib import import_module`
-    # Also catch aliases that map to those.
     target = aliases.get(q, q)
-    if target not in dynamic_names and q not in dynamic_names:
+    if target not in DYNAMIC_TARGETS and q not in DYNAMIC_TARGETS:
         return
-    kind = target if target in dynamic_names else q
+    kind = target if target in DYNAMIC_TARGETS else q
     arg = node.args[0] if node.args else None
     fixed = _const_str(arg) if arg is not None else None
     if fixed is None:
-        hits.append((r, node.lineno, f"dynamic import ({kind})", ast.dump(arg) if arg else "(no arg)"))
+        hits.append((r, node.lineno, f"dynamic import ({kind})",
+                     ast.dump(arg) if arg else "(no arg)"))
         return
-    bad = {p for p in DENY_MODULES if p in fixed.split(".") or fixed == p or fixed.startswith(p + ".")}
-    # also catch hyphenated path forms
-    for folder in DENY_FOLDERS:
-        if folder in fixed.replace("\\", "/").split("/"):
-            bad.add(folder)
+    bad = _denied_in(fixed)
     if bad:
         hits.append((r, node.lineno, f"import of {sorted(bad)[0]}", f"{kind}({fixed!r})"))
 
+
+def _scan_exec_eval_compile(node, aliases, hits, r):
+    if not isinstance(node, ast.Call):
+        return
+    q = _call_qualname(node.func, aliases)
+    if q is None:
+        return
+    target = aliases.get(q, q)
+    if target not in EXEC_TARGETS and q not in EXEC_TARGETS:
+        return
+    kind = target.split(".")[-1]
+    arg = node.args[0] if node.args else None
+    fixed = _const_str(arg) if arg is not None else None
+    if fixed is None:
+        hits.append((r, node.lineno, f"dynamic {kind}",
+                     ast.dump(arg) if arg else "(no arg)"))
+        return
+    # Always a hit for exec/eval/compile on the game path; also rescan the payload.
+    hits.append((r, node.lineno, f"{kind} of fixed string", fixed[:80]))
+    _scan_source_snippet(fixed, hits, r, node.lineno, kind)
+
+
+def _scan_getattr(node, aliases, hits, r):
+    if not isinstance(node, ast.Call):
+        return
+    q = _call_qualname(node.func, aliases)
+    if q is None:
+        return
+    target = aliases.get(q, q)
+    if target not in ("getattr", "builtins.getattr") and q not in ("getattr", "builtins.getattr"):
+        return
+    if len(node.args) < 2:
+        return
+    host = _call_qualname(node.args[0], aliases)
+    host_resolved = aliases.get(host, host) if host else None
+    # Also accept Name('importlib') etc.
+    if isinstance(node.args[0], ast.Name):
+        host_resolved = aliases.get(node.args[0].id, node.args[0].id)
+    if not host_resolved:
+        return
+    host_root = host_resolved.split(".")[0]
+    if host_root not in GETATTR_HOSTS and host_resolved not in GETATTR_HOSTS:
+        return
+    attr = _const_str(node.args[1])
+    if attr is None:
+        hits.append((r, node.lineno, f"dynamic getattr on {host_root}",
+                     ast.dump(node.args[1])))
+        return
+    # Fixed attr on a gated host: flag if it builds a dynamic-import entry point
+    if attr in ("import_module", "__import__", "modules", "exec", "eval", "compile"):
+        hits.append((r, node.lineno, f"getattr({host_root}, {attr!r})", attr))
+
+
 def _scan_sys_modules(node, aliases, hits, r):
-    """Flag sys.modules['denied'] or sys.modules.get('denied', ...)."""
     if not isinstance(node, (ast.Subscript, ast.Call)):
         return
     if isinstance(node, ast.Subscript):
+        ok = False
+        if isinstance(node.value, ast.Attribute) and node.value.attr == "modules":
+            if isinstance(node.value.value, ast.Name) and \
+                    aliases.get(node.value.value.id, node.value.value.id) == "sys":
+                ok = True
         q = _call_qualname(node.value, aliases)
-        if q not in ("sys.modules", "modules") and aliases.get(q, q) not in ("sys.modules",):
-            # allow `import sys; sys.modules[...]`
-            if not (isinstance(node.value, ast.Attribute) and
-                    isinstance(node.value.value, ast.Name) and
-                    aliases.get(node.value.value.id, node.value.value.id) == "sys" and
-                    node.value.attr == "modules"):
-                return
-        sl = node.slice
-        key = _const_str(sl)
-        if key is None:
-            hits.append((r, node.lineno, "dynamic sys.modules lookup", ast.dump(sl)))
+        if q == "sys.modules":
+            ok = True
+        if not ok:
             return
-        bad = {p for p in DENY_MODULES if p in key.split(".") or key == p or key.startswith(p + ".")}
+        key = _const_str(node.slice)
+        if key is None:
+            hits.append((r, node.lineno, "dynamic sys.modules lookup", ast.dump(node.slice)))
+            return
+        bad = _denied_in(key)
         if bad:
             hits.append((r, node.lineno, f"sys.modules lookup of {sorted(bad)[0]}", key))
         return
-    # sys.modules.get('denied')
     if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute) and node.func.attr == "get":
-        q = _call_qualname(node.func.value, aliases)
-        if q != "sys.modules" and not (
-            isinstance(node.func.value, ast.Attribute) and
-            isinstance(node.func.value.value, ast.Name) and
-            aliases.get(node.func.value.value.id, node.func.value.value.id) == "sys" and
-            node.func.value.attr == "modules"
-        ):
+        if not (isinstance(node.func.value, ast.Attribute) and node.func.value.attr == "modules" and
+                isinstance(node.func.value.value, ast.Name) and
+                aliases.get(node.func.value.value.id, node.func.value.value.id) == "sys"):
             return
         arg = node.args[0] if node.args else None
         key = _const_str(arg) if arg is not None else None
         if key is None:
             hits.append((r, node.lineno, "dynamic sys.modules lookup", "sys.modules.get(...)"))
             return
-        bad = {p for p in DENY_MODULES if p in key.split(".") or key == p or key.startswith(p + ".")}
+        bad = _denied_in(key)
         if bad:
             hits.append((r, node.lineno, f"sys.modules lookup of {sorted(bad)[0]}", key))
+
 
 def scan(entry, root=ROOT, allow=()):
     hits, seen, files = [], set(), []
@@ -186,8 +274,8 @@ def scan(entry, root=ROOT, allow=()):
             tree = ast.parse(src)
         except SyntaxError as exc:
             hits.append((r, exc.lineno or 0, "unparseable (cannot verify imports)", str(exc))); continue
-        # Track import aliases so `import importlib as il; il.import_module(...)` resolves.
-        aliases = {"__import__": "__import__"}
+        aliases = {"__import__": "__import__", "getattr": "getattr",
+                   "exec": "exec", "eval": "eval", "compile": "compile"}
         for node in ast.walk(tree):
             if isinstance(node, ast.Import):
                 for a in node.names:
@@ -203,38 +291,34 @@ def scan(entry, root=ROOT, allow=()):
                 mods = [(a.name, 0) for a in node.names]
             elif isinstance(node, ast.ImportFrom):
                 mods = [(node.module or "", node.level)] + [
-                    (((node.module + ".") if node.module else "") + a.name, node.level) for a in node.names
+                    (((node.module + ".") if node.module else "") + a.name, node.level)
+                    for a in node.names
                 ]
             for name, level in mods:
                 bad = DENY_MODULES & set(name.split("."))
-                # fetch is only forbidden as opendata.fetch / bare fetch used as that adapter
-                if bad and not (name.split(".")[-1] == "fetch" and "opendata" not in name
-                                and level == 0 and name != "fetch" and "fetch" in bad and len(bad) == 1
-                                and name != "fetch"):
-                    # refine: only flag fetch when it's clearly the opendata adapter
-                    if bad == {"fetch"} and name != "fetch" and "opendata" not in name:
-                        pass
-                    else:
-                        hits.append((r, node.lineno, f"import of {sorted(bad)[0]}", name)); continue
+                if bad == {"fetch"} and name != "fetch" and "opendata" not in name:
+                    pass
+                elif bad:
+                    hits.append((r, node.lineno, f"import of {sorted(bad)[0]}", name)); continue
                 t = resolve(name, level, f, roots)
                 if t:
                     queue.append(t)
             _scan_dynamic(node, aliases, hits, r)
+            _scan_exec_eval_compile(node, aliases, hits, r)
+            _scan_getattr(node, aliases, hits, r)
             _scan_sys_modules(node, aliases, hits, r)
-        # Also walk string constants for mid-path folder names (ast, not just line regex).
         for node in ast.walk(tree):
             if isinstance(node, ast.Constant) and isinstance(node.value, str):
                 s = node.value.replace("\\", "/")
                 for folder in DENY_FOLDERS:
-                    # anywhere in the path, not only at the start
                     if re.search(rf"(^|/)({re.escape(folder)})(/|$)", s):
                         hits.append((r, getattr(node, "lineno", 0), "path reference", node.value[:120]))
                         break
-                for mod in ("dossier", "public_records_engine", "sweep_width", "search_theory", "optimal_search"):
+                for mod in ("dossier", "public_records_engine", "sweep_width",
+                            "search_theory", "optimal_search"):
                     if re.search(rf"\b{mod}\.py\b", s) or s == mod or s.startswith(mod + "."):
                         hits.append((r, getattr(node, "lineno", 0), "path reference", node.value[:120]))
                         break
-    # de-dupe hits that the line regex and the Constant walk both catch
     uniq, seen_h = [], set()
     for h in hits:
         key = (h[0], h[1], h[2], h[3])
@@ -242,11 +326,68 @@ def scan(entry, root=ROOT, allow=()):
             seen_h.add(key); uniq.append(h)
     return uniq, files
 
+
+def runtime_loaded_modules_check(entry_paths, root=ROOT, python=sys.executable):
+    """Import each game entry in a fresh subprocess; fail if any denied module is loaded.
+    Returns a list of hit tuples. No-op (empty) when entry_paths is empty."""
+    hits = []
+    denied = sorted(DENY_MODULES)
+    sar = root / "sar"
+    for e in entry_paths:
+        # Prefer a package root under sar/ so `import sensegame` works.
+        if e.is_file():
+            candidates = [e]
+        else:
+            candidates = sorted(e.rglob("*.py"))
+            # Prefer __init__.py / obvious entry names; fall back to first module.
+            preferred = [c for c in candidates if c.name in ("__main__.py", "entry.py", "__init__.py")]
+            candidates = preferred or candidates
+            if not candidates:
+                continue
+            candidates = candidates[:1]
+        for mod_file in candidates:
+            try:
+                rel_mod = mod_file.resolve().relative_to(sar.resolve())
+            except ValueError:
+                continue
+            if rel_mod.name == "__init__.py":
+                mod_name = ".".join(rel_mod.parts[:-1])
+            else:
+                mod_name = ".".join(rel_mod.with_suffix("").parts)
+            if not mod_name:
+                continue
+            harness = textwrap.dedent(f"""\
+                import sys, json
+                sys.path.insert(0, {str(sar)!r})
+                try:
+                    __import__({mod_name!r})
+                except Exception as exc:
+                    print(json.dumps({{"error": type(exc).__name__ + ': ' + str(exc), "loaded": []}}))
+                    raise SystemExit(0)
+                denied = {denied!r}
+                loaded = [m for m in sys.modules
+                          if any(p == m or m.startswith(p + '.') for p in denied)]
+                print(json.dumps({{"loaded": loaded, "error": None}}))
+            """)
+            r = subprocess.run([python, "-c", harness], capture_output=True, text=True, timeout=60)
+            try:
+                data = json.loads(r.stdout.strip().splitlines()[-1] if r.stdout.strip() else "{}")
+            except (json.JSONDecodeError, IndexError):
+                hits.append((rel(mod_file, root), 0, "runtime check failed",
+                             (r.stderr or r.stdout or "no output")[:200]))
+                continue
+            for m in data.get("loaded") or []:
+                hits.append((rel(mod_file, root), 0, f"runtime loaded denied module {m}", m))
+    return hits
+
+
 def main(argv=sys.argv[1:]):
     reg = json.loads((SAR / "registry.json").read_text())
     allow = {a["path"] for a in json.loads((ROOT / "sensecrew" / "adapter_allowlist.json").read_text())["adapters"]}
     entry = block_paths(reg, ROOT)
     hits, files = scan(entry, ROOT, allow)
+    if entry:
+        hits.extend(runtime_loaded_modules_check(entry, ROOT))
     for r, n, why, what in hits:
         print(f"HIT {r}:{n} [{why}] {what}")
     print(f"game path: {len(entry)} sensegame 2300-block entr{'y' if len(entry)==1 else 'ies'}, "
@@ -257,6 +398,7 @@ def main(argv=sys.argv[1:]):
         print(msg + (" (strict: fail)" if strict else " (vacuous pass)"))
     print(f"forbidden-imports gate: {len(hits)} hit(s)" + (" [strict]" if strict else ""))
     return 1 if hits or (strict and not entry) else 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

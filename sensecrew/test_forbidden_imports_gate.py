@@ -119,3 +119,42 @@ class NarrowGateTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+class ExecEvalCompileTest(unittest.TestCase):
+    def setUp(self):
+        self.t = tempfile.TemporaryDirectory(); self.root = pathlib.Path(self.t.name)
+    def tearDown(self):
+        self.t.cleanup()
+    def w(self, name, body):
+        p = self.root / name; p.parent.mkdir(parents=True, exist_ok=True); p.write_text(body); return p
+    def scan(self, entry, allow=()):
+        return g.scan([self.root / e for e in entry], self.root, set(allow))[0]
+
+    def test_exec_fixed_import(self):
+        self.w("sar/sensegame/a.py", "exec('import hfmr')\n")
+        hits = self.scan(["sar/sensegame"])
+        self.assertTrue(any("hfmr" in str(h) for h in hits), hits)
+
+    def test_exec_joined_string(self):
+        self.w("sar/sensegame/a.py", "exec('import ' + 'hfmr')\n")
+        hits = self.scan(["sar/sensegame"])
+        self.assertTrue(any("exec" in h[2] or "dynamic" in h[2] for h in hits), hits)
+
+    def test_compile_fixed(self):
+        self.w("sar/sensegame/a.py", "compile('import evidence', '<x>', 'exec')\n")
+        hits = self.scan(["sar/sensegame"])
+        self.assertTrue(any("evidence" in str(h) for h in hits), hits)
+
+    def test_eval_dunder_import(self):
+        self.w("sar/sensegame/a.py", "eval(\"__import__('case')\")\n")
+        hits = self.scan(["sar/sensegame"])
+        self.assertTrue(any("case" in str(h) for h in hits), hits)
+
+    def test_getattr_importlib_joined(self):
+        self.w("sar/sensegame/a.py", "import importlib\ngateway = getattr(importlib, 'import_'+'module')\n")
+        hits = self.scan(["sar/sensegame"])
+        self.assertTrue(any("getattr" in h[2] or "dynamic" in h[2] for h in hits), hits)
+
+    def test_runtime_subprocess_hook_exists(self):
+        self.assertTrue(callable(getattr(g, "runtime_loaded_modules_check", None)),
+                        "gate must expose runtime_loaded_modules_check for the game entry")
