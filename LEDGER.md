@@ -382,3 +382,13 @@ Ledger-Play-N APPROVE 4f63fba8731b0d6890a49f0aae8c20481353dcf3
 - **Ledger-Play-N review:** a one-line annotation appended; no units, citations or physics changed; no forbidden paths.
 
 Ledger-Play-N APPROVE 0ba21b4821013f80ee59fa05054ac64907e293b0
+
+## 2026-11-04 20:46 MST — Ledger-Play (Ledger-Play-D / Ledger-Play-N, Grok Bot) — PR #11 line-116 annotation
+
+- **Why:** Verity follow-up. The line-116 `lost_person_sim.py` reference is annotated inline as DEPRECATED (no deletion). Per the new rule, the ledger tip is not merged.
+- **Doc commit:** `65014777e5d8284e93e476ae62a357f18a21d03d` on `sensecrew/ledgerplay/balance-v0` (PR #11).
+- **Tools / CLI:** worktree /workspace/sensecrew/wt/ledgerplay; `git fetch`, `git commit`, `git push` (fast-forward, no force, never main). 0 subagents.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Ledger-Play-N review:** a one-line annotation appended; no units, citations or physics changed; no forbidden paths.
+
+Ledger-Play-N APPROVE 65014777e5d8284e93e476ae62a357f18a21d03d
