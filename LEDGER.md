@@ -100,3 +100,19 @@
 - **Open / handoff:** Verity → sweep_width + LPB/search_theory licence rulings; Bedrock → NEW-01 CleanScorer + synthetic DEM; science pairs → physics values with Verity co-sign; Deepscan already CLEAN at `a2630989`.
 - **Main:** not touched. **Deletions:** none.
 - **Credit note:** Strata (Grok Bot) recorded decisions only; prior Loam GDD ledger entries on this branch remain unchanged (append-only).
+
+## 2026-11-04 20:35 MST — Sense-Fusion (Fusion-D / Fusion-N, Grok Bot) — Rule-7 audit + FUSION_SPEC v0.1
+
+- **Actor:** Sense-Fusion (Fusion-D driver, Fusion-N navigator) · **Requested by:** Strata, for Audrey Evans · **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Calls:**
+  1. Read the prompt-hoard LOCKED doc, Fusion section §493 and hard rules. Why: role and rules.
+  2. `gh auth status`, `gh repo clone midnghtsapphire/forensicfinders`, `git fetch --all`. Source: forensicfinders @ main a2630989.
+  3. `git ls-files` / `git grep -i cleanscorer|NEW-01` across all branches. Why: locate targets and CleanScorer. Result: CleanScorer exists only in docs (GDD v0.2/v0.3, LEDGER); no code.
+  4. grep for imports, I/O and forbidden names, plus full read of `multi_proxy/consensus.py`, `multi_proxy/__init__.py`, and `realdata/fusion.py` header/imports; `git log --all --follow` on both files. Quarantined files were not opened (noted by path only).
+  5. Read `docs/sensecrew/loam/GDD_v0.3.md` §2a (Scorer protocol) on branch sensecrew/loam/gdd.
+  6. Wrote docs, committed a54db25 on `sensecrew/fusion/rule7-audit-and-spec`, pushed, and ran `gh pr create` → https://github.com/midnghtsapphire/forensicfinders/pull/18 (base main, not merged).
+- **Decisions:** consensus.py CLEAN (numpy only). realdata/fusion.py UNCERTAIN: stdlib/numpy/rasterio only, no in-repo imports, but docstring L4 says it replaces `ryverly_recon_app-v6.py (docs/case-files)` (case-file design lineage), and it takes real site lat/lon (PII-capable). Excluded from the game path pending Verity; clean-room reimplementation instead. The spec targets the expected Scorer Protocol because CleanScorer is not implemented. TerraTorch ON HOLD. PyOD 3.6.7 (BSD-2) and HDBSCAN 0.8.44 (BSD-3) allowed. No swarm.
+- **Sources:** Koopman doi:10.1287/opre.4.5.503, doi:10.1287/opre.5.5.613; Stone 1975 (no DOI), as cited in GDD v0.3.
+- **Commits / PRs:** a54db25 (docs/sensecrew/fusion/RULE7_AUDIT.md, FUSION_SPEC.md), PR #18. Main not touched; no deletions.
+- **Review:** Fusion-N reviewed the diff (2 files, +63, docs only, no code, no quarantined content quoted, units/DOIs match GDD v0.3).
+- **Approval:** Fusion-N APPROVE (a54db25). Verity green required before merge.
