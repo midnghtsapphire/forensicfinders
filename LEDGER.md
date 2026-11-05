@@ -284,6 +284,59 @@
 - **Review:** Fusion-N reviewed the 6a1fdd5 diff (FUSION_SPEC.md +4/−3, RULE7_AUDIT.md +4; docs only; no deletions; 2370.1 remains only in the changelog history lines).
 - **Approval:** Fusion-N APPROVE (6a1fdd5). Verity green required before merge.
 
+## 2026-11-04 20:40 MST (America/Denver) — Quartz-D / Quartz-N (Grok Bot) — CORRECTION: NEW-22 registry id 1070 → 2360
+- **Corrects:** prior Quartz entry (20:29 MST) that cited provisional registry **1070** for NEW-22 mineral-spectral-unmix. Per Strata, the id is **2360**.
+- **Commits:** 82b7cb6 on `sensecrew/quartz/splib07-fixture` (docs/README/manifest/loader/test comments 1070 → 2360); PR #29 body updated. PR #20 body had no 1070. PR #19 branch merged with ledger tip (d66d1ee, merge, no force).
+- **registry.json:** not edited (Verity collision check on 2360 pending).
+- **Confidence bands:** to be scored per revvel-standards `fraud-signal-verification-fleet/docs/CONFIDENCE_FRAMEWORK.md` (not present on box at time of entry; cited as source of record).
+- **Gate note:** Columbus/component 100 red is NOT a SenseCrew merge blocker; Verity SenseCrew-only golden manifest is the gate.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Approval:** Quartz-N APPROVE
+
+## 2026-11-04 20:32 MST — Loam (Loam-D / Loam-N, Grok Bot) — Music re-score (confidence framework) + correction
+
+- **Actor:** Loam-D / Loam-N · **Requested by:** Strata, for Audrey Evans · **Role:** proposed + correction
+- **Correction:** the earlier "Music stack decision v0" entry omitted the Discussion number. It is **#30**: https://github.com/midnghtsapphire/forensicfinders/discussions/30
+- **Source read (read-only):** midnghtsapphire/revvel-standards `fraud-signal-verification-fleet/docs/CONFIDENCE_FRAMEWORK.md` and `src/confidence.py` (latest commit 7fff87e5). Ran unmodified; output deterministic (2 runs byte-identical).
+- **Files:** `docs/sensecrew/loam/MUSIC_DECISION_v0.md` Addendum A (append-only) + `music_confidence/{case.json,run.py,result.tsv}` on `sensecrew/loam/music`, commit bc65afdb.
+- **Bands:** ACE-Step licence 0.55 SUPPORTED; Magenta RT 0.55 SUPPORTED; Stable Audio 0.20 UNSUBSTANTIATED; MusicGen 0.00 UNSUBSTANTIATED; determinism claims 0.00 UNSUBSTANTIATED (untested).
+- **Decision:** pick unchanged (ACE-Step 1.5; the tie is broken by the rubric, 92 vs 78). Status: ACE-Step accepted provisionally pending Verity licence check + determinism test.
+- **Comment:** https://github.com/midnghtsapphire/forensicfinders/discussions/30#discussioncomment-19410961
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Approval:** Loam-N APPROVE
+- 2026-11-04 Humus correction: entries 20:28–20:30 were inserted at the file head in error; append-only resumes here.
+
+### 2026-11-04 ~20:40 MT — Chitin: PR #27 Verity R2 + Humus APPROVE fixes
+- **Branch:** `sensecrew/chitin/insect-trace-add` commit 174b65d (draft PR #27). Worktree `/workspace/sensecrew/wt/chitin`.
+- with-open fixture load; Gitar stage-bounds test; inventory 1050→2350, Verity R7 CLEAR, preprint label kept.
+- 2350 reuses `realdata/refloat_timing.py` `daily_contribution`/`accumulate` via `refloat_adapter.py`; JSON+CLI surface "preprint, not peer-reviewed". Synthetic thresholds unchanged.
+- Humus: VWC validate + clamp 0.0–0.5 + logged input/clamped; identity modifier.
+- 1010: `decay_taphonomy_bridge.py` (stub mirroring taphonomy API; taphonomy.py not copied because its `.constants`/constants.json dep isn't cleared) + `SPEC_1010_EXTENSION.md`. No new registry id.
+- **Tests:** 14 OK. **Comment:** https://github.com/midnghtsapphire/forensicfinders/pull/27#issuecomment-6648951773
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none. Licence: UNLICENSED (private repo; licence pending Audrey).
+- **Approval:** Chitin-N APPROVE
+## 2026-11-04 20:34 MST (America/Denver) — Quartz-D / Quartz-N (Grok Bot) — NNLS/SAM golden wired to real splib07 fixture
+- **Branch:** `sensecrew/quartz/splib07-unmix-wire` @ b422e96 (from main; merged splib07-fixture 82b7cb6 + nnls-sam-golden, no force). Draft PR #32.
+- **Added:** `sar/blue-ocean-sar/multi_proxy/test_splib07_unmix_golden.py` (NEW-22 / registry 2360): seeded 20261104 kaolinite/calcite/goethite mixtures; NNLS atol 1e-6 noise-free / 1e-2 noisy; SAM match vs mismatch.
+- **Tests:** pytest 34 passed (new + PR #20 synthetic Gaussian + splib07 loader); unittest OK; language_scan 0 hits.
+- **Data:** USGS splib07 doi:10.3133/ds1035 / doi:10.5066/F7RR1WDJ (public domain).
+- **Confidence:** ~0.88, SUBSTANTIATED band, per revvel-standards `fraud-signal-verification-fleet/docs/CONFIDENCE_FRAMEWORK.md` (engineering adaptation; not present on box, cited as source of record).
+- **registry.json:** not edited. **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Approval:** Quartz-N APPROVE. Verity SenseCrew-only golden manifest is the merge gate.
+## 2026-11-04 20:50 MST (America/Denver) — Quartz-D / Quartz-N (Grok Bot) — HySUPP MIT comparison harness
+- **Branch:** `sensecrew/quartz/hysupp-compare` @ 79d692c (from main; merged splib07-fixture, no force). Draft PR #33.
+- **Added:** `docs/sensecrew/quartz/HYSUPP_COMPARE.md`, `multi_proxy/hysupp_compare.py`, `multi_proxy/test_hysupp_compare.py` (NEW-22 / registry 2360). Baseline NNLS always runs; HySUPP FCLS optional via `HYSUPP_ROOT`, skips otherwise.
+- **Assumptions:** HySUPP is MIT (github.com/BehnoodRasti/HySUPP, LICENSE verified at pinned `cb7d633a3b4a458504e31d1e5fcd3f6a00be688d`); comparison reference only, not a ship/client dependency; not vendored (~40 MB); no GPL/AGPL/Ultralytics; no LUCAS; no case/hfmr/evidence/PII.
+- **Licence flag (Strata/Audrey):** HySUPP FCLS imports `spams`; pinned `spams-bin==2.6.10` wheel LICENSE is GPL-3.0. Not installed, not vendored, not required. HySUPP was NOT installed here.
+- **Result:** seed 20261104, splib07 quartz/kaolinite/montmorillonite, noise 0.005: NNLS abundance RMSE 0.00867, mean SAM 0.409°. Deterministic.
+- **Tests:** 8 passed, 1 skipped (HySUPP not configured); multi_proxy suite 46 passed, 1 skipped.
+- **Confidence:** ~0.62 SUPPORTED (CONFIDENCE_FRAMEWORK engineering adaptation).
+- **registry.json:** not edited. **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Approval:** Quartz-N APPROVE
+
 ## 2026-11-04 — Pixel Lantern (Pixel Lantern-D / Pixel Lantern-N, Grok Bot) — Palette + HUD accessibility proposal
 
 - **Date:** 2026-11-04 · **Who:** Pixel Lantern-D / Pixel Lantern-N
