@@ -3,7 +3,7 @@
 <!--
 Who:  Sense-Quartz (Quartz-N / Quartz-D, Grok Bot) for Audrey Evans
 When: 2026-11-04 (America/Denver)
-Why:  Offline endmembers for constrained_nnls_unmix / spectral_angle (NEW-22 / provisional registry 1070).
+Why:  Offline endmembers for constrained_nnls_unmix / spectral_angle (NEW-22 / registry 2360).
 Licence (our code/docs): UNLICENSED (private repo; licence pending Audrey)
 Licence (this data): USGS Spectral Library v7 is public domain (US federal government work).
 -->
@@ -83,7 +83,7 @@ wl = wavelength_grid_um()  # (B,) micrometres
 ## Component / registry
 
 - Placeholder: **NEW-22**
-- Provisional registry id: **1070** (pending Verity collision check — do not edit `registry.json` until Verity confirms)
+- Registry id: **2360** (pending Verity collision check — do not edit `registry.json` until Verity confirms)
 
 ## Citation
 
