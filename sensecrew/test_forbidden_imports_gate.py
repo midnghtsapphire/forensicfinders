@@ -224,3 +224,138 @@ class AllowlistBypassTest(unittest.TestCase):
 
     def test_zipimport(self):
         self.assert_hit("import zipimport\nzipimport.zipimporter('x.zip').load_module('hfmr')\n", "zipimport")
+
+class AllowlistTightenTest(unittest.TestCase):
+    """28 Verity-N probes that got through ffce767."""
+    def setUp(self):
+        self.t = tempfile.TemporaryDirectory(); self.root = pathlib.Path(self.t.name)
+    def tearDown(self):
+        self.t.cleanup()
+    def w(self, name, body):
+        p = self.root / name; p.parent.mkdir(parents=True, exist_ok=True); p.write_text(body); return p
+    def scan(self, src):
+        self.w("sar/sensegame/a.py", src if src.endswith("\n") else src + "\n")
+        return g.scan([self.root / "sar/sensegame"], self.root, set())[0]
+    def assert_hit(self, src, label):
+        hits = self.scan(src)
+        self.assertTrue(hits, f"{label}: expected hits for {src!r}, got none")
+
+    # --- os.path binds the name `os` ---
+    def test_os_path_binds_os_system(self):
+        self.assert_hit("import os.path\nos.system('x')\n", "os.path → os.system")
+
+    def test_os_path_binds_os_environ(self):
+        self.assert_hit("import os.path\nos.environ['PATH']\n", "os.path → os.environ")
+
+    def test_os_path_binds_os_popen(self):
+        self.assert_hit("import os.path\nos.popen('x')\n", "os.path → os.popen")
+
+    def test_os_path_binds_os_execv(self):
+        self.assert_hit("import os.path\nos.execv('/bin/sh', ['sh'])\n", "os.path → os.execv")
+
+    def test_from_os_path_import_os(self):
+        self.assert_hit("from os.path import os\nos.system('x')\n", "from os.path import os")
+
+    def test_os_path_attr_ok_and_join(self):
+        hits = self.scan("import os.path\np = os.path.join('a', 'b')\n")
+        self.assertEqual(hits, [], hits)
+
+    def test_os_path_getattr_system(self):
+        self.assert_hit("import os.path\ngateway = getattr(os, 'system')\n", "getattr(os, system)")
+
+    def test_os_path_partial_system(self):
+        self.assert_hit("import os.path\nfrom functools import partial\npartial(os.system, 'x')\n",
+                        "partial(os.system)")
+
+    def test_os_path_decorator_wraps(self):
+        self.assert_hit(
+            "import os.path\nfrom functools import wraps\n"
+            "def deco(f):\n"
+            "    @wraps(f)\n"
+            "    def inner(*a, **k):\n"
+            "        os.system('x'); return f(*a, **k)\n"
+            "    return inner\n",
+            "decorator os.system")
+
+    # --- numpy file I/O / ctypeslib / lib.* ---
+    def test_np_fromfile(self):
+        self.assert_hit("import numpy as np\nnp.fromfile('x')\n", "np.fromfile")
+
+    def test_np_load(self):
+        self.assert_hit("import numpy as np\nnp.load('x.npy')\n", "np.load")
+
+    def test_np_loadtxt(self):
+        self.assert_hit("import numpy as np\nnp.loadtxt('x')\n", "np.loadtxt")
+
+    def test_np_genfromtxt(self):
+        self.assert_hit("import numpy as np\nnp.genfromtxt('x')\n", "np.genfromtxt")
+
+    def test_np_memmap(self):
+        self.assert_hit("import numpy as np\nnp.memmap('x')\n", "np.memmap")
+
+    def test_np_save(self):
+        self.assert_hit("import numpy as np\nnp.save('x', a)\n", "np.save")
+
+    def test_np_savez(self):
+        self.assert_hit("import numpy as np\nnp.savez('x', a=a)\n", "np.savez")
+
+    def test_np_savez_compressed(self):
+        self.assert_hit("import numpy as np\nnp.savez_compressed('x', a=a)\n", "np.savez_compressed")
+
+    def test_np_tofile(self):
+        self.assert_hit("import numpy as np\na.tofile('x')\n", "ndarray.tofile")
+
+    def test_np_DataSource(self):
+        self.assert_hit("import numpy as np\nnp.DataSource()\n", "np.DataSource")
+
+    def test_np_ctypeslib(self):
+        self.assert_hit("import numpy as np\nnp.ctypeslib.as_ctypes(a)\n", "np.ctypeslib")
+
+    def test_np_lib_format(self):
+        self.assert_hit("import numpy as np\nnp.lib.format.open_memmap('x')\n", "np.lib.format")
+
+    def test_np_lib_utils(self):
+        self.assert_hit("import numpy as np\nnp.lib.utils.getlimits\n", "np.lib.utils")
+
+    def test_np_lib_npyio(self):
+        self.assert_hit("import numpy as np\nnp.lib.npyio.load('x')\n", "np.lib.npyio")
+
+    def test_np_safe_attrs_ok(self):
+        hits = self.scan("import numpy as np\na = np.zeros((2,)); b = np.stack([a]); c = np.sqrt(np.mean(a))\n")
+        self.assertEqual(hits, [], hits)
+
+    # --- dunder / help / breakpoint / input ---
+    def test_dunder_mro(self):
+        self.assert_hit("t = int.__mro__\n", "__mro__")
+
+    def test_dunder_subclasses(self):
+        self.assert_hit("t = int.__subclasses__()\n", "__subclasses__")
+
+    def test_dunder_getattribute(self):
+        self.assert_hit("x = object.__getattribute__\n", "__getattribute__")
+
+    def test_help_builtin(self):
+        self.assert_hit("help(json)\n", "help")
+
+    def test_breakpoint_builtin(self):
+        self.assert_hit("breakpoint()\n", "breakpoint")
+
+    def test_input_builtin(self):
+        self.assert_hit("input('x')\n", "input")
+
+    def test_name_main_ok(self):
+        hits = self.scan("if __name__ == '__main__':\n    x = 1\n")
+        self.assertEqual(hits, [], hits)
+
+    # --- scipy R34 ---
+    def test_scipy_nnls_from_ok(self):
+        hits = self.scan("from scipy.optimize import nnls\nnnls(A, b)\n")
+        self.assertEqual(hits, [], hits)
+
+    def test_scipy_nnls_attr_ok(self):
+        hits = self.scan("import scipy.optimize\nscipy.optimize.nnls(A, b)\n")
+        self.assertEqual(hits, [], hits)
+
+    def test_scipy_other_attr_hit(self):
+        self.assert_hit("from scipy.optimize import minimize\n", "scipy minimize")
+        self.assert_hit("import scipy\nscipy.io.loadmat('x')\n", "scipy.io")
