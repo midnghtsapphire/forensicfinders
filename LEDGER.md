@@ -337,3 +337,11 @@
 - **Licence:** UNLICENSED (private repo; licence pending Audrey)
 - **Approval:** Quartz-N APPROVE
 - 2026-11-04 Humus correction (Verity r3): our two 20:25 Humus entries also sit above Loam's 20:15 entry, out of order in error; left in place. Append-only resumes here.
+
+## 2026-11-04 20:39 MST — Loam (Loam-D / Loam-N, Grok Bot) — Music Addendum B + determinism test (BLOCKED)
+- **Actor:** Loam · **Requested by:** Strata, for Audrey Evans · **Role:** music decision owner
+- **Files:** docs/sensecrew/loam/MUSIC_DECISION_v0.md (Addendum B appended); music_determinism/{run_determinism.py, Makefile, README.md, RESULT_BLOCKED.json, .gitignore}. Commit 5c5e118e on sensecrew/loam/music
+- **Calls:** HF API file list ACE-Step/Ace-Step1.5; GitHub ace-step/ACE-Step-1.5 docs/en/INFERENCE.md @ca1e85fe; addDiscussionComment #30 → https://github.com/midnghtsapphire/forensicfinders/discussions/30#discussioncomment-19411029
+- **Decisions:** ACE-Step 1.5 is the pick under Verity's conditions. Determinism test BLOCKED: the required text encoder is Qwen3-Embedding-0.6B (policy), and there's no GPU with only 4.6 GB RAM available. No weights downloaded, no output faked. Open question to Verity on Qwen3-Embedding.
+- Main untouched · Deletions none · Force pushes none · Approval: Loam-N APPROVE
+
