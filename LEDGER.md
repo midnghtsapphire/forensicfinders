@@ -898,3 +898,27 @@ Independent Verity-N re-review of PR #40 @ `5b1149d28acf0213fbaf4ddd27e562af1675
 - **PR / review:** COMMENT-only on https://github.com/midnghtsapphire/forensicfinders/pull/42 (posted after this commit).
 - **Main:** untouched. **Deletions:** none. **Force pushes:** none.
 - **Approval:** Verity-D PASS-with-hold (delta); **Verity-N not started**
+
+## Verity-N APPROVE-with-hold ad83cba (independent; delta) — Fusion PR #42 — 2026-11-05 08:42 MST (America/Denver)
+
+- **Actor:** Verity-N (Grok Bot; **independent** navigator) · **Requested by:** Sense-Strata, for Audrey Evans
+- **Independence:** Fresh worktree `/workspace/sensecrew/wt/verity-n-42-delta` at exact tip `ad83cbab1fa593ec83327273f0c4563175805825` (detached). **Did not** reuse Verity-D worktree `/workspace/sensecrew/wt/verity-pr42-delta` or prior Verity-N `/workspace/sensecrew/wt/verity-n-42`. Re-checked from scratch; did not trust R44 conclusions blindly. Same-workstream Verity-N is INVALID. LEDGER must say **independent**.
+- **What:** Independent Verity-N after Verity-D R44 PASS-with-hold (delta) on Fusion #42 tip after #41 merge — D LEDGER `81923cb3235c59dedc02b81d1a1b37301868a2a2`; D COMMENT https://github.com/midnghtsapphire/forensicfinders/pull/42#pullrequestreview-5787653297. Confirmed CURRENT head with `gh` still `ad83cba` (`isDraft=true`).
+- **Re-checked (independent):**
+  1. **Merge parents / fusion path:** tip parents `c6d920d` + `dafed87`. `git diff c6d920d..HEAD -- sar/sensegame/fusion docs/sensecrew/fusion` → **empty** (0 paths). Delta = 2 files +15/−6 (`test_scorer_golden.py` M1 wording + Bedrock LEDGER append). `git merge-tree --write-tree c6d920d dafed87` = commit tree `9ed952c70b5cc860a71f4b17afe12cd51fd1de6e` (clean auto-merge). Makefile untouched. Rule 5/7 N/A (no fusion file touched).
+  2. **Tests @ ad83cba** (independent venv `.venv-verity-n`): `make fusion-test` → **25 passed**; `pytest sensegame/` → **81 passed, 2 xfailed**; `test_language_scan.py` → **16 passed**.
+  3. **Seed 1002 replay:** `make fusion` + `make fusion-replay` → `replay OK seed=1002`; two independent runs into `/tmp/verity-n-42-delta-fusion-r{1,2}` byte-identical and MATCH R41/R44 digests — json sha256 `3b987b05ae2e5c748ad2d7a20a2c5bea99927de229c4a2982b6e94d9600dbfe4`; tif sha256 `09baac2b2a82a44c14db10c4ccf1da7f9e0bdd5702afaa03b48b6425c3eb411a`.
+  4. **Registry 2370/2371:** still **ABSENT** (HOLD expected). Pre-existing `test_registry_coverage` 1 fail for uncovered `sensegame/fusion/tests/test_fusion.py` — same at c6d920d; tied to hold 2; not a new blocker.
+  5. **M1_W_KM** still `None` / **M1_W_SOURCE** still `None` — inherit #41 unset/uncited; no invented W.
+  6. **Draft:** `isDraft=true`. Hold #3 kept.
+  7. **#41 still OPEN draft** @ `dafed87` — merge-after-#41 remains (landing tip into #42 does not clear main landing order).
+- **Verdict:** **Verity-N APPROVE-with-hold (delta)** — same four holds as R44. Confidence **0.90**.
+- **Holds (kept; not cleared):**
+  1. merge-after-#41 (#41 still open draft @ dafed87)
+  2. registry 2370/2371 until CLEAR
+  3. keep draft
+  4. inherit #41 M1 W unset/uncited — Waveform citation + Verity co-sign before CLEAR
+- **PR / review:** COMMENT-only (never APPROVE/REQUEST_CHANGES GitHub event) on https://github.com/midnghtsapphire/forensicfinders/pull/42 (posted after this commit).
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Approval:** Verity-N APPROVE-with-hold (independent; delta); cites R44
