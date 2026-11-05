@@ -400,3 +400,14 @@
 - **Entry:** `2360` mineral-spectral-unmix → `blue-ocean-sar/multi_proxy`; tests `test_nnls_sam_golden`, `test_splib07_endmembers`, `test_splib07_unmix_golden`, `test_hysupp_compare`.
 - **Proof:** `python3 sar/registry.py 2360 --test` → Ran 22 tests, OK (skipped=1); `registry.py 995 --test` → OK.
 - **SHA / PR:** `sensecrew/quartz/registry-2360` @ **a011ba7** — https://github.com/midnghtsapphire/forensicfinders/pull/34 (draft; depends on #20/#29/#32/#33, carries them via merge base).
+
+## 2026-11-04 20:57 MST (America/Denver) — Quartz-D / Quartz-N (Grok Bot) — Strata R32 narrow 2360 path
+
+- **Actor:** Quartz · **Requested by:** Strata (Verity R32), for Audrey Evans · **Component:** registry **2360** mineral-spectral-unmix
+- **Ruling:** path must NOT be all of `multi_proxy`; scope to Quartz unmix surface only.
+- **Change:** `sar/registry.json` 2360 `path`: `blue-ocean-sar/multi_proxy` → `blue-ocean-sar/multi_proxy/nnls_unmix.py` (file-level, same schema as 140/901). `test` / `test_cwd` unchanged (explicit unmix modules). **Did not touch** `test_package_imports.py` (Audrey component-100).
+- **Proof:** `python3 sar/registry.py 2360 --test` → Ran 22 tests, OK (skipped=1); `995 --test` OK; `100 --test` OK.
+- **SHA / PR:** `sensecrew/quartz/registry-2360` @ **95b28a7** — https://github.com/midnghtsapphire/forensicfinders/pull/34 (body updated with R32 note).
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Approval:** Quartz-N APPROVE
