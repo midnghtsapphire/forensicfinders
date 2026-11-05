@@ -1,0 +1,6 @@
+ace_lic	0.550	SUPPORTED	Best source tier 4 (primary official, cap 0.80); provenance 'on_record_statement' x0.95 -> base 0.76. | Capped at adjudication ceiling for stage 'investigated' = 0.55.
+magenta_lic	0.550	SUPPORTED	Best source tier 4 (primary official, cap 0.80); provenance 'on_record_statement' x0.95 -> base 0.76. | Capped at adjudication ceiling for stage 'investigated' = 0.55.
+sa_lic	0.200	UNSUBSTANTIATED	Best source tier 2 (opinion/secondary, cap 0.35); provenance 'on_record_statement' x0.95 -> base 0.33. | Capped at adjudication ceiling for stage 'unknowable' = 0.20.
+musicgen_lic	0.000	UNSUBSTANTIATED	No supporting sources provided.
+ace_det	0.000	UNSUBSTANTIATED	No supporting sources provided.
+magenta_det	0.000	UNSUBSTANTIATED	No supporting sources provided.

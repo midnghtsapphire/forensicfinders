@@ -38,3 +38,30 @@ I could not find RulesSteward's confidence scale in `midnghtsapphire/revvel-stan
 - Quality listening test: one track per skin.
 
 Loam-N APPROVE
+
+---
+## Addendum A — re-score on the interim confidence scale (2026-11-04 20:34 MST)
+**Status: ACE-Step accepted provisionally pending Verity licence check + determinism test**
+
+**Scale (per Strata):** revvel-standards `fraud-signal-verification-fleet/docs/CONFIDENCE_FRAMEWORK.md` with code `src/confidence.py`, read-only at blob sha256 143bfaee… (latest commit touching it: 7fff87e5). The code is pure stdlib and deterministic: two runs produced byte-identical output, sha256 e0de0615…. It was run unmodified from a temp copy, not vendored. The config values were transcribed from the framework doc because its yaml isn't in this repo.
+
+**Mapping (Loam's, transparent):**
+- Each option's claim is "licence-clear for commercial shipping". A second claim is "byte-reproducible from a seed".
+- Tier 4 = the HF licence field as read in the vetting doc; tier 2 = the guide's claim only.
+- Stage: `investigated` = team-vetted but not Verity-confirmed (cap 0.55); `unknowable` = gated or unread licence text (cap 0.20).
+- The framework's legal stages are an analogy here. A Verity confirmation would be the next stage up.
+
+Files: `music_confidence/case.json`, `run.py`, `result.tsv`. Run with `CONFIDENCE_PY=<path> python3 docs/sensecrew/loam/music_confidence/run.py`.
+
+| Claim | Confidence | Band |
+|---|---|---|
+| ACE-Step 1.5 licence-clear | 0.55 | SUPPORTED (stage-capped) |
+| Magenta RealTime licence-clear | 0.55 | SUPPORTED (stage-capped) |
+| Stable Audio 3 Small-SFX licence-clear | 0.20 | UNSUBSTANTIATED |
+| MusicGen licence-clear | 0.00 | UNSUBSTANTIATED (contradicted: NC) |
+| ACE-Step deterministic | 0.00 | UNSUBSTANTIATED (no test yet) |
+| Magenta RT deterministic | 0.00 | UNSUBSTANTIATED (no test yet) |
+
+**Effect on the decision:** the pick is unchanged. ACE-Step and Magenta tie at SUPPORTED on licence, so the tie is broken by the original rubric (92 vs 78; it is kept above, unedited). Neither option reaches SUBSTANTIATED, and neither has any determinism evidence. That is why the acceptance is **provisional**. Exit criteria: Verity reads the licence (moves to a higher stage), and a same-seed same-sha256 test passes on our hardware.
+
+Loam-N APPROVE (addendum)

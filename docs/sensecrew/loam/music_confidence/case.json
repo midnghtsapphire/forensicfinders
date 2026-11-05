@@ -1,0 +1,12 @@
+{"sources":[
+ {"id":"hf_ace","tier":4,"desc":"HF ACE-Step/Ace-Step1.5 licence field MIT, as read in the vetting doc"},
+ {"id":"hf_magenta","tier":4,"desc":"HF google/magenta-realtime: code Apache-2.0, weights CC-BY-4.0, as read in the vetting doc"},
+ {"id":"guide_sa","tier":2,"desc":"guide claim: Stable Audio Community, enterprise licence >= $1M/yr (gated text unread)"},
+ {"id":"guide_nc","tier":2,"desc":"guide: MusicGen/AudioGen weights non-commercial"}],
+ "claims":[
+ {"id":"ace_lic","text":"ACE-Step 1.5 is licence-clear for commercial shipping","stage":"investigated","supporting":[{"source":"hf_ace","provenance":"on_record_statement"}]},
+ {"id":"magenta_lic","text":"Magenta RealTime is licence-clear for commercial shipping (with attribution)","stage":"investigated","supporting":[{"source":"hf_magenta","provenance":"on_record_statement"}]},
+ {"id":"sa_lic","text":"Stable Audio 3 Small-SFX is licence-clear for commercial shipping","stage":"unknowable","supporting":[{"source":"guide_sa","provenance":"on_record_statement"}]},
+ {"id":"musicgen_lic","text":"MusicGen is licence-clear for commercial shipping","stage":"investigated","supporting":[],"contradicting":["guide_nc"]},
+ {"id":"ace_det","text":"ACE-Step 1.5 output is byte-reproducible from a seed","stage":"investigated","supporting":[]},
+ {"id":"magenta_det","text":"Magenta RealTime output is byte-reproducible from a seed","stage":"investigated","supporting":[]}]}
