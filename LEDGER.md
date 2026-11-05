@@ -508,3 +508,11 @@
 - **Verdict:** APPROVE
 - **Deepscan-N APPROVE (independent) #40 @ 5b1149d**
 - **Main:** untouched. **Code branch:** not modified. **Deletions:** none. **Force pushes:** none.
+
+## 2026-11-05 — Sense-Fusion — 2371 (provisional) combine.py + anomaly — PR #42 @ a9c01be
+- who: Sense-Fusion (Fusion-D drive / Fusion-N review)
+- why: Strata GO 08:22 MST; implement FUSION_SPEC v0.2 §2–§7 as synthetic-only hint layer; depends on PR #41 (2310).
+- sources: FUSION_SPEC v0.2 (PR #18 @ 6fb9960); scorer-spec 2310 (PR #41 @ 8e745c6); Hampel 1974; Rousseeuw & Croux 1993; ECOD (Li et al. 2022); isotonic (Zadrozny & Elkan 2002); ECE (Naeini et al. 2015); bootstrap (Efron & Tibshirani 1993).
+- tests: fusion 25 passed; sar/sensegame 56 passed, 2 xfailed; ECE_holdout 0.0103 ≤ 0.05; n_boot 1000; replay OK seed 1002.
+- licence: UNLICENSED (private repo; licence pending Audrey)
+- Fusion-N APPROVE (a9c01be)
