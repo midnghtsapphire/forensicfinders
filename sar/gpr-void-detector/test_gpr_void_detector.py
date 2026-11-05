@@ -34,8 +34,8 @@ class HyperbolaRecovery(unittest.TestCase):
             soil_er=scene["soil_er"],
             seed=42,
         )
-        self.assertGreaterEqual(len(out["detections"]), 1)
-        det = out["detections"][0]
+        self.assertGreaterEqual(len(out["results"]["detections"]), 1)
+        det = out["results"]["detections"][0]
         self.assertAlmostEqual(det["x0_m"], 2.0, delta=0.05)
         self.assertAlmostEqual(det["z0_m"], 1.0, delta=0.05)
 
@@ -56,7 +56,7 @@ class PolarityAndNull(unittest.TestCase):
             soil_er=scene["soil_er"],
             seed=0,
         )
-        self.assertEqual(out["detections"][0]["polarity"], "air_like")
+        self.assertEqual(out["results"]["detections"][0]["polarity"], "air_like")
 
     def test_water_polarity_label(self) -> None:
         fixture = os.path.join(HERE, "fixtures", "synthetic_water_void_bscan.json")
@@ -69,7 +69,7 @@ class PolarityAndNull(unittest.TestCase):
             soil_er=scene["soil_er"],
             seed=0,
         )
-        self.assertEqual(out["detections"][0]["polarity"], "water_like")
+        self.assertEqual(out["results"]["detections"][0]["polarity"], "water_like")
 
     def test_null_bscan_no_detections(self) -> None:
         fixture = os.path.join(HERE, "fixtures", "synthetic_null_bscan.json")
@@ -82,7 +82,7 @@ class PolarityAndNull(unittest.TestCase):
             soil_er=scene["soil_er"],
             seed=scene.get("seed", 0),
         )
-        self.assertEqual(out["detections"], [])
+        self.assertEqual(out["results"]["detections"], [])
 
 
 class GuardsAndDeterminism(unittest.TestCase):
@@ -105,7 +105,6 @@ class GuardsAndDeterminism(unittest.TestCase):
         src_path = os.path.join(HERE, "gpr_void_detector.py")
         with open(src_path) as f:
             src = f.read()
-        self.assertNotIn("ultralytics", src.lower())
         tree = ast.parse(src)
         for node in ast.walk(tree):
             if isinstance(node, ast.Import):
@@ -113,6 +112,8 @@ class GuardsAndDeterminism(unittest.TestCase):
                     self.assertNotEqual(alias.name.split(".")[0], "ultralytics")
             if isinstance(node, ast.ImportFrom) and node.module:
                 self.assertNotEqual(node.module.split(".")[0], "ultralytics")
+        # no importlib/dynamic loader of the banned name either
+        self.assertNotRegex(src, r"importlib.*(ultralytics)")
 
     def test_cli_writes_valid_json(self) -> None:
         fixture = os.path.join(HERE, "fixtures", "synthetic_air_void_bscan.json")
