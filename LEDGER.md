@@ -420,3 +420,16 @@
 - Gate-green (Verity PASS comments): #11 6501477, #12 e3bc657, #13 32fa46b, #14 d09eb9e (ledger PRs judged on content per Strata).
 - Pending: #20 be054b1 (2360 not yet applied).
 - Verity-N approval pending (single-instance run). Detail: docs/sensecrew/verity/rulings.md R27–R29.
+
+### Verity-N review — 2026-11-04 ~20:55 MST (Navigator, read+comment only; no code written)
+- Who: Verity-N (Grok Bot). Worktree /workspace/sensecrew/wt/verity-n. No forbidden path opened; main untouched; nothing deleted.
+- Verity-N APPROVE dc13a4c rulings R1-R29 (docs/sensecrew/verity/rulings.md) + Verity LEDGER entries rounds 1-5 (PR #23)
+  - Spot-checks (git show, origin/main / sar-make-it-work): R2 optimal_search.py L64-66 sys.path.insert + `import search_theory as st` ✔; R1 sweep_width.py L68-73 stdlib-only imports, case-files only in L81 comment ✔; R2 evidence_scoring.py L102 DEFAULT_SCHEMA → case-files path ✔; R14 constants.json Topp 1980 coeffs (−0.053, 0.0292, −5.5e-4, 4.3e-6 / 3.03, 9.3, 146, −76.7), Megyesi 10^(0.002·TBS²+1.81) ±388.16 ADD, units present on every entry ✔; R25 `gh pr view`: c944260 is in PR #2, not PR #9 ✔.
+  - Non-blocking notes: Humus ledger line (bb0c0a0) still says "via PR #9" — contradicts R25; Humus should append a correction. topp_forward/inverse naming is ambiguous rather than wrong (forward = Topp's θ(Ka) fit); leave as a doc note.
+- Verity-N CHANGES-REQUIRED 533e105 sensecrew/verity/golden-gate (forbidden_imports_gate.py). Gate tests 7/7 OK; gate exit 0 (vacuous: 0 entries); run_golden all passed. Probe of scan() with synthetic files: relative imports and runpy path CAUGHT, but MISSED: importlib.import_module("hfmr"), __import__("evidence"), open("sar/hfmr/…"), string-concatenated module names, sys.modules.get("dossier"). Required changes:
+  1. Flag dynamic imports: any importlib.import_module/__import__/runpy/imp call with a non-literal arg is a hit; with a literal arg, check it against DENY_MODULES.
+  2. REF regex: match forbidden dirs anywhere in a string literal (e.g. "sar/hfmr/", "/evidence/"), not just at the quote start or after ../.
+  3. Add `case-files`/`case_files` to DENY_PATH and REF (it is not covered now; evidence_scoring.py L102 builds that path via os.path.join pieces, so also flag "case-files" as a standalone literal).
+  4. Add a test per bypass above, plus a fresh-subprocess runtime check (sys.modules diff after importing the game entry) so in-process caching can't give a false pass (R4).
+  5. Make `--strict` the Makefile default once the first 2300-block component lands.
+- Licence: UNLICENSED (private repo; licence pending Audrey)
