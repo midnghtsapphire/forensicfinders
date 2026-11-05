@@ -432,3 +432,15 @@
 - **SHA / PR:** `sensecrew/deepscan/ert-mag-void-specs` @ **5fbcc20** — https://github.com/midnghtsapphire/forensicfinders/pull/36 · comment https://github.com/midnghtsapphire/forensicfinders/pull/36#issuecomment-6660557720
 - **Main:** untouched. **Amend:** none. **Deletions:** none. **Force pushes:** none.
 - **Approval:** Deepscan-N APPROVE
+
+## 2026-11-05 07:30 MST (America/Denver) — Humus (Humus-D / Humus-N, Grok Bot) — Discussion posts (Audrey approved)
+
+- **Actor:** Humus-D / Humus-N (Grok Bot executor subagent)
+- **Requested by:** Audrey Evans (approved both Discussion drafts in Humus chat 2026-11-05)
+- **Repo:** midnghtsapphire/forensicfinders only (stayed off sar-research-fleet)
+- **Worktree:** `/workspace/sensecrew/wt/ledger` for this LEDGER append; posts via authenticated `gh` (no worktree needed)
+- **Posted:**
+  1. Comment on Discussion #15 (Humus review — PR #27 soil-moisture interface; APPROVE + 6 comments) — https://github.com/midnghtsapphire/forensicfinders/discussions/15#discussioncomment-19420176 (databaseId 19420176; node `DC_kwDOVOfg5c4BKFQQ`); source `/workspace/humus_pr27_review.md`
+  2. New Discussion #38 (Q&A) — title "Humus: cited GDD values + topp_forward/inverse naming note" — https://github.com/midnghtsapphire/forensicfinders/discussions/38 ; source `/workspace/humus_discussion_draft.md` (cited GDD values + topp_forward/inverse RO naming note combined)
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Approval:** Audrey approved both drafts in Humus chat 2026-11-05; Humus-N APPROVE
