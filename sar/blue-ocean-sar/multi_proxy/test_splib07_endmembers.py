@@ -6,7 +6,7 @@
 #       that constrained_nnls_unmix recovers known abundances from a synthetic mixture of
 #       two real endmembers (task B). Component NEW-22 / registry 2360.
 # What: unittest + pytest-style functions (adapter pattern from test_engines.py).
-# Notes: No network. No LUCAS. Fixture under fixtures/splib07_subset/ is public-domain
+# Notes: No network. No LUCAS. Oracle under reference_oracle/splib07_subset/ is public-domain
 #       USGS data (doi:10.3133/ds1035). Our code UNLICENSED (private; licence pending Audrey).
 # ══════════════════════════════════════════════════════════════════════════════════════════
 import unittest
@@ -16,7 +16,7 @@ import numpy as np
 from .nnls_unmix import constrained_nnls_unmix
 from .sam import spectral_angle
 from .splib07_endmembers import (
-    fixture_dir,
+    reference_oracle_dir,
     list_endmember_names,
     load_endmembers,
     load_manifest,
@@ -28,7 +28,7 @@ MIX_NAMES = ("kaolinite", "hematite")
 
 
 def test_fixture_files_present():
-    d = fixture_dir()
+    d = reference_oracle_dir()
     assert d.is_dir()
     for name in (
         "README.md",
