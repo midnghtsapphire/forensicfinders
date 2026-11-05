@@ -1,0 +1,101 @@
+{
+  "library": "USGS Spectral Library Version 7 (splib07)",
+  "data_doi": "10.5066/F7RR1WDJ",
+  "report_doi": "10.3133/ds1035",
+  "library_url": "https://www.usgs.gov/labs/spectroscopy-lab/science/spectral-library",
+  "licence": "public domain (US federal government work)",
+  "source_package": "ASCIIdata_splib07b_cvAVIRISc2014.zip",
+  "source_sciencebase_item": "https://www.sciencebase.gov/catalog/item/586e8c88e4b0f5ce109fccae",
+  "convolution": "AVIRIS-Classic 2014 (224 channels); wavelengths in micrometres (\u00b5m)",
+  "reflectance_type": "AREF absolute reflectance (unitless, typically 0..1)",
+  "deleted_band_sentinel": -1e+34,
+  "band_selection": {
+    "n_full": 224,
+    "n_kept": 196,
+    "dropped": "AVIRIS water-vapor windows 1.35\u20131.45 \u00b5m and 1.80\u20131.95 \u00b5m; plus any USGS deleted markers if present",
+    "wavelength_min_um": 0.36591369,
+    "wavelength_max_um": 2.4962239
+  },
+  "endmembers": {
+    "quartz": {
+      "file": "s07_AV14_Quartz_GDS74_Sand_Ottawa_BECKc_AREF.txt",
+      "usgs_title": "Quartz GDS74 Sand Ottawa BECKc AREF",
+      "chapter": "ChapterM_Minerals",
+      "sample_id": "GDS74",
+      "material": "Quartz (Ottawa sand)",
+      "short_name": "quartz"
+    },
+    "kaolinite": {
+      "file": "s07_AV14_Kaolinite_KGa-1_(wxl)_BECKb_AREF.txt",
+      "usgs_title": "Kaolinite KGa-1 (wxl) BECKb AREF",
+      "chapter": "ChapterM_Minerals",
+      "sample_id": "KGa-1",
+      "material": "Kaolinite (well crystallized)",
+      "short_name": "kaolinite"
+    },
+    "montmorillonite": {
+      "file": "s07_AV14_Montmorillonite_SWy-1_BECKb_AREF.txt",
+      "usgs_title": "Montmorillonite SWy-1 BECKb AREF",
+      "chapter": "ChapterM_Minerals",
+      "sample_id": "SWy-1",
+      "material": "Montmorillonite (Wyoming)",
+      "short_name": "montmorillonite"
+    },
+    "calcite": {
+      "file": "s07_AV14_Calcite_HS48.3B_BECKa_AREF.txt",
+      "usgs_title": "Calcite HS48.3B BECKa AREF",
+      "chapter": "ChapterM_Minerals",
+      "sample_id": "HS48.3B",
+      "material": "Calcite",
+      "short_name": "calcite"
+    },
+    "goethite": {
+      "file": "s07_AV14_Goethite_WS222_Medium_Gr._BECKa_AREF.txt",
+      "usgs_title": "Goethite WS222 Medium Gr. BECKa AREF",
+      "chapter": "ChapterM_Minerals",
+      "sample_id": "WS222",
+      "material": "Goethite (medium grain)",
+      "short_name": "goethite"
+    },
+    "hematite": {
+      "file": "s07_AV14_Hematite_GDS27_BECKa_AREF.txt",
+      "usgs_title": "Hematite GDS27 BECKa AREF",
+      "chapter": "ChapterM_Minerals",
+      "sample_id": "GDS27",
+      "material": "Hematite",
+      "short_name": "hematite"
+    },
+    "gypsum": {
+      "file": "s07_AV14_Gypsum_SU2202_BECKa_AREF.txt",
+      "usgs_title": "Gypsum SU2202 BECKa AREF",
+      "chapter": "ChapterM_Minerals",
+      "sample_id": "SU2202",
+      "material": "Gypsum",
+      "short_name": "gypsum"
+    },
+    "illite": {
+      "file": "s07_AV14_Illite_GDS4_Marblehead_BECKb_AREF.txt",
+      "usgs_title": "Illite GDS4 Marblehead BECKb AREF",
+      "chapter": "ChapterM_Minerals",
+      "sample_id": "GDS4",
+      "material": "Illite (Marblehead)",
+      "short_name": "illite"
+    },
+    "dry_grass": {
+      "file": "s07_AV14_Grass_Golden_Dry_GDS480_ASDFRa_AREF.txt",
+      "usgs_title": "Grass Golden Dry GDS480 ASDFRa AREF",
+      "chapter": "ChapterV_Vegetation",
+      "sample_id": "GDS480",
+      "material": "Dry golden grass (NPV / vegetation)",
+      "short_name": "dry_grass"
+    }
+  },
+  "not_included": [
+    "LUCAS soil library",
+    "full multi-GB SPECPR archive",
+    "case/evidence spectra"
+  ],
+  "component": "NEW-22 / provisional registry 1070 (pending Verity collision check)",
+  "our_code_licence": "UNLICENSED (private repo; licence pending Audrey)",
+  "regenerated": "2026-11-04; Sense-Quartz from ScienceBase ASCIIdata_splib07b_cvAVIRISc2014.zip"
+}
