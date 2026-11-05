@@ -62,3 +62,11 @@
 - **Open:** confirm the 1–5 tuning range; module audits; credit values and score weights.
 - **Commits / PRs:** none.
 - **Approval:** Loam-N APPROVE (GDD v0.3)
+
+## 2026-11-04 20:20 MST — Loam (Loam-D / Loam-N, Grok Bot) — CORRECTION to the GDD v0.3 entry
+
+- **Actor:** Loam-D / Loam-N · **Requested by:** Strata, for Audrey Evans · **Role:** correction (append-only; earlier entries unchanged)
+- **Correction:** the v0.3 entry's "Commits / PRs: none" is superseded.
+  - Commit 28ab70b6 on branch `sensecrew/loam/gdd` (adds `docs/sensecrew/loam/GDD_v0..v0.3`) opened draft PR https://github.com/midnghtsapphire/forensicfinders/pull/10 into main.
+  - Ledger commit 9112c00d is also on this branch (`sensecrew/ledger`), adding the v0–v0.3 entries to LEDGER.md.
+- **Main:** not touched. **Deletions:** none.
