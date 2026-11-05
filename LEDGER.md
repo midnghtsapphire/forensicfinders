@@ -798,3 +798,15 @@ Independent Verity-N re-review of PR #40 @ `5b1149d28acf0213fbaf4ddd27e562af1675
 - **Main:** untouched. **Deletions:** none. **Force pushes:** none.
 - **Licence:** UNLICENSED (private repo; licence pending Audrey)
 - **Approval:** Verity-N APPROVE-with-hold (independent; DEM hold #1 CLEAR); cites R40
+
+## 2026-11-05 08:30 MST (America/Denver) — Verity-D (SenseCrew QA) — R41 PASS-with-hold of Fusion PR #42 @ c6d920d
+
+- **Actor:** Verity-D (Grok Bot) · **Requested by:** Sense-Strata, for Audrey Evans
+- **What:** Independent Verity-D review of Fusion draft PR #42 (2371 provisional combine + calibrated anomaly hint layer). Assigned tip `a9c01be`; reviewed **current** tip `c6d920d41b3476a94aad628a5710d9cbbf183e45` after Fusion merged #41 tip `8c98804` (no force-push). Worktree `/workspace/sensecrew/wt/verity-pr42` detached at exact head. Details in R41 (docs/sensecrew/verity/rulings.md).
+- **Checks:** Rule 5/7 CLEAR (synthetic-only; no TerraTorch/Ultralytics/ISRID/LUCAS/EDNA/realdata/fusion.py; forbidden paths not opened). Seed 1002 ×3 byte-identical (json `3b987b05…0dbfe4`, tif `09baac2b…eb411a`); fusion-replay OK. ECE≈0.0103 ≤ 0.05; Brier≈0.0339. LEDGER+CHANGELOG same-commit. Registry 2370/2371 absent (HOLD expected). Tests: fusion **25 passed**; sensegame **81 passed / 2 xfailed**. Draft retained. Rebase onto 8c98804 already landed (merge c6d920d).
+- **Verdict:** **PASS-with-hold** confidence 0.90.
+- **Hold conditions:** (1) merge-after-#41; (2) registry 2370/2371 until CLEAR; (3) keep draft; (4) inherit #41 M1 W PLACEHOLDER.
+- **PR / review:** COMMENT (not APPROVE) on https://github.com/midnghtsapphire/forensicfinders/pull/42 (posted after this commit).
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Approval:** Verity-D PASS-with-hold; **Verity-N pending**
