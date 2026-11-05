@@ -237,3 +237,5 @@ Strata ruling adopted: ledger PRs are judged on content, not on ledger-tip confl
 - R27 #11 6501477: line 116 is tagged DEPRECATED; 0 untagged lost_person references in any changed file; 0 force-pushes → PASS 0.90. #12 e3bc657: "Ledger-Play-N APPROVE 65014777…" is present; LEDGER +56/−0 vs the ledger base; 0 force-pushes → PASS 0.90.
 - R28 #13 32fa46b: cividis NOTICE verbatim; Crameri MIT with PDF sha verified; +156/−0 → PASS 0.92. #14 d09eb9e: 96bbca8 is an ancestor, 0 removed lines, 0 force-pushes → PASS on content 0.88.
 - R29 #20: head still be054b1 with NEW-22 provisional; 2360 not applied → no PASS yet (2360 still free).
+
+- R30 (2026-11-04 ~20:50 MST) #31 54b70fa: provenance corrected to c944260 via PR #2 (merge 19bee3d), with the PR #9 claim retracted; the audit row lists the optional pyteomics/pymzml imports; alias tests 3/3, qpcr+lab_readers 43/43; 0 force-pushes; LEDGER 92e2c5f is append-only (+1/−0, bb0c0a0 is an ancestor) and corrects bb0c0a0 in substance (it does not cite the SHA) → PASS 0.90.

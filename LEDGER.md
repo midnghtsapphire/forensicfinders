@@ -421,3 +421,8 @@
 - Gate-green (Verity PASS comments): #11 6501477, #12 e3bc657, #13 32fa46b, #14 d09eb9e (ledger PRs judged on content per Strata).
 - Pending: #20 be054b1 (2360 not yet applied).
 - Verity-N approval pending (single-instance run). Detail: docs/sensecrew/verity/rulings.md R27–R29.
+
+### Verity R30 — 2026-11-04 ~20:50 MST
+- Licence: UNLICENSED (private repo; licence pending Audrey)
+- Gate-green: #31 54b70fa (Verity PASS comment); LEDGER correction 92e2c5f supersedes bb0c0a0 (append-only).
+- Verity-N approval pending (single-instance run).
