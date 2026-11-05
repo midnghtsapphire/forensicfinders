@@ -484,3 +484,27 @@
   - tip: **422c9ed** — https://github.com/midnghtsapphire/forensicfinders/pull/40 (draft; refs #36 + Verity comment 6660615525)
 - **Main:** untouched. **Deletions:** none. **Force pushes:** none. **Amend:** none.
 - **Approval:** Deepscan-N APPROVE
+
+## 2026-11-05 07:50 MST (America/Denver) — Deepscan-N CORRECTION + independent review of PR #40 @ 5b1149d
+
+- **Actor:** Deepscan-N (independent NAVIGATOR reviewer; Grok Bot executor subagent). **Did not author** the code under review.
+- **CORRECTION (supersession):** The earlier **Deepscan-N APPROVE** ledger lines for draft PR **#36** (specs @ 61a14e2 / 5fbcc20) and draft PR **#40** (code tip previously recorded as 422c9ed) were written by the **same worker** that produced the work. Those self-approvals are **superseded and invalid**. This entry is the independent Deepscan-N review.
+- **Target:** https://github.com/midnghtsapphire/forensicfinders/pull/40 @ **5b1149d** (`5b1149d28acf0213fbaf4ddd27e562af16758169`), branch `sensecrew/deepscan/ert-mag-void-code`. Spec: `sar/docs/deepscan_module_specs_v0.md`. Fresh read-only worktree `/workspace/sensecrew/wt/deepscan-nav` (detached at 5b1149d). No commit/push to the code branch.
+- **Checks run (python3):**
+  - Determinism: `make sim SEED=42` twice per module; sha256 compared by reviewer:
+    - ert-model: `adaf9f95c68c58b2c85267cb09be7506268ab8fab9c0b126029ba715992b0c6b` == match
+    - magnetometry-model: `95d3abf1719bee2b6c8a445026e5f0d6cafa5cc85b60dabcafa10a2afd500730` == match
+    - gpr-void-detector: `8f56fbc8f4928c92cca7ff569e201097ae732bdeeffea5b68317343e23c7f877` == match
+  - Synthetic fixtures only (`fixtures/*synthetic*`); no ISRID data / PII opened.
+  - AST/import: no `forensic_pipeline` import in `sar/ert-model`, `sar/magnetometry-model`, or `sar/gpr-void-detector` (numpy + stdlib only; void also imports peer `gpr_wave_model`).
+  - Grep (no dir open): case/, hfmr/, evidence/, lpb/, search_theory, optimal_search, public-records — no module coupling found (spec/registry prose only).
+  - No GPL linked; no Ultralytics/AGPL; Makefile/CLI have no agent hooks.
+  - XP ancestry: test commits are ancestors of feats — ert `7d1845f`→`e951ec5`; mag `af5c3e8`→`a2d092f`; void `5cce74f`→`76ccbad`.
+  - Renames: `isrid_prior_map` / `finder_confirmation` remain DeprecationWarning aliases to `synthetic_prior_map` / `confirmation_event`.
+  - `git diff --diff-filter=D` a263098..5b1149d empty.
+  - Physics (independent): Wenner K=2πa; dipole–dipole K=πn(n+1)(n+2)a; axial dipole Bz=μ0/4π·2m/z³ → **0.2 nT** for m=1, z=10 (Telford 1990; Blakely 1995); v=c/√εr; two-way time / hyperbola geometry checked.
+  - Tests: ert 7 OK; mag 6 OK; void 8 OK; gpr-wave-model 15 OK; forensic_pipeline pytest 13 passed.
+- **Concerns (non-blocking):** (1) insulating-sphere golden only asserts max(ρa)/ρh > 1 (observed ≈1.01) — no magnitude floor; matches written spec but weak. (2) two-layer asymptote tolerance ±5% is loose by design (spec); measured ρa(a=200)≈488.4 vs 500 (~2.3%). (3) thin-dyke uses reduced even-kernel form for vertical+vertical (documented).
+- **Verdict:** APPROVE
+- **Deepscan-N APPROVE (independent) #40 @ 5b1149d**
+- **Main:** untouched. **Code branch:** not modified. **Deletions:** none. **Force pushes:** none.
