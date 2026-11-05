@@ -14,7 +14,9 @@ Status: draft, following Strata's v0.2 rulings. Repo/branch for code and the LED
 
 **D5. Scorer ownership.** **Bedrock writes the clean `Scorer` spec** (Loam's GDD v0.2 registry list calls it NEW-01 CleanScorer). The C5 Protocol is Ledger-Play's *consumer requirements* only (pod, pos, optimal, update; km, km², km/h; [0,1]). Bedrock's spec takes precedence.
 
-**D6. Registry.** The harness stays `NEW-xx` per Strata. (GDD v0.2 line 94 proposes NEW-12; Strata to confirm.)
+**D6. Registry.** The sweep harness is **NEW-12** (Strata ruling, v0.2 follow-up; supersedes `NEW-xx`, which also matches GDD v0.2 line 94). **NEW-11 (sweep_width adapter) stays disabled while `sweep_width.py` is blocked.**
+
+**D8. Repo licence.** Every repo/output licence field reads: `UNLICENSED (private repo; licence pending Audrey)`. The per-sensor `licence_note` column still records third-party tool licences (e.g. GPL offline-only).
 
 **D7. Swarm.** Unchanged from C2: none started; ≤10 subagents with small token budgets once approved.
 
@@ -23,11 +25,11 @@ Status: draft, following Strata's v0.2 rulings. Repo/branch for code and the LED
 Status: v0 accepted by Strata as **draft**; this is v0.1. No code, commits, branches or GitHub writes. Repo/branch and LEDGER location: **still pending**. The v0 text is kept below; where it conflicts with v0.1, **v0.1 wins**.
 
 ## v0.1 changes
-**C1. Registry number.** The sweep harness uses the placeholder **`NEW-xx`** until Strata assigns a real `sar/registry.json` id. No existing number is reused.
+**C1. Registry number.** *(Superseded by D6: now NEW-12.)* The sweep harness uses the placeholder **`NEW-xx`** until Strata assigns a real `sar/registry.json` id. No existing number is reused.
 
 **C2. Swarm: none yet.** No swarm runs before Strata approves. Once approved, the first swarm is capped at **≤10 subagents**, each with a **small token budget** (exact figure PLACEHOLDER, set by Strata). The ≤100 rule-2 cap is not used in v0.1. Revised brief:
 ```yaml
-swarm_id: ledger-play-sweep-NEW-xx-<seq>
+swarm_id: ledger-play-sweep-NEW-12-<seq>
 status: NOT STARTED (awaiting Strata approval)
 objective: "Run sweep cells <a..b> of grid <grid_hash> at SEED=<n>"
 output_schema: "swarm/<id>/shard_<k>/{runs.csv, sha256sums.txt} (columns as in v0 §4)"
@@ -88,7 +90,7 @@ class Scorer(Protocol):              # ledgerplay/scoring.py (proposed)
 7. **Prior source.** GDD B1 (`lost_person_sim` needs a real DEM) blocks seeded POA priors for the harness. The sweep uses the Bedrock procedural prior only until that is resolved.
 
 ## Still pending (Strata)
-Repo/branch; LEDGER path; real registry id for NEW-xx; per-subagent token budget; clean `Scorer` owner/timeline; ruling on mismatch 1.
+Repo/branch; LEDGER path; real registry id for NEW-xx [resolved in v0.2: NEW-12]; per-subagent token budget; clean `Scorer` owner/timeline; ruling on mismatch 1.
 
 ---
 ## v0 (original text, kept for history; superseded where v0.1 says so)
@@ -97,7 +99,9 @@ Owner: Ledger-Play pair (Ledger-Play-D / Ledger-Play-N). Status: **proposal, not
 Governing rules: `sensing-games-team-LOCKED-2026-11-04.md` §3 (all 12). Synthetic data only; only `fixtures/*synthetic*` seed scenes; forbidden paths (case/, hfmr/, dossier.py, evidence/, public_records_engine.py, any PII) were not opened and are not referenced by any interface below. Naming: `soil_dna_sensor`. GPL tools offline only; no Ultralytics.
 **Core principle: tune cost and time, never physics.** Physics values (sweep width, noise, detection rates) come only from cited sources or are `PLACEHOLDER`; balance knobs are price, deploy time, budget and time limit.
 
-## 0. Repo research (read-only, gh CLI authenticated as midnghtsapphire, 2026-11-04)
+> **DEPRECATED — quarantined module, history only.** The `sweep_width.py` / `optimal_search.py` signatures below were recorded before these modules were blocked (v0.2 D4). They are not interfaces and must not be used.
+
+## 0. Repo research (read-only, gh CLI authenticated as midnghtsapphire, 2026-11-04) — DEPRECATED — quarantined module, history only
 Files live in `sar/blue-ocean-sar/realdata/` (not directly under `sar/`). Registry id **130** = `blue-ocean-sar/realdata` (parent 100, tests `python3 -m unittest discover -p test_*.py` in `blue-ocean-sar`).
 
 **VERIFIED — `optimal_search.py`** (Koopman/Stone exponential model; docstring): `z_i` effort (km track or hours), `r_i = W_i/A_i` (per km) or `W_i v_i/A_i` (per h), `POD_i = 1 - exp(-r_i z_i)`, `POS = Σ POA_i·POD_i`; ROW segment never funded; POA must sum to 1. Segments CSV: `name, area_km2, poa, sweep_width_km[, speed_kmh]`. `UNITS = ("km","hours")`.
@@ -182,7 +186,7 @@ verity_sampling: ">=10% of shards re-run; hashes must match"
 - LEDGER entry template (append-only):
 ```
 2026-11-04T20:xx-07:00 | Ledger-Play-D/N | action: <skill|API|MCP|CLI call or decision> | why: <...>
- | sources: <URL/DOI> | licence: <...> | seed: <n> | artefact: swarm/<id>/sha256sums.txt
+ | sources: <URL/DOI> | licence: UNLICENSED (private repo; licence pending Audrey) | seed: <n> | artefact: swarm/<id>/sha256sums.txt
  | Ledger-Play-N APPROVE | Verity: <pending|green>
 ```
 - Open questions for Strata: (1) target repo + branch name for `balance/` and `ledgerplay/` (forensicfinders `sar/` vs a new game repo)? (2) LEDGER path? (3) registry.json number for the sweep harness? (4) token budget per sweep subagent? (5) who supplies cited physics values per sensor (Humus/Deepscan/Isotope) and Loam's unlock order? (6) [withdrawn in v0.1: module quarantined]
