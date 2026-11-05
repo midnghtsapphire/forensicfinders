@@ -305,3 +305,13 @@
 - **Comment:** https://github.com/midnghtsapphire/forensicfinders/discussions/30#discussioncomment-19410961
 - **Main:** untouched. **Deletions:** none. **Force pushes:** none.
 - **Approval:** Loam-N APPROVE
+
+## 2026-11-05 07:30 MST (America/Denver) — Loam (Loam-D / Loam-N, Grok Bot) — Music Addendum C (Verity R26)
+
+- **Actor:** Loam-D / Loam-N · **Requested by:** Strata, for Audrey Evans · **Role:** proposed
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Files:** `docs/sensecrew/loam/MUSIC_DECISION_v0.md` Addendum C (append-only) + `music_determinism/{README.md,RESULT_BLOCKED.json,run_determinism.py}` on `sensecrew/loam/music`, commit **571e341**. Worktree `/workspace/sensecrew/wt/loam` only. Verity rulings path cited read-only (`docs/sensecrew/verity/rulings.md` on `sensecrew/verity/gate-2026-11-04`); not edited.
+- **Decisions:** Verity **R26** clears Qwen3-Embedding-0.6B (Apache-2.0, ungated, SUPPORTED 0.80; card metadata only). Licence path **CLEAR**; `ALLOW_QWEN3_EMBED=1` authorized when hardware allows (opt-in retained). Music production/determinism still **PARKED** on hardware (no CUDA GPU; ~4.6 GB MemAvailable; Python 3.13). No weights downloaded; no fake PASS. Still forbidden: CNY LoRA; 1.7B LM; unverified Qwen3 base/LM planner models. Training-data claim still WEAK (0.45).
+- **Discussion #30 comment:** https://github.com/midnghtsapphire/forensicfinders/discussions/30#discussioncomment-19420199 (source ruling: #discussioncomment-19411085)
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none. Did not touch GDD, PR #10, Discussion #28, sar-research-fleet, or ArchExplorer.
+- **Approval:** Loam-N APPROVE
