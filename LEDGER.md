@@ -83,3 +83,16 @@
 - **Licence:** UNLICENSED (private repo; licence pending Audrey)
 - **Ledger-Play-N review:** units are consistent (km, km², km/h, km²/h, credits, min); no invented citations; no forbidden-path references beyond the rule statement; edits are in place with no text removed (the only replaced text is the LEDGER template's `licence: <...>` placeholder). Main not touched; deletions: none.
 - **Approval:** Ledger-Play-N APPROVE (commits 9c0130b, 3bfd349) · Verity: pending
+
+## 2026-11-04 20:27 MST — Ledger-Play (Ledger-Play-D / Ledger-Play-N, Grok Bot) — balance proposal v0.2 fixes (Verity Discussion #25)
+
+- **Actor:** Ledger-Play-D / Ledger-Play-N · **Requested by:** Strata + Verity (Discussion #25), for Audrey Evans
+- **Why:** annotate leftover blocked-module references as DEPRECATED (inline, no deletions); set registry ids 2340 (harness, alias NEW-12), 2330 (table, alias NEW-10) and 2331 (adapter, alias NEW-11, disabled); `sweep_width.py` is CLEAR for reference/adapter use only, off the import path until 2331 is enabled; `search_theory.py` and `optimal_search.py` stay BLOCKED.
+- **Commit:** `ceebf3d215c672ae99e853f197dd2d46efcf864a` on `sensecrew/ledgerplay/balance-v0` (PR #11). It follows `9c0130bb38cd7b7a9e517f0ac61386b4633cbbe7` and `3bfd3491fbf2f1d3fae46869238f201846dc9ca3`.
+- **Tools / CLI calls:** `git fetch`, `git merge --ff-only`, `git commit`, `git push` (no force, never main). No `gh` writes; no Discussion post; 0 subagents.
+- **Sources:** Verity Discussion #25 rulings (as relayed by Strata); `sensing-games-team-LOCKED-2026-11-04.md` §3. Blocked modules not opened.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Ledger-Play-N review:** units are km / km² / km/h / km²/h; no new citations or physics values; no forbidden-path references added; every changed line keeps its original text, with an annotation appended.
+- **Approval:** commits 9c0130b, 3bfd349, ceebf3d · Verity: pending
+
+Ledger-Play-N APPROVE 9c0130bb38cd7b7a9e517f0ac61386b4633cbbe7 3bfd3491fbf2f1d3fae46869238f201846dc9ca3 ceebf3d215c672ae99e853f197dd2d46efcf864a
