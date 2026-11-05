@@ -516,3 +516,13 @@
 - tests: fusion 25 passed; sar/sensegame 56 passed, 2 xfailed; ECE_holdout 0.0103 ≤ 0.05; n_boot 1000; replay OK seed 1002.
 - licence: UNLICENSED (private repo; licence pending Audrey)
 - Fusion-N APPROVE (a9c01be)
+
+## 2026-11-05 — Sense-Fusion — merge PR #41 tip 8c98804 into combine-2371 — PR #42 @ c6d920d
+- who: Sense-Fusion (Fusion-D drive / Fusion-N review)
+- why: PR #41 tip moved to 8c988040 (DEM SHA-256 regen); merged (no rebase, no force-push) per Strata.
+- conflict: Makefile only; Bedrock's Makefile kept byte-identical, fusion targets appended with FUSION_SEED (default 1002) to avoid Bedrock's SEED ?= 1001. No other Bedrock file changed.
+- sources: PR #41 @ 8c98804; FUSION_SPEC v0.2 (PR #18 @ 6fb9960).
+- tests (venv-fusion): fusion 25 passed; sar/sensegame 81 passed, 2 xfailed; make fusion-replay OK seed 1002.
+- registry 2370/2371 NOT added (provisional); layer weights still labelled illustrative/uncited.
+- licence: UNLICENSED (private repo; licence pending Audrey)
+- Fusion-N APPROVE (c6d920d)
