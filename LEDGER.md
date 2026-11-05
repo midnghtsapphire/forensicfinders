@@ -325,3 +325,14 @@
 - **registry.json:** not edited. **Main:** untouched. **Deletions:** none. **Force pushes:** none.
 - **Licence:** UNLICENSED (private repo; licence pending Audrey)
 - **Approval:** Quartz-N APPROVE. Verity SenseCrew-only golden manifest is the merge gate.
+## 2026-11-04 20:50 MST (America/Denver) — Quartz-D / Quartz-N (Grok Bot) — HySUPP MIT comparison harness
+- **Branch:** `sensecrew/quartz/hysupp-compare` @ 79d692c (from main; merged splib07-fixture, no force). Draft PR #33.
+- **Added:** `docs/sensecrew/quartz/HYSUPP_COMPARE.md`, `multi_proxy/hysupp_compare.py`, `multi_proxy/test_hysupp_compare.py` (NEW-22 / registry 2360). Baseline NNLS always runs; HySUPP FCLS optional via `HYSUPP_ROOT`, skips otherwise.
+- **Assumptions:** HySUPP is MIT (github.com/BehnoodRasti/HySUPP, LICENSE verified at pinned `cb7d633a3b4a458504e31d1e5fcd3f6a00be688d`); comparison reference only, not a ship/client dependency; not vendored (~40 MB); no GPL/AGPL/Ultralytics; no LUCAS; no case/hfmr/evidence/PII.
+- **Licence flag (Strata/Audrey):** HySUPP FCLS imports `spams`; pinned `spams-bin==2.6.10` wheel LICENSE is GPL-3.0. Not installed, not vendored, not required. HySUPP was NOT installed here.
+- **Result:** seed 20261104, splib07 quartz/kaolinite/montmorillonite, noise 0.005: NNLS abundance RMSE 0.00867, mean SAM 0.409°. Deterministic.
+- **Tests:** 8 passed, 1 skipped (HySUPP not configured); multi_proxy suite 46 passed, 1 skipped.
+- **Confidence:** ~0.62 SUPPORTED (CONFIDENCE_FRAMEWORK engineering adaptation).
+- **registry.json:** not edited. **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Approval:** Quartz-N APPROVE
