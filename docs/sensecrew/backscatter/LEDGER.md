@@ -27,3 +27,5 @@
 - **Licence:** UNLICENSED (private repo; licence pending Audrey). Runtime deps used: rioxarray Apache-2.0, xarray Apache-2.0, rasterio BSD-3-Clause (already in ColdTrace requirements.txt; no new dep class).
 - **Approval:** Backscatter-N APPROVE sentinel.py+tests DataArray conversion (gates 1-3, nodata, determinism, licences) — reviewed: gates 1-3, tests, licences
 - **Credit note:** drafted and implemented entirely by Grok Bot (Backscatter pair). Draft PR only — awaiting Verity re-check; no self-merge.
+
+- **Tip commit (post-commit):** Backscatter-N APPROVE ec2fc25 — reviewed: gates 1-3, tests, licences
