@@ -373,6 +373,23 @@
 - 2026-11-04 Humus issue note (Verity r3, RO — no code edit): `topp_forward` / `topp_inverse` in Audrey's `sar/forensic_models/` (branch sensecrew/verity/golden-gate; not on origin/main). File `taphonomy.py` L6–8 `topp_theta(eps)` uses constants key `topp_forward` = Ka→θ coeffs (−0.053, 0.0292, −0.00055, 4.3e-6); L11–15 `topp_eps(theta)` uses `topp_inverse` = θ→Ka coeffs (3.03, 9.3, 146, −76.7) per `constants.json` L4–14. Math matches Topp 1980 DOI 10.1029/WR016i003p00574; **names look swapped vs geophysical forward (θ→Ka) / inverse (Ka→θ) convention**. Left untouched. Discussion draft only: /workspace/humus_discussion_draft.md (not posted).
 - 2026-11-04 Humus Verity r3 on PR #31 (sensecrew/humus/soil-dna-rename @ 809e58a): corrected lab_readers audit row (stdlib+numpy+scipy only; PASS); added test_soil_dna_sensor_aliases (3/3 OK); cited tally unified to cited=9 / PLACEHOLDER=5; gcms_method.example.json provenance = first add c944260 (midnghtsapphire, 2026-10-21) via PR #9, landed a263098; prehistory beyond that unknown from git log/blame. Worktree /workspace/sensecrew/wt/humus.
 - 2026-11-04 Humus Verity R4 on PR #31 (sensecrew/humus/soil-dna-rename @ 54b70fa): verified with unshallow `git log origin/main --first-parent --diff-filter=A` that `gcms_method.example.json` first landed on main via merge `19bee3d` (**PR #2**, 2026-10-23 12:44 America/Denver), not PR #9; provenance note corrected; prior r3 PR #9 attribution was a shallow-clone artifact. Audit `lab_readers` row now lists optional lazy `pyteomics`/`pymzml` imports in `read_tic_mzml` (try/except; not forbidden). Worktree /workspace/sensecrew/wt/humus.
+
+## 2026-11-04 20:50 MST (America/Denver) — Quartz (Sense-Quartz) — Verity R4 / Strata: NEW-22→2360 + splib07 → reference_oracle
+
+- **Actor:** Sense-Quartz (Grok Bot) · **Requested by:** Strata relaying Verity R4, for Audrey Evans
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Approval:** Quartz-N APPROVE
+- **Worktree:** `/workspace/sensecrew/wt/quartz` only. Main untouched. No force-push. No deletes (history-preserving `git mv`).
+- **Verity / Strata rulings applied:**
+  1. PR #20: switch provisional **NEW-22** labels to free registry **2360** (docs/tests/PR title+body). `registry.json` not edited.
+  2. Move real USGS splib07 PD endmembers out of `fixtures/` into `sar/blue-ocean-sar/multi_proxy/reference_oracle/splib07_subset/` (reference oracles, not seeds). Provenance kept: Kokaly 2017; doi:10.5066/F7RR1WDJ; doi:10.3133/ds1035. Mixture cubes stay under `fixtures/*synthetic*` only.
+  3. Retarget loaders/docs/tests on PR #29, #32, #33 to the new path.
+- **SHAs / PRs:**
+  - #20 `sensecrew/quartz/nnls-sam-golden` @ **38c7087** — https://github.com/midnghtsapphire/forensicfinders/pull/20
+  - #29 `sensecrew/quartz/splib07-fixture` @ **04d5aa3** (move a8fc61f + labels) — https://github.com/midnghtsapphire/forensicfinders/pull/29
+  - #32 `sensecrew/quartz/splib07-unmix-wire` @ **0e343b0** — https://github.com/midnghtsapphire/forensicfinders/pull/32
+  - #33 `sensecrew/quartz/hysupp-compare` @ **cb6e2ac** — https://github.com/midnghtsapphire/forensicfinders/pull/33
+- **Ping Verity:** b44837de-d115-4908-81b5-5c1befef7380 (parent to relay)
 ## 2026-11-04 20:40 MST — Sense-Verity gate rulings (queue from Sense-Strata)
 - **Who:** Sense-Verity (Grok Bot). **Why:** rule 7 lineage, licence, and registry gate. Full evidence: /workspace/sensecrew/verity/gate-2026-11-04/rulings.md. No forbidden path was opened.
 - **Calls:** Shell `sed`/`grep`/`git grep`/`git show` on the local checkout; `gh pr view/diff` #10-#14; `gh api graphql` Discussion #15; WebSearch (Perkins 2003 copyright); WebFetch pnnl/cmaputil LICENSE.
