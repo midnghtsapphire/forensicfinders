@@ -51,11 +51,11 @@ Path: `sar/blue-ocean-sar/realdata/gcms_method.example.json`
 
 | Fact | Evidence |
 |---|---|
-| First introduced | commit `c944260` (2026-10-21, author `midnghtsapphire` / Audrey Evans) — message: “sar: consolidate working SAR/lidar/GPR toolchain with numeric registry (only-what-works)” (reachable via `refs/pull/9/head`) |
-| Landed on `main` | merge `a263098` (PR #9, 2026-11-04) |
-| `git blame` on `main` | all lines attributed to `a263098` (Audrey Evans) — squash/merge attribution; finer authoring is `c944260` on the PR branch |
+| First introduced | commit `c944260` (2026-10-21, America/Denver; author `midnghtsapphire` / Audrey Evans) — message: “sar: consolidate working SAR/lidar/GPR toolchain with numeric registry (only-what-works)” (on PR #2 head ancestry) |
+| Landed on `main` | merge `19bee3d` (**PR #2**, 2026-10-23 12:44 America/Denver) — first `origin/main --first-parent --diff-filter=A` hit; file absent on `19bee3d^1`, present thereafter. Earlier Verity-r3 note that named PR #9 / `a263098` was wrong (shallow-clone artifact). |
+| `git blame` on `main` | all lines attributed to `c944260` (Audrey Evans) |
 | Content claim in-file | `_readme` states retention times are **placeholders, not values from any column or method**; `lab_readers.py` refuses the file unless `--allow-example-method` |
-| Pre-`c944260` origin (lab notebook, external method, case file, etc.) | **Not determined** from `git log` / `git blame` / PR #9 history. No earlier blob. Honest gap: beyond Audrey’s 2026-10-21 consolidate commit, source of the placeholder RT numbers is unknown. |
+| Pre-`c944260` origin (lab notebook, external method, case file, etc.) | **Not determined** from `git log` / `git blame` / PR #2 history. No earlier blob. Honest gap: beyond Audrey’s 2026-10-21 consolidate commit, source of the placeholder RT numbers is unknown. |
 
 ## Non-goals
 
