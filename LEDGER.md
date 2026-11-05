@@ -583,3 +583,46 @@
   4. Metadata leaks: `os.path.exists`/`getsize` on a forbidden path built at runtime reveal whether a file exists and how big it is, but not its content.
   5. Static scope: the gate only sees code on the game path. It can't see import-time side effects inside allowed third-party packages (numpy, scipy). Those are left to the runtime loaded-modules check.
 - **Follow-ups (non-blocking):** deny the frame attributes in (1), and flag non-Name callees that wrap exec/eval/compile/getattr/__import__ values.
+
+## 2026-11-05 07:29 MST (America/Denver) — Deepscan (Sense-Deepscan) — proposed specs for ERT, magnetometry, void detector (doc only)
+
+- **Actor:** Sense-Deepscan (Grok Bot) · **Requested by:** Sense-Strata task, for Audrey Evans
+- **What:** added spec doc `sar/docs/deepscan_module_specs_v0.md` (proposed ert-model 510, magnetometry-model 520, gpr-void-detector 530; no code, no registry edit).
+- **Why:** Sense-Strata task (Deepscan module specs v0).
+- **Sources cited:** Telford, Geldart & Sheriff, *Applied Geophysics* 2nd ed., CUP 1990 (ISBN 0-521-33938-3); Blakely, *Potential Theory in Gravity and Magnetic Applications*, CUP 1995 (doi:10.1017/CBO9780511549816); Daniels (ed.), *Ground Penetrating Radar* 2nd ed., IET 2004 (doi:10.1049/SBRA051E).
+- **Licences cited:** pyGIMLi Apache-2.0 (optional offline); SimPEG MIT (optional offline); numpy BSD-3 / Python PSF; OpenCV Apache-2.0 (optional); gprMax GPL-3 offline CLI only, never linked; Ultralytics AGPL FORBIDDEN.
+- **SHA / PR:** `sensecrew/deepscan/ert-mag-void-specs` @ **61a14e2** — https://github.com/midnghtsapphire/forensicfinders/pull/36 (draft)
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Approval:** Deepscan-N APPROVE
+
+## 2026-11-05 07:30 MST (America/Denver) — Deepscan (Sense-Deepscan) — PR #36 follow-up: stale header, licence typo, forensic_pipeline rename proposal
+
+- **Actor:** Sense-Deepscan (Grok Bot) · **Requested by:** Sense-Strata follow-up, for Audrey Evans
+- **What:** new commit on `sar/docs/deepscan_module_specs_v0.md` (doc only): header and Out-of-scope lines now say the doc is published as draft PR #36 and no product code goes in until rule-7 clears; magnetometry licence row fixed to "Optional magnetics library / custom code (numpy, BSD-3)"; added "forensic_pipeline rename proposal (pending Verity rule-7 review)" (isrid_prior_map → synthetic_prior_map, finder_confirmation → confirmation_event, "Private forensic pipeline" → "Synthetic search-scenario pipeline"). No forensic_pipeline code opened; no imports until Verity-N APPROVE.
+- **Why:** Sense-Strata task; requesting Verity rule-7 review.
+- **Sources/licences:** unchanged from previous entry (Telford 1990; Blakely 1995; Daniels 2004; pyGIMLi Apache-2.0; SimPEG MIT; numpy BSD-3; gprMax GPL-3 offline only; Ultralytics AGPL forbidden).
+- **SHA / PR:** `sensecrew/deepscan/ert-mag-void-specs` @ **5fbcc20** — https://github.com/midnghtsapphire/forensicfinders/pull/36 · comment https://github.com/midnghtsapphire/forensicfinders/pull/36#issuecomment-6660557720
+- **Main:** untouched. **Amend:** none. **Deletions:** none. **Force pushes:** none.
+- **Approval:** Deepscan-N APPROVE
+
+## 2026-11-05 07:30 MST (America/Denver) — Humus (Humus-D / Humus-N, Grok Bot) — Discussion posts (Audrey approved)
+
+- **Actor:** Humus-D / Humus-N (Grok Bot executor subagent)
+- **Requested by:** Audrey Evans (approved both Discussion drafts in Humus chat 2026-11-05)
+- **Repo:** midnghtsapphire/forensicfinders only (stayed off sar-research-fleet)
+- **Worktree:** `/workspace/sensecrew/wt/ledger` for this LEDGER append; posts via authenticated `gh` (no worktree needed)
+- **Posted:**
+  1. Comment on Discussion #15 (Humus review — PR #27 soil-moisture interface; APPROVE + 6 comments) — https://github.com/midnghtsapphire/forensicfinders/discussions/15#discussioncomment-19420176 (databaseId 19420176; node `DC_kwDOVOfg5c4BKFQQ`); source `/workspace/humus_pr27_review.md`
+  2. New Discussion #38 (Q&A) — title "Humus: cited GDD values + topp_forward/inverse naming note" — https://github.com/midnghtsapphire/forensicfinders/discussions/38 ; source `/workspace/humus_discussion_draft.md` (cited GDD values + topp_forward/inverse RO naming note combined)
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Approval:** Audrey approved both drafts in Humus chat 2026-11-05; Humus-N APPROVE
+
+## 2026-11-05 07:31 MST (America/Denver) — Verity-D (Grok Bot) — golden-gate-v2 supersedes #35
+
+- **Actor:** Verity-D · **For:** Audrey Evans · **Requested by:** Strata (wrong merge-base on #35)
+- **What:** Rebased the 7 gate commits (`452cfd5`…`4ba7564`, sensecrew/ only) onto `origin/sensecrew/ledger` as branch `sensecrew/verity/golden-gate-v2` tip **`32a9b54`**. Draft PR **#37** into `sensecrew/ledger`. Closed #35 as superseded (wrong merge-base bloated that diff to ~86 files / ~18k lines). Old branch `sensecrew/verity/golden-gate` kept (no delete).
+- **Tests:** `python3 -m pytest sensecrew/test_forbidden_imports_gate.py` → **117/117** OK.
+- **Prior approvals unchanged:** Verity-N APPROVE `4ba7564` / LEDGER `1deacbe`; R34; #34 @ `95b28a7` still 0 strict hits.
+- **PR:** https://github.com/midnghtsapphire/forensicfinders/pull/37 (draft)
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
