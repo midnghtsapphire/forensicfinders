@@ -5,8 +5,7 @@ This module is a thin alias of qpcr_assay. Prefer importing soil_dna_sensor in n
 code. The qpcr_assay module is kept (Humus hard rule: delete nothing); treat it as
 the implementation detail behind this name.
 
-Rule 7: synthetic curves / lab exports only; no case/, hfmr/, dossier, evidence/,
-or public_records imports.
+Rule 7: synthetic curves / lab exports only; quarantine paths are not imported.
 """
 from __future__ import annotations
 

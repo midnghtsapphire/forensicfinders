@@ -10,7 +10,7 @@
 |---|---|---|---|
 | `sar/blue-ocean-sar/realdata/qpcr_assay.py` | Journal citation only: “Klymus et al. 2020, *Environmental DNA* 2:271-282” (not a code identifier). No `eDNA` / `EDNA` symbol. | None (stdlib + `qpcr_interpret`) | None found |
 | `sar/blue-ocean-sar/realdata/qpcr_interpret.py` | None. Domain text is “human-mtDNA assay” (lab call), not eDNA naming. | None (stdlib only) | None found |
-| `sar/blue-ocean-sar/realdata/lab_readers.py` | None | **No imports.** Docstring lineage note: “Replaces … `docs/case-files` …” — flagged as **lineage mention**, not an import. Path was not opened. | None found |
+| `sar/blue-ocean-sar/realdata/lab_readers.py` | None | Imports **stdlib** (`argparse`, `csv`, `json`, `math`, `os`, `sys`) plus optional **numpy** and **scipy.signal.find_peaks** only — **none forbidden**. Docstring lineage note: “Replaces … `docs/case-files` …” (path not opened; not an import). **PASS** stands. | None found |
 | `sar/blue-ocean-sar/realdata/test_qpcr_assay.py` | None | None (`qpcr_assay` + stdlib) | None found |
 | `sar/blue-ocean-sar/realdata/test_lab_readers.py` | None | None (`lab_readers` + stdlib/numpy) | None found |
 | `sar/docs/SOIL_SENSING_TIERS.md` | Had `qPCR/eDNA` and `eDNA preservation` (docs) | n/a (markdown) | n/a |

@@ -2,6 +2,7 @@
 """soil_dna_sensor_interpret — SenseCrew / Humus alias for qpcr_interpret (GDD 3a).
 
 Prefer this name in new code. qpcr_interpret is retained (delete nothing).
+Rule 7: quarantine paths are not imported.
 """
 from __future__ import annotations
 
