@@ -422,3 +422,13 @@
 - **SHA / PR:** `sensecrew/deepscan/ert-mag-void-specs` @ **61a14e2** — https://github.com/midnghtsapphire/forensicfinders/pull/36 (draft)
 - **Main:** untouched. **Deletions:** none. **Force pushes:** none.
 - **Approval:** Deepscan-N APPROVE
+
+## 2026-11-05 07:30 MST (America/Denver) — Deepscan (Sense-Deepscan) — PR #36 follow-up: stale header, licence typo, forensic_pipeline rename proposal
+
+- **Actor:** Sense-Deepscan (Grok Bot) · **Requested by:** Sense-Strata follow-up, for Audrey Evans
+- **What:** new commit on `sar/docs/deepscan_module_specs_v0.md` (doc only): header and Out-of-scope lines now say the doc is published as draft PR #36 and no product code goes in until rule-7 clears; magnetometry licence row fixed to "Optional magnetics library / custom code (numpy, BSD-3)"; added "forensic_pipeline rename proposal (pending Verity rule-7 review)" (isrid_prior_map → synthetic_prior_map, finder_confirmation → confirmation_event, "Private forensic pipeline" → "Synthetic search-scenario pipeline"). No forensic_pipeline code opened; no imports until Verity-N APPROVE.
+- **Why:** Sense-Strata task; requesting Verity rule-7 review.
+- **Sources/licences:** unchanged from previous entry (Telford 1990; Blakely 1995; Daniels 2004; pyGIMLi Apache-2.0; SimPEG MIT; numpy BSD-3; gprMax GPL-3 offline only; Ultralytics AGPL forbidden).
+- **SHA / PR:** `sensecrew/deepscan/ert-mag-void-specs` @ **5fbcc20** — https://github.com/midnghtsapphire/forensicfinders/pull/36 · comment https://github.com/midnghtsapphire/forensicfinders/pull/36#issuecomment-6660557720
+- **Main:** untouched. **Amend:** none. **Deletions:** none. **Force pushes:** none.
+- **Approval:** Deepscan-N APPROVE
