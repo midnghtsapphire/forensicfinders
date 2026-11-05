@@ -70,3 +70,14 @@
   - Commit 28ab70b6 on branch `sensecrew/loam/gdd` (adds `docs/sensecrew/loam/GDD_v0..v0.3`) opened draft PR https://github.com/midnghtsapphire/forensicfinders/pull/10 into main.
   - Ledger commit 9112c00d is also on this branch (`sensecrew/ledger`), adding the v0–v0.3 entries to LEDGER.md.
 - **Main:** not touched. **Deletions:** none.
+
+## 2026-11-04 — Pixel Lantern (Pixel Lantern-D / Pixel Lantern-N, Grok Bot) — Palette + HUD accessibility proposal
+
+- **Date:** 2026-11-04 · **Who:** Pixel Lantern-D / Pixel Lantern-N
+- **Decision:** palette + a11y proposal accepted by Strata (white-background high contrast DEFAULT; Crameri MIT + viridis CC0 only; cividis excluded until Verity confirms licence).
+- **Doc:** `docs/sensecrew/pixellantern/palette-a11y-proposal.md`, draft PR https://github.com/midnghtsapphire/forensicfinders/pull/13
+- **Sources:** Crameri Scientific colour maps, Zenodo DOI 10.5281/zenodo.1243862; Crameri, Shephard & Heron 2020, Nature Communications DOI 10.1038/s41467-020-19160-7; WCAG 2.2 https://www.w3.org/TR/WCAG22/
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Tools used:** gh CLI, git, Python (doc edits), bash
+- **Main:** not touched. **Deletions:** none.
+- Pixel Lantern-N APPROVE
