@@ -345,6 +345,33 @@
 - **Decisions:** ACE-Step 1.5 is the pick under Verity's conditions. Determinism test BLOCKED: the required text encoder is Qwen3-Embedding-0.6B (policy), and there's no GPU with only 4.6 GB RAM available. No weights downloaded, no output faked. Open question to Verity on Qwen3-Embedding.
 - Main untouched · Deletions none · Force pushes none · Approval: Loam-N APPROVE
 
+
+## 2026-11-04 20:42 MST — Quartz (Quartz-D / Quartz-N, Grok Bot) — HySUPP spams Strata ruling applied (NEW-22 / 2360)
+- **Actor:** Quartz · **Requested by:** Strata, for Audrey Evans · **Component:** NEW-22 / registry 2360
+- **Strata ruling (hard rule 5, Audrey-approved in locked team rules):** GPL spams allowed OFFLINE only, as a separate CLI process in its own venv outside the repo, writing only comparison result data back. Never imported, vendored, pinned or shipped in forensicfinders. Subprocess gated by HYSUPP_ROOT.
+- **Files:** sar/blue-ocean-sar/multi_proxy/{hysupp_compare.py, test_hysupp_compare.py}; docs/sensecrew/quartz/HYSUPP_COMPARE.md. Commit 97474e21 on sensecrew/quartz/hysupp-compare (PR https://github.com/midnghtsapphire/forensicfinders/pull/33)
+- **Decisions:** in-process HySUPP loader removed; replaced by subprocess runner (SPAMS_COMPARE_CMD / HYSUPP_VENV, HYSUPP_RESULTS_DIR) reading result JSON only. Zero spams import/pin in repo. Tests 10 passed, 1 skipped.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- Main untouched · Deletions none · Force pushes none · Approval: Quartz-N APPROVE
+
+## 2026-11-04 20:39 MST (America/Denver) — Chitin (Sense-Chitin, Grok Bot) — live forensic_models 1010 import
+
+- **Actor:** Sense-Chitin (Grok Bot executor) · **Requested by:** Strata (relaying Verity), for Audrey Evans
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Verity:** taphonomy CLEAR (0.86); **constants CLEAR (0.92)** — live import authorized. topp_* nit recorded separately; left alone.
+- **Worktree:** `/workspace/sensecrew/wt/chitin` on `sensecrew/chitin/insect-trace-add` (not shared `/workspace/forensicfinders`).
+- **Calls:**
+  1. `git checkout origin/sar-make-it-work --` minimal set: `sar/forensic_models/{__init__.py,constants.py,constants.json,taphonomy.py}` — blobs identical to origin (no content edits).
+  2. Rewrote `decay_taphonomy_bridge.py` docstring; production path live (`backend_name() == "forensic_models.taphonomy"`); thin stub fallback only if import fails.
+  3. Makefile + test PYTHONPATH include `sar/`; bridge tests expect live backend; added deterministic `megyesi_add` coverage.
+  4. Docs append-only under `docs/sensecrew/chitin/` (SPEC_1010, DECAY note, INVENTORY, SPEC_2350).
+  5. Tests: 15 passed, twice, deterministic. Commit **dcc7412** pushed; draft PR #27 updated (not merged).
+- **Files added:** `sar/forensic_models/__init__.py`, `constants.py`, `constants.json`, `taphonomy.py` (unchanged from sar-make-it-work).
+- **Files edited:** `decay_taphonomy_bridge.py`, `test_insect_trace_add_sim.py`, `Makefile`, four chitin docs (append/clarify only).
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none. **Merge:** none (draft only).
+- **Approval:** Chitin path complete for live 1010 import; Verity topp nit still open elsewhere.
+- 2026-11-04 Humus issue note (Verity r3, RO — no code edit): `topp_forward` / `topp_inverse` in Audrey's `sar/forensic_models/` (branch sensecrew/verity/golden-gate; not on origin/main). File `taphonomy.py` L6–8 `topp_theta(eps)` uses constants key `topp_forward` = Ka→θ coeffs (−0.053, 0.0292, −0.00055, 4.3e-6); L11–15 `topp_eps(theta)` uses `topp_inverse` = θ→Ka coeffs (3.03, 9.3, 146, −76.7) per `constants.json` L4–14. Math matches Topp 1980 DOI 10.1029/WR016i003p00574; **names look swapped vs geophysical forward (θ→Ka) / inverse (Ka→θ) convention**. Left untouched. Discussion draft only: /workspace/humus_discussion_draft.md (not posted).
+- 2026-11-04 Humus Verity r3 on PR #31 (sensecrew/humus/soil-dna-rename @ 809e58a): corrected lab_readers audit row (stdlib+numpy+scipy only; PASS); added test_soil_dna_sensor_aliases (3/3 OK); cited tally unified to cited=9 / PLACEHOLDER=5; gcms_method.example.json provenance = first add c944260 (midnghtsapphire, 2026-10-21) via PR #9, landed a263098; prehistory beyond that unknown from git log/blame. Worktree /workspace/sensecrew/wt/humus.
 ## 2026-11-04 20:40 MST — Sense-Verity gate rulings (queue from Sense-Strata)
 - **Who:** Sense-Verity (Grok Bot). **Why:** rule 7 lineage, licence, and registry gate. Full evidence: /workspace/sensecrew/verity/gate-2026-11-04/rulings.md. No forbidden path was opened.
 - **Calls:** Shell `sed`/`grep`/`git grep`/`git show` on the local checkout; `gh pr view/diff` #10-#14; `gh api graphql` Discussion #15; WebSearch (Perkins 2003 copyright); WebFetch pnnl/cmaputil LICENSE.
