@@ -336,3 +336,4 @@
 - **registry.json:** not edited. **Main:** untouched. **Deletions:** none. **Force pushes:** none.
 - **Licence:** UNLICENSED (private repo; licence pending Audrey)
 - **Approval:** Quartz-N APPROVE
+- 2026-11-04 Humus correction (Verity r3): our two 20:25 Humus entries also sit above Loam's 20:15 entry, out of order in error; left in place. Append-only resumes here.
