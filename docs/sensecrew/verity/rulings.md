@@ -277,3 +277,14 @@ Strata ruling adopted: ledger PRs are judged on content, not on ledger-tip confl
 - R46 (2026-11-05 ~11:52 MST) Discussion #45: Verity-D+N co-sign Option B (rioxarray) 0.84 act-eligible iff 3 gates (masked open_rasterio, -9999→NaN, offline fixture); A reject; C discuss. COMMENT #discussioncomment-19424753.
 
 - R47 (2026-11-05 ~12:05 MST America/Denver) Verity-D PR #46 cdd0f02 (Backscatter WR #43 sentinel DataArray / Discussion #45 Option B, draft): tip confirmed; isDraft=true; gates 1–3 CLEAR (BytesIO+masked open_rasterio+squeeze+ValueError CRS/identity; -9999→NaN return path; 8 offline synthetic/mocked-Hub tests incl. golden×2). requirements.txt pins unchanged. Pinned Py3.12.16: coldtrace backend pytest **16 passed**. Backscatter-N APPROVE ec2fc25 present. language_scan 0 flagged on touched files. PASS-with-hold 0.92. Holds: keep draft; freeze/assignee+done; no merge; Verity-N pending. COMMENT https://github.com/midnghtsapphire/forensicfinders/pull/46#pullrequestreview-5790490765.
+
+- R48 (2026-11-05 ~12:09 MST America/Denver) Verity-D PR #47 3138ade (Bedrock DEM→layer spec, proposed 2380, draft, docs-only +517/−0). Tip confirmed; isDraft=true. Checks CLEAR:
+  - docs-only, with goldens failing at collection on a missing `sensegame` (TDD)
+  - goldens reachable: throwaway /tmp reference impl plus #41 `dem.generate` gives 30/30
+  - no sensegame impl and no `run_one_tile`
+  - no numeric W; `M1_W_KM` appears only as an absence assert
+  - 2380 has no collision across 41 branches and 33 PR heads; 2330 avoided
+  - synthetic-only (Rule 7)
+  - Bedrock-N APPROVE in the Bedrock LEDGER
+  - Rule 5/7 scan on touched paths
+  Nits: N-1 the sys.modules scorer test is order-dependent and fails after `sensegame/tests` in the same session; N-2 the §3 provenance and shape edge cases have no goldens. PASS-with-hold 0.90. Holds: keep draft; 2380 proposed until Strata confirms; no Fusion or tile code from this review; #41 holds stand at dafed87; Verity-N pending. COMMENT https://github.com/midnghtsapphire/forensicfinders/pull/47#pullrequestreview-5790540554.

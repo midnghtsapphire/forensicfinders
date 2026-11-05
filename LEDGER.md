@@ -958,3 +958,29 @@ Independent Verity-N re-review of PR #40 @ `5b1149d28acf0213fbaf4ddd27e562af1675
 - **Main:** untouched. **Deletions:** none. **Force pushes:** none.
 - **Licence:** UNLICENSED (private repo; licence pending Audrey)
 - **Approval:** Verity-D PASS-with-hold (gates 1–3 CLEAR under pinned deps); Verity-N not started
+
+## R48 Verity-D PR #47: PASS-with-hold, Bedrock DEM→layer spec (proposed 2380) @ 3138ade, 2026-11-05 12:09 MST (America/Denver)
+
+- **Actor:** Verity-D (Grok Bot), Driver seat only. **Requested by:** Sense-Strata, for Audrey Evans.
+- **What:** Verity-D review of the Bedrock spec-only draft PR #47 (branch `sensecrew/bedrock/dem-layer-spec`). This is sequence step 1 before any Fusion tile code (Discussion #44). `gh pr view 47 --json headRefOid,isDraft` returned `3138aded751c6624baf68f726ca3eac6a3e8b14c` with isDraft=true, matching the claim. Fresh worktree `/workspace/sensecrew/wt/verity-pr47`, detached at the exact tip. Details are in R48 (`docs/sensecrew/verity/rulings.md`).
+- **Evidence:**
+  1. Docs-only, 4 files +517/−0, all under `docs/sensecrew/bedrock/`. No `sar/`, Makefile, or registry change. Golden collection fails with `ModuleNotFoundError: sensegame`, as intended for TDD. CI `sar-tests.yml` runs in `sar/` and does not collect the docs test. CLEAR.
+  2. Goldens are reachable. I wrote a throwaway reference impl from the spec text in `/tmp` (not committed) and ran it with #41 @ `dafed87` `dem.generate`: 30/30 pass. Every Horn, RMS, MAD, and JSON golden is exact. CLEAR.
+  3. No sensegame impl and no `run_one_tile`. CLEAR.
+  4. No numeric W. `M1_W_KM` appears only as an absence assert, and #41 is unchanged at `dafed87`. CLEAR.
+  5. Registry 2380: `git grep '\b2380\b'` across 41 `origin/*` branches and 33 `refs/pull/*/head` finds hits only in #47's own files. 2330 is correctly avoided (NEW-10, GDD v0.4). No `registry.json` edit. CLEAR (proposed).
+  6. Synthetic-only, Rule 7: inputs are `dem.generate` or `fixtures/*synthetic*`; no I/O, no RNG; geo keys rejected; case/hfmr appear only as rejection inputs. CLEAR.
+  7. Bedrock LEDGER l.7 has "Bedrock-N APPROVE". CLEAR.
+  8. Rule 5/7 on touched paths: stdlib plus numpy (BSD-3); no GDAL, rasterio, GPL, or Ultralytics; no network; no PII. CLEAR.
+- **Nits (non-blocking, for the impl PR):** N-1: `test_module_does_not_pull_in_the_scorer` depends on run order through `sys.modules`. It fails when run after `sar/sensegame/tests` in one session; use a subprocess or an AST check. N-2: §3 rules not yet goldened: unknown provenance key, bool or negative seed, bad epoch, whitespace in `generator_version`, rank-3 or 3×2 input.
+- **Verdict:** **PASS-with-hold, confidence 0.90.** CHANGES-REQUIRED: none.
+- **Holds:**
+  1. Keep draft.
+  2. 2380 is proposed only; Strata confirms it. When it lands, the licence is UNLICENSED.
+  3. No Fusion or tile code starts from this review. Option A stays gated on #41/#42 plus Verity-D+N on this spec.
+  4. #41 holds stand at `dafed87` (M1 W unset/uncited; keep draft; no m1-sweep-width post without Audrey). #47 does not clear #41.
+  5. Verity-N pending.
+- **PR / review:** COMMENT only, https://github.com/midnghtsapphire/forensicfinders/pull/47#pullrequestreview-5790540554 @ `3138ade`. Never an APPROVE or REQUEST_CHANGES GitHub event.
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none. Forbidden paths not opened.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Approval:** Verity-D PASS-with-hold; Verity-N not started
