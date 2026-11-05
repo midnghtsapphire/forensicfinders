@@ -82,3 +82,4 @@
 - **Main:** not touched. **Deletions:** none.
 - Pixel Lantern-N APPROVE
 PixelLantern-N APPROVE (Pixel Lantern-N) 2026-11-04 palette-a11y PR #13
+- 2026-11-04 Pixel Lantern-D/N: cividis licence-cleared (BSD-style; Battelle copyright notice must be kept); re-added as alternate palette in palette-a11y proposal, commit 2eb02c6, PR #13. Licence: UNLICENSED (private repo; licence pending Audrey).
