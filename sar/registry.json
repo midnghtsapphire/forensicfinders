@@ -314,7 +314,7 @@
     },
     "2360": {
       "name": "mineral-spectral-unmix",
-      "path": "blue-ocean-sar/multi_proxy",
+      "path": "blue-ocean-sar/multi_proxy/nnls_unmix.py",
       "what": "NNLS unmixing + SAM; USGS splib07 PD reference_oracle endmembers; optional offline HySUPP compare (out-of-process)",
       "test_cwd": "blue-ocean-sar",
       "test": [
