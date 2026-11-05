@@ -536,3 +536,11 @@
 - registry 2370/2371 NOT added; no W invented; layer weights still labelled illustrative/uncited.
 - licence: UNLICENSED (private repo; licence pending Audrey)
 - Fusion-N re-APPROVE (ad83cba)
+
+## 2026-11-05 — Sense-Fusion — Discussion #44 for #43 run_one_tile (discussion only)
+- who: Sense-Fusion (Fusion-D drafted it, Fusion-N reviewed it)
+- what: posted GitHub Discussion https://github.com/midnghtsapphire/forensicfinders/discussions/44 (category Ideas). It proposes a synthetic-only run_one_tile contract with scored options: A 0.68 (0.55–0.78, recommended), B 0.40 (0.25–0.55), C 0.62 (0.50–0.75). All are below 0.80, so there is no implementation.
+- why: Sense-Strata WR assignment on forensicfinders#43 (design first via Discussion; Audrey offline).
+- tools/CLI: git fetch; git grep run_one_tile origin/main; git show/ls-tree (main, PR #41 @ dafed87, PR #42 @ ad83cba); gh issue view 43; gh pr view 8; gh api graphql (repository id + discussionCategories; createDiscussion).
+- no code, no branch, no PR. Draft copy kept untracked at /workspace/sensecrew/wt/fusion-notes/run_one_tile_discussion.md.
+- licence: UNLICENSED (private repo; licence pending Audrey)
