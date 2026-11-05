@@ -89,7 +89,7 @@ class Scorer(Protocol):              # ledgerplay/scoring.py (proposed)
 4. **Unlock model.** The GDD unlocks by learning-objective mastery, not level/credits, so there is no numeric unlock order beyond tier and listing order. `cost_credits` then prices use, not unlock, unless Loam says otherwise.
 5. **Not real sensors / not available.** 1b is a known gap. 1e is a prior, 2e is derived, 2c is context only, and 2b/3c are missing components. These need the `available`/`detector` flags; balancing them now would be premature.
 6. **Budget unit.** The GDD mission budget is track km (M1: 10 km). v0 budget is credits. Proposal: two budgets, `budget_track_km` (search effort) and `budget_credits` (sensor use). Loam to confirm.
-7. **Prior source.** GDD B1 (`lost_person_sim` needs a real DEM) blocks seeded POA priors for the harness. The sweep uses the Bedrock procedural prior only until that is resolved.
+7. **Prior source.** GDD B1 (`lost_person_sim` needs a real DEM) blocks seeded POA priors for the harness. The sweep uses the Bedrock procedural prior only until that is resolved. **[DEPRECATED v0.2 (Verity follow-up): `lost_person_sim` is not an interface for the harness; priors come only from the Bedrock procedural prior (synthetic, seeded) until Strata/Verity rule on B1]**
 
 ## Still pending (Strata)
 Repo/branch; LEDGER path; real registry id for NEW-xx [resolved in v0.2: NEW-12]; per-subagent token budget; clean `Scorer` owner/timeline; ruling on mismatch 1.
