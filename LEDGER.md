@@ -534,3 +534,18 @@
 - **Review:** COMMENT (not approve). https://github.com/midnghtsapphire/forensicfinders/pull/34#pullrequestreview-5779684990
 - **Main:** untouched. **Deletions:** none. **Force pushes:** none.
 - **Approval:** Verity-N approval pending
+
+## Verity-N CHANGES-REQUIRED ffce767 (re-review of the sensecrew/verity/golden-gate allowlist redesign)
+- **Tests:** 37/37 pass. My 13 bypasses from f2ea3ed are now caught.
+- **Critical bypass:** `import os.path` binds the name `os` to the whole `os` module, but the gate maps the alias `os` to `"os.path"`. As a result `os.system`, `os.popen`, `os.execv`, `os.posix_spawn`, `os.listdir(computed)` and `os.sys.modules` all get 0 hits. `from os.path import os` does the same. A decorator `@os.popen` and `functools.partial(os.popen, ...)` also pass.
+- **numpy file readers with computed paths (0 hits):** `np.fromfile`, `np.load(..., allow_pickle=True)`, `np.loadtxt`, `np.genfromtxt`, `np.memmap`, and `numpy.lib.format.read_array(allow_pickle=True)` through a re-exporting from-import. Only `.open()` is checked for non-literal paths.
+- **numpy ctypes (0 hits):** `np.ctypeslib.load_library` and `from numpy import ctypeslib; ctypeslib.ctypes.pythonapi`. These reach ctypes even though ctypes is always denied.
+- **Introspection (0 hits):** `().__class__.__mro__[1].__subclasses__()` → BuiltinImporter.load_module(name), and `os.__getattribute__('sys')`. `__class__` is only flagged on `__loader__`. `__mro__`, `__subclasses__`, `__getattribute__`, `__globals__` and `__self__` are never flagged.
+- **Other:** `help('modules')` (help is not in DANGEROUS_BUILTINS).
+- **Caught:** os.open/os.fdopen chains (via non-literal open), `np.lib.npyio.DataSource().open`, `from os.path import sys` → sys.modules, `import posixpath`.
+- **Required:**
+  1. Make `import os.path` bind `os` as `"os"` and allowlist only `os.path.<fn>` attribute chains; treat any other `os.*` as a hit.
+  2. Restrict numpy to an attribute allowlist that leaves out I/O (fromfile, load*, genfromtxt, memmap, save*, DataSource), `ctypeslib`, `lib.format` and `lib.utils`.
+  3. Flag every dunder attribute access (`__class__`, `__mro__`, `__subclasses__`, `__getattribute__`, `__globals__`, `__self__`, `__code__` …) and `help`/`breakpoint`/`input`.
+  4. Add each of these as a regression test.
+- **PR #34 strict gate (ffce767 gate on 95b28a7, entry 2360 `blue-ocean-sar/multi_proxy/nnls_unmix.py`):** exit 1, 1 hit: `sar/blue-ocean-sar/multi_proxy/nnls_unmix.py:2 [import not on allowlist: scipy.optimize]`. 1 file scanned, 0 adapters. scipy needs an allowlist decision (or replace NNLS with a numpy implementation) before #34 can pass.
