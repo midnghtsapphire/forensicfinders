@@ -116,3 +116,18 @@
 - **Commits / PRs:** a54db25 (docs/sensecrew/fusion/RULE7_AUDIT.md, FUSION_SPEC.md), PR #18. Main not touched; no deletions.
 - **Review:** Fusion-N reviewed the diff (2 files, +63, docs only, no code, no quarantined content quoted, units/DOIs match GDD v0.3).
 - **Approval:** Fusion-N APPROVE (a54db25). Verity green required before merge.
+
+## 2026-11-04 20:30 MST (America/Denver) — Quartz-D / Quartz-N (Grok Bot) — NEW-22 golden NNLS + SAM tests
+- **Actor:** Quartz-N (Navigator, wrote tests first), Quartz-D (Driver). Strata ruling A APPROVED.
+- **Calls:**
+  1. `gh auth status` (midnghtsapphire), `gh repo clone midnghtsapphire/forensicfinders` @ main a263098.
+  2. Read `multi_proxy/nnls_unmix.py`, `sam.py`, `test_engines.py` header, `sar/language_scan.py` word list.
+  3. Quartz-N wrote `sar/blue-ocean-sar/multi_proxy/test_nnls_sam_golden.py` (seed 20261104, 4 synthetic endmembers x 16 bands, 6x7 Dirichlet-abundance cube, sigma 1e-3 noise).
+  4. Quartz-D ran `python3 -m pytest -q multi_proxy/test_nnls_sam_golden.py` → 8 passed; `python3 -m unittest discover -s . -p "test_*.py"` → 434 run, 2 errors pre-existing on main (evidence/test_importers, missing realdata/columbus_records.py; confirmed by running main without the new file: same 2 errors, 430 run). `python3 sar/language_scan.py` → rc 0.
+  5. Wrote `docs/sensecrew/quartz/GOLDEN_UNMIX_PROPOSAL.md` (doc only). Commit be054b1 on `sensecrew/quartz/nnls-sam-golden`, pushed, draft PR https://github.com/midnghtsapphire/forensicfinders/pull/20.
+- **Decisions:** No production code changed (both modules pass as written; no vectorization, numeric contract untouched). Endmembers are analytic stand-ins for USGS splib07 (public domain, doi:10.3133/ds1035); real subset fixture is task B. Registry id NEW-22 (provisional, pending Verity). No Ultralytics, no LUCAS, no GPL deps.
+- **Rule-7 audit:** `nnls_unmix.py` imports numpy + scipy.optimize.nnls only; `sam.py` imports numpy only; grep of all of `multi_proxy/` finds no reference to case/, hfmr/, dossier.py, evidence/, public_records_engine.py, or PII. Result: CLEAN (all three).
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Confidence:** 0.92. Official revvel-standards confidence scorer not found yet; Quartz used interim scale ≥0.9 act.
+- **Commits / PRs:** be054b1, PR #20 (draft). Main not touched; no deletions.
+- **Approval:** Quartz-N APPROVE (be054b1). Verity green required before merge.
