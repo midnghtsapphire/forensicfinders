@@ -9,7 +9,7 @@ Principle: **every pixel on screen must be traceable to a physical quantity, a s
 | Data | Class | Default | Alternates |
 |---|---|---|---|
 | GPR B-scan amplitude (signed) | Diverging, centred at 0 | `vik` | `broc`, `berlin` |
-| GPR envelope / |amplitude| | Sequential | `grayC` or `batlow` | `grayC` (cividis excluded, see §1.5) |
+| GPR envelope / |amplitude| | Sequential | `grayC` or `batlow` | `viridis` |
 | Point cloud elevation / intensity | Sequential | `batlow` | `viridis` |
 | InSAR wrapped phase (−π..π) | **Cyclic** (ends must match) | `romaO` | `vikO`, `bamO`, `corkO` |
 | InSAR unwrapped displacement (± mm) | Diverging, centred at 0 | `vik` | `roma` |
