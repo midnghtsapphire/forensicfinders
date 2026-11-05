@@ -1,0 +1,12 @@
+{"name": "Synthetica exemplaris (fictional training taxon)",
+ "synthetic": true,
+ "base_c": 10.0,
+ "stages": [
+  {"name": "egg", "add_threshold": 0.0},
+  {"name": "larva_1", "add_threshold": 15.0},
+  {"name": "larva_2", "add_threshold": 40.0},
+  {"name": "larva_3", "add_threshold": 80.0},
+  {"name": "pupa", "add_threshold": 150.0},
+  {"name": "adult", "add_threshold": 260.0}
+ ],
+ "note": "Thresholds are invented round numbers for a training game; NOT real species data."}
