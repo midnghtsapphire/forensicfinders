@@ -283,3 +283,13 @@
 - **Decisions:** combiner 2370.1 → 2371 (module 2370; both provisional), changelog item 7; item 6 kept as history. Recorded in the spec and audit: realdata/fusion.py has no file-level taint (Verity confidence 0.74) but stays off the game path; TerraMind/TerraTorch ON HOLD; no TerraMesh (CC-BY-SA) data ever shipped. The audit's original UNCERTAIN verdict is kept and superseded by the ruling (append-only).
 - **Review:** Fusion-N reviewed the 6a1fdd5 diff (FUSION_SPEC.md +4/−3, RULE7_AUDIT.md +4; docs only; no deletions; 2370.1 remains only in the changelog history lines).
 - **Approval:** Fusion-N APPROVE (6a1fdd5). Verity green required before merge.
+
+## 2026-11-04 20:40 MST (America/Denver) — Quartz-D / Quartz-N (Grok Bot) — CORRECTION: NEW-22 registry id 1070 → 2360
+- **Corrects:** prior Quartz entry (20:29 MST) that cited provisional registry **1070** for NEW-22 mineral-spectral-unmix. Per Strata, the id is **2360**.
+- **Commits:** 82b7cb6 on `sensecrew/quartz/splib07-fixture` (docs/README/manifest/loader/test comments 1070 → 2360); PR #29 body updated. PR #20 body had no 1070. PR #19 branch merged with ledger tip (d66d1ee, merge, no force).
+- **registry.json:** not edited (Verity collision check on 2360 pending).
+- **Confidence bands:** to be scored per revvel-standards `fraud-signal-verification-fleet/docs/CONFIDENCE_FRAMEWORK.md` (not present on box at time of entry; cited as source of record).
+- **Gate note:** Columbus/component 100 red is NOT a SenseCrew merge blocker; Verity SenseCrew-only golden manifest is the gate.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Approval:** Quartz-N APPROVE
