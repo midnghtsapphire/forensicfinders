@@ -454,3 +454,11 @@
 - **Discussion #30 comment:** https://github.com/midnghtsapphire/forensicfinders/discussions/30#discussioncomment-19420199 (source ruling: #discussioncomment-19411085)
 - **Main:** untouched. **Deletions:** none. **Force pushes:** none. Did not touch GDD, PR #10, Discussion #28, sar-research-fleet, or ArchExplorer.
 - **Approval:** Loam-N APPROVE
+
+## 2026-11-05 07:36 MST — Sense-Fusion (Fusion-D / Fusion-N, Grok Bot) — NEW-01 = 2310 reference update
+
+- **Actor:** Sense-Fusion · **Requested by:** Strata, for Audrey Evans · **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Calls:** `gh pr view 39`, `git show 73efc1c:docs/sensecrew/bedrock/specs/scorer-spec.md` (sha256 5e54d8a1… = local copy), then a targeted `sed` on FUSION_SPEC.md in worktree /workspace/sensecrew/wt/fusion; commit 6fb9960 pushed (no force). sar-research-fleet not touched.
+- **Decisions:** §1 heading now references NEW-01 = registry 2310 and `docs/sensecrew/bedrock/specs/scorer-spec.md` (PR #39 @ 73efc1c); changelog item 8 added. No contract change. M1_W_KM not invented (stays null). PR #18 stays draft.
+- **Review:** Fusion-N reviewed the 6fb9960 diff (FUSION_SPEC.md +2/−1; docs only; no deletions).
+- **Approval:** Fusion-N APPROVE (6fb9960). Verity green required before merge.
