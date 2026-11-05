@@ -1,7 +1,7 @@
 """FAILING-FIRST golden tests for the clean Scorer (2310 (NEW-01)). Spec: ../scorer-spec.md.
 Drafted by Bedrock-D before any implementation exists; hand values independently recomputed by
 the Bedrock-N review of 2026-11-04 (math + decimal, 40 digits; see LEDGER). Math goldens are green once CleanScorer (2310) is present. M1 tests are xfail while M1_W_KM
-is a PLACEHOLDER (owning sensor pair + Verity co-sign required; do not invent W). Reference values come from the closed forms
+is unset until citation (awaiting cited sweep width from Waveform; owning sensor pair + Verity co-sign required; do not invent W). Reference values come from the closed forms
 in the spec (Koopman 1956/57; Charnes & Cooper 1958; Stone 1975), NOT from any repo module.
 
 Tolerances (lead ruling 2026-11-04):
@@ -24,7 +24,7 @@ TOL_CONTRACT = 1e-9
 E1 = -math.expm1(-1.0)  # 1 - e^-1 = 0.6321205588285577
 
 # M1 "Water-filling" (Loam GDD v0.1-v0.3 M1, seed 1001, 10 km budget).
-# PLACEHOLDER: W must come from the owning sensor pair with a citation + Verity co-sign (GDD L1/R5).
+# M1 W unset until citation: W must come from the owning sensor pair with a citation + Verity co-sign (GDD L1/R5).
 # Request drafted in specs/discussion-drafts/m1-sweep-width.md. Do NOT fill in a guessed number.
 M1_W_KM = None
 M1_W_SOURCE = None
@@ -183,15 +183,16 @@ def test_uncited_sweep_width_is_unscorable(s):
         s.optimal(segs, 1.0)
 
 
-# ---- M1 water-filling (depends on PLACEHOLDER W: fails on purpose) -------------
+# ---- M1 water-filling (M1 W unset until citation; xfail on purpose) -------------
 def _require_m1_w():
     if M1_W_KM is None or M1_W_SOURCE is None:
-        pytest.fail("PLACEHOLDER: M1 sweep width W is uncited. Owning sensor pair must supply W_km with a "
+        pytest.fail("M1 W unset until citation: awaiting cited sweep width from Waveform. "
+                    "Owning sensor pair must supply W_km with a "
                     "citation and Verity co-sign (GDD L1/R5); see specs/discussion-drafts/m1-sweep-width.md. "
                     "Expected failure; do not insert a guessed value.", pytrace=False)
 
 @pytest.mark.xfail(
-    reason="PLACEHOLDER: M1 sweep width W is uncited (GDD L1/R5); see "
+    reason="M1 W unset until citation; awaiting cited sweep width from Waveform (GDD L1/R5); see "
            "docs/sensecrew/bedrock/specs/discussion-drafts/m1-sweep-width.md",
     strict=True,
 )
@@ -200,7 +201,7 @@ def test_m1_sweep_width_is_cited():
     assert M1_W_KM > 0 and math.isfinite(M1_W_KM)
 
 @pytest.mark.xfail(
-    reason="PLACEHOLDER: M1 sweep width W is uncited (GDD L1/R5); see "
+    reason="M1 W unset until citation; awaiting cited sweep width from Waveform (GDD L1/R5); see "
            "docs/sensecrew/bedrock/specs/discussion-drafts/m1-sweep-width.md",
     strict=True,
 )
