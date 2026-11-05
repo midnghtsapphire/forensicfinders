@@ -315,7 +315,7 @@
     "2350": {
       "name": "insect-trace-add-sim",
       "path": "insect-trace-add-sim",
-      "what": "Seeded synthetic ADD insect-development training sim (Strata/Verity Discussion #25 id 2350); clean-room ADD; no refloat_timing / taphonomy.py / INSECT_TRACES.md reuse. UNLICENSED (private repo; licence pending Audrey)",
+      "what": "Seeded synthetic ADD insect-development training sim (Strata/Verity Discussion #25 id 2350); ADD reuses realdata/refloat_timing daily_contribution/accumulate (Verity R7 CLEAR; LABEL preprint, not peer-reviewed surfaced in output); synthetic thresholds; soil VWC clamp 0.0-0.5; 1010 decay bridge (stub until 1010 merges). UNLICENSED (private repo; licence pending Audrey)",
       "test_cwd": "insect-trace-add-sim",
       "test": [
         "python3",

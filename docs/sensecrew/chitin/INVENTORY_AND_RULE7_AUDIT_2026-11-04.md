@@ -11,7 +11,7 @@ search_theory.py (+test); optimal_search.py (+test); lost_person_behavior.py (+t
 ## Safe adjacent (headers/imports only)
 | Path | Note |
 |---|---|
-| realdata/refloat_timing.py | Has accumulated degree-days (river refloat). **Verity gate (Strata GUARD): NOT imported or reused** until Verity clears lineage; 1050 implements ADD clean-room from cited literature. |
+| realdata/refloat_timing.py | Has accumulated degree-days (river refloat). **Verity R7: CLEAR** to reuse ADD (`daily_contribution`/`accumulate`); **2350** reuses them via `refloat_adapter.py`. LABEL kept always: river-refloat primary model is a **preprint / not peer-reviewed** (surfaced in 2350 JSON `add_engine.label` + CLI stderr). |
 | realdata/qpcr_assay.py, qpcr_interpret.py | Humus soil_dna_sensor (copies/g soil). Name is soil_dna_sensor, never EDNA. |
 | realdata/lab_readers.py | GC-MS/16S schema; example VOC names; example method refused without flag. |
 | realdata/burial_signature.py | DEM mound/sink timeline; not insect; imports only microtopo locally. |
@@ -19,4 +19,4 @@ search_theory.py (+test); optimal_search.py (+test); lost_person_behavior.py (+t
 | realdata/fixtures/*synthetic* | Usable pattern. hfmr synthetic_grid is under quarantine — not used. |
 
 ## Registry outcome (Discussion #25)
-1050/1060 withdrawn (collisions). Insect = **2350 `insect-trace-add-sim`**. Decay = extend **1010** after Verity (doc-only now). Also blocked pending Verity: `forensic_models/taphonomy.py`, `sar/docs/research/INSECT_TRACES.md`.
+1050/1060 withdrawn (collisions). Insect = **2350 `insect-trace-add-sim`**. Decay = extend **1010** after Verity (doc-only now). `forensic_models/taphonomy.py` + `sar/docs/research/INSECT_TRACES.md`: Verity **CLEAR (0.86)**; live on `sar-make-it-work`, not main. 1010 extension: see SPEC_1010_EXTENSION.md.
