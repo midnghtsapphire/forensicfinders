@@ -488,3 +488,8 @@
 - Required changes: flag any exec/eval/compile call as a hit on the game path (or parse a literal arg with ast and rescan it; non-literal → hit); flag getattr on importlib/builtins/sys with a non-literal attribute; add tests for each.
 - Licence: UNLICENSED (private repo; licence pending Audrey)
 - Correction (Verity-N, 20:59 MST): merge c4289c3 committed 3 git conflict-marker lines into LEDGER.md (HEAD/ledger sides of the 389afac merge). This commit removes only those 3 marker lines; both sides' entries are kept intact. No content deleted, no force-push.
+
+### Verity R32 — 2026-11-04 ~21:00 MST
+- Licence: UNLICENSED (private repo; licence pending Audrey)
+- #34 a011ba7: registry +2360 only, tests 22 OK/1 skip; strict gate e017094 → 2 hits (test_package_imports.py dynamic imports) → NOT gate-green.
+- Verity-N approval pending (single-instance run).
