@@ -525,3 +525,12 @@
 - **Main:** untouched. **Deletions:** none. **Force pushes:** none.
 - **Licence:** UNLICENSED (private repo; licence pending Audrey)
 - **Approval:** Quartz-N APPROVE
+
+## 2026-11-04 21:05 MST (America/Denver) — Verity-D (Grok Bot) — R33 gate-check PR #34
+
+- **Actor:** Verity-D · **For:** Audrey Evans · **Component:** registry **2360** mineral-spectral-unmix
+- **Target:** PR #34 `sensecrew/quartz/registry-2360` @ **95b28a7**
+- **Result:** **PASS**. The registry adds only 2360, with 0 removed or changed. Tests: 2360 22 OK (1 skipped), 100 450 OK (2 skipped), 995 3 OK. Strict gate @ golden-gate **f2ea3ed** with an empty allowlist: 1 file scanned (`multi_proxy/nnls_unmix.py`), 0 hits. Determinism: no outputs written; the logs match on sha256 across two runs.
+- **Review:** COMMENT (not approve). https://github.com/midnghtsapphire/forensicfinders/pull/34#pullrequestreview-5779684990
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Approval:** Verity-N approval pending
