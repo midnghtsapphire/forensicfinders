@@ -569,3 +569,17 @@
   4. Deny `typing.get_type_hints`, or flag string annotations containing calls.
   5. Scope the compile check so `re.compile` passes.
   6. Add regression tests for all of the above.
+
+## Verity-N APPROVE 4ba7564 (golden-gate @ 4ba75640c497b7ad77115e23177805c898232c99; R34 in force)
+- **Tests:** 117/117 pass.
+- **Earlier probe sets** (my f2ea3ed, ffce767 and 4b3227b rounds, 95 probes): every real bypass is now caught. The 10 remaining 0-hit probes are benign controls (re.compile, json, textwrap, collections, plain class/lambda use, os.path.join without I/O). The re.compile false positive is fixed.
+- **New round** (46 probes: numpy ndarray methods, frames and tracebacks, stdlib eval-ish helpers, shadowing, os.path metadata): all realistic misuse is caught. Examples: ndarray.tofile, np.core/char/info/source/vectorize, `__traceback__`, `__getattr__`, open(os.path.realpath(...)), rebinding open, `print=exec`, module escape via a loop.
+- **PR #34 @ 95b28a7, strict gate at 4ba7564:** 0 hits, exit 0 (1 file, 0 adapters).
+- **R34:** only scipy.optimize.nnls; enforced, including the variable alias that leaked at 4b3227b.
+- **Residual risks (accepted; each needs a deliberate trick, not honest-but-sloppy game code):**
+  1. Frame introspection without dunders: `gen.gi_frame.f_back.f_globals`, `.gi_frame.f_builtins`, `coro.cr_frame`. These reach builtins. A follow-up could deny the `gi_frame`/`cr_frame`/`ag_frame`/`tb_frame`/`f_*` attributes.
+  2. A callable stored in a container: `[exec][0]('...')`. Only name or attribute rebinding is tracked.
+  3. Eval-ish private APIs: `typing.ForwardRef(...)._evaluate`, and `string.Formatter().get_field` attribute traversal.
+  4. Metadata leaks: `os.path.exists`/`getsize` on a forbidden path built at runtime reveal whether a file exists and how big it is, but not its content.
+  5. Static scope: the gate only sees code on the game path. It can't see import-time side effects inside allowed third-party packages (numpy, scipy). Those are left to the runtime loaded-modules check.
+- **Follow-ups (non-blocking):** deny the frame attributes in (1), and flag non-Name callees that wrap exec/eval/compile/getattr/__import__ values.
