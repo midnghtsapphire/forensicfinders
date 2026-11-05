@@ -1,18 +1,25 @@
-"""Chitin decay hooks extending registry 1010 (forensic_models/taphonomy). Verity: CLEAR (0.86).
-1010 lives on sar-make-it-work, not main; its dependency constants.py/constants.json is NOT in the
-cleared set, so this PR does not copy it. Production path: import the real module once 1010 merges.
-Until then a synthetic stub mirrors the public signatures observed on origin/sar-make-it-work:
+"""Chitin decay hooks extending registry 1010 (forensic_models/taphonomy).
+
+Verity: taphonomy CLEAR (0.86); forensic_models constants CLEAR (0.92, Strata/Verity
+relay 2026-11-04). Live import of forensic_models.taphonomy is the production path on
+this branch (PYTHONPATH includes sar/). Thin stub fallback remains only if the import
+fails in isolation; default backend_name() is forensic_models.taphonomy.
+
+Public signatures (live or stub):
   topp_theta(eps, consts=None), topp_eps(theta, consts=None), megyesi_add(tbs, consts=None),
   accumulated_degree_days(daily_mean_c, base_c=0.0),
   vass_pmi(decomposition_pct, temp_c, humidity_pct, buried=False, consts=None),
   saponified_fraction(years, consts=None)
+
+Constants/taphonomy checked out unchanged from origin/sar-make-it-work; Chitin does not
+edit them. topp_* behavior is routed through the live module without local changes.
 Licence: UNLICENSED (private repo; licence pending Audrey)."""
 REGISTRY_PARENT = "1010"
 
-try:  # production path once 1010 is on the branch
+try:  # production path — constants CLEAR; live 1010 import
     from forensic_models import taphonomy as _tap  # type: ignore
     _BACKEND = "forensic_models.taphonomy"
-except Exception:  # noqa: BLE001 - absent on this branch -> stub
+except Exception:  # noqa: BLE001 - isolation / missing package -> thin stub
     _tap, _BACKEND = None, "stub"
 
 

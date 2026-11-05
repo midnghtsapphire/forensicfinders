@@ -17,3 +17,6 @@ same seed → byte-identical JSON; different seed differs; daily ADD math; stage
 `cd sar/insect-trace-add-sim && make test` · `python3 -m insect_trace_add_sim --seed 7` · `python3 sar/registry.py 2350 --test`
 ## Additional Verity gates
 `forensic_models/taphonomy.py` (registry 1010 on sar-make-it-work) and `sar/docs/research/INSECT_TRACES.md` are **BLOCKED — not opened, copied, or imported** until Verity clears case-file lineage.
+
+## Update 2026-11-04 — 1010 live import
+Verity (via Strata): `forensic_models/taphonomy` CLEAR (0.86) and **constants CLEAR (0.92)**. Prior BLOCKED note for taphonomy is historical; this branch now live-imports 1010 via `decay_taphonomy_bridge` (files checked out unchanged from `origin/sar-make-it-work`). `sar/docs/research/INSECT_TRACES.md` gate unchanged until separately cleared. topp_* Verity nit left alone.

@@ -2,7 +2,9 @@
 Licence: UNLICENSED (private repo; licence pending Audrey). Synthetic, educational, non-graphic."""
 import json, os, subprocess, sys, unittest
 HERE = os.path.dirname(os.path.abspath(__file__))
+SAR = os.path.abspath(os.path.join(HERE, '..'))
 sys.path.insert(0, HERE)
+sys.path.insert(0, SAR)  # parent of forensic_models for live 1010 import
 from insect_trace_add_sim import sim
 
 class GoldenTests(unittest.TestCase):
@@ -87,15 +89,27 @@ class SoilMoistureTests(unittest.TestCase):
 
 
 class TaphonomyBridgeTests(unittest.TestCase):
-    def test_bridge_stub_signatures_and_add(self):
+    def test_bridge_live_backend_and_add(self):
         from insect_trace_add_sim import decay_taphonomy_bridge as b
         self.assertEqual(b.REGISTRY_PARENT, "1010")
-        self.assertIn(b.backend_name(), ("stub", "forensic_models.taphonomy"))
+        # Default on this branch: live 1010 (constants CLEAR 0.92). Stub only if import fails.
+        self.assertEqual(b.backend_name(), "forensic_models.taphonomy")
         self.assertEqual(b.accumulated_degree_days([5.0, 15.0, 25.0], base_c=10.0), 20.0)
-        if b.backend_name() == "stub":
-            with self.assertRaises(NotImplementedError):
-                b.megyesi_add(20)
-            self.assertEqual(b.decay_hook(sim.run(seed=2, days=5))["taphonomy_backend"], "stub")
+        hook = b.decay_hook(sim.run(seed=2, days=5))
+        self.assertEqual(hook["taphonomy_backend"], "forensic_models.taphonomy")
+        self.assertEqual(hook["registry_parent"], "1010")
+        self.assertTrue(hook["synthetic"])
+
+    def test_bridge_live_megyesi_add_deterministic(self):
+        from insect_trace_add_sim import decay_taphonomy_bridge as b
+        self.assertEqual(b.backend_name(), "forensic_models.taphonomy")
+        a = b.megyesi_add(20)
+        b2 = b.megyesi_add(20)
+        self.assertEqual(a, b2)
+        add, low, high = a
+        self.assertGreater(add, 0.0)
+        self.assertLessEqual(low, add)
+        self.assertGreaterEqual(high, add)
 
 if __name__ == "__main__":
     unittest.main()

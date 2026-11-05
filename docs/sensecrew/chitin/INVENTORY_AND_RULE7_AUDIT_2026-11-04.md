@@ -20,3 +20,7 @@ search_theory.py (+test); optimal_search.py (+test); lost_person_behavior.py (+t
 
 ## Registry outcome (Discussion #25)
 1050/1060 withdrawn (collisions). Insect = **2350 `insect-trace-add-sim`**. Decay = extend **1010** after Verity (doc-only now). `forensic_models/taphonomy.py` + `sar/docs/research/INSECT_TRACES.md`: Verity **CLEAR (0.86)**; live on `sar-make-it-work`, not main. 1010 extension: see SPEC_1010_EXTENSION.md.
+
+
+## Update 2026-11-04 — constants CLEAR; live 1010 on Chitin branch
+Verity (via Strata): forensic_models **constants CLEAR (0.92)**; taphonomy remains CLEAR (0.86). Branch `sensecrew/chitin/insect-trace-add` now vendors the minimal live set (`__init__.py`, `constants.py`, `constants.json`, `taphonomy.py`) from `origin/sar-make-it-work` without editing them. Bridge default backend = `forensic_models.taphonomy`. topp_* Verity nit tracked separately — not addressed here.

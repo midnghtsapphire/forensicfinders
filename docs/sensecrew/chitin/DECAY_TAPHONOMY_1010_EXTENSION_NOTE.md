@@ -11,3 +11,7 @@ Citation (Crossref-verified 2026-11-04): Megyesi M.S., Nawrocki S.P., Haskell N.
 | dielectric | relative permittivity | multi_proxy/dielectric.topp_dielectric |
 | synthetic_voc_proxies | arbitrary training units | lab_readers schema shape, synthetic curves only |
 | soil_dna_sensor_copies_per_g | copies/g soil | qpcr_assay (soil_dna_sensor, never EDNA), when Humus ready |
+
+
+## Update 2026-11-04 — live 1010 import (Verity CLEAR constants 0.92)
+Earlier status (doc-only / not imported) is superseded for this PR branch: Verity cleared constants (0.92) in addition to taphonomy (0.86). Chitin checked out `__init__.py`, `constants.py`, `constants.json`, and `taphonomy.py` unchanged from `origin/sar-make-it-work` and wired `decay_taphonomy_bridge` to the live module. No edits to constants/taphonomy content. Still no 1010 entry added to main's registry.json here. Synthetic training sims only.

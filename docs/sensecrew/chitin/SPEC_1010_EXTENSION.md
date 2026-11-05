@@ -15,3 +15,13 @@ Licence: UNLICENSED (private repo; licence pending Audrey) · Sense-Chitin · 20
 
 ## Production path
 When 1010 (+ its constants loader) merges to main, the bridge imports the real module automatically (`backend_name()` → `forensic_models.taphonomy`); stub-only assertions are skipped. Then Chitin may wire `topp_theta` (soil permittivity→VWC) into the 2350 soil input and `megyesi_add` as a TBS cross-check. Insect thresholds remain synthetic.
+
+
+## Update 2026-11-04 (Verity CLEAR constants 0.92)
+Strata relayed Verity: **forensic_models constants are CLEAR (0.92)** to import live. This branch now checks out **unchanged** from `origin/sar-make-it-work`:
+- `sar/forensic_models/__init__.py`
+- `sar/forensic_models/constants.py`
+- `sar/forensic_models/constants.json`
+- `sar/forensic_models/taphonomy.py`
+
+Chitin does **not** edit those files. `decay_taphonomy_bridge.py` production path is live (`backend_name() == "forensic_models.taphonomy"`); thin stub remains only if import fails in isolation. Makefile / test PYTHONPATH includes `sar/` (parent of forensic_models). topp_* nit recorded separately — left alone beyond routing through the live module.
