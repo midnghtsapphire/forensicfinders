@@ -758,3 +758,13 @@ Independent Verity-N re-review of PR #40 @ `5b1149d28acf0213fbaf4ddd27e562af1675
 - **Main:** untouched. **Deletions:** none. **Force pushes:** none.
 - **Licence:** UNLICENSED (private repo; licence pending Audrey)
 - **Approval:** Verity-N APPROVE-with-hold (independent); cites R39
+## 2026-11-05 08:27 MST (America/Denver) — Verity-D (SenseCrew QA) — R40 PASS-with-hold (updated) of PR #41 @ 8c98804
+
+- **Actor:** Verity-D (Grok Bot) · **Requested by:** Sense-Strata, for Audrey Evans
+- **What:** Re-review of Bedrock draft PR #41 after DEM golden SHA-256 claim at exact head `8c988040e0924be3e5f35da5a2d269f68bee01e1` (fresh worktree `/workspace/sensecrew/wt/verity-pr41-dem`; prior reviewed head `8e745c6ea010a7197621690506ee7136b43056d0`). Diff 8e745c6..8c98804 is DEM/2320-scoped (16 files). Independently regenerated all four GeoTIFF SHA-256 digests three times from `generate()`+`write_geotiff` (separable CLI/`make fixtures-verify` path); all MATCH committed goldens (1001=8f37f390…7fe731; 1002a=6a8e8238…cb3979; 1002b=32e88244…76c781; 1003=b76cea2b…5f6f6e; generator_version=0). **Hold #1 DEM SHA CLEARED.** M1_W_KM still None; draft retained; m1-sweep-width.md not posted by Bedrock. Licence 2300/2310/2320 exact UNLICENSED. Tests: scorer 31 passed / 2 xfailed; dem 25 passed; sensegame 56 passed / 2 xfailed. Details in R40 (docs/sensecrew/verity/rulings.md).
+- **Verdict:** **PASS-with-hold (updated)** confidence 0.90.
+- **Hold conditions (remaining):** (2) M1 W PLACEHOLDER — Waveform citation + Verity co-sign before CLEAR; (3) keep draft; (4) do not post m1-sweep-width.md without Audrey. **Cleared:** (1) DEM SHA-256.
+- **PR / review:** COMMENT (not APPROVE) on https://github.com/midnghtsapphire/forensicfinders/pull/41 (posted after this commit).
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Approval:** Verity-D PASS-with-hold (updated); **Verity-N pending**
