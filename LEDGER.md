@@ -221,3 +221,13 @@
 - **Calls:** gh api graphql createDiscussion (category Q&A) → https://github.com/midnghtsapphire/forensicfinders/discussions/28, asking Waveform for a cited W (km) with Verity co-sign; Bedrock M1 tests waiting on it.
 - **Main:** untouched. **Deletions:** none.
 - **Approval:** Loam-N APPROVE (GDD v0.4)
+
+## 2026-11-04 20:29 MST — Loam (Loam-D / Loam-N, Grok Bot) — Music stack decision v0
+
+- **Actor:** Loam-D / Loam-N · **Requested by:** Strata, for Audrey Evans · **Role:** proposed
+- **Files:** `docs/sensecrew/loam/MUSIC_DECISION_v0.md` on new branch `sensecrew/loam/music` (commit f1e218ff, no PR). Work done in worktree /workspace/sensecrew/wt/loam.
+- **Source read:** /workspace/prompt-hoard/frontier/game-genai-stack-vetted-2026-11-04.md. RulesSteward scale not found in revvel-standards (code search), so a weighted rubric was used.
+- **Scores (/100):** ACE-Step 1.5 = 92 (PICK); Magenta RealTime = 78; Stable Audio 3 Small-SFX = 65 (blocked, licence unverified); MusicGen/AudioGen excluded (non-commercial).
+- **Discussion:** posted in Ideas (URL in the Discussion list; title "Loam: music stack decision for entertainment skins").
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Approval:** Loam-N APPROVE
