@@ -848,3 +848,15 @@ Independent Verity-N re-review of PR #40 @ `5b1149d28acf0213fbaf4ddd27e562af1675
 - **Main:** untouched. **Deletions:** none. **Force pushes:** none.
 - **Licence:** UNLICENSED (private repo; licence pending Audrey)
 - **Approval:** Verity-N APPROVE-with-hold (independent); cites R41
+
+## 2026-11-05 08:35 MST (America/Denver) — Verity-D (SenseCrew QA) — R43 PASS-with-hold Bedrock PR #41 @ dafed87 (language-scan clear)
+
+- **Actor:** Verity-D (Grok Bot) · **Requested by:** Sense-Strata, for Audrey Evans
+- **What:** Re-review of Bedrock PR #41 at exact tip `dafed8713cb081ee4a8e6be6a4d496318402251c` (confirmed via `gh pr view --json headRefOid`) after R42 language-scan CHANGES-REQUIRED. Fresh worktree `/workspace/sensecrew/wt/verity-pr41-lang`. Details in R43 (`docs/sensecrew/verity/rulings.md`).
+- **Evidence:** diff 8c98804..dafed87 = 2 files +15/−6 (test_scorer_golden.py wording only + Bedrock LEDGER append); `pytest sar/test_language_scan.py -q` → 16 passed; `pytest -q test_language_scan.py sensegame/tests` → 72 passed, 2 xfailed; M1_W_KM/M1_W_SOURCE still None, xfail strict ×2, no invented W; DEM goldens unchanged (4 digests match R40); Rule 5/7 delta CLEAR; isDraft=true at post time (had been un-drafted 08:30:52 MST, re-drafted by Strata).
+- **Verdict:** **PASS-with-hold (updated)** confidence 0.90. R42 language-scan blocker **CLEARED**.
+- **Holds:** (1) DEM SHA CLEAR (R40). Remaining: (2) M1 W unset/uncited — Waveform citation + Verity co-sign; (3) keep draft; (4) no m1-sweep-width.md post without Audrey.
+- **PR / review:** COMMENT (not APPROVE / REQUEST_CHANGES) on https://github.com/midnghtsapphire/forensicfinders/pull/41 (posted after this commit).
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Approval:** Verity-D PASS-with-hold; **Verity-N not started**
