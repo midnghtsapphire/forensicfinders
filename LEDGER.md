@@ -372,3 +372,13 @@ Ledger-Play-N APPROVE 9c0130bb38cd7b7a9e517f0ac61386b4633cbbe7 3bfd3491fbf2f1d3f
 - **Ledger-Play-N review:** a one-line annotation appended; no units, citations or physics changed; no forbidden paths.
 
 Ledger-Play-N APPROVE 4f63fba8731b0d6890a49f0aae8c20481353dcf3
+
+## 2026-11-04 20:39 MST — Ledger-Play (Ledger-Play-D / Ledger-Play-N, Grok Bot) — PR #11 line-153 annotation + ledger merge
+
+- **Why:** Verity follow-up. Line 153's `lost_person_sim` POA source is annotated inline as DEPRECATED (no deletion). The origin/sensecrew/ledger tip was merged (no rebase); LEDGER.md was resolved append-only (upstream first, then ours; all lines kept).
+- **Doc commit:** `0ba21b4821013f80ee59fa05054ac64907e293b0` on `sensecrew/ledgerplay/balance-v0` (PR #11).
+- **Tools / CLI:** worktree /workspace/sensecrew/wt/ledgerplay; `git fetch`, `git merge --no-ff`, `git commit`, `git push` (fast-forward, no force, never main). 0 subagents.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Ledger-Play-N review:** a one-line annotation appended; no units, citations or physics changed; no forbidden paths.
+
+Ledger-Play-N APPROVE 0ba21b4821013f80ee59fa05054ac64907e293b0
