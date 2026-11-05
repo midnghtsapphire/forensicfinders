@@ -41,8 +41,27 @@ async def fetch_sentinel_ndvi(
     Fetch Sentinel-2 NDVI composites for two time windows surrounding date_start
     and date_end. Returns (ndvi_before, ndvi_after) as xarray DataArrays.
 
-    Demo mode returns synthetic placeholder arrays.
+    Without SENTINEL_HUB_CLIENT_ID this raises NoDataError. There is no demo or
+    synthetic branch in this module and no caller supplies one.
+
+    What this returns today is the two raw GeoTIFF response bodies as bytes, NOT
+    DataArrays -- see the comment at the return statement. Reported, not changed
+    here: converting them needs rioxarray, which this repository does not
+    install, and the two callers disagree about what they want back. analysis.py
+    passes both into compute_ndvi_diff, while data.py unpacks them and discards
+    them. Deciding between converting and changing the signature is a decision
+    about the contract, not a transcription.
     """
+    # REVVEL-DISABLED | AGENT: claude-code | MODEL: claude-opus-5 | WR: UNASSIGNED | DATE: 2026-11-04 | STATUS: REPLACED
+    # REASON: stale docstring line, not a code defect. It described a demo mode that does
+    #         not exist -- there is no synthetic branch anywhere in this file, and
+    #         coldtrace/backend/tests/test_no_data.py asserts the NoDataError raise below
+    #         is the intended answer when credentials are absent. A reader trusting the
+    #         line would go looking for a fallback nobody ever wrote.
+    # PREVIOUS DOCSTRING LINE, kept verbatim:
+    #     Demo mode returns synthetic placeholder arrays.
+    # OWNER: @midnghtsapphire
+    # REVVEL-DISABLED-END
     if not settings.sentinel_hub_client_id:
         raise NoDataError("Sentinel Hub credentials not set (SENTINEL_HUB_CLIENT_ID); no imagery fetched.")
 
