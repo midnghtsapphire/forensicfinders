@@ -1,5 +1,5 @@
 # SPEC 2350 — insect-trace-add-sim
-Registry id **2350** `insect-trace-add-sim` (Strata/Verity, Discussion #25). Supersedes NEW-20 and withdrawn 2350 (collision). Name avoids "evidence". Licence: UNLICENSED (private repo; licence pending Audrey)
+Registry id **2350** `insect-trace-add-sim` (Strata/Verity, Discussion #25). Supersedes NEW-20 and withdrawn 1050 (collision). Name avoids "evidence". Licence: UNLICENSED (private repo; licence pending Audrey)
 ## Scope
 Seeded analytic accumulated-degree-day (ADD) insect-development sim for **training games only**. Educational, non-graphic. Synthetic fixtures only (`fixtures/species_synthetic.json`, fictional taxon). No real cases, PII, images.
 ## Model (clean-room)
