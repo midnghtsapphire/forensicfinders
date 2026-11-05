@@ -768,3 +768,33 @@ Independent Verity-N re-review of PR #40 @ `5b1149d28acf0213fbaf4ddd27e562af1675
 - **Main:** untouched. **Deletions:** none. **Force pushes:** none.
 - **Licence:** UNLICENSED (private repo; licence pending Audrey)
 - **Approval:** Verity-D PASS-with-hold (updated); **Verity-N pending**
+
+## Verity-N APPROVE-with-hold 8c98804 (independent; DEM hold #1 CLEAR) — PR #41 Bedrock CleanScorer + DEM — 2026-11-05 08:28 MST (America/Denver)
+
+- **Actor:** Verity-N (Grok Bot; **independent** navigator) · **Requested by:** Sense-Strata, for Audrey Evans
+- **Independence:** Fresh worktree `/workspace/sensecrew/wt/verity-n-41-dem` at exact head `8c988040e0924be3e5f35da5a2d269f68bee01e1` (detached). **Did not** reuse Verity-D worktree `/workspace/sensecrew/wt/verity-pr41-dem` or Verity-D temp dirs. Re-checked from scratch; did not trust R40 conclusions blindly. Same-workstream Verity-N is INVALID.
+- **What:** Independent Verity-N after Verity-D R40 PASS-with-hold (updated) on Bedrock draft PR #41 (NEW-01/2310 CleanScorer + NEW-03/2320 synthetic DEM) — LEDGER parent tip `2619ccbd38e320275d620c28840c33f1b388707c`; D COMMENT https://github.com/midnghtsapphire/forensicfinders/pull/41#pullrequestreview-5787459036.
+- **DEM SHA-256 independence (CRITICAL):** Regenerated via separable path `sensegame.dem.generate(seed, epoch)` + `tiffw.write_geotiff` into Verity-N-only temp dirs `/tmp/verity-n-41-dem-r{1,2,3}` (NOT by hashing committed TIFF bytes alone). Three independent runs, byte-identical across runs and MATCH committed `dem_golden_sha256.json` / on-disk fixtures / D-claimed digests:
+  - 1001=`8f37f39093d46bc6b132a36e978e614b7d9bfe1ea61053cd921f6911257fe731`
+  - 1002a=`6a8e8238fdc7c06ef21622515481e2ec3ed998b24e7ce8fe09b9204534cb3979`
+  - 1002b=`32e882440d7d49d3c56afeb0c31d0912b2a63409803f4d2c3347d6c66b76c781`
+  - 1003=`b76cea2b7ab4db63281d3e2fc308fee1e06b7dfeb3096d32874187499a5f6f6e`
+  - `generator_version`=`0`
+  **Hold #1 DEM SHA CLEARED** (independent confirm).
+- **Re-checked (independent):**
+  1. **M1_W_KM** still `None` / `M1_W_SOURCE` still `None` — PLACEHOLDER; no invented W. Hold #2 NOT CLEARED.
+  2. PR remains **draft** (`isDraft=true`). Hold #3 kept.
+  3. Discussion draft `docs/sensecrew/bedrock/specs/discussion-drafts/m1-sweep-width.md` header: "DRAFT — GitHub Discussion request (NOT POSTED)". Hold #4 kept — do not post without Audrey.
+  4. Licence 2300/2310/2320 == exactly `UNLICENSED (private repo; licence pending Audrey)`.
+  5. Quick Rule 5/7 on delta `8e745c6..8c98804` (16 DEM/2320-scoped files): no forbidden-path touches (case/, hfmr/, dossier.py, evidence/, public_records*, docs/case-files/); dem.py/tiffw.py import scan clean (stdlib+numpy only on generator path; synthetic local CRS).
+  6. Tests observed here: `pytest sensegame/tests/test_dem_fixture_golden.py` → **25 passed**; `pytest sensegame/tests` → **56 passed, 2 xfailed** (M1 W PLACEHOLDER).
+- **Verdict:** **Verity-N APPROVE-with-hold (updated)** — CLEAR hold #1 only; keep #2–4. Confidence **0.90**.
+- **Holds remaining:**
+  2. M1 W PLACEHOLDER — Waveform citation + Verity co-sign before CLEAR
+  3. Keep draft
+  4. Do not post m1-sweep-width.md without Audrey approval
+- **Cleared:** (1) DEM SHA-256
+- **PR / review:** COMMENT-only (never APPROVE/REQUEST_CHANGES GitHub event) on https://github.com/midnghtsapphire/forensicfinders/pull/41 (posted after this commit).
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Approval:** Verity-N APPROVE-with-hold (independent; DEM hold #1 CLEAR); cites R40
