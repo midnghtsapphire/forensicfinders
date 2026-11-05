@@ -8,7 +8,7 @@
 #       training never need the network or the multi-GB archive.
 # What: Deterministic offline loader for reference_oracle/splib07_subset/. Returns reflectance
 #       vectors (B,) on the shared AVIRIS-2014 micrometre grid (water windows dropped).
-# Notes: Component NEW-22 / registry 2360 (pending Verity). Data is USGS PD
+# Notes: Component / registry 2360 (Verity: NEW-22 → 2360). Data is USGS PD
 #       (doi:10.3133/ds1035); our code UNLICENSED (private repo; licence pending Audrey).
 #       LUCAS is NOT included. No Ultralytics. No case/hfmr/evidence paths.
 # ══════════════════════════════════════════════════════════════════════════════════════════

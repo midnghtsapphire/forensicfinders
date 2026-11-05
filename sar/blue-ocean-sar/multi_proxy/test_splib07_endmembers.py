@@ -4,7 +4,7 @@
 # When: 2026-11-04
 # Why:  Prove the shipped USGS splib07 PD subset loads offline, stays in AREF [0,1], and
 #       that constrained_nnls_unmix recovers known abundances from a synthetic mixture of
-#       two real endmembers (task B). Component NEW-22 / registry 2360.
+#       two real endmembers (task B). Component / registry 2360.
 # What: unittest + pytest-style functions (adapter pattern from test_engines.py).
 # Notes: No network. No LUCAS. Oracle under reference_oracle/splib07_subset/ is public-domain
 #       USGS data (doi:10.3133/ds1035). Our code UNLICENSED (private; licence pending Audrey).
