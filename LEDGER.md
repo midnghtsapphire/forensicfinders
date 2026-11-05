@@ -513,3 +513,15 @@
   13. `zipimport.zipimporter(...).load_module`
 - **Runtime check:** does not close these gaps. It only runs when a 2300-block entry is registered. It only sees import-time loads. It matches on module *names*, so spec loading under an arbitrary name (e.g. `'x'`) and open() reads never show up in sys.modules.
 - **Required:** Treat importlib.util/machinery, pkgutil, zipimport, runpy, subprocess, os.system/exec*, marshal and `__loader__`/`__builtins__`/`__dict__`/`vars()` access as forbidden on the game path (a deny-by-default module allowlist is better). Track assignment aliases of exec/eval/compile/getattr/__import__/sys.modules. Flag `open`/`Path` with non-literal paths. Add each item above as a regression test.
+
+
+## 2026-11-04 20:57 MST (America/Denver) — Quartz-D / Quartz-N (Grok Bot) — Strata R32 narrow 2360 path
+
+- **Actor:** Quartz · **Requested by:** Strata (Verity R32), for Audrey Evans · **Component:** registry **2360** mineral-spectral-unmix
+- **Ruling:** path must NOT be all of `multi_proxy`; scope to Quartz unmix surface only.
+- **Change:** `sar/registry.json` 2360 `path`: `blue-ocean-sar/multi_proxy` → `blue-ocean-sar/multi_proxy/nnls_unmix.py` (file-level, same schema as 140/901). `test` / `test_cwd` unchanged (explicit unmix modules). **Did not touch** `test_package_imports.py` (Audrey component-100).
+- **Proof:** `python3 sar/registry.py 2360 --test` → Ran 22 tests, OK (skipped=1); `995 --test` OK; `100 --test` OK.
+- **SHA / PR:** `sensecrew/quartz/registry-2360` @ **95b28a7** — https://github.com/midnghtsapphire/forensicfinders/pull/34 (body updated with R32 note).
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Approval:** Quartz-N APPROVE
