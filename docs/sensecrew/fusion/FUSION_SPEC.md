@@ -1,14 +1,15 @@
 # FUSION_SPEC v0.2: seeded uncertainty maps over CleanScorer (NEW-01)
 
 Owner: Sense-Fusion (Fusion-D / Fusion-N). Status: **doc-only draft (PR #18), no code, no swarm**. Licence: UNLICENSED (private repo; licence pending Audrey). Base: main `a2630989`.
-Registry: **1080 (PROVISIONAL, pending Verity's collision check against `sar/registry.json`)**. Replaces the placeholder used in v0.1.
+Registry: **2370 (PROVISIONAL, pending Verity's collision check against `sar/registry.json`)**. Replaces the placeholder used in v0.1.
 
 ## 0. Changelog v0.1 → v0.2 (Strata rulings, 2026-11-04)
-1. Registry placeholder → **1080 (provisional)** everywhere.
+1. Registry placeholder → **2370 (provisional)** everywhere.
 2. Calibration gate: **ECE ≤ 0.05 on synthetic holdouts**. Bootstrap: **B = 1000 seeded resamples**.
 3. `realdata/fusion.py` stays **out of the game path**. It is replaced by a clean-room spec (§2), written only from public sources and the Scorer contract. No more of fusion.py's body was read beyond what RULE7_AUDIT.md records, and no quarantined file was opened.
 4. The consumer contract is rebuilt against **Bedrock's NEW-01 spec** (`specs/scorer-spec.md`, Bedrock draft 2026-11-04). Diffs vs the Loam GDD contract are in §1a. Bedrock's version governs.
 5. TerraTorch stays **ON HOLD**.
+6. **Correction (Strata, 2026-11-04 20:26 MST):** registry 1080 → **2370** and 1080.1 → **2370.1** (1080 collides on other branches). Still PROVISIONAL pending Verity's collision check.
 
 ## 1. Consumer contract (from Bedrock NEW-01 scorer-spec §1–§5)
 ```python
@@ -48,7 +49,7 @@ How fusion uses it:
 | Status | GDD adopted | **Bedrock draft, not approved**; no code yet |
 
 ## 2. Clean-room site/cell combiner (replaces realdata/fusion.py in the game path)
-Module: `sensegame/fusion/combine.py` (registry 1080.1, provisional). It is written from public statistics and the contract above only.
+Module: `sensegame/fusion/combine.py` (registry 2370.1, provisional). It is written from public statistics and the contract above only.
 - **Inputs:** `fixtures/*synthetic*` only (a path guard rejects anything else). Locations are **integer grid indices `(row, col)` plus fixture-local metres** on the synthetic DEM grid. No lat/lon, CRS-geographic coordinates, site names or free text anywhere in the schema. The schema validator rejects keys `lat`, `lon`, `latitude`, `longitude`, `address` and `site_id` strings that aren't of the form `cell_<r>_<c>`.
 - **Per-layer normalisation:** robust z = (v − median)/(1.4826·MAD) (Hampel 1974 doi:10.1080/01621459.1974.10482962; Rousseeuw & Croux 1993 doi:10.1080/01621459.1993.10476408, both Crossref-verified). MAD = 0 → layer flagged `degenerate` and excluded, not zeroed. Optional rank percentile. `direction: lower` flips the sign.
 - **Combination:** weighted mean Σwᵢzᵢ/Σwᵢ, with weights from the mission config (no built-in weights). Missing-layer policy is `zero` or `renormalise`, and is explicit in config.
@@ -82,4 +83,4 @@ Module: `sensegame/fusion/combine.py` (registry 1080.1, provisional). It is writ
 `fixtures/fusion_config_synthetic.json`, `fixtures/fusion_sensors_synthetic_<seed>.npz` (seeded planted targets + noise, grid indices only), `fixtures/fusion_holdout_synthetic_<seed>.npz`, plus NEW-03 `dem_synthetic_<seed>.tif`. No real coordinates, no case data, no PII.
 
 ## 8. Open items / blockers
-Verity collision check for 1080; Bedrock NEW-01 approval and code (contract is draft); Verity ruling on realdata/fusion.py lineage (stays excluded regardless); TerraMind licence; M1 cited W (Bedrock §4b).
+Verity collision check for 2370; Bedrock NEW-01 approval and code (contract is draft); Verity ruling on realdata/fusion.py lineage (stays excluded regardless); TerraMind licence; M1 cited W (Bedrock §4b).
