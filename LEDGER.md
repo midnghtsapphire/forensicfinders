@@ -231,3 +231,17 @@
 - **Discussion:** posted in Ideas (URL in the Discussion list; title "Loam: music stack decision for entertainment skins").
 - **Main:** untouched. **Deletions:** none. **Force pushes:** none.
 - **Approval:** Loam-N APPROVE
+
+## 2026-11-04 20:29 MST (America/Denver) — Quartz-D / Quartz-N (Grok Bot) — NEW-22 / 1070 splib07 PD endmember fixture (Task B)
+- **Actor:** Quartz-D (Driver), Quartz-N (Navigator). Strata-approved next after Task A (PR #20).
+- **Calls:**
+  1. USGS ScienceBase item `586e8c88e4b0f5ce109fccae` → downloaded `ASCIIdata_splib07b_cvAVIRISc2014.zip` (~4.3 MB; AVIRIS-Classic 2014 convolution, absolute reflectance). Cite doi:10.3133/ds1035; data doi:10.5066/F7RR1WDJ; https://www.usgs.gov/labs/spectroscopy-lab/science/spectral-library. Public domain.
+  2. Extracted 9 AREF spectra + shared 224-ch wavelength/FWHM ASCII; dropped water windows 1.35–1.45 and 1.80–1.95 µm → 196 kept bands. Built CSV/NPZ fixture under `sar/blue-ocean-sar/multi_proxy/fixtures/splib07_subset/` (shippable PD subset; not case data; LUCAS not included).
+  3. Quartz-D wrote `multi_proxy/splib07_endmembers.py` (`load_endmembers`, offline, deterministic) + `docs/sensecrew/quartz/SPLIB07_FIXTURE.md`.
+  4. Quartz-N wrote `multi_proxy/test_splib07_endmembers.py`. Ran `python3 -m pytest -q multi_proxy/test_splib07_endmembers.py` → 16 passed; `python3 -m unittest multi_proxy.test_splib07_endmembers` → 8 OK; `python3 sar/language_scan.py` → rc 0.
+  5. Commit 3a0df4c on `sensecrew/quartz/splib07-fixture` (from main a263098; independent of PR #20). Draft PR https://github.com/midnghtsapphire/forensicfinders/pull/29.
+- **Decisions:** Real USGS PD spectra (not placeholders). Endmembers: quartz, kaolinite, montmorillonite, calcite, goethite, hematite, gypsum, illite, dry_grass. Wavelength units µm. Component NEW-22 / provisional registry **1070** pending Verity collision check — `registry.json` **not** edited. No Ultralytics, no LUCAS, no full multi-GB library. Did not touch case/, hfmr/, dossier.py, evidence/, public_records_engine.py, or PII. Main untouched; no deletions.
+- **Licence:** Code/docs UNLICENSED (private repo; licence pending Audrey). Data: USGS public domain.
+- **Confidence:** 0.75 (Task B score reaffirmed; spectra are real PD, loader offline, NNLS goldens pass; Verity id collision + merge still pending).
+- **Commits / PRs:** 3a0df4c, PR #29 (draft). Discussion #22 to be updated with PR link.
+- **Approval:** Quartz-N APPROVE (3a0df4c). Verity green required before merge.
