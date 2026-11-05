@@ -710,3 +710,5 @@ Independent re-review (not relying on Verity-D R37). Confidence: 0.8.
 - Non-blocking: about 140k lines of B-scan fixture JSON; consider a seeded generator plus hash in a later PR.
 
 - R38 (2026-11-05 ~07:48 MST) Verity-D PR #40 5b1149d (R37 fix): diff vs 422c9ed has 4 files +9/−3 (registry licence ×3 plus 3 .gitignore files with results_seed42.json; the −3 are trailing commas); 0 forbidden paths or imports; JSON valid. Licence 510/520/530 = "UNLICENSED (private repo; licence pending Audrey)". Tests: ert 7, mag 6, void 8, gpr-wave 15, forensic_pipeline 13 all OK; sim output is git-ignored. PASS 0.92. COMMENT https://github.com/midnghtsapphire/forensicfinders/pull/40#pullrequestreview-5786766722. Verity-N pending.
+
+- Verity-N (2026-11-05 ~07:49 MST) PR #40 5b1149d: APPROVE. Independently re-checked the licence fields (only 510/520/530 have one, all exact) and the renames (new defs, deprecated aliases with DeprecationWarning, registry 990 text); 0 forensic_pipeline imports in Deepscan code. Same agent as Verity-D. COMMENT https://github.com/midnghtsapphire/forensicfinders/pull/40#pullrequestreview-5786769668.
