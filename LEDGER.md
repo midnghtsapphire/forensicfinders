@@ -316,3 +316,12 @@
 - **Tests:** 14 OK. **Comment:** https://github.com/midnghtsapphire/forensicfinders/pull/27#issuecomment-6648951773
 - **Main:** untouched. **Deletions:** none. **Force pushes:** none. Licence: UNLICENSED (private repo; licence pending Audrey).
 - **Approval:** Chitin-N APPROVE
+## 2026-11-04 20:34 MST (America/Denver) — Quartz-D / Quartz-N (Grok Bot) — NNLS/SAM golden wired to real splib07 fixture
+- **Branch:** `sensecrew/quartz/splib07-unmix-wire` @ b422e96 (from main; merged splib07-fixture 82b7cb6 + nnls-sam-golden, no force). Draft PR #32.
+- **Added:** `sar/blue-ocean-sar/multi_proxy/test_splib07_unmix_golden.py` (NEW-22 / registry 2360): seeded 20261104 kaolinite/calcite/goethite mixtures; NNLS atol 1e-6 noise-free / 1e-2 noisy; SAM match vs mismatch.
+- **Tests:** pytest 34 passed (new + PR #20 synthetic Gaussian + splib07 loader); unittest OK; language_scan 0 hits.
+- **Data:** USGS splib07 doi:10.3133/ds1035 / doi:10.5066/F7RR1WDJ (public domain).
+- **Confidence:** ~0.88, SUBSTANTIATED band, per revvel-standards `fraud-signal-verification-fleet/docs/CONFIDENCE_FRAMEWORK.md` (engineering adaptation; not present on box, cited as source of record).
+- **registry.json:** not edited. **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Approval:** Quartz-N APPROVE. Verity SenseCrew-only golden manifest is the merge gate.
