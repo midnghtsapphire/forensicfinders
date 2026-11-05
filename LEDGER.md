@@ -298,3 +298,13 @@
 - **Approval:** commits 9c0130b, 3bfd349, ceebf3d · Verity: pending
 
 Ledger-Play-N APPROVE 9c0130bb38cd7b7a9e517f0ac61386b4633cbbe7 3bfd3491fbf2f1d3fae46869238f201846dc9ca3 ceebf3d215c672ae99e853f197dd2d46efcf864a
+
+## 2026-11-04 20:33 MST — Ledger-Play (Ledger-Play-D / Ledger-Play-N, Grok Bot) — PR #11 lost_person_sim annotation + ledger merge
+
+- **Why:** Verity follow-up. The leftover `lost_person_sim` reference (doc §mismatch 7, line 92) is now annotated inline as DEPRECATED (no deletion). origin/sensecrew/ledger (de23754) was merged into this branch; the LEDGER.md conflict was resolved append-only (upstream entries first, then ours; all lines kept).
+- **Doc commit:** `4f63fba8731b0d6890a49f0aae8c20481353dcf3` on `sensecrew/ledgerplay/balance-v0` (PR #11).
+- **Tools / CLI:** `git worktree add` (/workspace/sensecrew/wt/ledgerplay), `git fetch`, `git merge --no-ff` (no rebase), `git commit`, `git push` (no force, never main). No Discussion posts; 0 subagents.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Ledger-Play-N review:** a one-line annotation appended; no units, citations or physics changed; no forbidden paths.
+
+Ledger-Play-N APPROVE 4f63fba8731b0d6890a49f0aae8c20481353dcf3
