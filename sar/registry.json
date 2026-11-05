@@ -311,6 +311,23 @@
         "test_language_scan"
       ],
       "source": "Audit item 4. Nothing in this repository enforced the standard; the enforcer workflow lives in revvel-standards and never ran here, which is how four flagged lines sat in multi_proxy from 2026-10-24. PR #8 scanned multi_proxy only and said why: widening it then would have made main red for defects it was added to report, which GREEN_MAIN_STANDARD.md forbids. The 16 lines outstanding outside multi_proxy are resolved as of 2026-11-04 -- 11 by the two shape rules, 5 by comment-only fixes -- so the scan now covers the repository. See sar/docs/WORK_RANKING_2026-11-04.md."
+    },
+    "2360": {
+      "name": "mineral-spectral-unmix",
+      "path": "blue-ocean-sar/multi_proxy",
+      "what": "NNLS unmixing + SAM; USGS splib07 PD reference_oracle endmembers; optional offline HySUPP compare (out-of-process)",
+      "test_cwd": "blue-ocean-sar",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "multi_proxy.test_nnls_sam_golden",
+        "multi_proxy.test_splib07_endmembers",
+        "multi_proxy.test_splib07_unmix_golden",
+        "multi_proxy.test_hysupp_compare"
+      ],
+      "source": "SenseCrew Quartz; USGS splib07 PD doi:10.5066/F7RR1WDJ; HySUPP MIT offline compare",
+      "licence": "UNLICENSED (private repo; licence pending Audrey)"
     }
   },
   "deselected_tests": {
