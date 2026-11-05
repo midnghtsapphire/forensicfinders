@@ -3,8 +3,8 @@
 # When: 2026-11-04
 # Why:  Offline, deterministic comparison of our constrained_nnls_unmix against HySUPP
 #       (MIT, github.com/BehnoodRasti/HySUPP @ cb7d633a) as a *reference only*.
-#       Component NEW-22 / registry 2360.
-# What: Seeded synthetic mixtures (splib07 PD fixture endmembers, else Gaussians) ->
+#       Component / registry 2360 (Verity: NEW-22 → 2360).
+# What: Seeded synthetic mixtures (splib07 PD reference-oracle endmembers, else Gaussians) ->
 #       abundance RMSE (+ mean SAM) table as a JSON-serialisable dict.
 # Notes: HySUPP is NOT a dependency. It is not pip-packaged; it is run only OFFLINE as a
 #       separate CLI process in its own venv outside the repo (Strata ruling, hard rule 5),
@@ -47,7 +47,7 @@ def _gaussian_endmembers(n_end: int, n_bands: int, rng: np.random.Generator):
 
 def load_reference_endmembers(names=None, *, n_end: int = 3, n_bands: int = 200,
                               seed: int = DEFAULT_SEED):
-    """Return (E as B x K, names, source). splib07 fixture if present, else Gaussians."""
+    """Return (E as B x K, names, source). splib07 reference oracle if present, else Gaussians."""
     try:
         from .splib07_endmembers import load_endmembers
         _wl, E, got = load_endmembers(names, as_matrix=True)
@@ -55,8 +55,8 @@ def load_reference_endmembers(names=None, *, n_end: int = 3, n_bands: int = 200,
             E, got = E[:, :n_end], list(got)[:n_end]
         E = np.asarray(E, dtype=float)
         if np.all(np.isfinite(E)):
-            return E, list(got), "usgs_splib07_pd_fixture"
-    except Exception:  # fixture branch not merged / file missing -> fall back
+            return E, list(got), "usgs_splib07_pd_reference_oracle"
+    except Exception:  # oracle missing -> fall back
         pass
     E, got = _gaussian_endmembers(n_end, n_bands, np.random.default_rng(seed))
     return E, got, "synthetic_gaussian"
@@ -147,7 +147,7 @@ def compare(*, seed: int = DEFAULT_SEED, n_pixels: int = 64, noise_std: float = 
     E, got, source = load_reference_endmembers(names, seed=seed)
     Y, A = make_mixtures(E, n_pixels, noise_std=noise_std, seed=seed)
     out = {
-        "component": "NEW-22", "registry": 2360, "seed": seed, "n_pixels": n_pixels,
+        "component": "2360", "registry": 2360, "seed": seed, "n_pixels": n_pixels,
         "noise_std": noise_std, "endmember_source": source, "endmembers": got,
         "n_bands": int(E.shape[0]), "hysupp_commit": HYSUPP_PINNED_COMMIT, "results": {},
     }

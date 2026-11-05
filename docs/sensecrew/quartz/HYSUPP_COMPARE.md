@@ -1,4 +1,4 @@
-# HySUPP comparison harness (NEW-22 / registry 2360)
+# HySUPP comparison harness (registry 2360)
 
 *Who:* Grok Bot as Sense-Quartz (Quartz-N navigator, Quartz-D driver) for Audrey Evans · *When:* 2026-11-04
 *Licence of our code:* `UNLICENSED (private repo; licence pending Audrey)`
@@ -30,8 +30,8 @@ the game client or of `multi_proxy`.
 - Repo is ~40 MB with datasets → not vendored regardless.
 
 ## How we compare
-1. Endmembers: USGS splib07 PD fixture (`fixtures/splib07_subset/`, default first 3: quartz,
-   kaolinite, montmorillonite); falls back to synthetic Gaussians if fixture is missing.
+1. Endmembers: USGS splib07 PD reference oracle (`reference_oracle/splib07_subset/`, default first 3: quartz,
+   kaolinite, montmorillonite); falls back to synthetic Gaussians if oracle is missing.
 2. Abundances: seeded Dirichlet(1) draws (default seed `20261104`, 64 pixels); `Y = E·A + N(0, 0.005)`.
 3. Methods: our `constrained_nnls_unmix` (always) vs HySUPP `FCLS` (optional).
 4. Metrics: **abundance RMSE** vs known truth (primary); mean **SAM** (deg) of reconstruction (secondary).

@@ -1,7 +1,7 @@
 # ══════════════════════════════════════════════════════════════════════════════════════════
 # Who:  Grok Bot as Sense-Quartz pair (Quartz-N wrote tests first, Quartz-D drove) for Audrey Evans
 # When: 2026-11-04
-# Why:  HySUPP comparison harness (NEW-22 / registry 2360): baseline always runs, HySUPP
+# Why:  HySUPP comparison harness (registry 2360): baseline always runs, HySUPP
 #       path skips cleanly when not configured. Offline, deterministic.
 # Notes: Our code UNLICENSED (private repo; licence pending Audrey).
 # ══════════════════════════════════════════════════════════════════════════════════════════
