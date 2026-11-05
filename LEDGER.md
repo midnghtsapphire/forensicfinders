@@ -272,3 +272,14 @@
 - **Confidence:** 0.75 (Task B score reaffirmed; spectra are real PD, loader offline, NNLS goldens pass; Verity id collision + merge still pending).
 - **Commits / PRs:** 3a0df4c, PR #29 (draft). Discussion #22 to be updated with PR link.
 - **Approval:** Quartz-N APPROVE (3a0df4c). Verity green required before merge.
+
+## 2026-11-04 20:33 MST — Sense-Fusion (Fusion-D / Fusion-N, Grok Bot) — Verity round 2 rulings on PR #18
+
+- **Actor:** Sense-Fusion · **Requested by:** Strata (relaying Verity), for Audrey Evans · **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Calls:**
+  1. `git worktree add /workspace/sensecrew/wt/fusion sensecrew/fusion/rule7-audit-and-spec` from /workspace/sensecrew-fusion/repo (new team rule; the shared /workspace/forensicfinders clone was not used).
+  2. Targeted `sed` edits + append to RULE7_AUDIT.md; commit 6a1fdd5 pushed to the branch (no force push).
+  3. `gh pr view 18` (isDraft=false) → `gh pr ready --undo 18` → isDraft=true, head 6a1fdd5.
+- **Decisions:** combiner 2370.1 → 2371 (module 2370; both provisional), changelog item 7; item 6 kept as history. Recorded in the spec and audit: realdata/fusion.py has no file-level taint (Verity confidence 0.74) but stays off the game path; TerraMind/TerraTorch ON HOLD; no TerraMesh (CC-BY-SA) data ever shipped. The audit's original UNCERTAIN verdict is kept and superseded by the ruling (append-only).
+- **Review:** Fusion-N reviewed the 6a1fdd5 diff (FUSION_SPEC.md +4/−3, RULE7_AUDIT.md +4; docs only; no deletions; 2370.1 remains only in the changelog history lines).
+- **Approval:** Fusion-N APPROVE (6a1fdd5). Verity green required before merge.
