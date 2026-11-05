@@ -296,3 +296,4 @@
 - Pixel Lantern-N APPROVE
 PixelLantern-N APPROVE (Pixel Lantern-N) 2026-11-04 palette-a11y PR #13
 - 2026-11-04 Pixel Lantern-D/N: cividis licence-cleared (BSD-style; Battelle copyright notice must be kept); re-added as alternate palette in palette-a11y proposal, commit 2eb02c6, PR #13. Licence: UNLICENSED (private repo; licence pending Audrey).
+- 2026-11-04 Pixel Lantern-D/N: added palettes/LICENSES/cividis-NOTICE (Battelle notice, verbatim from https://github.com/pnnl/cmaputil/blob/master/LICENSE) and palettes/LICENSES/crameri-LICENSE (MIT verified at Zenodo https://doi.org/10.5281/zenodo.1243862, v8.0.1 +LICENCE.pdf); licence table cites the sources. Commit 32fa46b, PR #13. Licence: UNLICENSED (private repo; licence pending Audrey). PixelLantern-N APPROVE
