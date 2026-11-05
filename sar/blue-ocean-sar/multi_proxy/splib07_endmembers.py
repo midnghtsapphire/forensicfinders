@@ -6,7 +6,7 @@
 #       on a shared wavelength grid. Task A golden tests used synthetic Gaussians; this
 #       module loads a SHIPPED USGS Spectral Library v7 (splib07) subset so tests and
 #       training never need the network or the multi-GB archive.
-# What: Deterministic offline loader for fixtures/splib07_subset/. Returns reflectance
+# What: Deterministic offline loader for reference_oracle/splib07_subset/. Returns reflectance
 #       vectors (B,) on the shared AVIRIS-2014 micrometre grid (water windows dropped).
 # Notes: Component NEW-22 / registry 2360 (pending Verity). Data is USGS PD
 #       (doi:10.3133/ds1035); our code UNLICENSED (private repo; licence pending Audrey).
@@ -15,7 +15,7 @@
 """Offline loader for a small USGS Spectral Library v7 (splib07) endmember subset.
 
 Wavelengths are in **micrometres (µm)** on the AVIRIS-Classic 2014 convolution grid
-shipped under ``fixtures/splib07_subset/``. Default band selection drops the AVIRIS
+shipped under ``reference_oracle/splib07_subset/``. Default band selection drops the AVIRIS
 water-vapor windows 1.35–1.45 µm and 1.80–1.95 µm (see ``manifest.json``). No
 resampling is performed at load time — spectra were already convolved by USGS to that
 sensor grid before we vendored the ASCII columns.
@@ -31,7 +31,7 @@ from typing import Iterable, Mapping, Optional, Sequence
 
 import numpy as np
 
-_FIXTURE_DIR = Path(__file__).resolve().parent / "fixtures" / "splib07_subset"
+_ORACLE_DIR = Path(__file__).resolve().parent / "reference_oracle" / "splib07_subset"
 _NPZ_NAME = "endmembers_aviris2014.npz"
 _MANIFEST_NAME = "manifest.json"
 _CSV_NAME = "endmembers_reflectance.csv"
@@ -41,14 +41,23 @@ _CSV_NAME = "endmembers_reflectance.csv"
 DELETED_BAND_SENTINEL = -1.0e34
 
 
+def reference_oracle_dir() -> Path:
+    """Absolute path to the shipped splib07 subset reference-oracle directory.
+
+    Real USGS PD spectra (not synthetic mixture fixtures). Path:
+    ``reference_oracle/splib07_subset/``.
+    """
+    return _ORACLE_DIR
+
+
 def fixture_dir() -> Path:
-    """Absolute path to the shipped splib07 subset fixture directory."""
-    return _FIXTURE_DIR
+    """Deprecated alias for :func:`reference_oracle_dir` (kept for call-site compat)."""
+    return reference_oracle_dir()
 
 
 def load_manifest() -> dict:
     """Return the fixture manifest (citation, band selection, endmember catalogue)."""
-    path = _FIXTURE_DIR / _MANIFEST_NAME
+    path = _ORACLE_DIR / _MANIFEST_NAME
     with path.open() as f:
         return json.load(f)
 
@@ -97,7 +106,7 @@ def load_endmembers(
     Notes
     -----
     Fully offline: reads only committed fixture files under
-    ``fixtures/splib07_subset/``. Prefer the compressed NPZ; fall back to the CSV if
+    ``reference_oracle/splib07_subset/``. Prefer the compressed NPZ; fall back to the CSV if
     the NPZ is missing (regen path documented in the fixture README).
     """
     data = _load_npz()
@@ -126,13 +135,13 @@ def load_endmembers(
 
 
 def _load_npz() -> dict:
-    npz_path = _FIXTURE_DIR / _NPZ_NAME
+    npz_path = _ORACLE_DIR / _NPZ_NAME
     if npz_path.is_file():
         with np.load(npz_path, allow_pickle=False) as z:
             return {k: z[k] for k in z.files}
 
     # CSV fallback (wavelength_um, name1, name2, ...)
-    csv_path = _FIXTURE_DIR / _CSV_NAME
+    csv_path = _ORACLE_DIR / _CSV_NAME
     if not csv_path.is_file():
         raise FileNotFoundError(
             f"Missing splib07 fixture at {npz_path} and {csv_path}"
@@ -152,6 +161,7 @@ def _load_npz() -> dict:
 
 __all__ = [
     "DELETED_BAND_SENTINEL",
+    "reference_oracle_dir",
     "fixture_dir",
     "list_endmember_names",
     "load_endmembers",
