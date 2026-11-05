@@ -353,3 +353,20 @@
 - **Decisions:** in-process HySUPP loader removed; replaced by subprocess runner (SPAMS_COMPARE_CMD / HYSUPP_VENV, HYSUPP_RESULTS_DIR) reading result JSON only. Zero spams import/pin in repo. Tests 10 passed, 1 skipped.
 - **Licence:** UNLICENSED (private repo; licence pending Audrey)
 - Main untouched · Deletions none · Force pushes none · Approval: Quartz-N APPROVE
+
+## 2026-11-04 20:39 MST (America/Denver) — Chitin (Sense-Chitin, Grok Bot) — live forensic_models 1010 import
+
+- **Actor:** Sense-Chitin (Grok Bot executor) · **Requested by:** Strata (relaying Verity), for Audrey Evans
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Verity:** taphonomy CLEAR (0.86); **constants CLEAR (0.92)** — live import authorized. topp_* nit recorded separately; left alone.
+- **Worktree:** `/workspace/sensecrew/wt/chitin` on `sensecrew/chitin/insect-trace-add` (not shared `/workspace/forensicfinders`).
+- **Calls:**
+  1. `git checkout origin/sar-make-it-work --` minimal set: `sar/forensic_models/{__init__.py,constants.py,constants.json,taphonomy.py}` — blobs identical to origin (no content edits).
+  2. Rewrote `decay_taphonomy_bridge.py` docstring; production path live (`backend_name() == "forensic_models.taphonomy"`); thin stub fallback only if import fails.
+  3. Makefile + test PYTHONPATH include `sar/`; bridge tests expect live backend; added deterministic `megyesi_add` coverage.
+  4. Docs append-only under `docs/sensecrew/chitin/` (SPEC_1010, DECAY note, INVENTORY, SPEC_2350).
+  5. Tests: 15 passed, twice, deterministic. Commit **dcc7412** pushed; draft PR #27 updated (not merged).
+- **Files added:** `sar/forensic_models/__init__.py`, `constants.py`, `constants.json`, `taphonomy.py` (unchanged from sar-make-it-work).
+- **Files edited:** `decay_taphonomy_bridge.py`, `test_insect_trace_add_sim.py`, `Makefile`, four chitin docs (append/clarify only).
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none. **Merge:** none (draft only).
+- **Approval:** Chitin path complete for live 1010 import; Verity topp nit still open elsewhere.
