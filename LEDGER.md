@@ -462,3 +462,25 @@
 - **Decisions:** §1 heading now references NEW-01 = registry 2310 and `docs/sensecrew/bedrock/specs/scorer-spec.md` (PR #39 @ 73efc1c); changelog item 8 added. No contract change. M1_W_KM not invented (stays null). PR #18 stays draft.
 - **Review:** Fusion-N reviewed the 6fb9960 diff (FUSION_SPEC.md +2/−1; docs only; no deletions).
 - **Approval:** Fusion-N APPROVE (6fb9960). Verity green required before merge.
+
+## 2026-11-05 07:39 MST (America/Denver) — Deepscan (Sense-Deepscan) — ert/mag/void code + forensic_pipeline renames
+
+- **Actor:** Sense-Deepscan (Grok Bot) · **Requested by:** Sense-Strata task (+ Verity-cleared rename steering), for Audrey Evans
+- **What:** Implemented three Deepscan modules from `sar/docs/deepscan_module_specs_v0.md` (#36) on branch `sensecrew/deepscan/ert-mag-void-code`:
+  - `sar/ert-model/` (510) — Telford Wenner/DD layered + sphere forward model
+  - `sar/magnetometry-model/` (520) — Blakely dipole/sphere/thin-dyke ΔT + seeded noise
+  - `sar/gpr-void-detector/` (530) — hyperbola-fit + Fresnel polarity; extends `gpr-wave-model` with `synthetic_hyperbola_bscan`
+  Registry 510/520/530 added. Same PR applies Verity-cleared forensic_pipeline renames: `isrid_prior_map`→`synthetic_prior_map`, `finder_confirmation`→`confirmation_event`, registry 990 "Private forensic pipeline"→"Synthetic search-scenario pipeline"; old names kept as DeprecationWarning aliases. Deepscan modules do **not** import forensic_pipeline. Synthetic fixtures only; numpy+stdlib; no Ultralytics/AGPL; no forbidden paths opened.
+- **Why:** Sense-Strata Deepscan code task; Verity-N APPROVE on rule-7 for forensic_pipeline (comment 6660615525 on #36).
+- **Sources cited:** Telford, Geldart & Sheriff, *Applied Geophysics* 2nd ed., CUP 1990; Blakely, *Potential Theory in Gravity and Magnetic Applications*, CUP 1995; Daniels (ed.), *Ground Penetrating Radar* 2nd ed., IET 2004.
+- **Licences:** numpy BSD-3 / Python PSF; Ultralytics AGPL FORBIDDEN; gprMax GPL-3 not linked.
+- **Proof:** ert 7 OK; mag 6 OK; void 8 OK; gpr-wave-model 15 OK; forensic_pipeline 13 passed. Makefile `test` / `sim SEED=42` exercised for all three.
+- **Spec correction:** axial dipole m=1, z=10 → Bz=0.2 nT (not 2.0 nT).
+- **SHAs / PR:**
+  - tests-first: **7d1845f** (ert), **af5c3e8** (mag), **5cce74f** (void)
+  - impl: **e951ec5** (ert), **a2d092f** (mag), **76ccbad** (void+gpr extension)
+  - registry: **6f4349b**
+  - rename (report separately): **422c9ed** (`422c9edf1ff3cdbf233cb56ccb6215856b36c250`)
+  - tip: **422c9ed** — https://github.com/midnghtsapphire/forensicfinders/pull/40 (draft; refs #36 + Verity comment 6660615525)
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none. **Amend:** none.
+- **Approval:** Deepscan-N APPROVE
