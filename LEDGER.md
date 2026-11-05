@@ -823,3 +823,28 @@ Independent Verity-N re-review of PR #40 @ `5b1149d28acf0213fbaf4ddd27e562af1675
 - **Main:** untouched. **Deletions:** none. **Force pushes:** none.
 - **Licence:** UNLICENSED (private repo; licence pending Audrey)
 - **Approval:** Verity-D CHANGES-REQUIRED (language-scan); **Verity-N not started**
+
+## Verity-N APPROVE-with-hold c6d920d (independent) — Fusion PR #42 — 2026-11-05 08:33 MST (America/Denver)
+
+- **Actor:** Verity-N (Grok Bot; **independent** navigator) · **Requested by:** Sense-Strata, for Audrey Evans
+- **Independence:** Fresh worktree `/workspace/sensecrew/wt/verity-n-42` at exact tip `c6d920d41b3476a94aad628a5710d9cbbf183e45` (detached). **Did not** reuse Verity-D worktree `/workspace/sensecrew/wt/verity-pr42`. Re-checked from scratch; did not trust R41 conclusions blindly. Same-workstream Verity-N is INVALID. LEDGER must say **independent**.
+- **What:** Independent Verity-N after Verity-D R41 PASS-with-hold on Fusion #42 — D LEDGER `eace05865d4c3d0e966dcb85a8e74dd769cec217`; D COMMENT https://github.com/midnghtsapphire/forensicfinders/pull/42#pullrequestreview-5787510060. Confirmed CURRENT head with `gh` still `c6d920d` (tip not moved). Gate tip at append includes eace058 and later R42 (`ec52525`).
+- **Re-checked (independent):**
+  1. **Rule 5/7** on PR fusion modules (`sar/sensegame/fusion/*`, `docs/sensecrew/fusion/*`): **CLEAR** — synthetic-only `fixtures/*synthetic*` guard; geo keys rejected; `FUSION_EMBEDDINGS=0`; no TerraTorch/TerraMesh/Ultralytics/ISRID/LUCAS/EDNA/realdata/fusion.py imports; quarantined path parts refused; forbidden paths not opened (case/, hfmr/, dossier.py, evidence/, public_records*, docs/case-files/). Mentions of forbidden names appear only as prohibitions / FORBIDDEN test lists.
+  2. **Determinism seed 1002 ×3** into Verity-N-only `/tmp/verity-n-42-fusion-r{1,2,3}`: byte-identical across runs and MATCH D digests — `fusion_1002.json` sha256 `3b987b05ae2e5c748ad2d7a20a2c5bea99927de229c4a2982b6e94d9600dbfe4`; `uncertainty_map_1002.tif` sha256 `09baac2b2a82a44c14db10c4ccf1da7f9e0bdd5702afaa03b48b6425c3eb411a`. `make fusion` then `make fusion-replay` → replay OK seed=1002.
+  3. **ECE/Brier gates:** ece_holdout≈`0.010344559456503146` ≤ ECE_GATE 0.05 (ECE_BINS=15); brier_holdout≈`0.0338872495877121`. Match D / PR claim (~0.0103 / 0.0339).
+  4. **Registry 2370/2371:** still **ABSENT** (HOLD expected). 2300/2310/2320 present via #41 merge with licence exactly `UNLICENSED (private repo; licence pending Audrey)`. No new 2370/2371 licence rows to check.
+  5. **M1_W_KM** still `None` / `M1_W_SOURCE` still `None` — inherit #41 PLACEHOLDER; no invented W.
+  6. **Tests @ c6d920d** (independent venv `.venv-verity-n`): `make fusion-test` → **25 passed**; `pytest sensegame/` → **81 passed, 2 xfailed** (M1 W PLACEHOLDER).
+  7. **Draft status note:** independently observed GitHub `isDraft=false` for #42 (and #41) at review time — drifted since D reported still-draft. **Hold #3 keep-draft still applies** (convert back to draft until holds CLEAR). Not a new Fusion code blocker.
+  8. **#41 still OPEN** @ `8c98804` — merge-after-#41 remains; R42 language-scan CHANGES-REQUIRED on #41 further blocks the dependency (out of Fusion #42 scope; strengthens hold #1).
+- **Verdict:** **Verity-N APPROVE-with-hold** (matches R41 hold list). Confidence **0.90**.
+- **Holds (kept; not cleared):**
+  1. merge-after-#41 (#41 still open; also now language-scan-blocked per R42)
+  2. registry 2370/2371 until CLEAR
+  3. keep draft (re-draft if unmarked)
+  4. inherit #41 M1 W PLACEHOLDER — Waveform citation + Verity co-sign before CLEAR
+- **PR / review:** COMMENT-only (never APPROVE/REQUEST_CHANGES GitHub event) on https://github.com/midnghtsapphire/forensicfinders/pull/42 (posted after this commit).
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Approval:** Verity-N APPROVE-with-hold (independent); cites R41
