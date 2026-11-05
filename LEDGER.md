@@ -634,3 +634,20 @@
 - **PR / review:** https://github.com/midnghtsapphire/forensicfinders/pull/36#pullrequestreview-5786554224 (COMMENT, not approve)
 - **Main:** untouched. **Deletions:** none. **Force pushes:** none.
 - **Approval:** Verity-D CLEAR; **Verity-N pending** (Deepscan holds code until Verity-N APPROVE)
+## 2026-11-05 07:30 MST (America/Denver) — Loam (Loam-D / Loam-N, Grok Bot) — Music Addendum C (Verity R26)
+
+- **Actor:** Loam-D / Loam-N · **Requested by:** Strata, for Audrey Evans · **Role:** proposed
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Files:** `docs/sensecrew/loam/MUSIC_DECISION_v0.md` Addendum C (append-only) + `music_determinism/{README.md,RESULT_BLOCKED.json,run_determinism.py}` on `sensecrew/loam/music`, commit **571e341**. Worktree `/workspace/sensecrew/wt/loam` only. Verity rulings path cited read-only (`docs/sensecrew/verity/rulings.md` on `sensecrew/verity/gate-2026-11-04`); not edited.
+- **Decisions:** Verity **R26** clears Qwen3-Embedding-0.6B (Apache-2.0, ungated, SUPPORTED 0.80; card metadata only). Licence path **CLEAR**; `ALLOW_QWEN3_EMBED=1` authorized when hardware allows (opt-in retained). Music production/determinism still **PARKED** on hardware (no CUDA GPU; ~4.6 GB MemAvailable; Python 3.13). No weights downloaded; no fake PASS. Still forbidden: CNY LoRA; 1.7B LM; unverified Qwen3 base/LM planner models. Training-data claim still WEAK (0.45).
+- **Discussion #30 comment:** https://github.com/midnghtsapphire/forensicfinders/discussions/30#discussioncomment-19420199 (source ruling: #discussioncomment-19411085)
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none. Did not touch GDD, PR #10, Discussion #28, sar-research-fleet, or ArchExplorer.
+- **Approval:** Loam-N APPROVE
+
+## Verity-N APPROVE 5fbcc20 (PR #36, sensecrew/deepscan/ert-mag-void-specs) — 2026-11-05 07:35 MT
+Independent re-review (not relying on Verity-D R35). Confidence: high (0.9).
+- Diff: 1 file, sar/docs/deepscan_module_specs_v0.md (+498). No case/, hfmr/, evidence/, docs/case-files/, dossier paths touched.
+- Forbidden scan of added lines: case/hfmr/evidence/public-records only appear as prohibitions; Ultralytics only as FORBIDDEN; gprMax offline-only, never linked; no EDNA, PII, realdata/opendata imports.
+- isrid_prior_map(shape, last_seen_xy, category_radius=500): imports numpy + scipy.ndimage only; parametric, no ISRID data load.
+- Renames scored: isrid_prior_map→synthetic_prior_map 5/5; finder_confirmation→confirmation_event 5/5; "Private forensic pipeline"→"Synthetic search-scenario pipeline" 5/5; package forensic_pipeline keep OK.
+- Conditions: renames to land in a follow-up code PR with registry text updated; Deepscan modules must not import forensic_pipeline until that lands; PR stays draft until then.
