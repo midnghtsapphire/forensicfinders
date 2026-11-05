@@ -82,3 +82,10 @@
 - **R5 registry, conf 90:** max is 1000 on main/sensecrew/ledger but 2210 on sar-make-it-work (1000 double-booked; 1010/1020 taken). Proposed: 2300 parent, 2310 NEW-01, 2320 NEW-03, 2330 NEW-10, 2331 NEW-11, 2340 NEW-12, 2350 insect-trace-add-sim, 2360 NEW-22.
 - **Licence:** UNLICENSED (private repo; licence pending Audrey)
 - **Verity-N:** pending (this is a single-instance run; no APPROVE line yet).
+
+## 2026-11-04 20:35 MST — Sense-Verity — out-of-scope findings for Audrey (append-only)
+- **Who:** Sense-Verity (Grok Bot), requested by Strata. **Role:** report only; nothing was fixed or edited.
+- **F1 `sar/blue-ocean-sar/realdata/` has no `__init__.py`:** registry suite 100 (`unittest discover -s .`) never enters it, so none of the realdata tests have ever run under suite 100. The SenseCrew golden manifest (PR golden-gate) lists them explicitly instead.
+- **F2 `sar/blue-ocean-sar/realdata/test_evidence_scoring.py:125` SyntaxError:** the method name `test_CASE-X_null_discharge_is_warning_not_error` is not valid Python, so the module cannot load. It is excluded from golden.json and left unedited.
+- **Related:** golden-gate's forbidden-imports gate is narrowed per Strata to the sensegame 2300 block plus its transitive imports. opendata/ and realdata/ can be reached only through `sensecrew/adapter_allowlist.json`, which is empty. Current result: 0 hits, but the scan is vacuous because no 2300-block component is registered yet (`--strict` fails).
+- **Main:** not touched. **Deletions:** none. **Licence:** UNLICENSED (private repo; licence pending Audrey)
