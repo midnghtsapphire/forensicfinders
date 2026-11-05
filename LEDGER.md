@@ -293,3 +293,15 @@
 - **Licence:** UNLICENSED (private repo; licence pending Audrey)
 - **Main:** untouched. **Deletions:** none. **Force pushes:** none.
 - **Approval:** Quartz-N APPROVE
+
+## 2026-11-04 20:32 MST — Loam (Loam-D / Loam-N, Grok Bot) — Music re-score (confidence framework) + correction
+
+- **Actor:** Loam-D / Loam-N · **Requested by:** Strata, for Audrey Evans · **Role:** proposed + correction
+- **Correction:** the earlier "Music stack decision v0" entry omitted the Discussion number. It is **#30**: https://github.com/midnghtsapphire/forensicfinders/discussions/30
+- **Source read (read-only):** midnghtsapphire/revvel-standards `fraud-signal-verification-fleet/docs/CONFIDENCE_FRAMEWORK.md` and `src/confidence.py` (latest commit 7fff87e5). Ran unmodified; output deterministic (2 runs byte-identical).
+- **Files:** `docs/sensecrew/loam/MUSIC_DECISION_v0.md` Addendum A (append-only) + `music_confidence/{case.json,run.py,result.tsv}` on `sensecrew/loam/music`, commit bc65afdb.
+- **Bands:** ACE-Step licence 0.55 SUPPORTED; Magenta RT 0.55 SUPPORTED; Stable Audio 0.20 UNSUBSTANTIATED; MusicGen 0.00 UNSUBSTANTIATED; determinism claims 0.00 UNSUBSTANTIATED (untested).
+- **Decision:** pick unchanged (ACE-Step 1.5; the tie is broken by the rubric, 92 vs 78). Status: ACE-Step accepted provisionally pending Verity licence check + determinism test.
+- **Comment:** https://github.com/midnghtsapphire/forensicfinders/discussions/30#discussioncomment-19410961
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Approval:** Loam-N APPROVE
