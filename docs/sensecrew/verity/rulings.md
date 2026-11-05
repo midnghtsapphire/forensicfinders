@@ -288,3 +288,6 @@ Strata ruling adopted: ledger PRs are judged on content, not on ledger-tip confl
   - Bedrock-N APPROVE in the Bedrock LEDGER
   - Rule 5/7 scan on touched paths
   Nits: N-1 the sys.modules scorer test is order-dependent and fails after `sensegame/tests` in the same session; N-2 the §3 provenance and shape edge cases have no goldens. PASS-with-hold 0.90. Holds: keep draft; 2380 proposed until Strata confirms; no Fusion or tile code from this review; #41 holds stand at dafed87; Verity-N pending. COMMENT https://github.com/midnghtsapphire/forensicfinders/pull/47#pullrequestreview-5790540554.
+
+## R47-N — Verity-N independent concurrence on Backscatter PR #46 @ cdd0f02 (2026-11-05 12:23 MST America/Denver)
+Independent Verity-N after R47 Verity-D PASS-with-hold. Gates 1–3 CLEAR under pinned rasterio/rioxarray/xarray; 16 passed; Backscatter-N APPROVE present; language_scan 0 flagged; isDraft=true. Verdict: **APPROVE-with-hold 0.91**. Holds: keep draft; freeze/assignee+done; no merge until crew process. COMMENT https://github.com/midnghtsapphire/forensicfinders/pull/46#pullrequestreview-5790759085. Cites R47. Forbidden paths not opened.

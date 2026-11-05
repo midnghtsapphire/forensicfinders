@@ -984,3 +984,27 @@ Independent Verity-N re-review of PR #40 @ `5b1149d28acf0213fbaf4ddd27e562af1675
 - **Main:** untouched. **Deletions:** none. **Force pushes:** none. Forbidden paths not opened.
 - **Licence:** UNLICENSED (private repo; licence pending Audrey)
 - **Approval:** Verity-D PASS-with-hold; Verity-N not started
+
+## Verity-N APPROVE-with-hold cdd0f02 (independent) — Backscatter PR #46 — 2026-11-05 12:23 MST (America/Denver)
+
+- **Actor:** Verity-N (Grok Bot; **independent** navigator) · **Requested by:** Sense-Strata, for Audrey Evans
+- **Independence:** Fresh worktree `/workspace/sensecrew/wt/verity-n-46` at exact tip `cdd0f02c2f15a0b42ca4b20a554df319e98c60ba` (detached). **Did not** reuse Verity-D worktree `/workspace/sensecrew/wt/verity-pr46` or any Backscatter tree. Re-checked from scratch; did not trust R47 conclusions blindly. LEDGER must say **independent**.
+- **What:** Independent Verity-N after Verity-D R47 PASS-with-hold on Backscatter draft PR #46 (WR #43 / Discussion #45 Option B). D LEDGER `3e0bc4568462f03ce5d1114269520a5188866479`; D COMMENT https://github.com/midnghtsapphire/forensicfinders/pull/46#pullrequestreview-5790490765. Confirmed CURRENT head with API still `cdd0f02` (`isDraft=true`).
+- **Re-checked (independent):**
+  1. **Gate 1 CLEAR** — `BytesIO` + `rioxarray.open_rasterio(..., masked=True)` + squeeze (`sentinel.py:54-55`); `ValueError` on missing CRS / missing-or-identity transform (`:57-71`). Tests: missing CRS + identity transform.
+  2. **Gate 2 CLEAR** — `-9999→NaN` in return path (`_SENTINEL_NODATA` + `da.where` at `:73-75`; both return sites via helper `:148-150`). Test: maps nodata to NaN.
+  3. **Gate 3 CLEAR** — offline synthetic tests: **8** in `test_sentinel_dataarray.py`; Hub HTTP mocked; golden A/B byte-identical float32; fixture/builder names contain `synthetic`. Live Hub never called.
+  4. **requirements.txt** unchanged (md5 match vs base `a263098`; pins `rasterio==1.3.10` / `rioxarray==0.15.5` / `xarray==2024.5.0`).
+  5. **Backscatter-N APPROVE** present in `docs/sensecrew/backscatter/LEDGER.md` (ec2fc25) — verified.
+  6. **Rule 5/7 + language_scan:** 0 forbidden imports on touched py; `language_scan.scan_file` → **0 flagged** on `sentinel.py` + `test_sentinel_dataarray.py` (REVVEL-DISABLED historical placeholder balanced). Forbidden paths not opened.
+  7. **Draft:** `isDraft=true`. Keep draft hold.
+- **Tests (pinned; independent re-run):** Python 3.12.16 venv `/workspace/sensecrew/venv-verity-pr46` with exact pins; `PYTHONPATH=sar python -m pytest sar/coldtrace/backend/tests/ -v` → **16 passed, 0 failed** (8 new sentinel + no_data + health + viewshed).
+- **Verdict:** **Verity-N APPROVE-with-hold** — same holds as R47 (minus Verity-N pending). Confidence **0.91**. No CHANGES-REQUIRED. Informational nit: committed `ndvi_3x3_synthetic.tif` unused by tests (in-memory builder used).
+- **Holds (kept; not cleared):**
+  1. keep draft
+  2. freeze / assignee+done — no self-merge; Strata/Proofy own next step
+  3. no merge until crew process clears remaining holds
+- **PR / review:** COMMENT-only (never APPROVE/REQUEST_CHANGES GitHub event) https://github.com/midnghtsapphire/forensicfinders/pull/46#pullrequestreview-5790759085 @ `cdd0f02`.
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Approval:** Verity-N APPROVE-with-hold (independent); cites R47
