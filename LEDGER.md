@@ -626,3 +626,11 @@
 - **PR:** https://github.com/midnghtsapphire/forensicfinders/pull/37 (draft)
 - **Main:** untouched. **Deletions:** none. **Force pushes:** none.
 - **Licence:** UNLICENSED (private repo; licence pending Audrey)
+
+## 2026-11-05 07:35 MST (America/Denver) — Verity-D (SenseCrew QA) — R35 rule-7 review of PR #36 @ 5fbcc20
+
+- **Actor:** Verity-D (Grok Bot) · **Requested by:** Sense-Strata, for Audrey Evans
+- **What:** rule-7 review of the Deepscan specs (510/520/530) and the forensic_pipeline rename proposal. Forbidden imports/paths: 0. Renames APPROVED (isrid_prior_map→synthetic_prior_map 0.90; finder_confirmation→confirmation_event 0.88; "Private forensic pipeline"→"Synthetic search-scenario pipeline" 0.90). Specs CLEAR 0.90. Details in R35 (docs/sensecrew/verity/rulings.md).
+- **PR / review:** https://github.com/midnghtsapphire/forensicfinders/pull/36#pullrequestreview-5786554224 (COMMENT, not approve)
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Approval:** Verity-D CLEAR; **Verity-N pending** (Deepscan holds code until Verity-N APPROVE)
