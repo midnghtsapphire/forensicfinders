@@ -70,3 +70,15 @@
   - Commit 28ab70b6 on branch `sensecrew/loam/gdd` (adds `docs/sensecrew/loam/GDD_v0..v0.3`) opened draft PR https://github.com/midnghtsapphire/forensicfinders/pull/10 into main.
   - Ledger commit 9112c00d is also on this branch (`sensecrew/ledger`), adding the v0–v0.3 entries to LEDGER.md.
 - **Main:** not touched. **Deletions:** none.
+
+## 2026-11-04 20:40 MST — Sense-Verity gate rulings (queue from Sense-Strata)
+- **Who:** Sense-Verity (Grok Bot). **Why:** rule 7 lineage, licence, and registry gate. Full evidence: /workspace/sensecrew/verity/gate-2026-11-04/rulings.md. No forbidden path was opened.
+- **Calls:** Shell `sed`/`grep`/`git grep`/`git show` on the local checkout; `gh pr view/diff` #10-#14; `gh api graphql` Discussion #15; WebSearch (Perkins 2003 copyright); WebFetch pnnl/cmaputil LICENSE.
+- **R1 sweep_width.py: CLEAR (reference/adapter), conf 70.** Why: L77-89 cite a case file only to say its values were dropped; L94 is a naming convention; stdlib imports only. It stays on the denylist until Strata enables NEW-11; replace the CASE-X path with a deprecation note. Sources: sar/blue-ocean-sar/realdata/sweep_width.py L68-94.
+- **R2 search_theory.py QUARANTINE, conf 85; optimal_search.py QUARANTINE (transitive, L66), conf 90.** Why: the L3-6 docstring says "Built from ... docs/case-files/general/wisar_*". Extra BLOCK flags: evidence_scoring.py L102, test_evidence_scoring.py L19, test_drift_envelope.py L19 (runtime case-files reads). Clean-room NEW-01 from published Koopman/Stone sources.
+- **R3a lpb_mpb2003.json BLOCK (ship/training), conf 85.** Why: Perkins, Roberts & Feeney (2003), Centre for Search Research, copyrighted, with Koester/Hill-adapted tables; no licence in the repo or found on the web. Source: lpb_mpb2003.json `source`; https://www.dbs-sar.com/LPB/Notes.pdf.
+- **R3b cividis CLEAR, conf 90.** Why: pnnl/cmaputil Battelle BSD-style (keep the notice, no endorsement); Nuñez et al. 2018 PLOS ONE CC BY 4.0, doi:10.1371/journal.pone.0199239. Source: https://raw.githubusercontent.com/pnnl/cmaputil/master/LICENSE.
+- **R4 reviews:** test_no_forbidden_imports does not exist as code (prose only); the Verity prototype fails on sweep_width and optimal_search, and self-import gives a false pass, so the test needs a fresh-subprocess harness scan. COMMENT-only reviews on #10-#14. Discussion #15: rename `insect-trace-evidence` (clashes with the evidence/ namespace) and reuse 1010 taphonomy / 2210 INSECT_TRACES from sar-make-it-work.
+- **R5 registry, conf 90:** max is 1000 on main/sensecrew/ledger but 2210 on sar-make-it-work (1000 double-booked; 1010/1020 taken). Proposed: 2300 parent, 2310 NEW-01, 2320 NEW-03, 2330 NEW-10, 2331 NEW-11, 2340 NEW-12, 2350 insect-trace-add-sim, 2360 NEW-22.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Verity-N:** pending (this is a single-instance run; no APPROVE line yet).
