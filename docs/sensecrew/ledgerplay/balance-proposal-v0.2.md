@@ -8,17 +8,19 @@ Status: draft, following Strata's v0.2 rulings. Repo/branch for code and the LED
 
 **D3. Units.** `sweep_width_km` (km) and `coverage_rate` in **km²/h** for every row. The per-row `coverage_units` field from v0 is dropped. Tier 3 per-sample nodes use `effort_unit: samples` and leave `coverage_rate` null.
 
-**D4. Blocked modules (case-file lineage).** `search_theory.py`, `optimal_search.py` **and `sweep_width.py`** are BLOCKED. They were not opened for v0.1 or v0.2. Their v0 signature notes (from read-only research done before the ruling) are history only, **not interfaces**. Consequences:
-- Sweep width fallback: **Loam NEW-10 clean table**. GDD v0.2 (`/workspace/sensecrew/loam/GDD_v0.2.md`, line 64) names it as `fixtures/sweep_width_cited_synthetic.json` with `sweep_width_km`; uncited cells are `null`, flagged "UNCITED — not scorable". **The file does not exist yet (path proposed, TBD).** Note: GDD v0.2's NEW-11 adapter calls `sweep_width.py` functions; under D4 Ledger-Play does not depend on NEW-11.
-- `test_no_forbidden_imports` must fail on importing **any** of `search_theory`, `optimal_search`, `sweep_width` (static AST scan + `sys.modules` check after a harness run). The v0 policies `equal/poa_proportional/greedy_psr/optimal/sequential` are reimplemented on the clean `Scorer`; they do not reuse `NAIVE_PLANS`.
+**D4. Blocked modules (case-file lineage).** `search_theory.py`, `optimal_search.py` **and `sweep_width.py`** are BLOCKED. They were not opened for v0.1 or v0.2. Their v0 signature notes (from read-only research done before the ruling) are history only, **not interfaces**. Consequences: **[v0.2 D9 update: `sweep_width.py` is now CLEAR for reference/adapter use only, off the import path until 2331 is enabled; `search_theory.py` and `optimal_search.py` stay BLOCKED.]**
+- Sweep width fallback: **Loam NEW-10 clean table**. GDD v0.2 (`/workspace/sensecrew/loam/GDD_v0.2.md`, line 64) names it as `fixtures/sweep_width_cited_synthetic.json` with `sweep_width_km`; uncited cells are `null`, flagged "UNCITED — not scorable". **The file does not exist yet (path proposed, TBD).** Note: GDD v0.2's NEW-11 adapter calls `sweep_width.py` functions; under D4 Ledger-Play does not depend on NEW-11. **[D9: NEW-10 = registry 2330; NEW-11 = 2331.]**
+- `test_no_forbidden_imports` must fail on importing **any** of `search_theory`, `optimal_search`, `sweep_width` (static AST scan + `sys.modules` check after a harness run). The v0 policies `equal/poa_proportional/greedy_psr/optimal/sequential` are reimplemented on the clean `Scorer`; they do not reuse `NAIVE_PLANS`. **[D9: the `sweep_width` import failure stays until 2331 is enabled.]**
 
 **D5. Scorer ownership.** **Bedrock writes the clean `Scorer` spec** (Loam's GDD v0.2 registry list calls it NEW-01 CleanScorer). The C5 Protocol is Ledger-Play's *consumer requirements* only (pod, pos, optimal, update; km, km², km/h; [0,1]). Bedrock's spec takes precedence.
 
-**D6. Registry.** The sweep harness is **NEW-12** (Strata ruling, v0.2 follow-up; supersedes `NEW-xx`, which also matches GDD v0.2 line 94). **NEW-11 (sweep_width adapter) stays disabled while `sweep_width.py` is blocked.**
+**D6. Registry.** The sweep harness is **NEW-12** (Strata ruling, v0.2 follow-up; supersedes `NEW-xx`, which also matches GDD v0.2 line 94). **NEW-11 (sweep_width adapter) stays disabled while `sweep_width.py` is blocked.** **[D9: NEW-12 = registry 2340; NEW-11 = 2331 (disabled).]**
 
 **D8. Repo licence.** Every repo/output licence field reads: `UNLICENSED (private repo; licence pending Audrey)`. The per-sensor `licence_note` column still records third-party tool licences (e.g. GPL offline-only).
 
 **D7. Swarm.** Unchanged from C2: none started; ≤10 subagents with small token budgets once approved.
+
+**D9. Registry ids and the sweep_width status (Verity Discussion #25 + Strata).** Harness **2340** (alias NEW-12, earlier NEW-xx: superseded); table **2330** (alias NEW-10: superseded); adapter **2331** (alias NEW-11: superseded; disabled). `sweep_width.py` is CLEAR for reference/adapter use only and stays off the import path until 2331 is enabled. `search_theory.py` and `optimal_search.py` stay BLOCKED. `test_no_forbidden_imports` fails on `search_theory`, `optimal_search` and (until 2331 is enabled) `sweep_width`. Lines that still referred to blocked modules as if in use are annotated inline as DEPRECATED; no text removed.
 
 ---
 ## v0.1 (kept for history; superseded where v0.2 says so)
@@ -29,7 +31,7 @@ Status: v0 accepted by Strata as **draft**; this is v0.1. No code, commits, bran
 
 **C2. Swarm: none yet.** No swarm runs before Strata approves. Once approved, the first swarm is capped at **≤10 subagents**, each with a **small token budget** (exact figure PLACEHOLDER, set by Strata). The ≤100 rule-2 cap is not used in v0.1. Revised brief:
 ```yaml
-swarm_id: ledger-play-sweep-NEW-12-<seq>
+swarm_id: ledger-play-sweep-NEW-12-<seq>   # NEW-12 = 2340 (D9)
 status: NOT STARTED (awaiting Strata approval)
 objective: "Run sweep cells <a..b> of grid <grid_hash> at SEED=<n>"
 output_schema: "swarm/<id>/shard_<k>/{runs.csv, sha256sums.txt} (columns as in v0 §4)"
@@ -117,12 +119,12 @@ Files live in `sar/blue-ocean-sar/realdata/` (not directly under `sar/`). Regist
 ## 1. v0 sensor balance table schema (`balance/sensors_v0.yaml`, mirrored CSV)
 | column | type / units | rule |
 |---|---|---|
-| `id` | str, snake_case (`gpr_250mhz`, `soil_dna_sensor`, `uav_thermal`) | stable; match sweep_width resource names where they exist |
+| `id` | str, snake_case (`gpr_250mhz`, `soil_dna_sensor`, `uav_thermal`) | stable; match sweep_width resource names where they exist | **[D9: match is by name only, via the 2330 table; no import]**
 | `tier` | int 1–3 | = `SOIL_SENSING_TIERS.md` tier; `unlock_level` int separate (Loam owns order) |
 | `cost_credits` | int, game credits | **balance knob** |
 | `deploy_time_min` | float, minutes | **balance knob** (setup/teardown) |
-| `coverage_rate` | float, km²/h or m²/h (`coverage_units`) | **physics**: derive from W (m) × speed (km/h) via sweep_width.py, else cite, else PLACEHOLDER |
-| `sweep_width_m` | float or null | from `table_width`/calibration; null ⇒ "needs field calibration" |
+| `coverage_rate` | float, km²/h or m²/h (`coverage_units`) | **physics**: derive from W (m) × speed (km/h) via sweep_width.py, else cite, else PLACEHOLDER | **[DEPRECATED v0.2 D3/D9: units are km²/h only; W comes from table 2330 (NEW-10) or a cited owner value; sweep_width.py is reference only, not called]**
+| `sweep_width_m` | float or null | from `table_width`/calibration; null ⇒ "needs field calibration" | **[DEPRECATED v0.2 C6/D3: column renamed `sweep_width_km`; source is table 2330, not `table_width`]**
 | `noise_model` | enum `gaussian`/`poisson`/`exp_detection` | physics |
 | `noise_params` | map with units (e.g. `sigma_ns`, `false_alarm_per_km2`) | cited or PLACEHOLDER |
 | `weather_mod` | map {clear, rain, fog, night: multiplier on coverage_rate} | physics → cited (e.g. koester2014 range factors) or PLACEHOLDER |
@@ -148,13 +150,13 @@ Example row (all physics PLACEHOLDER — no values invented):
 Validator (mirrors `validate_tables`): reject any physics value without `citation`; reject a citation on null; `test_no_physics_change_in_balance_diff` fails if a balance PR touches physics columns.
 
 ## 2. Scoring
-Per mission, from the player's effort allocation `z_i` (km or h), segments built from the synthetic scene (POA from `lost_person_sim` on `synthetic_flat_terrain`, W from `sweep_width.py`):
-- `POS = evaluate_plan(segments, effort, unit)` total (dimensionless, 0–1).
-- `POS_opt = optimal_allocation(segments, budget, unit)` → efficiency `η = POS / POS_opt` (dimensionless; teaches optimal search).
+Per mission, from the player's effort allocation `z_i` (km or h), segments built from the synthetic scene (POA from `lost_person_sim` on `synthetic_flat_terrain`, W from `sweep_width.py`): **[DEPRECATED v0.2 D9: W comes from table 2330 (NEW-10); sweep_width.py is reference only, not on the import path]**
+- `POS = evaluate_plan(segments, effort, unit)` total (dimensionless, 0–1). **[DEPRECATED v0.2 D4/D9 — blocked module; use `Scorer` (Bedrock spec) instead]** → `POS = Scorer.pos(segments, effort_km)`
+- `POS_opt = optimal_allocation(segments, budget, unit)` → efficiency `η = POS / POS_opt` (dimensionless; teaches optimal search). **[DEPRECATED v0.2 D4/D9 — blocked module; use `Scorer` (Bedrock spec) instead]** → `POS_opt = Scorer.pos(segments, Scorer.optimal(segments, budget_km))`
 - Score (points):
   `S = 1000 · [ w_pos·POS + w_eff·η − w_t·max(0, t_used − t_limit)/t_limit − w_b·max(0, spent − budget)/budget ] + bonus_found`
   t in minutes, spend in credits; all weights dimensionless, **PLACEHOLDER** (proposed to be fixed by the §4 sweep, Σ w_pos+w_eff = 1). Overruns are penalised, not hard-failed, so trade-offs stay visible.
-- Report naive-plan baselines via `compare_plans` in the debrief (equal / poa_proportional / greedy_psr).
+- Report naive-plan baselines via `compare_plans` in the debrief (equal / poa_proportional / greedy_psr). **[DEPRECATED v0.2 D4/D9 — blocked module; use `Scorer` (Bedrock spec) instead]** → harness `equal`/`poa_proportional`/`greedy` policies on `Scorer`
 
 ## 3. Difficulty curve (`balance/levels_v0.csv`)
 Columns: `level, tier_unlocked, budget_credits, time_limit_min, weather, soil, target_count, target_depth_m, area_km2, segments, seed`.
@@ -165,7 +167,7 @@ Columns: `level, tier_unlocked, budget_credits, time_limit_min, weather, soil, t
 - CLI: `make sweep SEED=42 GRID=balance/grids/v0.yaml OUT=swarm/<id>/` → `python -m ledgerplay.sweep --seed 42 --grid ... --out ...`. Also `make sweep-verify ID=<id>` (rerun, `sha256sum` compare).
 - Determinism: one master `numpy.random.SeedSequence(SEED)`; child seed per (cell, policy, rep) via `spawn` in sorted grid order; no wall-clock, no set/dict-order dependence; JSON with `sort_keys=True`, fixed float format `%.9g`, LF; CSV sorted by key. Same seed ⇒ byte-identical files (golden hash test).
 - Grid: cartesian over `cost_scale, deploy_time_scale, budget, time_limit, weather, soil, level` (balance knobs only; physics fixed from table).
-- Playtest-bot policies: `random`, `equal`, `poa_proportional`, `greedy_psr` (reuse `NAIVE_PLANS`), `optimal` (`optimal_allocation`), `sequential` (`sequential_replan`), `cheapest_sensor`, `best_coverage_per_credit`.
+- Playtest-bot policies: `random`, `equal`, `poa_proportional`, `greedy_psr` (reuse `NAIVE_PLANS`), `optimal` (`optimal_allocation`), `sequential` (`sequential_replan`), `cheapest_sensor`, `best_coverage_per_credit`. **[DEPRECATED v0.2 D4/D9 — blocked module; use `Scorer` (Bedrock spec) instead]** → all plan policies are reimplemented on `Scorer.optimal`/`Scorer.update`
 - Output `swarm/<id>/`: `manifest.json` {seed, grid_hash, git_sha, table_hash, created_by}, `seed_log.csv`, `runs.csv` (`cell_id, policy, rep, seed, POS, POS_opt, eta, t_used_min, spent_credits, score, found`), `summary.json` (per cell: median/IQR score, band pass/fail, dominance flags), `sha256sums.txt`.
 - Metrics: POS, η, score distribution, policy rank stability, dominance, band pass rate, variance across reps.
 - Swarm brief template (Strata approval required, ≤100 subagents):
@@ -178,7 +180,7 @@ token_budget: PLACEHOLDER per subagent (Strata sets)
 max_subagents: 100
 verity_sampling: ">=10% of shards re-run; hashes must match"
 ```
-- Golden tests: (1) existing `test_sweep_width.py`, `test_optimal_search.py` stay green; (2) `test_sweep_deterministic` (two runs, identical bytes); (3) `test_optimal_policy_matches_optimal_allocation`; (4) `test_balance_table_citations`; (5) `test_only_synthetic_fixtures` (scene paths match `fixtures/*synthetic*`); (6) `test_no_forbidden_imports` (greps for forbidden modules).
+- Golden tests: (1) existing `test_sweep_width.py`, `test_optimal_search.py` stay green; (2) `test_sweep_deterministic` (two runs, identical bytes); (3) `test_optimal_policy_matches_optimal_allocation`; (4) `test_balance_table_citations`; (5) `test_only_synthetic_fixtures` (scene paths match `fixtures/*synthetic*`); (6) `test_no_forbidden_imports` (greps for forbidden modules). **[DEPRECATED v0.2 D4/D9: golden tests (1) and (3) are replaced by `Scorer` contract tests (C5); repo tests are reference only]**
 
 ## 5. XP-pair workflow
 - Navigator (Ledger-Play-N) writes the failing test first; Driver implements; Navigator checks units/citations live; seats swap per task.
