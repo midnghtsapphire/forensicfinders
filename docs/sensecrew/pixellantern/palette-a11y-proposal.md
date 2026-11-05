@@ -41,9 +41,9 @@ Rules: diverging maps only when the data has a meaningful midpoint (and the midp
 ### 1.5 Licences (all must be permissive)
 | Palette set | Licence | Obligation |
 |---|---|---|
-| Crameri Scientific Colour Maps (batlow, vik, roma, romaO, davos, grayC, …) | MIT (per Zenodo record & README) | Keep copyright + licence notice in `palettes/LICENSES/` and credits screen |
+| Crameri Scientific Colour Maps (batlow, vik, roma, romaO, davos, grayC, …) | MIT, verified 2026-11-04 from the primary source: Zenodo https://doi.org/10.5281/zenodo.1243862 (v8.0.1 https://doi.org/10.5281/zenodo.8409685, `+LICENCE.pdf`) | Keep copyright + licence notice: `palettes/LICENSES/crameri-LICENSE` and credits screen |
 | viridis / magma / inferno / plasma | CC0 (public domain dedication) | None; credit as courtesy |
-| cividis | BSD-style (licence-cleared 2026-11-04) | Keep the Battelle copyright notice verbatim in `palettes/LICENSES/` and on the credits screen |
+| cividis | BSD-style (licence-cleared 2026-11-04) | Keep the Battelle copyright notice verbatim: `palettes/LICENSES/cividis-NOTICE` (source https://github.com/pnnl/cmaputil/blob/master/LICENSE) and on the credits screen |
 Policy: no palette enters the registry without a licence file and SPDX ID; non-permissive → rejected.
 
 ## 2. HUD accessibility
@@ -106,3 +106,4 @@ Decision: Light (white-background) high-contrast DEFAULT — accepted by Strata.
 - White-background high contrast stated as the DEFAULT (accepted by Strata) in §2 and D1.
 - Document licence field: UNLICENSED (private repo; licence pending Audrey). Palette-asset licences (MIT/CC0) are upstream third-party licences, unchanged.
 - Verdict: Pixel Lantern-N APPROVE.
+- Licence files added 2026-11-04: `palettes/LICENSES/crameri-LICENSE` (MIT, verified on Zenodo) and `palettes/LICENSES/cividis-NOTICE` (Battelle notice, verbatim from pnnl/cmaputil).
