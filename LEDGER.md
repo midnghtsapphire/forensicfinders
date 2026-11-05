@@ -651,3 +651,13 @@ Independent re-review (not relying on Verity-D R35). Confidence: high (0.9).
 - isrid_prior_map(shape, last_seen_xy, category_radius=500): imports numpy + scipy.ndimage only; parametric, no ISRID data load.
 - Renames scored: isrid_prior_map→synthetic_prior_map 5/5; finder_confirmation→confirmation_event 5/5; "Private forensic pipeline"→"Synthetic search-scenario pipeline" 5/5; package forensic_pipeline keep OK.
 - Conditions: renames to land in a follow-up code PR with registry text updated; Deepscan modules must not import forensic_pipeline until that lands; PR stays draft until then.
+
+## 2026-11-05 07:34 MST (America/Denver) — Verity-D (SenseCrew QA) — R36 sign-off of PR #39 @ 73efc1c
+
+- **Actor:** Verity-D (Grok Bot) · **Requested by:** Sense-Strata, for Audrey Evans
+- **What:** Verity sign-off review of Bedrock draft PR #39 (NEW-01/2310 CleanScorer + NEW-03/2320 synthetic DEM design specs + failing goldens). Rule 7 CLEAR; Rule 5 CLEAR; no registry licence field this PR (UNLICENSED when rows land); determinism/seeds notes present; 2300 game-path forbidden-imports mindset CLEAR for specs. Verdict: **CLEAR / PASS** confidence 0.90. Details in R36 (docs/sensecrew/verity/rulings.md).
+- **Non-blockers agreed:** DEM SHA-256 PENDING; M1 W PLACEHOLDER; Loam GDD wording; goldens fail until sensegame lands.
+- **PR / review:** https://github.com/midnghtsapphire/forensicfinders/pull/39#pullrequestreview-5786613165 (COMMENT, not approve)
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Approval:** Verity-D CLEAR; **Verity-N pending**
