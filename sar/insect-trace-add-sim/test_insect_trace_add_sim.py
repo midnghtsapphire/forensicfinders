@@ -1,9 +1,9 @@
-"""Golden tests for 1050 insect-trace-evidence (written FIRST, Chitin-N).
+"""Golden tests for 2350 insect-trace-add-sim (written FIRST, Chitin-N).
 Licence: UNLICENSED (private repo; licence pending Audrey). Synthetic, educational, non-graphic."""
 import json, os, subprocess, sys, unittest
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
-from insect_trace_evidence import sim
+from insect_trace_add_sim import sim
 
 class GoldenTests(unittest.TestCase):
     def test_same_seed_byte_identical_json(self):
@@ -34,7 +34,7 @@ class GoldenTests(unittest.TestCase):
         self.assertEqual(out["licence"], "UNLICENSED (private repo; licence pending Audrey)")
 
     def test_cli_seed(self):
-        r = subprocess.run([sys.executable, "-m", "insect_trace_evidence", "--seed", "7", "--days", "30"],
+        r = subprocess.run([sys.executable, "-m", "insect_trace_add_sim", "--seed", "7", "--days", "30"],
                            cwd=HERE, capture_output=True, text=True, check=True)
         self.assertEqual(r.stdout.strip(), sim.to_json(sim.run(seed=7, days=30)))
 

@@ -312,11 +312,11 @@
       ],
       "source": "Audit item 4. Nothing in this repository enforced the standard; the enforcer workflow lives in revvel-standards and never ran here, which is how four flagged lines sat in multi_proxy from 2026-10-24. PR #8 scanned multi_proxy only and said why: widening it then would have made main red for defects it was added to report, which GREEN_MAIN_STANDARD.md forbids. The 16 lines outstanding outside multi_proxy are resolved as of 2026-11-04 -- 11 by the two shape rules, 5 by comment-only fixes -- so the scan now covers the repository. See sar/docs/WORK_RANKING_2026-11-04.md."
     },
-    "1050": {
-      "name": "insect-trace-evidence",
-      "path": "insect-trace-evidence",
-      "what": "PROVISIONAL id (Strata; pending Verity no-collision). Seeded synthetic ADD insect-development training sim; clean-room ADD; no refloat_timing import. UNLICENSED (private repo; licence pending Audrey)",
-      "test_cwd": "insect-trace-evidence",
+    "2350": {
+      "name": "insect-trace-add-sim",
+      "path": "insect-trace-add-sim",
+      "what": "Seeded synthetic ADD insect-development training sim (Strata/Verity Discussion #25 id 2350); clean-room ADD; no refloat_timing / taphonomy.py / INSECT_TRACES.md reuse. UNLICENSED (private repo; licence pending Audrey)",
+      "test_cwd": "insect-trace-add-sim",
       "test": [
         "python3",
         "-m",
@@ -325,22 +325,7 @@
         "-p",
         "test_*.py"
       ],
-      "source": "docs/sensecrew/chitin/SPEC_1050_insect-trace-evidence.md"
-    },
-    "1060": {
-      "name": "decay-taphonomy-model",
-      "path": "decay-taphonomy-model",
-      "what": "RESERVED provisional id (Strata; pending Verity). Stub: decay-stage/VOC-proxy synthetic timeline; Humus soil interface contract. UNLICENSED (private repo; licence pending Audrey)",
-      "test_cwd": "decay-taphonomy-model",
-      "test": [
-        "python3",
-        "-m",
-        "unittest",
-        "discover",
-        "-p",
-        "test_*.py"
-      ],
-      "source": "docs/sensecrew/chitin/SPEC_1060_decay-taphonomy-model.md"
+      "source": "docs/sensecrew/chitin/SPEC_2350_insect-trace-add-sim.md"
     }
   },
   "deselected_tests": {

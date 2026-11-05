@@ -1,7 +1,7 @@
-"""1050 insect-trace-evidence: seeded analytic ADD insect-development sim (training games only).
+"""2350 insect-trace-add-sim: seeded analytic ADD insect-development sim (training games only).
 Clean-room ADD (averaging method, daily mean minus base, floored at 0) from the literature:
   Amendt et al. 2007 Int J Legal Med doi:10.1007/s00414-006-0086-x
-  Nabity et al. 2006 J Med Entomol 43(6):1276 (full SICI DOI in docs/sensecrew/chitin/SPEC_1050)
+  Nabity et al. 2006 J Med Entomol 43(6):1276 (full SICI DOI in docs/sensecrew/chitin/SPEC_2350)
 Does NOT import realdata/refloat_timing.py (Verity gate). Synthetic fixtures only.
 Licence: UNLICENSED (private repo; licence pending Audrey)."""
 import json, os, random
@@ -27,7 +27,7 @@ def run(seed, days=30, mean_c=22.0, swing_c=6.0, soil_moisture_vwc=None):
         stage = [s["name"] for s in sp["stages"] if add >= s["add_threshold"]][-1]
         rows.append({"day": i, "tmax_c": tmax, "tmin_c": tmin,
                      "add_cumulative_degree_days": add, "stage": stage})
-    return {"component": "1050", "synthetic": True, "licence": LICENCE, "seed": seed,
+    return {"component": "2350", "synthetic": True, "licence": LICENCE, "seed": seed,
             "units": {"temperature": "degC", "add": "degree-days"},
             "species": sp, "days": rows}
 

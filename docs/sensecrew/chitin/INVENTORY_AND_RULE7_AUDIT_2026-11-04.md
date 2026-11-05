@@ -17,3 +17,6 @@ search_theory.py (+test); optimal_search.py (+test); lost_person_behavior.py (+t
 | realdata/burial_signature.py | DEM mound/sink timeline; not insect; imports only microtopo locally. |
 | multi_proxy/dielectric.py | Topp dielectric from moisture (Humus). |
 | realdata/fixtures/*synthetic* | Usable pattern. hfmr synthetic_grid is under quarantine — not used. |
+
+## Registry outcome (Discussion #25)
+1050/1060 withdrawn (collisions). Insect = **2350 `insect-trace-add-sim`**. Decay = extend **1010** after Verity (doc-only now). Also blocked pending Verity: `forensic_models/taphonomy.py`, `sar/docs/research/INSECT_TRACES.md`.

@@ -1,5 +1,5 @@
-# SPEC 1050 — insect-trace-evidence
-Registry id **1050** PROVISIONAL (Strata-confirmed; pending Verity no-collision). Supersedes placeholder NEW-20. Licence: UNLICENSED (private repo; licence pending Audrey)
+# SPEC 2350 — insect-trace-add-sim
+Registry id **2350** `insect-trace-add-sim` (Strata/Verity, Discussion #25). Supersedes NEW-20 and withdrawn 2350 (collision). Name avoids "evidence". Licence: UNLICENSED (private repo; licence pending Audrey)
 ## Scope
 Seeded analytic accumulated-degree-day (ADD) insect-development sim for **training games only**. Educational, non-graphic. Synthetic fixtures only (`fixtures/species_synthetic.json`, fictional taxon). No real cases, PII, images.
 ## Model (clean-room)
@@ -14,4 +14,6 @@ Optional `soil_moisture_vwc` / dielectric (`multi_proxy/dielectric.topp_dielectr
 ## Tests (written first, Chitin-N, red commit precedes impl)
 same seed → byte-identical JSON; different seed differs; daily ADD math; stage only after threshold; soil identity; synthetic+licence; CLI.
 ## Run
-`cd sar/insect-trace-evidence && make test` · `python3 -m insect_trace_evidence --seed 7` · `python3 sar/registry.py 1050 --test`
+`cd sar/insect-trace-add-sim && make test` · `python3 -m insect_trace_add_sim --seed 7` · `python3 sar/registry.py 2350 --test`
+## Additional Verity gates
+`forensic_models/taphonomy.py` (registry 1010 on sar-make-it-work) and `sar/docs/research/INSECT_TRACES.md` are **BLOCKED — not opened, copied, or imported** until Verity clears case-file lineage.
