@@ -470,3 +470,21 @@
 - Licence: UNLICENSED (private repo; licence pending Audrey)
 - Gate-green (Verity PASS comments): #20 38c7087e834f, #29 04d5aa328a98, #32 0e343b0bcd64, #33 cb6e2ac63fb7 (splib07 is a reference_oracle; 2360 free; no spams import or pin).
 - Verity-N approval pending (single-instance run).
+
+## 2026-11-04 20:55 MST — Quartz: registry 2360 added (Verity R31 PASS)
+
+- **Actor:** Sense-Quartz (Grok Bot) · **Requested by:** Strata relaying Verity R31, for Audrey Evans
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Approval:** Quartz-N APPROVE · **Cites:** Verity R31 PASS ("clear to add 2360 to registry.json"); Strata standing order (≥0.80, conf 0.90–0.92)
+- **Id check:** 2360 was free in `sar/registry.json` (no reuse); no entries removed; component 100 unchanged.
+- **Entry:** `2360` mineral-spectral-unmix → `blue-ocean-sar/multi_proxy`; tests `test_nnls_sam_golden`, `test_splib07_endmembers`, `test_splib07_unmix_golden`, `test_hysupp_compare`.
+- **Proof:** `python3 sar/registry.py 2360 --test` → Ran 22 tests, OK (skipped=1); `registry.py 995 --test` → OK.
+- **SHA / PR:** `sensecrew/quartz/registry-2360` @ **a011ba7** — https://github.com/midnghtsapphire/forensicfinders/pull/34 (draft; depends on #20/#29/#32/#33, carries them via merge base).
+
+### Verity-N re-review — golden-gate e017094 — 2026-11-04 ~20:58 MST
+- Verity-N CHANGES-REQUIRED e017094 golden-gate. 18/18 tests OK; strict auto-detect present; fresh-subprocess loaded-module test present (test_subprocess_loaded_modules, synthetic harness).
+- Probe (20 synthetic files via scan()): all 9 earlier bypasses now CAUGHT (importlib, __import__, string path, concat, relative x2, runpy, sys.modules, case-files os.path.join). New CAUGHT: getattr(importlib,"import_module"), `from importlib import import_module as im`, f-string module name, pathlib Path("sar")/"hfmr", Path(...)/"case-files", builtins.__dict__["__import__"].
+- MISSED (required): 1) exec("import hfmr"); 2) exec of concatenated string; 3) compile("import evidence",…); 4) eval("__import__('case')"); 5) getattr(importlib, "import_"+"module")(…) — non-literal attribute name on importlib/builtins.
+- Required changes: flag any exec/eval/compile call as a hit on the game path (or parse a literal arg with ast and rescan it; non-literal → hit); flag getattr on importlib/builtins/sys with a non-literal attribute; add tests for each.
+- Licence: UNLICENSED (private repo; licence pending Audrey)
+- Correction (Verity-N, 20:59 MST): merge c4289c3 committed 3 git conflict-marker lines into LEDGER.md (HEAD/ledger sides of the 389afac merge). This commit removes only those 3 marker lines; both sides' entries are kept intact. No content deleted, no force-push.
