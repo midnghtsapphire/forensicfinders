@@ -10,6 +10,7 @@ Registry: **2370 (PROVISIONAL, pending Verity's collision check against `sar/reg
 4. The consumer contract is rebuilt against **Bedrock's NEW-01 spec** (`specs/scorer-spec.md`, Bedrock draft 2026-11-04). Diffs vs the Loam GDD contract are in §1a. Bedrock's version governs.
 5. TerraTorch stays **ON HOLD**.
 6. **Correction (Strata, 2026-11-04 20:26 MST):** registry 1080 → **2370** and 1080.1 → **2370.1** (1080 collides on other branches). Still PROVISIONAL pending Verity's collision check.
+7. **Verity round 2 (relayed by Strata, 2026-11-04 20:31 MST):** (a) combiner registry 2370.1 → **2371** (module stays 2370; both PROVISIONAL). Item 6 is kept as history. (b) `realdata/fusion.py`: Verity finds **no taint in the file itself (confidence 0.74)**, but it **stays off the game path**; the clean-room 2371 combiner is used instead. (c) TerraMind/TerraTorch stays **ON HOLD**; **no TerraMesh (CC-BY-SA) data may ever be shipped**.
 
 ## 1. Consumer contract (from Bedrock NEW-01 scorer-spec §1–§5)
 ```python
@@ -49,7 +50,7 @@ How fusion uses it:
 | Status | GDD adopted | **Bedrock draft, not approved**; no code yet |
 
 ## 2. Clean-room site/cell combiner (replaces realdata/fusion.py in the game path)
-Module: `sensegame/fusion/combine.py` (registry 2370.1, provisional). It is written from public statistics and the contract above only.
+Module: `sensegame/fusion/combine.py` (registry 2371, provisional). It is written from public statistics and the contract above only.
 - **Inputs:** `fixtures/*synthetic*` only (a path guard rejects anything else). Locations are **integer grid indices `(row, col)` plus fixture-local metres** on the synthetic DEM grid. No lat/lon, CRS-geographic coordinates, site names or free text anywhere in the schema. The schema validator rejects keys `lat`, `lon`, `latitude`, `longitude`, `address` and `site_id` strings that aren't of the form `cell_<r>_<c>`.
 - **Per-layer normalisation:** robust z = (v − median)/(1.4826·MAD) (Hampel 1974 doi:10.1080/01621459.1974.10482962; Rousseeuw & Croux 1993 doi:10.1080/01621459.1993.10476408, both Crossref-verified). MAD = 0 → layer flagged `degenerate` and excluded, not zeroed. Optional rank percentile. `direction: lower` flips the sign.
 - **Combination:** weighted mean Σwᵢzᵢ/Σwᵢ, with weights from the mission config (no built-in weights). Missing-layer policy is `zero` or `renormalise`, and is explicit in config.
@@ -57,7 +58,7 @@ Module: `sensegame/fusion/combine.py` (registry 2370.1, provisional). It is writ
 - `multi_proxy/consensus.py` (CLEAN) may be reused as the optional multiplicative variant, but only behind the degenerate-layer guard.
 
 ## 3. Anomaly score + calibrated uncertainty (always paired)
-- Models: PyOD v3.6.7 (BSD-2; IForest/ECOD, fixed `random_state`) and/or HDBSCAN 0.8.44 (BSD-3; `outlier_scores_`, `probabilities_`; fixed row-major input order). TerraTorch/TerraMind **ON HOLD** (flag `FUSION_EMBEDDINGS=0`, not in requirements).
+- Models: PyOD v3.6.7 (BSD-2; IForest/ECOD, fixed `random_state`) and/or HDBSCAN 0.8.44 (BSD-3; `outlier_scores_`, `probabilities_`; fixed row-major input order). TerraTorch/TerraMind **ON HOLD** (flag `FUSION_EMBEDDINGS=0`, not in requirements; Verity round 2). **No TerraMesh (CC-BY-SA) data is ever shipped**, in builds, fixtures or assets.
 - Calibration: isotonic or Platt (Niculescu-Mizil & Caruana 2005 doi:10.1145/1102351.1102430) fit on synthetic calibration seeds with planted targets, evaluated on **disjoint synthetic holdout seeds**. ECE uses 15 equal-width bins (Naeini et al. 2015 doi:10.1609/aaai.v29i1.9602). **Gate: ECE ≤ 0.05**; Brier is reported too.
 - Uncertainty: **B = 1000 seeded bootstrap resamples**. Replicate i is seeded by `SeedSequence([seed, i])`. Each cell gets the percentile 95% CI. Per-cell record: `{anomaly_score, p_anomaly_calibrated, ci_low, ci_high, n_boot: 1000, ece_holdout}`. The writer refuses any score without its band.
 
@@ -83,4 +84,4 @@ Module: `sensegame/fusion/combine.py` (registry 2370.1, provisional). It is writ
 `fixtures/fusion_config_synthetic.json`, `fixtures/fusion_sensors_synthetic_<seed>.npz` (seeded planted targets + noise, grid indices only), `fixtures/fusion_holdout_synthetic_<seed>.npz`, plus NEW-03 `dem_synthetic_<seed>.tif`. No real coordinates, no case data, no PII.
 
 ## 8. Open items / blockers
-Verity collision check for 2370; Bedrock NEW-01 approval and code (contract is draft); Verity ruling on realdata/fusion.py lineage (stays excluded regardless); TerraMind licence; M1 cited W (Bedrock §4b).
+Verity collision check for 2370; Bedrock NEW-01 approval and code (contract is draft); realdata/fusion.py: Verity ruled no file-level taint (0.74), stays excluded; TerraMind licence; M1 cited W (Bedrock §4b).
