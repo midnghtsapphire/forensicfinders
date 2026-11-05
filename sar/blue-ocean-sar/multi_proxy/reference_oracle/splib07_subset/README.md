@@ -1,16 +1,16 @@
-# USGS Spectral Library v7 (splib07) — shippable PD endmember subset
+# USGS Spectral Library v7 (splib07) — reference-oracle PD endmember subset
 
 <!--
 Who:  Sense-Quartz (Quartz-N / Quartz-D, Grok Bot) for Audrey Evans
 When: 2026-11-04 (America/Denver)
-Why:  Offline endmembers for constrained_nnls_unmix / spectral_angle (NEW-22 / registry 2360).
+Why:  Offline reference-oracle endmembers for constrained_nnls_unmix / spectral_angle (registry 2360).
 Licence (our code/docs): UNLICENSED (private repo; licence pending Audrey)
 Licence (this data): USGS Spectral Library v7 is public domain (US federal government work).
 -->
 
 ## Status
 
-**Real USGS public-domain spectra**, not placeholders and not case data.
+**Real USGS public-domain spectra** (reference oracle, not a seed fixture), not placeholders and not case data.
 
 - Library: USGS Spectral Library Version 7 (`splib07`)
 - Report DOI: https://doi.org/10.3133/ds1035
@@ -19,7 +19,7 @@ Licence (this data): USGS Spectral Library v7 is public domain (US federal gover
 - ScienceBase ASCII item: https://www.sciencebase.gov/catalog/item/586e8c88e4b0f5ce109fccae
 - Source package used here: `ASCIIdata_splib07b_cvAVIRISc2014.zip` (spectra convolved to AVIRIS-Classic 2014; 224 channels)
 
-**LUCAS is NOT included.** This directory contains only a tiny USGS PD mineral / dry-grass subset for training and golden tests. Do not confuse with `*synthetic*` mixture cubes (those may live under a separate `fixtures/synthetic/` path when generated).
+**LUCAS is NOT included.** This directory contains only a tiny USGS PD mineral / dry-grass subset for training and golden tests. Do not confuse with `*synthetic*` mixture cubes (those stay under `fixtures/*synthetic*` only).
 
 ## Wavelengths and reflectance
 
