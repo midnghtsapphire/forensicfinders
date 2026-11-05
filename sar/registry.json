@@ -336,6 +336,14 @@
       "what": "NEW-01 CleanScorer (2310): Koopman/Stone POD/POS/optimal/update; stdlib math only; re-exported by ledgerplay.scoring",
       "source": "SenseCrew Bedrock; docs/sensecrew/bedrock/specs/scorer-spec.md",
       "licence": "UNLICENSED (private repo; licence pending Audrey)"
+    },
+    "2320": {
+      "name": "sensegame/dem",
+      "path": "sensegame/dem.py",
+      "parent": "2300",
+      "what": "NEW-03 synthetic DEM fixtures (2320): integer diamond-square + PCG64 raw + pure-Python GeoTIFF (tiffw); dem_synthetic_1001/1002a/1002b/1003",
+      "source": "SenseCrew Bedrock; docs/sensecrew/bedrock/specs/dem-fixture-spec.md",
+      "licence": "UNLICENSED (private repo; licence pending Audrey)"
     }
   },
   "deselected_tests": {
