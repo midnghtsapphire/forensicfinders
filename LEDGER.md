@@ -1,5 +1,102 @@
 ## 2026-11-04 20:15 MST — Loam (Loam-D driver / Loam-N navigator, Grok Bot) — GDD v0 draft
 
+
+## 2026-11-04 20:24 MST — Humus (Humus-D / Humus-N, Grok Bot) — Topp + Mironov dielectric
+
+- **Actor:** Humus-D / Humus-N (Grok Bot executor subagent)
+- **Requested by:** Strata, for Audrey Evans
+- **Role:** executed (code + tests on branch; review-only PR; not merged)
+- **Files:**
+  -  (changed — additive Topp inverse, Mironov, cross-check; existing  preserved)
+  -  (added — failing tests first)
+  -  (added — synthetic golden)
+  -  (added —  / )
+  -  (added — make fallback)
+- **What was done:** XP navigator wrote failing tests; driver implemented Topp bidirectional + Mironov (clay %) + seeded cross-check; navigator reviewed units/citations; draft PR #24; GitHub Discussion posted.
+- **Decisions:** Topp (1980) + Mironov (2009) chosen for dielectric/moisture oracle pair — because Topp is the transparent empirical map and Mironov supplies clay-dependent disagreement for training. θv in m³/m³ (not percent); clay in mass %; Mironov ε = ε′ − jε″.
+- **Sources:** Topp et al. 1980 DOI 10.1029/WR016i003p00574; Mironov et al. 2009 DOI 10.1109/TGRS.2008.2011631; correction DOI 10.1109/TGRS.2009.2023842 (Crossref verified). Licence of equations: published scientific results; implementation original SenseCrew code (numpy BSD-3 dependency).
+- **Calls (who / why / source / licence):**
+  1. Humus: Read LOCKED Humus section. Source: . Licence: internal.
+  2. Humus: Work seamlessly with GitHub from the command line.
+
+USAGE
+  gh <command> <subcommand> [flags]
+
+CORE COMMANDS
+  auth:          Authenticate gh and git with GitHub
+  browse:        Open repositories, issues, pull requests, and more in the browser
+  codespace:     Connect to and manage codespaces
+  discussion:    Work with GitHub Discussions (preview)
+  gist:          Manage gists
+  issue:         Manage issues
+  org:           Manage organizations
+  pr:            Manage pull requests
+  project:       Work with GitHub Projects.
+  release:       Manage releases
+  repo:          Manage repositories
+  skill:         Install and manage agent skills (preview)
+
+GITHUB ACTIONS COMMANDS
+  cache:         Manage GitHub Actions caches
+  run:           View details about workflow runs
+  workflow:      View details about GitHub Actions workflows
+
+ALIAS COMMANDS
+  co:            Alias for "pr checkout"
+
+ADDITIONAL COMMANDS
+  agent-task:    Work with agent tasks (preview)
+  alias:         Create command shortcuts
+  api:           Make an authenticated GitHub API request
+  attestation:   Work with artifact attestations
+  completion:    Generate shell completion scripts
+  config:        Manage configuration for gh
+  copilot:       Run the GitHub Copilot CLI (preview)
+  extension:     Manage gh extensions
+  gpg-key:       Manage GPG keys
+  label:         Manage labels
+  licenses:      View third-party license information
+  preview:       Execute previews for gh features
+  ruleset:       View info about repo rulesets
+  search:        Search for repositories, issues, and pull requests
+  secret:        Manage GitHub secrets
+  ssh-key:       Manage SSH keys
+  status:        Print information about relevant issues, pull requests, and notifications across repositories
+  variable:      Manage GitHub Actions variables
+
+HELP TOPICS
+  accessibility: Learn about GitHub CLI's accessibility experiences
+  actions:       Learn about working with GitHub Actions
+  environment:   Environment variables that can be used with gh
+  exit-codes:    Exit codes used by gh
+  formatting:    Formatting options for JSON data exported from gh
+  mintty:        Information about using gh with MinTTY
+  reference:     A comprehensive reference of all gh commands
+  telemetry:     Information about telemetry in gh
+
+FLAGS
+  --help      Show help for command
+  --version   Show gh version
+
+EXAMPLES
+  $ gh issue create
+  $ gh repo clone cli/cli
+  $ gh pr checkout 321
+
+LEARN MORE
+  Use `gh <command> <subcommand> --help` for more information about a command.
+  Read the manual at https://cli.github.com/manual
+  Learn about exit codes using `gh help exit-codes`
+  Learn about accessibility experiences using `gh help accessibility` / git read of midnghtsapphire/forensicfinders  (no case/hfmr/evidence/public_records). Licence: private repo pending Audrey.
+  3. Humus: Crossref  for both DOIs. Licence: CC0 metadata.
+  4. Humus-N: independent review of diff (units, citations) → **Humus-N APPROVE**.
+  5. Tools: gh CLI (authenticated midnghtsapphire), git, python3 unittest, numpy.
+- **Not accessed:** case/, hfmr/, dossier.py, evidence/, public_records_engine.py, LUCAS raw (rule 6–7).
+- **Commits / PRs:** commit  on ; draft PR https://github.com/midnghtsapphire/forensicfinders/pull/24 ; Discussion (Ideas) Topp+Mironov decision.
+- **Open / handoff:** Verity green before merge; optional registry.json component id if Strata wants an explicit gate beyond discover. Next owner: Strata / Verity.
+- **Approval:** Humus-N APPROVE
+- **Credit note:** drafted and implemented entirely by Grok Bot (Humus pair).
+
 - **Actor:** Loam-D / Loam-N (Grok Bot executor subagent)
 - **Requested by:** Strata, for Audrey Evans
 - **Role:** proposed (draft for review; not committed)
