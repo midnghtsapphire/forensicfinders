@@ -164,3 +164,16 @@
 - **Confidence:** 0.92. Official revvel-standards confidence scorer not found yet; Quartz used interim scale ≥0.9 act.
 - **Commits / PRs:** be054b1, PR #20 (draft). Main not touched; no deletions.
 - **Approval:** Quartz-N APPROVE (be054b1). Verity green required before merge.
+
+## 2026-11-04 20:30 MST — Sense-Fusion (Fusion-D / Fusion-N, Grok Bot) — FUSION_SPEC v0.2 (Strata rulings)
+
+- **Actor:** Sense-Fusion · **Requested by:** Strata, for Audrey Evans · **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Calls:**
+  1. Read `/workspace/sensecrew/bedrock/specs/scorer-spec.md` (Bedrock NEW-01 draft, local). Why: rebuild the consumer contract.
+  2. `git grep` NEW-13/placeholders in docs/sensecrew/fusion.
+  3. `curl api.crossref.org/works/{10.1080/01621459.1993.10476408, 10.1080/01621459.1974.10482962, 10.1145/1102351.1102430, 10.1609/aaai.v29i1.9602}`. All resolved (Rousseeuw & Croux 1993; Hampel 1974; Niculescu-Mizil & Caruana 2005; Naeini et al. 2015). Source: https://api.crossref.org (CC0 metadata).
+  4. Edited FUSION_SPEC.md → v0.2, committed b26e78e, pushed to `sensecrew/fusion/rule7-audit-and-spec` (PR #18, draft per Strata). No force push.
+- **Decisions:** registry 1080 PROVISIONAL (pending Verity collision check). ECE ≤ 0.05 on synthetic holdouts. B = 1000 seeded bootstrap. realdata/fusion.py excluded from the game path; clean-room `sensegame/fusion/combine.py` (1080.1 provisional) specified from public robust-statistics sources, grid indices only, lat/lon rejected. No further reading of fusion.py's body; no quarantined files opened. Contract follows Bedrock NEW-01; 11 diffs vs Loam GDD v0.3 tabulated in spec §1a. TerraTorch ON HOLD.
+- **Review:** Fusion-N reviewed the b26e78e diff (1 doc file, +80/−45 lines within FUSION_SPEC.md; no files deleted; goldens match Bedrock §6 values; DOIs Crossref-verified; units km/km²/dimensionless consistent).
+- **Approval:** Fusion-N APPROVE (b26e78e). Verity green required before merge.
+
