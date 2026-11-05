@@ -16,10 +16,17 @@ the game client or of `multi_proxy`.
 - **Licence risk (transitive):** `src/model/supervised/FCLS.py` (and SUnAA, AA, …) do `import spams`. The
   pinned `requirements.txt` pins `spams-bin==2.6.10`, whose wheel ships a **GPL-3.0** `LICENSE`
   (checked 2026-11-04). Also pulls `torch` for other methods. Therefore:
-  - we **do not** vendor, submodule, or pip-install HySUPP or spams in this repo or CI;
-  - the harness loads HySUPP only from a developer-local checkout via `HYSUPP_ROOT`, and the
-    HySUPP test **skips** otherwise. Whether running it locally against GPL spams is acceptable
-    is an open question for **Strata / Audrey** (not shipped, not distributed, but flagged).
+  - **Strata ruling (hard rule 5, Audrey-approved in locked team rules):** GPL spams is allowed
+    **OFFLINE only**, as a **separate CLI process in its own venv outside the repo**, and may
+    **only write comparison results (data files) back**. spams is NEVER imported, vendored,
+    pinned, or shipped in forensicfinders. The in-repo harness contains no spams/HySUPP import;
+    the subprocess call is gated by `HYSUPP_ROOT`. If impractical, skip FCLS and compare
+    HySUPP's non-spams methods only.
+  - Implementation: `load_hysupp_fcls()` writes `hysupp_input.npz` (Y, E) to `HYSUPP_RESULTS_DIR`
+    (else a temp dir), runs `SPAMS_COMPARE_CMD IN.npz OUT.json` (or
+    `$HYSUPP_VENV/bin/python $HYSUPP_ROOT/hysupp_fcls_cli.py IN.npz OUT.json`), and reads only
+    `{"A": K x N}` from the result JSON. Runner paths inside the repo are rejected. Without
+    `HYSUPP_ROOT` the HySUPP path reports `skipped` and its test skips.
 - Repo is ~40 MB with datasets → not vendored regardless.
 
 ## How we compare
@@ -37,10 +44,15 @@ Current baseline (seed 20261104, splib07, noise 0.005): abundance RMSE **0.00867
 cd sar/blue-ocean-sar
 python3 -m multi_proxy.hysupp_compare          # baseline; hysupp_fcls -> "skipped"
 python3 -m pytest -q multi_proxy/test_hysupp_compare.py
-# optional, developer-local only, after Strata/Audrey OK on spams GPL-3.0:
-#   git clone https://github.com/BehnoodRasti/HySUPP /path/HySUPP && git -C /path/HySUPP checkout cb7d633a
-#   pip install cvxopt spams-bin   # into a throwaway venv, never into project requirements
-#   HYSUPP_ROOT=/path/HySUPP python3 -m multi_proxy.hysupp_compare
+# optional, OFFLINE, developer-local only (Strata ruling) -- everything below lives OUTSIDE the repo:
+#   git clone https://github.com/BehnoodRasti/HySUPP ~/ext/HySUPP && git -C ~/ext/HySUPP checkout cb7d633a
+#   python3 -m venv ~/ext/hysupp-venv && ~/ext/hysupp-venv/bin/pip install numpy cvxopt spams-bin
+#   ~/ext/HySUPP/hysupp_fcls_cli.py (external, not committed here):
+#     import sys, json, numpy as np; sys.path.insert(0, sys.path[0])
+#     from src.model.supervised.FCLS import FCLS
+#     d = np.load(sys.argv[1]); A = FCLS().compute_abundances(d["Y"], d["E"])
+#     json.dump({"A": np.asarray(A).tolist()}, open(sys.argv[2], "w"))
+#   HYSUPP_ROOT=~/ext/HySUPP HYSUPP_VENV=~/ext/hysupp-venv python3 -m multi_proxy.hysupp_compare
 ```
 
 ## Out of scope / guardrails

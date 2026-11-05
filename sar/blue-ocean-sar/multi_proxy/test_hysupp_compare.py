@@ -40,6 +40,27 @@ def test_hysupp_reported_or_skipped():
         assert h["abundance_rmse"] < 0.05
 
 
+def test_no_spams_import_in_repo_harness():
+    import pathlib, re
+    src = (pathlib.Path(__file__).parent / "hysupp_compare.py").read_text()
+    assert not re.search(r"^\s*(import|from)\s+spams", src, re.M)
+    assert "exec_module" not in src
+
+
+def test_external_runner_reads_result_json(tmp_path, monkeypatch):
+    import sys
+    script = tmp_path / "fake_cli.py"  # stands in for the out-of-repo runner
+    script.write_text("import sys,json,numpy as np\nfrom scipy.optimize import nnls\n"
+                      "d=np.load(sys.argv[1]);Y,E=d['Y'],d['E']\n"
+                      "A=np.stack([nnls(E,y)[0] for y in Y.T],1)\n"
+                      "json.dump({'A':A.tolist()},open(sys.argv[2],'w'))\n")
+    monkeypatch.setenv("HYSUPP_ROOT", str(tmp_path))
+    monkeypatch.setenv("SPAMS_COMPARE_CMD", f"{sys.executable} {script}")
+    E, _ = _gaussian_endmembers(3, 60, np.random.default_rng(0))
+    Y, A = make_mixtures(E, 8, seed=3)
+    assert abundance_rmse(A, load_hysupp_fcls(workdir=str(tmp_path / "out"))(Y, E)) < 1e-6
+
+
 class HySUPPCompareTests(unittest.TestCase):
     def test_baseline(self):
         test_baseline_runs_and_is_accurate()
