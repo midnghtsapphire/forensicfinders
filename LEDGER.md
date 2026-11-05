@@ -810,3 +810,16 @@ Independent Verity-N re-review of PR #40 @ `5b1149d28acf0213fbaf4ddd27e562af1675
 - **Main:** untouched. **Deletions:** none. **Force pushes:** none.
 - **Licence:** UNLICENSED (private repo; licence pending Audrey)
 - **Approval:** Verity-D PASS-with-hold; **Verity-N pending**
+
+## 2026-11-05 08:33 MST (America/Denver) — Verity-D (SenseCrew QA) — R42 CHANGES-REQUIRED Bedrock PR #41 @ 8c98804 (language-scan PLACEHOLDER)
+
+- **Actor:** Verity-D (Grok Bot) · **Requested by:** Sense-Strata, for Audrey Evans
+- **What:** Follow-up Verity-D ruling on Bedrock draft PR #41 at tip `8c988040e0924be3e5f35da5a2d269f68bee01e1` after language-scan failure. Evidence already verified in worktree `/workspace/sensecrew/wt/verity-n-41-dem`. Details in R42 (`docs/sensecrew/verity/rulings.md`).
+- **Evidence:** `cd /workspace/sensecrew/wt/verity-n-41-dem && python3 -m pytest sar/test_language_scan.py -q --tb=line` → FAILED `RepositoryHasNoDeferredWorkLanguage` — 6 hits in `sensegame/tests/test_scorer_golden.py` lines **4, 27, 186, 189, 194, 203** carrying PLACEHOLDER vocabulary. 15 passed, 1 failed.
+- **Verdict:** **CHANGES-REQUIRED** confidence 0.90.
+- **Required fix:** Reword without inventing W, **or** add a `language_scan.py` RULE for the M1-W xfail shape (with reason). **No exemption list.**
+- **Holds:** DEM hold #1 stays **CLEARED**. Holds **2–4 remain** (M1 W PLACEHOLDER; keep draft; no m1-sweep-width.md post without Audrey). Language-scan is an **additional merge blocker**.
+- **PR / review:** COMMENT (not APPROVE / REQUEST_CHANGES) on https://github.com/midnghtsapphire/forensicfinders/pull/41 (posted after this commit).
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Approval:** Verity-D CHANGES-REQUIRED (language-scan); **Verity-N not started**
