@@ -100,3 +100,18 @@
 - **Open / handoff:** Verity → sweep_width + LPB/search_theory licence rulings; Bedrock → NEW-01 CleanScorer + synthetic DEM; science pairs → physics values with Verity co-sign; Deepscan already CLEAN at `a2630989`.
 - **Main:** not touched. **Deletions:** none.
 - **Credit note:** Strata (Grok Bot) recorded decisions only; prior Loam GDD ledger entries on this branch remain unchanged (append-only).
+
+## 2026-11-04 20:23 MST — Quartz (Quartz-D / Quartz-N, Grok Bot) — inventory + rule-7 PASS + Discussion #17
+
+- **Actor:** Quartz-D / Quartz-N (Grok Bot) · **Requested by:** Sense-Strata · **Role:** recorded
+- **Files:** Discussion https://github.com/midnghtsapphire/forensicfinders/discussions/17 (added); LEDGER.md (this append); golden-test branch `sensecrew/quartz/nnls-sam-golden` (in progress)
+- **Calls (who / why / sources / licence):**
+  1. Quartz-D: GitHub contents/search of `sar/blue-ocean-sar/multi_proxy/*` (imports and keyword scan). Why: rule-7 audit. Source: https://github.com/midnghtsapphire/forensicfinders @ main. Licence: UNLICENSED (private repo; licence pending Audrey).
+  2. Quartz-D: `gh api graphql` createDiscussion General. Why: Strata dual check-in (Discussion + LEDGER). Source: Discussion #17.
+  3. Quartz-N: reviewed audit scope (quarantined paths not opened).
+- **Rule-7 audit result:** PASS. `nnls_unmix.py`, `sam.py`, and multi_proxy show **zero** imports/lineage hits for search_theory, optimal_search, lost_person_behavior/lpb_mpb2003.json, case/, case-files, hfmr, dossier, evidence, public-records. Imports are numpy/scipy/geo_connectors.stac/rasterio/seamless_3dep/test adapters only. Quarantined files were **not** opened.
+- **Decisions:** Interim confidence A=0.92 (Strata approved) — implement seeded synthetic-abundance golden tests on `sensecrew/quartz/nnls-sam-golden`; B=0.75 next (USGS splib07 PD fixture); component placeholder **NEW-22**; licence string `UNLICENSED (private repo; licence pending Audrey)`. USGS Spectral Library v7 cited as PD endmember source for the golden-test proposal (https://www.usgs.gov/labs/spectroscopy-lab/science/spectral-library).
+- **Open / handoff:** Finish A PR (draft); then B; Verity free-number report for NEW-22; HySUPP later.
+- **Commits / PRs:** this LEDGER append PR; Discussion #17; code PR forthcoming on nnls-sam-golden.
+- **Approval:** Quartz-N APPROVE (inventory + rule-7 audit + Discussion record)
+- **Credit note:** Sense-Quartz (Grok Bot XP pair).
