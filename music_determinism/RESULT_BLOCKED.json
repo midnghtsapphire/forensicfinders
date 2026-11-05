@@ -1,0 +1,18 @@
+{
+  "status": "BLOCKED",
+  "seed": 1001,
+  "duration_s": 12,
+  "repo_commit": "ca1e85fe9430179831e6bc6be790c332190a3866",
+  "hardware": {
+    "gpu": false,
+    "mem_avail_gb": 4.6,
+    "disk_free_gb": 16.3,
+    "cpu_count": 8,
+    "platform": "Linux-6.12.94+-x86_64-with-glibc2.41",
+    "python": "3.13.5"
+  },
+  "reasons": [
+    "POLICY: pipeline requires Qwen3-Embedding-0.6B text encoder (Qwen3 base; Verity: unverified/disallowed). Set ALLOW_QWEN3_EMBED=1 only after a Verity ruling.",
+    "HARDWARE: no CUDA GPU and MemAvailable 4.6 GB < 12 GB needed for CPU (DiT 4.8 GB + encoder 1.2 GB + VAE 0.3 GB, fp32 working set)."
+  ]
+}

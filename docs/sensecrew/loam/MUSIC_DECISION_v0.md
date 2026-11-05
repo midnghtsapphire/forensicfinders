@@ -65,3 +65,11 @@ Files: `music_confidence/case.json`, `run.py`, `result.tsv`. Run with `CONFIDENC
 **Effect on the decision:** the pick is unchanged. ACE-Step and Magenta tie at SUPPORTED on licence, so the tie is broken by the original rubric (92 vs 78; it is kept above, unedited). Neither option reaches SUBSTANTIATED, and neither has any determinism evidence. That is why the acceptance is **provisional**. Exit criteria: Verity reads the licence (moves to a higher stage), and a same-seed same-sha256 test passes on our hardware.
 
 Loam-N APPROVE (addendum)
+
+
+## Addendum B — Verity licence ruling (2026-11-04 20:38 MST)
+- **Ruling (Verity):** ACE-Step 1.5 code + weights MIT, confidence **0.92 (SUBSTANTIATED)**. **ACE-Step 1.5 is the pick.**
+- **Conditions:** (1) no Chinese New Year LoRA (OpenRAIL-M); (2) no 1.7B LM, no Qwen3 base models (unverified); (3) training-data claim **WEAK (0.45)**, so it's for **baked skin tracks only**, each with an AI-music credit line (e.g. "Music generated with ACE-Step 1.5 (MIT)").
+- **Loam finding (open question for Verity):** the turbo pipeline's text encoder is Qwen3-Embedding-0.6B (HF ACE-Step/Ace-Step1.5 file list). Under condition (2) that would block any use, so it needs an explicit ruling.
+- **Determinism test:** BLOCKED (policy item above + no GPU / 4.6 GB RAM). See music_determinism/README.md.
+- Status: ACE-Step **accepted by licence**; production use is still pending the Qwen3-Embedding ruling and a determinism PASS.
