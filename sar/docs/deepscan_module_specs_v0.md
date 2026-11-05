@@ -1,6 +1,6 @@
 # Deepscan module specs v0
 
-**Status:** proposal only (doc-only). No code, commits, or GitHub changes in this task.  
+**Status:** doc-only spec, published as draft PR #36. No product code lands until the rule-7 review clears.  
 **Repo (read-only clone):** `midnghtsapphire/forensicfinders` `sar/` at `/workspace/audit/forensicfinders`, HEAD `a2630989`.  
 **Style template:** existing `sar/gpr-wave-model/` — stdlib-first CLI module, JSON payload out, `test_*.py` unittest golden tests, `registry.json` component entry with `test_cwd` + `unittest discover -p test_*.py`.  
 **Seeding / Makefile contract (Deepscan hard rules):** every sim is seeded; same seed → byte-identical output; runnable via `make sim SEED=...` and `python -m ...`. Pattern for RNG: `numpy.random.default_rng(seed)` as in `sensor-fusion-grid` / `sar-change-detection`, or `random.Random(seed)` as in `instrument_input` synthetic helpers. Emit `"seed"` in the JSON `parameters` block.  
@@ -287,7 +287,7 @@ python3 -m unittest discover -s sar/magnetometry-model -p 'test_*.py' -v
 |---|---|---|
 | Module code | match repo | ship |
 | numpy (likely) | BSD-3 | OK |
-| Optional Magento / custom code | verify before add | — |
+| Optional magnetics library / custom code (numpy, BSD-3) | verify before add | — |
 | Ultralytics | AGPL — **FORBIDDEN** | — |
 
 No GPL runtime link. Pure analytic; no gprMax.
@@ -467,6 +467,20 @@ Registered 2026-11-04 after governance audit; pytest (not unittest); requires py
 
 ---
 
+## forensic_pipeline rename proposal (pending Verity rule-7 review)
+
+Proposal only, based on names already shown in the registry entry and import lines (code bodies not opened):
+
+| Current | Proposed |
+|---|---|
+| `isrid_prior_map` | `synthetic_prior_map` |
+| `finder_confirmation` | `confirmation_event` |
+| registry text "Private forensic pipeline" | "Synthetic search-scenario pipeline" |
+
+Deepscan modules (510/520/530) will **not** import `forensic_pipeline` until **Verity-N APPROVE** on rule-7.
+
+---
+
 ## References cited (confidence-checked)
 
 1. Telford, W.M., Geldart, L.P., Sheriff, R.E. *Applied Geophysics*, 2nd ed., Cambridge University Press, 1990. ISBN 0-521-33938-3.  
@@ -479,6 +493,6 @@ Registered 2026-11-04 after governance audit; pytest (not unittest); requires py
 
 ## Out of scope / non-actions for this task
 
-- No implementation code, no `registry.json` edit, no commits, no pushes, no GitHub PRs.  
+- Doc-only spec, published as draft PR #36. No implementation/product code and no `registry.json` edit until the rule-7 review clears.  
 - No opening of forbidden trees.  
 - Strata owns final registry number assignment and LEDGER lines when implementation starts.
