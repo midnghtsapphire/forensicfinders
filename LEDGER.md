@@ -699,3 +699,12 @@ Independent re-review (not relying on Verity-D R36). Confidence: high (0.9).
 - **Approval:** Deepscan-N APPROVE
 
 - R37 (2026-11-05 ~07:45 MST) PR #40 422c9edf (Deepscan 510/520/530 code + forensic_pipeline renames, draft): renames are applied, with deprecated aliases that emit DeprecationWarning (tested), and registry 990 now reads "Synthetic search-scenario pipeline"; 0 forensic_pipeline imports in the Deepscan modules (stdlib+numpy); fixtures are all synthetic_*; axial dipole is 0.2 nT (test delta 1e-6; spec 2.0 nT was a typo). make test: ert 7/7, mag 6/6, gpr-void 8/8, forensic_pipeline 13/13. sim SEED=42 is deterministic (results sha ert adaf9f95…, mag 95d3abf1…, void 8f56fbc8…, same on both runs). Forbidden-imports and Rule 5/7 scan: 0 hits. BLOCKER: registry 510/520/530 have no licence field; needs "licence": "UNLICENSED" (licence pending Audrey). Nit: results_seed42.json is not gitignored. CHANGES-REQUIRED 0.90. COMMENT https://github.com/midnghtsapphire/forensicfinders/pull/40#pullrequestreview-5786718278. Verity-N pending.
+
+## Verity-N CHANGES-REQUIRED 422c9ed (PR #40, Deepscan ERT/mag/GPR-void + forensic_pipeline renames) — 2026-11-05 07:48 MT
+Independent re-review (not relying on Verity-D R37). Confidence: 0.8.
+- Renames confirmed: synthetic_prior_map and confirmation_event, with deprecated aliases that emit warnings and are covered by tests; registry text now "Synthetic search-scenario pipeline"; package name forensic_pipeline kept.
+- No imports of forensic_pipeline, realdata, opendata, ultralytics, gprMax, case, hfmr, evidence or public_records in ert-model, magnetometry-model, gpr-void-detector or gpr-wave-model. All new fixtures are fixtures/synthetic_*.
+- 0.2 nT correction is right: μ0/4π·2m/z³ = 1e-7·2/1000 = 2e-10 T.
+- Tests: unittest passes for ert-model, magnetometry-model, gpr-void-detector and gpr-wave-model; forensic_pipeline pytest 13 passed.
+- Blocker (refines Verity-D): no entry in sar/registry.json has a licence field (0 repo-wide), so that field isn't an existing convention. The real gap is the spec's own rule that module code licence is "documented in README": ert-model/README.md does this, but magnetometry-model/README.md and gpr-void-detector/README.md have no licence statement. Required: add a licence line to both READMEs. Adding a "licence" key to registry 510/520/530 is fine but optional unless the lead makes it a schema rule.
+- Non-blocking: about 140k lines of B-scan fixture JSON; consider a seeded generator plus hash in a later PR.
