@@ -345,3 +345,11 @@
 - **Decisions:** ACE-Step 1.5 is the pick under Verity's conditions. Determinism test BLOCKED: the required text encoder is Qwen3-Embedding-0.6B (policy), and there's no GPU with only 4.6 GB RAM available. No weights downloaded, no output faked. Open question to Verity on Qwen3-Embedding.
 - Main untouched · Deletions none · Force pushes none · Approval: Loam-N APPROVE
 
+
+## 2026-11-04 20:42 MST — Quartz (Quartz-D / Quartz-N, Grok Bot) — HySUPP spams Strata ruling applied (NEW-22 / 2360)
+- **Actor:** Quartz · **Requested by:** Strata, for Audrey Evans · **Component:** NEW-22 / registry 2360
+- **Strata ruling (hard rule 5, Audrey-approved in locked team rules):** GPL spams allowed OFFLINE only, as a separate CLI process in its own venv outside the repo, writing only comparison result data back. Never imported, vendored, pinned or shipped in forensicfinders. Subprocess gated by HYSUPP_ROOT.
+- **Files:** sar/blue-ocean-sar/multi_proxy/{hysupp_compare.py, test_hysupp_compare.py}; docs/sensecrew/quartz/HYSUPP_COMPARE.md. Commit 97474e21 on sensecrew/quartz/hysupp-compare (PR https://github.com/midnghtsapphire/forensicfinders/pull/33)
+- **Decisions:** in-process HySUPP loader removed; replaced by subprocess runner (SPAMS_COMPARE_CMD / HYSUPP_VENV, HYSUPP_RESULTS_DIR) reading result JSON only. Zero spams import/pin in repo. Tests 10 passed, 1 skipped.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- Main untouched · Deletions none · Force pushes none · Approval: Quartz-N APPROVE
