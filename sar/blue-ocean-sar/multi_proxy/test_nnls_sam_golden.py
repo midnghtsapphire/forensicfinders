@@ -5,7 +5,7 @@
 # Why:  nnls_unmix.py and sam.py had only one smoke test (nnls) and no SAM test at all.
 #       A smoke test proves the code runs; it does not prove the recovered abundances are
 #       right. Golden tests against KNOWN synthetic abundances measure unmixing error.
-#       Registry component: NEW-22 (mineral-spectral-unmix, provisional id from Strata).
+#       Registry component: 2360 (mineral-spectral-unmix; Verity: NEW-22 → 2360, free).
 # What: Seeded (np.random.default_rng(20261104)) synthetic cube built from 4 analytic
 #       endmembers over 16 bands, with stored ground-truth abundance maps. Asserts:
 #         - NNLS fractions match truth (atol 1e-2 with noise, 1e-6 noise-free)

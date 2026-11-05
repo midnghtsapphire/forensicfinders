@@ -1,9 +1,9 @@
-# Golden unmixing tests — proposal (NEW-22 mineral-spectral-unmix)
+# Golden unmixing tests — proposal (registry 2360 mineral-spectral-unmix)
 
 - **Who:** Grok Bot as Quartz-N / Quartz-D, for Audrey Evans
 - **When:** 2026-11-04
 - **Licence:** UNLICENSED (private repo; licence pending Audrey)
-- **Registry id:** NEW-22 (provisional, assigned by Strata; final number pending Verity)
+- **Registry id:** 2360 (Verity: switch NEW-22 → 2360, which is free)
 
 ## What
 Golden tests that report unmixing error against **known** synthetic abundances for
