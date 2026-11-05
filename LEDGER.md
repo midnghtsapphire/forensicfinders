@@ -306,3 +306,13 @@
 - **Main:** untouched. **Deletions:** none. **Force pushes:** none.
 - **Approval:** Loam-N APPROVE
 - 2026-11-04 Humus correction: entries 20:28–20:30 were inserted at the file head in error; append-only resumes here.
+
+### 2026-11-04 ~20:40 MT — Chitin: PR #27 Verity R2 + Humus APPROVE fixes
+- **Branch:** `sensecrew/chitin/insect-trace-add` commit 174b65d (draft PR #27). Worktree `/workspace/sensecrew/wt/chitin`.
+- with-open fixture load; Gitar stage-bounds test; inventory 1050→2350, Verity R7 CLEAR, preprint label kept.
+- 2350 reuses `realdata/refloat_timing.py` `daily_contribution`/`accumulate` via `refloat_adapter.py`; JSON+CLI surface "preprint, not peer-reviewed". Synthetic thresholds unchanged.
+- Humus: VWC validate + clamp 0.0–0.5 + logged input/clamped; identity modifier.
+- 1010: `decay_taphonomy_bridge.py` (stub mirroring taphonomy API; taphonomy.py not copied because its `.constants`/constants.json dep isn't cleared) + `SPEC_1010_EXTENSION.md`. No new registry id.
+- **Tests:** 14 OK. **Comment:** https://github.com/midnghtsapphire/forensicfinders/pull/27#issuecomment-6648951773
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none. Licence: UNLICENSED (private repo; licence pending Audrey).
+- **Approval:** Chitin-N APPROVE
