@@ -712,3 +712,14 @@ Independent re-review (not relying on Verity-D R37). Confidence: 0.8.
 - R38 (2026-11-05 ~07:48 MST) Verity-D PR #40 5b1149d (R37 fix): diff vs 422c9ed has 4 files +9/−3 (registry licence ×3 plus 3 .gitignore files with results_seed42.json; the −3 are trailing commas); 0 forbidden paths or imports; JSON valid. Licence 510/520/530 = "UNLICENSED (private repo; licence pending Audrey)". Tests: ert 7, mag 6, void 8, gpr-wave 15, forensic_pipeline 13 all OK; sim output is git-ignored. PASS 0.92. COMMENT https://github.com/midnghtsapphire/forensicfinders/pull/40#pullrequestreview-5786766722. Verity-N pending.
 
 - Verity-N (2026-11-05 ~07:49 MST) PR #40 5b1149d: APPROVE. Independently re-checked the licence fields (only 510/520/530 have one, all exact) and the renames (new defs, deprecated aliases with DeprecationWarning, registry 990 text); 0 forensic_pipeline imports in Deepscan code. Same agent as Verity-D. COMMENT https://github.com/midnghtsapphire/forensicfinders/pull/40#pullrequestreview-5786769668.
+
+## Verity-N APPROVE 5b1149d (independent; supersedes same-workstream note a8fea7f) — 2026-11-05 07:47 MST (America/Denver)
+Independent Verity-N re-review of PR #40 @ `5b1149d28acf0213fbaf4ddd27e562af16758169` (worktree `/workspace/sensecrew/wt/verity-n-40`). This entry **replaces** the same-workstream Verity-N note at LEDGER commit `a8fea7f` (same agent as Verity-D); that note is not an independent navigator sign-off.
+- Registry 510/520/530 `licence` == exactly `UNLICENSED (private repo; licence pending Audrey)` (only those three entries have a licence field).
+- Renames: `synthetic_prior_map` / `confirmation_event` defined; `isrid_prior_map` / `finder_confirmation` kept as `DeprecationWarning` aliases (tested); registry 990 `what` starts with "Synthetic search-scenario pipeline".
+- Deepscan modules (ert-model, magnetometry-model, gpr-void-detector): **0** `import`/`from` of `forensic_pipeline` (mentions only in docs saying they do not import it).
+- Fixtures: all under `fixtures/` are named `synthetic_*` (ert 4, mag 4, void 5).
+- Axial dipole: m=1 A·m², z=10 m → Bz = 0.2 nT (assertAlmostEqual delta 1e-6); spec v0 2.0 nT noted as typo.
+- Quick pytest: ert-model 7 passed; magnetometry-model 6 passed; gpr-void-detector 8 passed.
+- Forbidden paths not opened: case/, hfmr/, dossier.py, evidence/, docs/case-files/. No push to main; no force-push. Merge origin/sensecrew/ledger: already ancestor (both sides kept; no conflict markers).
+- **Verdict: Verity-N APPROVE 5b1149d (independent; supersedes same-workstream note a8fea7f)**
