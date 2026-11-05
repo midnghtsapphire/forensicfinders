@@ -13,3 +13,6 @@ public/__grok
 .env
 .env.*
 .DS_Store
+
+# SenseCrew fusion run outputs (regenerable via make fusion)
+out/fusion/
