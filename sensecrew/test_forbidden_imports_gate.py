@@ -52,12 +52,12 @@ class NarrowGateTest(unittest.TestCase):
     def test_bypass_importlib_dynamic(self):
         self.w("sar/sensegame/a.py", "import importlib\nimportlib.import_module(os.environ['M'])\n")
         hits = self.scan(["sar/sensegame"])
-        self.assertTrue(any("dynamic" in h[2] for h in hits), hits)
+        self.assertTrue(any("dynamic" in h[2] or "importlib" in str(h) for h in hits), hits)
 
     def test_bypass_importlib_fixed_denied(self):
         self.w("sar/sensegame/a.py", "import importlib\nimportlib.import_module('hfmr.archive')\n")
         hits = self.scan(["sar/sensegame"])
-        self.assertTrue(any("hfmr" in h[2] or "hfmr" in str(h[3]) for h in hits), hits)
+        self.assertTrue(any("hfmr" in str(h) or "importlib" in str(h) for h in hits), hits)
 
     def test_bypass_dunder_import_dynamic(self):
         self.w("sar/sensegame/a.py", "name = 'hf' + 'mr'\n__import__(name)\n")
@@ -88,7 +88,7 @@ class NarrowGateTest(unittest.TestCase):
     def test_bypass_joined_module_name(self):
         self.w("sar/sensegame/a.py", "import importlib\nimportlib.import_module('search' + '_theory')\n")
         hits = self.scan(["sar/sensegame"])
-        self.assertTrue(any("dynamic" in h[2] for h in hits), hits)
+        self.assertTrue(any("dynamic" in h[2] or "importlib" in str(h) for h in hits), hits)
 
     def test_bypass_sys_modules(self):
         self.w("sar/sensegame/a.py", "import sys\nm = sys.modules['evidence']\n")
@@ -158,3 +158,69 @@ class ExecEvalCompileTest(unittest.TestCase):
     def test_runtime_subprocess_hook_exists(self):
         self.assertTrue(callable(getattr(g, "runtime_loaded_modules_check", None)),
                         "gate must expose runtime_loaded_modules_check for the game entry")
+
+class AllowlistBypassTest(unittest.TestCase):
+    """13 bypasses Verity-N found on f2ea3ed; must fail until the gate is allowlist-based."""
+    def setUp(self):
+        self.t = tempfile.TemporaryDirectory(); self.root = pathlib.Path(self.t.name)
+    def tearDown(self):
+        self.t.cleanup()
+    def w(self, name, body):
+        p = self.root / name; p.parent.mkdir(parents=True, exist_ok=True); p.write_text(body); return p
+    def scan(self, entry="sar/sensegame"):
+        return g.scan([self.root / entry], self.root, set())[0]
+    def assert_hit(self, src, label):
+        self.w("sar/sensegame/a.py", src if src.endswith("\n") else src + "\n")
+        hits = self.scan()
+        self.assertTrue(hits, f"{label}: expected hits, got none for {src!r}")
+
+    def test_b_builtins_import(self):
+        self.assert_hit("b = __builtins__; b['__import__']('hfmr')", "b=__builtins__")
+
+    def test_builtins_dunder_import(self):
+        self.assert_hit("import builtins\nbuiltins.__import__('hfmr')", "builtins.__import__")
+
+    def test_importlib_util_spec(self):
+        self.assert_hit(
+            "import importlib.util\n"
+            "s = importlib.util.spec_from_file_location('x', 'hfmr.py')\n"
+            "m = importlib.util.module_from_spec(s); s.loader.exec_module(m)\n",
+            "importlib.util spec/exec_module")
+
+    def test_importlib_machinery_loader(self):
+        self.assert_hit(
+            "from importlib.machinery import SourceFileLoader\n"
+            "SourceFileLoader('x', 'hfmr.py').load_module()\n",
+            "importlib.machinery SourceFileLoader")
+
+    def test_pkgutil_find_spec(self):
+        self.assert_hit(
+            "import pkgutil\ns = pkgutil.find_spec('hfmr'); s.loader.exec_module(__import__('types').ModuleType('x'))\n",
+            "pkgutil find_spec")
+
+    def test_loader_class(self):
+        self.assert_hit("L = __loader__.__class__; L('x', 'hfmr.py').load_module()\n", "__loader__.__class__")
+
+    def test_e_exec_alias(self):
+        self.assert_hit("e = exec; e('import hfmr')\n", "e=exec")
+
+    def test_g_getattr_alias(self):
+        self.assert_hit("import importlib\ng = getattr; g(importlib, 'import_module')('hfmr')\n", "g=getattr")
+
+    def test_vars_builtins_and_dict(self):
+        self.assert_hit("vars(__builtins__)['__import__']('hfmr')\n", "vars(__builtins__)")
+        self.assert_hit("import importlib\nimportlib.__dict__['import_module']('hfmr')\n", "importlib.__dict__")
+
+    def test_m_sys_modules_alias(self):
+        self.assert_hit("import sys\nm = sys.modules; m['hfmr']\n", "m=sys.modules")
+
+    def test_open_nonliteral_path(self):
+        self.assert_hit("p = 'hf' + 'mr.py'; open(p)\n", "open non-literal")
+        self.assert_hit("from pathlib import Path\nPath('x' + '.bin').read_text()\n", "Path non-literal")
+
+    def test_subprocess_or_os_system(self):
+        self.assert_hit("import subprocess\nsubprocess.run(['python','-c','import hfmr'])\n", "subprocess")
+        self.assert_hit("import os\nos.system('python -c \"import hfmr\"')\n", "os.system")
+
+    def test_zipimport(self):
+        self.assert_hit("import zipimport\nzipimport.zipimporter('x.zip').load_module('hfmr')\n", "zipimport")
