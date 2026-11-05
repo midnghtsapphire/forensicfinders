@@ -205,3 +205,19 @@
 - **Decisions:** registry 1080 → 2370 and 1080.1 → 2370.1, still PROVISIONAL pending Verity's collision check (1080 collides on other branches). Correction noted in FUSION_SPEC changelog §0 item 6. This supersedes the registry number in the 20:30 v0.2 entry (append-only; that entry is unchanged).
 - **Review:** Fusion-N reviewed the ba1a3e2 diff (FUSION_SPEC.md: 4 lines changed + 1 added; no other 1080 left except the changelog note; Crossref DOIs intact).
 - **Approval:** Fusion-N APPROVE (ba1a3e2). Verity green required before merge.
+
+## 2026-11-04 20:27 MST — Loam (Loam-D / Loam-N, Grok Bot) — GDD v0.4 + W request Discussion
+
+- **Actor:** Loam-D / Loam-N · **Requested by:** Strata, for Audrey Evans · **Role:** proposed
+- **Files:** `docs/sensecrew/loam/GDD_v0.4.md` added on `sensecrew/loam/gdd`, commit bc2c5ba6 (PR #10). v0–v0.3 unchanged.
+- **Decisions:**
+  - (a) final registry numbers 2300–2370 (source: Verity, Discussion #25; not read by Loam)
+  - (b) sweep_width.py CLEAR for reference/adapter use only via NEW-11 (2331), still off by default
+  - (c) lpb_mpb2003.json BLOCKED
+  - (d) make dem uses Bedrock's pure-Python GeoTIFF writer; GDAL/rasterio read-back only
+  - (e) licence string `UNLICENSED (private repo; licence pending Audrey)`
+  - (f) cross_tier_min_mastered 1–5, default 1, tuned by Ledger-Play
+  - (g) M1 sensor = 1a LiDAR DEM differencing, owner Waveform
+- **Calls:** gh api graphql createDiscussion (category Q&A) → https://github.com/midnghtsapphire/forensicfinders/discussions/28, asking Waveform for a cited W (km) with Verity co-sign; Bedrock M1 tests waiting on it.
+- **Main:** untouched. **Deletions:** none.
+- **Approval:** Loam-N APPROVE (GDD v0.4)
