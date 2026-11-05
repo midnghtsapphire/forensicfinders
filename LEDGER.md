@@ -493,3 +493,23 @@
 - Licence: UNLICENSED (private repo; licence pending Audrey)
 - #34 a011ba7: registry +2360 only, tests 22 OK/1 skip; strict gate e017094 → 2 hits (test_package_imports.py dynamic imports) → NOT gate-green.
 - Verity-N approval pending (single-instance run).
+
+## Verity-N CHANGES-REQUIRED f2ea3ed (re-review of sensecrew/verity/golden-gate, fix for e017094)
+- **Tests:** `python3 -m pytest sensecrew/test_forbidden_imports_gate.py` → 24/24 pass.
+- **Bypass probe:** 22 synthetic game-path modules through `scan()` (temp root, computed names, no forbidden content opened). Caught 5: runpy aliased/from-imported, `exec(open(...).read())`, a fixed forbidden path literal, `globals()['__builtins__'].__import__`.
+- **Static bypasses that still pass clean (0 hits):**
+  1. `b=__builtins__; b.__import__(name)` (aliased builtins)
+  2. `import builtins; builtins.__import__(name)` (`builtins.__import__` is not in DYNAMIC_TARGETS)
+  3. `importlib.util.spec_from_file_location` + `module_from_spec` + `loader.exec_module`
+  4. `importlib.machinery.SourceFileLoader(...).load_module()`
+  5. `pkgutil.iter_modules([...])` → `find_spec().loader.load_module()`
+  6. `__loader__.__class__(name, path).load_module()`
+  7. `e=exec; e(open(p).read())` (an exec alias made by assignment is not tracked)
+  8. `g=getattr; g(importlib, 'import_'+'module')` (same, for getattr)
+  9. `vars(__builtins__)['__import__']`, `importlib.__dict__['import_module']`
+  10. `m=sys.modules; m[name]` (an aliased sys.modules subscript)
+  11. `open()` / `pathlib.Path(...).read_text()` with a computed forbidden path (only literal paths are flagged)
+  12. `subprocess.run` / `os.system` running a forbidden file
+  13. `zipimport.zipimporter(...).load_module`
+- **Runtime check:** does not close these gaps. It only runs when a 2300-block entry is registered. It only sees import-time loads. It matches on module *names*, so spec loading under an arbitrary name (e.g. `'x'`) and open() reads never show up in sys.modules.
+- **Required:** Treat importlib.util/machinery, pkgutil, zipimport, runpy, subprocess, os.system/exec*, marshal and `__loader__`/`__builtins__`/`__dict__`/`vars()` access as forbidden on the game path (a deny-by-default module allowlist is better). Track assignment aliases of exec/eval/compile/getattr/__import__/sys.modules. Flag `open`/`Path` with non-literal paths. Add each item above as a regression test.
