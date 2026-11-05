@@ -316,7 +316,7 @@
     "990": {
       "name": "forensic_pipeline",
       "path": "forensic_pipeline",
-      "what": "Private forensic pipeline: pure-function residuals for snow wells, rootball trenches, culvert ice trajectory, pipe airflow/odour, local image accent, ISRID priors, finder confirmation. Array-in/array-out, no I/O.",
+      "what": "Synthetic search-scenario pipeline: pure-function residuals for snow wells, rootball trenches, culvert ice trajectory, pipe airflow/odour, local image accent, synthetic priors, confirmation events. Array-in/array-out, no I/O.",
       "test_cwd": ".",
       "test": [
         "python3",
