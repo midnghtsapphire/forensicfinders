@@ -1,0 +1,323 @@
+{
+  "name": "sensecrew-golden",
+  "license": "UNLICENSED (private repo; licence pending Audrey)",
+  "source": "sar/registry.json",
+  "excluded_components": {
+    "110": "evidence",
+    "140": "public_records_engine",
+    "200": "hfmr"
+  },
+  "forbidden_paths": [
+    "case/",
+    "hfmr/",
+    "evidence/",
+    "dossier.py",
+    "public_records_engine.py",
+    "public-records code"
+  ],
+  "out_of_scope": [
+    {
+      "path": "sar/blue-ocean-sar/realdata/columbus_records.py",
+      "why": "missing; needed only by evidence.test_importers.Columbus (2 errors in suite 100)"
+    }
+  ],
+  "determinism": {
+    "sensor-fusion-grid/sensor_fusion_grid.py --seed 7": "byte-identical",
+    "sar-change-detection/sar_change_detection.py --seed 7": "byte-identical",
+    "vision.synth_demo --seed 7 --skip-frcnn": "byte-identical",
+    "blue-ocean-sar/realdata/lost_person_sim.py simulate --seed 7": "pending Bedrock's synthetic DEM"
+  },
+  "case_data_tests_excluded": {
+    "realdata/test_drift_envelope.py::SeedCli": "reads ../../case-files/general/sar_case_records.json (absent; case data out of scope)"
+  },
+  "coverage_note": "Registry suite 100 discover does not descend into realdata/ (no __init__.py), so Audrey's suite 100 never ran realdata tests; golden lists them explicitly.",
+  "broken_upstream": [
+    {
+      "path": "sar/blue-ocean-sar/realdata/test_evidence_scoring.py",
+      "why": "SyntaxError at line 125 (method name test_CASE-X_...); excluded from golden, not edited"
+    }
+  ],
+  "suites": [
+    {
+      "id": "100",
+      "name": "blue-ocean-sar",
+      "cwd": "sar/blue-ocean-sar",
+      "cmd": [
+        "python3",
+        "-m",
+        "unittest",
+        "opendata.test_arcgis",
+        "opendata.test_authority",
+        "opendata.test_census",
+        "opendata.test_cmr",
+        "opendata.test_osm",
+        "opendata.test_ring_export",
+        "opendata.test_source_health",
+        "opendata.test_stac",
+        "opendata.test_traffic_cams",
+        "opendata.test_usgs_3dep",
+        "realdata.test_burial_signature",
+        "realdata.test_caltopo_io",
+        "realdata.test_civic_feeds",
+        "realdata.test_drift_envelope.Centreline",
+        "realdata.test_drift_envelope.Columns",
+        "realdata.test_drift_envelope.Decay",
+        "realdata.test_drift_envelope.Envelope",
+        "realdata.test_drift_envelope.NaiveAndRefloat",
+        "realdata.test_drift_envelope.TimeScaling",
+        "realdata.test_ea_lidar",
+        "realdata.test_edl_shade",
+        "realdata.test_evidence_fusion",
+        "realdata.test_field_log",
+        "realdata.test_fusion",
+        "realdata.test_geotiff_export",
+        "realdata.test_lab_readers",
+        "realdata.test_lost_person_behavior",
+        "realdata.test_lost_person_sim",
+        "realdata.test_microtopo",
+        "realdata.test_nws_rain",
+        "realdata.test_qpcr_assay",
+        "realdata.test_refloat_timing",
+        "realdata.test_usgs_gauges",
+        "test_provenance",
+        "test_sar_dual_comms_publisher",
+        "test_sar_person_finder"
+      ],
+      "excluded_test_classes": {
+        "realdata/test_drift_envelope.py": [
+          "SeedCli"
+        ]
+      },
+      "excluded_tests": [
+        "evidence/test_cli.py",
+        "evidence/test_core.py",
+        "evidence/test_importers.py",
+        "evidence/test_tsa.py",
+        "opendata/test_fetch.py",
+        "opendata/test_records_adapter.py",
+        "realdata/test_dossier.py",
+        "realdata/test_evidence_scoring.py",
+        "realdata/test_optimal_search.py",
+        "realdata/test_search_theory.py",
+        "realdata/test_sweep_width.py",
+        "test_public_records_engine.py"
+      ],
+      "note": "Suite 100 subset; Audrey's suite 100 itself is unchanged."
+    },
+    {
+      "id": "300",
+      "name": "sar-change-detection",
+      "cwd": "sar/sar-change-detection",
+      "cmd": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-p",
+        "test_*.py"
+      ]
+    },
+    {
+      "id": "400",
+      "name": "sensor-fusion-grid",
+      "cwd": "sar/sensor-fusion-grid",
+      "cmd": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-p",
+        "test_*.py"
+      ]
+    },
+    {
+      "id": "500",
+      "name": "gpr-wave-model",
+      "cwd": "sar/gpr-wave-model",
+      "cmd": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-p",
+        "test_*.py"
+      ]
+    },
+    {
+      "id": "600",
+      "name": "cot-export",
+      "cwd": "sar/cot-export",
+      "cmd": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-p",
+        "test_*.py"
+      ]
+    },
+    {
+      "id": "700",
+      "name": "coldtrace",
+      "cwd": "sar",
+      "cmd": [
+        "python3",
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:warnings",
+        "coldtrace/backend/tests"
+      ]
+    },
+    {
+      "id": "800",
+      "name": "lpb",
+      "cwd": "sar/lpb",
+      "cmd": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-p",
+        "test_*.py"
+      ]
+    },
+    {
+      "id": "810",
+      "name": "instrument_input",
+      "cwd": "sar/instrument_input",
+      "cmd": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-p",
+        "test_*.py"
+      ]
+    },
+    {
+      "id": "820",
+      "name": "exif_metadata",
+      "cwd": "sar/exif_metadata",
+      "cmd": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-p",
+        "test_*.py"
+      ]
+    },
+    {
+      "id": "900",
+      "name": "geo_connectors",
+      "cwd": "sar",
+      "cmd": [
+        "python3",
+        "-m",
+        "unittest",
+        "geo_connectors.test_geo_connectors"
+      ]
+    },
+    {
+      "id": "925",
+      "name": "geo_connectors/lidar_dtm",
+      "cwd": "sar",
+      "cmd": [
+        "python3",
+        "-m",
+        "unittest",
+        "geo_connectors.test_lidar_dtm"
+      ]
+    },
+    {
+      "id": "1000",
+      "name": "forensic_models",
+      "cwd": "sar",
+      "cmd": [
+        "python3",
+        "-m",
+        "unittest",
+        "forensic_models.test_forensic_models"
+      ]
+    },
+    {
+      "id": "1910",
+      "name": "cameras",
+      "cwd": "sar",
+      "cmd": [
+        "python3",
+        "-m",
+        "unittest",
+        "cameras.test_cameras"
+      ]
+    },
+    {
+      "id": "980",
+      "name": "geo_connectors/sar_pair",
+      "cwd": "sar",
+      "cmd": [
+        "python3",
+        "-m",
+        "unittest",
+        "geo_connectors.test_sar_pair"
+      ]
+    },
+    {
+      "id": "985",
+      "name": "geo_connectors/waveform",
+      "cwd": "sar",
+      "cmd": [
+        "python3",
+        "-m",
+        "unittest",
+        "geo_connectors.test_waveform"
+      ]
+    },
+    {
+      "id": "1400",
+      "name": "search_system",
+      "cwd": "sar/search_system",
+      "cmd": [
+        "python3",
+        "-m",
+        "unittest",
+        "test_search_system"
+      ]
+    },
+    {
+      "id": "2110",
+      "name": "vision",
+      "cwd": "sar",
+      "cmd": [
+        "python3",
+        "-m",
+        "unittest",
+        "vision.test_vision"
+      ]
+    },
+    {
+      "id": "2120",
+      "name": "vision/synth",
+      "cwd": "sar",
+      "cmd": [
+        "python3",
+        "-m",
+        "unittest",
+        "vision.test_synth"
+      ]
+    },
+    {
+      "id": "2200",
+      "name": "sources",
+      "cwd": "sar",
+      "cmd": [
+        "python3",
+        "-m",
+        "unittest",
+        "test_sources"
+      ]
+    }
+  ]
+}
