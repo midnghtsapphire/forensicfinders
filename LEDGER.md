@@ -455,3 +455,8 @@
 - Licence: UNLICENSED (private repo; licence pending Audrey)
 - Gate-green: #31 54b70fa (Verity PASS comment); LEDGER correction 92e2c5f supersedes bb0c0a0 (append-only).
 - Verity-N approval pending (single-instance run).
+
+### Verity R31 — 2026-11-04 ~20:55 MST
+- Licence: UNLICENSED (private repo; licence pending Audrey)
+- Gate-green (Verity PASS comments): #20 38c7087e834f, #29 04d5aa328a98, #32 0e343b0bcd64, #33 cb6e2ac63fb7 (splib07 is a reference_oracle; 2360 free; no spams import or pin).
+- Verity-N approval pending (single-instance run).
