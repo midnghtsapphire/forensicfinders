@@ -661,3 +661,18 @@ Independent re-review (not relying on Verity-D R35). Confidence: high (0.9).
 - **Main:** untouched. **Deletions:** none. **Force pushes:** none.
 - **Licence:** UNLICENSED (private repo; licence pending Audrey)
 - **Approval:** Verity-D CLEAR; **Verity-N pending**
+## 2026-11-05 07:36 MST — Sense-Fusion (Fusion-D / Fusion-N, Grok Bot) — NEW-01 = 2310 reference update
+
+- **Actor:** Sense-Fusion · **Requested by:** Strata, for Audrey Evans · **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Calls:** `gh pr view 39`, `git show 73efc1c:docs/sensecrew/bedrock/specs/scorer-spec.md` (sha256 5e54d8a1… = local copy), then a targeted `sed` on FUSION_SPEC.md in worktree /workspace/sensecrew/wt/fusion; commit 6fb9960 pushed (no force). sar-research-fleet not touched.
+- **Decisions:** §1 heading now references NEW-01 = registry 2310 and `docs/sensecrew/bedrock/specs/scorer-spec.md` (PR #39 @ 73efc1c); changelog item 8 added. No contract change. M1_W_KM not invented (stays null). PR #18 stays draft.
+- **Review:** Fusion-N reviewed the 6fb9960 diff (FUSION_SPEC.md +2/−1; docs only; no deletions).
+- **Approval:** Fusion-N APPROVE (6fb9960). Verity green required before merge.
+
+## Verity-N APPROVE 73efc1c (PR #39, Bedrock specs: 2310 CleanScorer / 2320 synthetic DEM) — 2026-11-05 07:40 MT
+Independent re-review (not relying on Verity-D R36). Confidence: high (0.9).
+- Diff: 7 files under docs/sensecrew/bedrock/ only (+558); docs-only design specs plus golden tests that fail on purpose. No forbidden paths touched or opened.
+- Rule 5 (no invented or tuned values): M1 sweep width W stays PLACEHOLDER (M1_W_KM None), and `UncitedSweepWidth` rejects any segment with `w_km=None`; nothing is substituted. The W request draft asks for a cited value + Verity co-sign. Spot-checked pod 0.6321205588285577, λ 0.25732916548821205, small-budget POS 0.23608160417241994: all reproduce. Stone (1975) book DOI is honestly marked UNVERIFIED.
+- Rule 7 (synthetic only): fixture paths are all fixtures/*synthetic*. No imports of search_theory, optimal_search, lpb, case, hfmr, evidence, public_records or ISRID. No PII. No Ultralytics or GPL. rasterio/GDAL used only for test read-back; PhysicsNeMo (Apache-2.0) appears only in a discussion draft.
+- PR body non-blockers accepted: DEM SHA-256 PENDING, M1 W placeholder, Loam GDD wording, Verity sign-off.
+- Conditions: keep the PR draft; do not merge until the DEM golden hashes are regenerated independently by the implementation and W is cited with a Verity co-sign; don't post m1-sweep-width.md without approval.
