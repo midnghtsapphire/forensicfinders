@@ -359,3 +359,165 @@ class AllowlistTightenTest(unittest.TestCase):
     def test_scipy_other_attr_hit(self):
         self.assert_hit("from scipy.optimize import minimize\n", "scipy minimize")
         self.assert_hit("import scipy\nscipy.io.loadmat('x')\n", "scipy.io")
+
+
+class EscapeTightenTest(unittest.TestCase):
+    """44 Verity-N probes that got through 4b3227b, plus re.compile OK."""
+    def setUp(self):
+        self.t = tempfile.TemporaryDirectory(); self.root = pathlib.Path(self.t.name)
+    def tearDown(self):
+        self.t.cleanup()
+    def w(self, name, body):
+        p = self.root / name; p.parent.mkdir(parents=True, exist_ok=True); p.write_text(body); return p
+    def scan(self, src):
+        self.w("sar/sensegame/a.py", src if src.endswith("\n") else src + "\n")
+        return g.scan([self.root / "sar/sensegame"], self.root, set())[0]
+    def assert_hit(self, src, label):
+        hits = self.scan(src)
+        self.assertTrue(hits, f"{label}: expected hits for {src!r}, got none")
+
+    # --- numpy / scipy from-imports, star, submodule ---
+    def test_from_numpy_fromfile(self):
+        self.assert_hit("from numpy import fromfile\n", "from numpy import fromfile")
+
+    def test_from_numpy_load_as(self):
+        self.assert_hit("from numpy import load as L\nL('x.npy', allow_pickle=True)\n", "from numpy import load as L")
+
+    def test_from_numpy_ctypeslib(self):
+        self.assert_hit("from numpy import ctypeslib\n", "from numpy import ctypeslib")
+
+    def test_from_numpy_lib_format(self):
+        self.assert_hit("from numpy.lib import format\n", "from numpy.lib import format")
+
+    def test_from_numpy_star(self):
+        self.assert_hit("from numpy import *\nfromfile('x')\n", "from numpy import *")
+
+    def test_from_numpy_loadtxt(self):
+        self.assert_hit("from numpy import loadtxt\n", "from numpy import loadtxt")
+
+    def test_from_numpy_genfromtxt(self):
+        self.assert_hit("from numpy import genfromtxt\n", "from numpy import genfromtxt")
+
+    def test_from_numpy_memmap(self):
+        self.assert_hit("from numpy import memmap\n", "from numpy import memmap")
+
+    def test_from_numpy_save(self):
+        self.assert_hit("from numpy import save\n", "from numpy import save")
+
+    def test_from_numpy_DataSource(self):
+        self.assert_hit("from numpy import DataSource\n", "from numpy import DataSource")
+
+    def test_import_numpy_lib_npyio(self):
+        self.assert_hit("import numpy.lib.npyio as io\nio.loadtxt('x')\n", "import numpy.lib.npyio")
+
+    def test_import_numpy_ctypeslib(self):
+        self.assert_hit("import numpy.ctypeslib\n", "import numpy.ctypeslib")
+
+    def test_import_numpy_lib_format(self):
+        self.assert_hit("import numpy.lib.format\n", "import numpy.lib.format")
+
+    def test_from_scipy_star(self):
+        self.assert_hit("from scipy import *\n", "from scipy import *")
+
+    def test_from_scipy_optimize_star(self):
+        self.assert_hit("from scipy.optimize import *\n", "from scipy.optimize import *")
+
+    # --- module object non-escape ---
+    def test_np_assign(self):
+        self.assert_hit("import numpy as np\nm = np\n", "m = np")
+
+    def test_np_tuple_unpack(self):
+        self.assert_hit("import numpy as np\n(m,) = (np,)\n", "(m,)=(np,)")
+
+    def test_np_walrus(self):
+        self.assert_hit("import numpy as np\n(m := np)\n", "walrus np")
+
+    def test_np_lambda_body(self):
+        self.assert_hit("import numpy as np\nf = lambda: np\n", "lambda: np")
+
+    def test_np_call_arg(self):
+        self.assert_hit("import numpy as np\ndef f(m):\n    return m\nf(np)\n", "f(np)")
+
+    def test_np_default_arg(self):
+        self.assert_hit("import numpy as np\ndef h(m=np):\n    pass\n", "def h(m=np)")
+
+    def test_np_list_container(self):
+        self.assert_hit("import numpy as np\nx = [np][0]\n", "[np][0]")
+
+    def test_np_dict_container(self):
+        self.assert_hit("import numpy as np\nx = {'a': np}['a']\n", "{'a':np}")
+
+    def test_np_class_attr(self):
+        self.assert_hit("import numpy as np\nclass K:\n    m = np\n", "class K.m = np")
+
+    def test_np_return(self):
+        self.assert_hit("import numpy as np\ndef f():\n    return np\n", "return np")
+
+    def test_os_lambda_arg(self):
+        self.assert_hit("import os.path\n(lambda o: o.system('x'))(os)\n", "lambda(os)")
+
+    def test_os_path_os(self):
+        self.assert_hit("import os.path\nos.path.os.system('x')\n", "os.path.os")
+
+    def test_os_path_assign(self):
+        self.assert_hit("import os.path as osp\nx = osp\n", "x = osp")
+
+    def test_scipy_optimize_assign_minimize(self):
+        self.assert_hit("import scipy.optimize as so\nx = so\nx.minimize\n", "so escape + minimize")
+
+    def test_scipy_optimize_call_arg(self):
+        self.assert_hit("import scipy.optimize as so\ndef f(m):\n    pass\nf(so)\n", "f(so)")
+
+    def test_scipy_optimize_default(self):
+        self.assert_hit("import scipy.optimize as so\ndef f(m=so):\n    pass\n", "def f(m=so)")
+
+    # --- dunders in strings / format fields ---
+    def test_format_dunder_mro(self):
+        self.assert_hit("'{0.__class__.__mro__}'.format(1)\n", "format __mro__")
+
+    def test_format_os_path_globals(self):
+        self.assert_hit("import os.path\n'{0.join.__globals__}'.format(os.path)\n",
+                        "format os.path via field")
+
+    def test_format_map_attr_field(self):
+        self.assert_hit("'{0.__class__}'.format_map({'0': 1})\n", "format_map attr")
+
+    def test_dunder_in_plain_string(self):
+        self.assert_hit("s = '__subclasses__'\n", "dunder in string")
+
+    def test_format_index_field(self):
+        self.assert_hit("'{0[__class__]}'.format({0: 1})\n", "format index field")
+
+    # --- typing.get_type_hints + string annotations ---
+    def test_from_typing_get_type_hints(self):
+        self.assert_hit("from typing import get_type_hints\n", "from typing import get_type_hints")
+
+    def test_typing_get_type_hints_attr(self):
+        self.assert_hit("import typing\ntyping.get_type_hints(int)\n", "typing.get_type_hints")
+
+    def test_string_annotation_call(self):
+        self.assert_hit("def f(x: '__import__(\"os\")'):\n    pass\n", "string annotation")
+
+    def test_string_annassign(self):
+        self.assert_hit("x: '__builtins__' = 1\n", "AnnAssign string")
+
+    def test_string_return_annotation(self):
+        self.assert_hit("def f() -> '__import__(\"os\")':\n    return 1\n", "string return ann")
+
+    # --- re.compile must NOT be a hit ---
+    def test_re_compile_ok(self):
+        hits = self.scan("import re\nre.compile(r'x')\n")
+        self.assertEqual(hits, [], hits)
+
+    # --- extras rounding out 44 probes ---
+    def test_from_numpy_lib_npyio(self):
+        self.assert_hit("from numpy.lib import npyio\n", "from numpy.lib import npyio")
+
+    def test_from_numpy_lib_utils(self):
+        self.assert_hit("from numpy.lib import utils\n", "from numpy.lib import utils")
+
+    def test_np_star_args(self):
+        self.assert_hit("import numpy as np\ndef f(*a):\n    pass\nf(*[np])\n", "f(*[np])")
+
+    def test_os_path_in_list(self):
+        self.assert_hit("import os.path\nx = [os]\n", "[os]")

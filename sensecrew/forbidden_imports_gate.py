@@ -26,9 +26,7 @@ OS_DANGEROUS_ATTRS = frozenset({
     "execv", "execve", "execvp", "execvpe", "spawnl", "spawnle", "spawnlp",
     "spawnlpe", "spawnv", "spawnve", "spawnvp", "spawnvpe",
 })
-# numpy: only these attributes (and np.linalg.*, np.random.default_rng) are allowed.
 NUMPY_OK_ATTRS = frozenset({
-    # array creation / shape
     "array", "asarray", "ascontiguousarray", "asfortranarray", "asanyarray",
     "empty", "empty_like", "zeros", "zeros_like", "ones", "ones_like",
     "full", "full_like", "eye", "identity", "arange", "linspace", "logspace",
@@ -37,7 +35,6 @@ NUMPY_OK_ATTRS = frozenset({
     "tile", "repeat", "broadcast_to", "reshape", "ravel", "transpose",
     "moveaxis", "swapaxes", "expand_dims", "squeeze", "atleast_1d",
     "atleast_2d", "atleast_3d", "ndarray", "ndindex", "ndim", "shape", "size",
-    # math / reductions
     "sqrt", "cbrt", "square", "power", "reciprocal", "abs", "absolute", "fabs",
     "sign", "clip", "round", "around", "floor", "ceil", "trunc",
     "exp", "expm1", "log", "log10", "log2", "log1p",
@@ -50,12 +47,10 @@ NUMPY_OK_ATTRS = frozenset({
     "all", "any", "argmax", "argmin", "argsort", "sort", "unique",
     "isnan", "isfinite", "isinf", "isclose", "allclose", "copy", "copyto",
     "dot", "matmul", "inner", "outer", "tensordot", "einsum", "cross", "vdot",
-    # dtypes
     "dtype", "float16", "float32", "float64", "int8", "int16", "int32", "int64",
     "uint8", "uint16", "uint32", "uint64", "bool_", "bool8", "complex64",
     "complex128", "finfo", "iinfo", "promote_types", "can_cast", "result_type",
     "int_", "float_", "complex_", "number", "integer", "floating", "inexact",
-    # submodules we permit selective use of
     "linalg", "random",
 })
 NUMPY_LINALG_OK = frozenset({
@@ -68,14 +63,22 @@ NUMPY_DENY_ATTRS = frozenset({
     "ctypeslib",
 })
 NUMPY_DENY_LIB = frozenset({"format", "utils", "npyio"})
+NUMPY_OK_SUBMODULES = frozenset({"linalg", "random"})
 DANGEROUS_BUILTINS = frozenset({
     "exec", "eval", "compile", "getattr", "__import__", "open",
     "vars", "globals", "locals", "help", "breakpoint", "input",
 })
+BARE_COMPILE = frozenset({"compile", "builtins.compile"})
 DANGEROUS_NAMES = frozenset({
     "__builtins__", "__loader__", "__spec__", "__dict__",
 })
 DUNDER_ALLOW = frozenset({"__name__", "__init__"})
+DUNDER_IN_STR_ALLOW = frozenset({"__name__", "__init__", "__main__"})
+DUNDER_IN_STRING = re.compile(r"__[A-Za-z0-9_]+__")
+FORMAT_ATTR_OR_INDEX = re.compile(r"\{[^{}]*[.\[][^{}]*\}")
+GUARDED_MODULES = frozenset({
+    "numpy", "os", "os.path", "scipy", "scipy.optimize",
+})
 DENY_MODULES = {
     "case", "hfmr", "evidence", "dossier", "public_records_engine", "fetch",
     "sweep_width", "search_theory", "optimal_search", "case-files", "case_files",
@@ -158,6 +161,59 @@ def _path_forbidden(s):
     return None
 
 
+def _is_guarded_module(resolved):
+    """True for module objects that must not escape (only direct mod.attr allowed)."""
+    if not resolved:
+        return False
+    if resolved in GUARDED_MODULES:
+        return True
+    if resolved.startswith("numpy."):
+        rest = resolved[len("numpy."):]
+        head = rest.split(".")[0]
+        # Submodule objects (linalg/random/ctypeslib/lib...) — not attrs like zeros.
+        if head in NUMPY_OK_SUBMODULES or head in NUMPY_DENY_ATTRS or head == "lib":
+            return True
+        return False
+    if resolved.startswith("scipy."):
+        if resolved == "scipy.optimize":
+            return True
+        if resolved.startswith("scipy.optimize."):
+            return False  # nnls etc. are functions
+        return True
+    return False
+
+
+def _numpy_attr_allowed(attr):
+    if attr in NUMPY_DENY_ATTRS or attr == "lib":
+        return False
+    return attr in NUMPY_OK_ATTRS
+
+
+def _check_numpy_import_name(name):
+    """Return hit reason or None for an absolute import name under numpy.*."""
+    if name == "numpy":
+        return None
+    if not name.startswith("numpy."):
+        return None
+    rest = name[len("numpy."):]
+    parts = rest.split(".")
+    head = parts[0]
+    if head in NUMPY_DENY_ATTRS or head == "lib":
+        return f"denied numpy import {name}"
+    if head in NUMPY_OK_SUBMODULES:
+        if len(parts) == 1:
+            return None
+        # numpy.linalg.X or numpy.random.X as import
+        if head == "linalg" and parts[1] in NUMPY_LINALG_OK and len(parts) == 2:
+            return None
+        if head == "random" and parts[1] == "default_rng" and len(parts) == 2:
+            return None
+        return f"denied numpy import {name}"
+    if head in NUMPY_OK_ATTRS and len(parts) == 1:
+        return None
+    return f"numpy attr not allowlisted: {head}"
+
+
 def _allowed_module(name, level, game_pkgs, allow_mods):
     if level:
         return True
@@ -165,7 +221,6 @@ def _allowed_module(name, level, game_pkgs, allow_mods):
         return False
     if name == "os.path" or name.startswith("os.path."):
         return True
-    # R34: scipy.optimize (nnls only — attribute use checked separately)
     if name in ("scipy", "scipy.optimize") or name.startswith("scipy.optimize."):
         return True
     if name.startswith("scipy.") and not name.startswith("scipy.optimize"):
@@ -192,25 +247,26 @@ def _collect_aliases(tree):
         "exec": "exec", "eval": "eval", "compile": "compile",
         "open": "open", "vars": "vars", "globals": "globals", "locals": "locals",
         "help": "help", "breakpoint": "breakpoint", "input": "input",
+        "get_type_hints": "typing.get_type_hints",
     }
-    for node in tree.body if isinstance(tree, ast.Module) else ast.walk(tree):
-        pass
     for node in ast.walk(tree):
         if isinstance(node, ast.Import):
             for a in node.names:
                 bound = a.asname or a.name.split(".")[0]
-                # `import os.path` binds the name `os` to the whole os module.
                 if a.name == "os.path" or a.name.startswith("os.path."):
                     if a.asname:
                         aliases[a.asname] = "os.path"
                     else:
                         aliases["os"] = "os"
                 elif a.name == "numpy" or a.name.startswith("numpy."):
-                    aliases[bound] = a.name if a.asname else "numpy"
-                    if not a.asname:
+                    if a.asname:
+                        aliases[a.asname] = a.name if a.name != "numpy" else "numpy"
+                    else:
                         aliases["numpy"] = "numpy"
+                        if a.name.startswith("numpy."):
+                            # import numpy.linalg still binds name `numpy`
+                            pass
                 elif a.name.startswith("scipy"):
-                    # `import scipy.optimize` binds the name `scipy` to the scipy package.
                     if a.asname:
                         aliases[a.asname] = a.name
                     else:
@@ -220,11 +276,16 @@ def _collect_aliases(tree):
         elif isinstance(node, ast.ImportFrom):
             mod = node.module or ""
             for a in node.names:
+                if a.name == "*":
+                    continue
                 full = f"{mod}.{a.name}" if mod else a.name
                 aliases[a.asname or a.name] = full
-                # `from os.path import os` hands out the whole os module.
                 if mod in ("os.path", "os") and a.name == "os":
                     aliases[a.asname or "os"] = "os"
+                if mod == "scipy" and a.name == "optimize":
+                    aliases[a.asname or "optimize"] = "scipy.optimize"
+                if mod == "typing" and a.name == "get_type_hints":
+                    aliases[a.asname or "get_type_hints"] = "typing.get_type_hints"
     dangerous_targets = DANGEROUS_BUILTINS | {"sys.modules", "os"}
     for node in ast.walk(tree):
         if isinstance(node, ast.Assign):
@@ -235,23 +296,31 @@ def _collect_aliases(tree):
             elif isinstance(val, ast.Attribute):
                 src = _call_qualname(val, aliases)
             if src and (src in dangerous_targets or src.split(".")[-1] in DANGEROUS_BUILTINS
-                        or src == "os" or src.startswith("os.")):
+                        or src == "os" or src.startswith("os.") or _is_guarded_module(src)):
                 for t in node.targets:
                     if isinstance(t, ast.Name):
-                        aliases[t.id] = src if src in dangerous_targets or src == "os" else src.split(".")[-1]
+                        if _is_guarded_module(src) or src in dangerous_targets or src == "os":
+                            aliases[t.id] = src
+                        else:
+                            aliases[t.id] = src.split(".")[-1]
             if isinstance(val, ast.Name) and val.id == "__builtins__":
                 for t in node.targets:
                     if isinstance(t, ast.Name):
                         aliases[t.id] = "__builtins__"
+        elif isinstance(node, ast.NamedExpr) and isinstance(node.target, ast.Name):
+            if isinstance(node.value, ast.Name):
+                src = aliases.get(node.value.id, node.value.id)
+                if _is_guarded_module(src) or src in dangerous_targets:
+                    aliases[node.target.id] = src
     return aliases
 
 
-def _numpy_root(q, aliases):
-    """Return True if qualname is numpy / np / alias thereof (the module root)."""
-    if not q:
-        return False
-    root = aliases.get(q, q)
-    return root in ("numpy", "np") or q in ("numpy", "np") or _top(root) == "numpy"
+def _parent_map(tree):
+    return {child: node for node in ast.walk(tree) for child in ast.iter_child_nodes(node)}
+
+
+def _dunders_in_string(s):
+    return [m for m in DUNDER_IN_STRING.findall(s) if m not in DUNDER_IN_STR_ALLOW]
 
 
 def _rescan_payload(src, hits, r, lineno, via):
@@ -336,6 +405,7 @@ def scan(entry, root=ROOT, allow=()):
             continue
 
         aliases = _collect_aliases(tree)
+        parents = _parent_map(tree)
 
         for node in ast.walk(tree):
             if isinstance(node, ast.Import):
@@ -347,6 +417,13 @@ def scan(entry, root=ROOT, allow=()):
                         name == "scipy.optimize" or name.startswith("scipy.optimize.")
                     ):
                         hits.append((r, node.lineno, f"scipy not nnls: {name}", name)); continue
+                    if name == "scipy.optimize" or name.startswith("scipy.optimize."):
+                        rest = name[len("scipy.optimize"):].lstrip(".")
+                        if rest and rest != "nnls":
+                            hits.append((r, node.lineno, f"scipy not nnls: {name}", name)); continue
+                    np_hit = _check_numpy_import_name(name)
+                    if np_hit:
+                        hits.append((r, node.lineno, np_hit, name)); continue
                     if not _allowed_module(name, 0, game_pkgs, allow_mods):
                         hits.append((r, node.lineno, f"import not on allowlist: {name}", name)); continue
                     t = resolve(name, 0, f, roots)
@@ -355,6 +432,12 @@ def scan(entry, root=ROOT, allow=()):
             elif isinstance(node, ast.ImportFrom):
                 mod = node.module or ""
                 level = node.level
+                # star imports from numpy/scipy always hit
+                if level == 0 and any(a.name == "*" for a in node.names):
+                    if mod == "numpy" or (mod and mod.startswith("numpy.")):
+                        hits.append((r, node.lineno, "star import from numpy", mod)); continue
+                    if mod == "scipy" or (mod and mod.startswith("scipy.")):
+                        hits.append((r, node.lineno, "star import from scipy", mod)); continue
                 if mod == "os" and level == 0:
                     for a in node.names:
                         if a.name != "path":
@@ -364,24 +447,64 @@ def scan(entry, root=ROOT, allow=()):
                     for a in node.names:
                         if a.name == "os":
                             hits.append((r, node.lineno, "from os.path import os", "os"))
-                    # other names like join/basename are fine (os.path.*)
                     continue
-                # R34: from scipy.optimize import nnls only
                 if mod == "scipy.optimize" and level == 0:
                     for a in node.names:
-                        if a.name != "nnls":
+                        if a.name == "*":
+                            hits.append((r, node.lineno, "star import from scipy.optimize", "*"))
+                        elif a.name != "nnls":
                             hits.append((r, node.lineno,
                                          f"scipy.optimize.{a.name} not allowed (R34)", a.name))
                     continue
-                if mod == "scipy" or (mod and mod.startswith("scipy.") and
-                                      mod != "scipy.optimize" and
-                                      not mod.startswith("scipy.optimize.")):
+                if mod == "scipy" and level == 0:
+                    for a in node.names:
+                        if a.name == "*":
+                            hits.append((r, node.lineno, "star import from scipy", "*"))
+                        elif a.name != "optimize":
+                            hits.append((r, node.lineno, f"scipy not nnls: scipy.{a.name}", a.name))
+                    continue
+                if mod and mod.startswith("scipy.") and mod != "scipy.optimize" and \
+                        not mod.startswith("scipy.optimize.") and level == 0:
                     hits.append((r, node.lineno, f"scipy not nnls: {mod}", mod)); continue
+                # typing.get_type_hints
+                if mod == "typing" and level == 0:
+                    for a in node.names:
+                        if a.name == "get_type_hints":
+                            hits.append((r, node.lineno, "denied typing.get_type_hints", "get_type_hints"))
+                    # other typing imports OK; fall through for resolve
+                # numpy from-imports through attribute allowlist
+                if level == 0 and (mod == "numpy" or (mod and mod.startswith("numpy."))):
+                    if mod == "numpy":
+                        for a in node.names:
+                            if a.name == "*":
+                                continue  # already handled
+                            if not _numpy_attr_allowed(a.name):
+                                hits.append((r, node.lineno,
+                                             f"denied numpy from-import {a.name}", a.name))
+                    elif mod == "numpy.linalg":
+                        for a in node.names:
+                            if a.name != "*" and a.name not in NUMPY_LINALG_OK:
+                                hits.append((r, node.lineno,
+                                             f"numpy.linalg.{a.name} not allowlisted", a.name))
+                    elif mod == "numpy.random":
+                        for a in node.names:
+                            if a.name != "*" and a.name != "default_rng":
+                                hits.append((r, node.lineno,
+                                             f"numpy.random.{a.name} not allowlisted", a.name))
+                    elif mod == "numpy.lib" or mod.startswith("numpy.lib."):
+                        for a in node.names:
+                            hits.append((r, node.lineno,
+                                         f"denied numpy.lib from-import {a.name}", a.name))
+                    else:
+                        hits.append((r, node.lineno, f"denied numpy from-import module {mod}", mod))
+                    continue
                 if _top(mod) in ALWAYS_DENY_IMPORTS:
                     hits.append((r, node.lineno, f"denied import {mod}", mod)); continue
                 if level == 0 and mod and not _allowed_module(mod, 0, game_pkgs, allow_mods):
                     hits.append((r, node.lineno, f"import not on allowlist: {mod}", mod)); continue
                 for a in node.names:
+                    if a.name == "*":
+                        continue
                     name = f"{mod}.{a.name}" if mod else a.name
                     t = resolve(name if level == 0 else a.name, level, f, roots)
                     if t is None and level == 0 and mod:
@@ -393,96 +516,97 @@ def scan(entry, root=ROOT, allow=()):
                         if t:
                             queue.append(t)
 
-            # Names
-            if isinstance(node, ast.Name) and node.id in DANGEROUS_NAMES:
-                hits.append((r, node.lineno, f"use of {node.id}", node.id))
+            # Names — dangerous + guarded-module non-escape
+            if isinstance(node, ast.Name):
+                if node.id in DANGEROUS_NAMES:
+                    hits.append((r, node.lineno, f"use of {node.id}", node.id))
+                if isinstance(node.ctx, ast.Load):
+                    resolved = aliases.get(node.id)
+                    if _is_guarded_module(resolved):
+                        p = parents.get(node)
+                        if not (isinstance(p, ast.Attribute) and p.value is node):
+                            hits.append((r, getattr(node, "lineno", 0),
+                                         f"module object escape ({resolved})", node.id))
 
             # Attributes
             if isinstance(node, ast.Attribute):
                 attr = node.attr
                 base_q = _call_qualname(node.value, aliases)
 
-                # dunder: flag all except __name__/__init__
                 if attr.startswith("__") and attr.endswith("__") and attr not in DUNDER_ALLOW:
                     hits.append((r, node.lineno, f"dunder attribute {attr}", attr))
 
-                # os.* — only os.path.* is allowed
                 resolved_base = None
                 if isinstance(node.value, ast.Name):
                     resolved_base = aliases.get(node.value.id, node.value.id)
                 elif base_q:
                     resolved_base = aliases.get(base_q, base_q)
+
                 if resolved_base == "os" or base_q == "os":
                     if attr != "path":
                         hits.append((r, node.lineno, f"denied os.{attr}", f"os.{attr}"))
-                # os.path is fine; deeper os.path.* fine; but os.X via Attribute chain
-                # already handled. Flag os.path.os if it appears.
                 if (resolved_base == "os.path" or base_q == "os.path") and attr == "os":
                     hits.append((r, node.lineno, "os.path.os", "os.path.os"))
 
-                # numpy attribute policy
-                if isinstance(node.value, ast.Name) and \
-                        aliases.get(node.value.id, node.value.id) in ("numpy", "np"):
+                # numpy root attrs (Name or any alias resolving to numpy)
+                if resolved_base in ("numpy", "np") or (
+                        isinstance(node.value, ast.Name) and
+                        aliases.get(node.value.id, node.value.id) in ("numpy", "np")):
                     if attr in NUMPY_DENY_ATTRS:
                         hits.append((r, node.lineno, f"denied numpy.{attr}", f"numpy.{attr}"))
                     elif attr == "lib":
                         hits.append((r, node.lineno, "denied numpy.lib", "numpy.lib"))
                     elif attr not in NUMPY_OK_ATTRS:
                         hits.append((r, node.lineno, f"numpy attr not allowlisted: {attr}", attr))
-                # np.linalg.X
+                # alias bound to numpy.linalg / numpy.random / numpy.* submodule
+                if isinstance(node.value, ast.Name):
+                    ra = aliases.get(node.value.id, "")
+                    if ra == "numpy.linalg" and attr not in NUMPY_LINALG_OK:
+                        hits.append((r, node.lineno, f"numpy.linalg.{attr} not allowlisted", attr))
+                    if ra == "numpy.random" and attr != "default_rng":
+                        hits.append((r, node.lineno, f"numpy.random.{attr} not allowlisted", attr))
+                    if ra.startswith("numpy.lib") or ra in {
+                            f"numpy.{d}" for d in NUMPY_DENY_ATTRS}:
+                        hits.append((r, node.lineno, f"denied numpy submodule attr {attr}", ra))
+
                 if isinstance(node.value, ast.Attribute) and node.value.attr == "linalg":
                     root_v = node.value.value
                     if isinstance(root_v, ast.Name) and \
                             aliases.get(root_v.id, root_v.id) in ("numpy", "np"):
                         if attr not in NUMPY_LINALG_OK:
                             hits.append((r, node.lineno, f"numpy.linalg.{attr} not allowlisted", attr))
-                # np.random — only default_rng
                 if isinstance(node.value, ast.Attribute) and node.value.attr == "random":
                     root_v = node.value.value
                     if isinstance(root_v, ast.Name) and \
                             aliases.get(root_v.id, root_v.id) in ("numpy", "np"):
                         if attr != "default_rng":
                             hits.append((r, node.lineno, f"numpy.random.{attr} not allowlisted", attr))
-                # np.lib.*
                 if isinstance(node.value, ast.Attribute) and node.value.attr == "lib":
                     root_v = node.value.value
                     if isinstance(root_v, ast.Name) and \
                             aliases.get(root_v.id, root_v.id) in ("numpy", "np"):
                         hits.append((r, node.lineno, f"denied numpy.lib.{attr}", attr))
-                # ndarray.tofile (any .tofile)
                 if attr == "tofile":
-                    hits.append((r, node.lineno, "denied *.tofile", "tofile"))
-                # np.ctypeslib already denied via attr; also flag as Attribute chain
+                    hits.append((r, node.lineno, "denied *.tofile", "tofile")
+                               )
                 if attr == "ctypeslib":
                     hits.append((r, node.lineno, "denied numpy.ctypeslib", "ctypeslib"))
 
-                # scipy — only .optimize.nnls (R34)
-                if isinstance(node.value, ast.Name) and \
-                        aliases.get(node.value.id, node.value.id) in ("scipy",):
-                    if attr != "optimize":
-                        hits.append((r, node.lineno, f"scipy.{attr} not allowed (R34)", attr))
-                if isinstance(node.value, ast.Attribute) and node.value.attr == "optimize":
-                    root_v = node.value.value
-                    root_ok = (
-                        (isinstance(root_v, ast.Name) and
-                         aliases.get(root_v.id, root_v.id) in ("scipy",))
-                        or (isinstance(root_v, ast.Name) and
-                            str(aliases.get(root_v.id, "")).startswith("scipy"))
-                    )
-                    # also `import scipy.optimize` binds name
-                    if isinstance(root_v, ast.Name):
-                        ra = aliases.get(root_v.id, root_v.id)
-                        if ra in ("scipy", "scipy.optimize") or ra.startswith("scipy"):
-                            root_ok = True
-                    if isinstance(node.value, ast.Name):
-                        pass
-                    if root_ok and attr != "nnls":
-                        hits.append((r, node.lineno, f"scipy.optimize.{attr} not allowed (R34)", attr))
-                # `import scipy.optimize as so; so.nnls` — so is scipy.optimize
+                # scipy R34
                 if isinstance(node.value, ast.Name):
-                    ra = aliases.get(node.value.id, "")
+                    ra = aliases.get(node.value.id, node.value.id)
+                    if ra == "scipy" and attr != "optimize":
+                        hits.append((r, node.lineno, f"scipy.{attr} not allowed (R34)", attr))
                     if ra == "scipy.optimize" and attr != "nnls":
                         hits.append((r, node.lineno, f"scipy.optimize.{attr} not allowed (R34)", attr))
+                if isinstance(node.value, ast.Attribute) and node.value.attr == "optimize":
+                    root_v = node.value.value
+                    if isinstance(root_v, ast.Name):
+                        ra = aliases.get(root_v.id, root_v.id)
+                        if ra in ("scipy",) or str(ra).startswith("scipy"):
+                            if attr != "nnls":
+                                hits.append((r, node.lineno,
+                                             f"scipy.optimize.{attr} not allowed (R34)", attr))
 
                 if attr in ("__dict__", "__loader__", "__spec__"):
                     hits.append((r, node.lineno, f"use of {attr}", attr))
@@ -504,10 +628,16 @@ def scan(entry, root=ROOT, allow=()):
                     hits.append((r, node.lineno, "use of sys.modules", "sys.modules"))
                 if resolved_base in ("builtins", "__builtins__") or base_q in ("builtins", "__builtins__"):
                     hits.append((r, node.lineno, f"use of builtins.{attr}", f"builtins.{attr}"))
+                # typing.get_type_hints as attribute
+                if attr == "get_type_hints" and (
+                    resolved_base == "typing" or base_q == "typing" or
+                    (isinstance(node.value, ast.Name) and
+                     aliases.get(node.value.id, node.value.id) == "typing")
+                ):
+                    hits.append((r, node.lineno, "denied typing.get_type_hints", "get_type_hints"))
 
             # Subscripts
             if isinstance(node, ast.Subscript):
-                key = _const_str(node.slice)
                 if isinstance(node.value, ast.Name):
                     aliased = aliases.get(node.value.id, node.value.id)
                     if aliased in ("__builtins__", "builtins"):
@@ -534,9 +664,19 @@ def scan(entry, root=ROOT, allow=()):
                         q in ("vars", "globals", "locals", "help", "breakpoint", "input"):
                     hits.append((r, node.lineno, f"call to {target or q}", target or q))
 
-                if target in ("exec", "eval", "compile", "__import__") or \
-                        (q and q.split(".")[-1] in ("exec", "eval", "compile", "__import__")):
-                    kind = (target or q).split(".")[-1]
+                if target in ("typing.get_type_hints", "get_type_hints") or \
+                        q in ("typing.get_type_hints", "get_type_hints"):
+                    hits.append((r, node.lineno, "denied typing.get_type_hints", "get_type_hints"))
+
+                # bare compile / builtins.compile only — not re.compile
+                is_compile = (target in BARE_COMPILE) or (q in BARE_COMPILE)
+                is_exec_eval_import = (
+                    target in ("exec", "eval", "__import__") or
+                    q in ("exec", "eval", "__import__") or
+                    (q and q in ("builtins.exec", "builtins.eval", "builtins.__import__"))
+                )
+                if is_compile or is_exec_eval_import:
+                    kind = "compile" if is_compile else (target or q).split(".")[-1]
                     arg = node.args[0] if node.args else None
                     fixed = _const_str(arg) if arg is not None else None
                     if fixed is None:
@@ -550,7 +690,6 @@ def scan(entry, root=ROOT, allow=()):
                     hits.append((r, node.lineno, "call to getattr", "getattr"))
                     if len(node.args) >= 2 and _const_str(node.args[1]) is None:
                         hits.append((r, node.lineno, "dynamic getattr", ast.dump(node.args[1])))
-                    # getattr(os, 'system') etc.
                     if len(node.args) >= 1:
                         host = node.args[0]
                         host_q = _call_qualname(host, aliases)
@@ -588,7 +727,14 @@ def scan(entry, root=ROOT, allow=()):
                                 if bad:
                                     hits.append((r, node.lineno, f"Path into forbidden ({bad})", fixed[:120]))
 
-                # functools.partial(os.system, ...) — flag if any arg is os.* dangerous
+                # str.format / format_map with attribute or index fields
+                if isinstance(node.func, ast.Attribute) and node.func.attr in ("format", "format_map"):
+                    fmt = _const_str(node.func.value)
+                    if fmt and FORMAT_ATTR_OR_INDEX.search(fmt):
+                        hits.append((r, node.lineno,
+                                     f"format field with attr/index ({node.func.attr})",
+                                     fmt[:80]))
+
                 if target in ("partial", "functools.partial") or q in ("partial", "functools.partial"):
                     for arg in node.args:
                         aq = _call_qualname(arg, aliases)
@@ -610,13 +756,29 @@ def scan(entry, root=ROOT, allow=()):
                     ):
                         hits.append((r, node.lineno, f"call into denied module {top}", q))
 
-            # Constants: forbidden folders; allow '__main__' string
+            # String annotations on the game path are hits
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                for arg in node.args.args + node.args.posonlyargs + node.args.kwonlyargs:
+                    if arg.annotation is not None and _const_str(arg.annotation) is not None:
+                        hits.append((r, node.lineno, "string annotation", _const_str(arg.annotation)[:80]))
+                if node.returns is not None and _const_str(node.returns) is not None:
+                    hits.append((r, node.lineno, "string return annotation", _const_str(node.returns)[:80]))
+            if isinstance(node, ast.AnnAssign):
+                if node.annotation is not None and _const_str(node.annotation) is not None:
+                    hits.append((r, getattr(node, "lineno", 0), "string annotation",
+                                 _const_str(node.annotation)[:80]))
+
+            # Constants: forbidden folders; dunders in strings; allow __main__ etc.
             if isinstance(node, ast.Constant) and isinstance(node.value, str):
                 if node.value == "__main__":
-                    continue
-                bad = _path_forbidden(node.value)
-                if bad:
-                    hits.append((r, getattr(node, "lineno", 0), "path reference", node.value[:120]))
+                    # still check other dunders if somehow combined; bare __main__ OK
+                    pass
+                else:
+                    bad = _path_forbidden(node.value)
+                    if bad:
+                        hits.append((r, getattr(node, "lineno", 0), "path reference", node.value[:120]))
+                for d in _dunders_in_string(node.value):
+                    hits.append((r, getattr(node, "lineno", 0), f"dunder in string ({d})", d))
 
     uniq, seen_h = [], set()
     for h in hits:
