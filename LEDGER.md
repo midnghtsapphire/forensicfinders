@@ -1,3 +1,30 @@
+## 2026-11-04 20:30 MST — Humus (Humus-D / Humus-N, Grok Bot) — follow-ups (0) make sim, (1) soil_dna rename, (2) cited values
+
+- **Actor:** Humus-D / Humus-N (Grok Bot executor subagent)
+- **Requested by:** Strata (follow-up brief), for Audrey Evans
+- **Role:** executed (branch commits + draft PRs; Discussion draft local only — not posted)
+- **Worktree rule:** all forensicfinders git work in `/workspace/sensecrew/wt/humus` (not shared checkout).
+- **(0) make sim SEED=...**
+  - Branch `sensecrew/humus/topp-mironov` (worktree `/workspace/sensecrew/humus/repo` prior; PR #24)
+  - `sar/blue-ocean-sar/multi_proxy/Makefile`: added `sim` alias → `sim-dielectric` wrapping `python3 -m multi_proxy.dielectric --seed $(SEED) ...`
+  - Commit `5b6daed`; pushed to PR https://github.com/midnghtsapphire/forensicfinders/pull/24
+- **(1) Rule-7 RO audit + soil_dna_sensor rename**
+  - Branch `sensecrew/humus/soil-dna-rename` @ `/workspace/sensecrew/wt/humus`
+  - Audited: `qpcr_assay.py`, `qpcr_interpret.py`, `lab_readers.py`, `test_qpcr_assay.py`, `test_lab_readers.py`, plus docs with eDNA tokens
+  - Findings: no forbidden imports; no PII; no eDNA filenames; qpcr_assay cites journal *Environmental DNA* (kept); `lab_readers.py` docstring lineage mentions `docs/case-files` (not opened, not imported)
+  - Docs rename eDNA→soil_dna_sensor in `SOIL_SENSING_TIERS.md`, `DECODE_INJECTION_DESIGN.md`
+  - Additive shims (delete nothing): `soil_dna_sensor.py`, `soil_dna_sensor_interpret.py`
+  - Audit report: `docs/humus_rule7_audit_qpcr.md`
+  - Draft PR https://github.com/midnghtsapphire/forensicfinders/pull/31
+- **(2) GDD v0.3 Humus cited values**
+  - Read `/workspace/sensecrew/loam/GDD_v0.3.md` + v0.1 tier table + `SOIL_SENSING_TIERS.md`
+  - Humus nodes: 2d dielectric/moisture; 2a ε_r share; 3a soil_dna_sensor; 3b VOC/GC-MS/16S; decay pH/N/P context
+  - `docs/humus_cited_values.md` on rename branch — **8 cited / 6 PLACEHOLDER**; DOIs Crossref-verified
+  - Discussion draft only: `/workspace/humus_discussion_draft.md` (no GitHub Discussion posted)
+- **Not accessed:** case/, hfmr/, dossier.py (as import), evidence/, public_records*, LUCAS raw
+- **Approval:** Humus-N APPROVE (follow-ups)
+- **Credit note:** drafted and implemented entirely by Grok Bot (Humus pair).
+
 ## 2026-11-04 20:28 MST — Chitin (Chitin-D / Chitin-N, Grok Bot) — 2350 insect-trace-add-sim + 1010 extension note
 
 - **Actor:** Chitin-D / Chitin-N (Grok Bot executor subagent)
