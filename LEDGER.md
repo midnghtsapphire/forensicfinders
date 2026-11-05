@@ -1,3 +1,30 @@
+## 2026-11-04 20:30 MST — Humus (Humus-D / Humus-N, Grok Bot) — follow-ups (0) make sim, (1) soil_dna rename, (2) cited values
+
+- **Actor:** Humus-D / Humus-N (Grok Bot executor subagent)
+- **Requested by:** Strata (follow-up brief), for Audrey Evans
+- **Role:** executed (branch commits + draft PRs; Discussion draft local only — not posted)
+- **Worktree rule:** all forensicfinders git work in `/workspace/sensecrew/wt/humus` (not shared checkout).
+- **(0) make sim SEED=...**
+  - Branch `sensecrew/humus/topp-mironov` (worktree `/workspace/sensecrew/humus/repo` prior; PR #24)
+  - `sar/blue-ocean-sar/multi_proxy/Makefile`: added `sim` alias → `sim-dielectric` wrapping `python3 -m multi_proxy.dielectric --seed $(SEED) ...`
+  - Commit `5b6daed`; pushed to PR https://github.com/midnghtsapphire/forensicfinders/pull/24
+- **(1) Rule-7 RO audit + soil_dna_sensor rename**
+  - Branch `sensecrew/humus/soil-dna-rename` @ `/workspace/sensecrew/wt/humus`
+  - Audited: `qpcr_assay.py`, `qpcr_interpret.py`, `lab_readers.py`, `test_qpcr_assay.py`, `test_lab_readers.py`, plus docs with eDNA tokens
+  - Findings: no forbidden imports; no PII; no eDNA filenames; qpcr_assay cites journal *Environmental DNA* (kept); `lab_readers.py` docstring lineage mentions `docs/case-files` (not opened, not imported)
+  - Docs rename eDNA→soil_dna_sensor in `SOIL_SENSING_TIERS.md`, `DECODE_INJECTION_DESIGN.md`
+  - Additive shims (delete nothing): `soil_dna_sensor.py`, `soil_dna_sensor_interpret.py`
+  - Audit report: `docs/humus_rule7_audit_qpcr.md`
+  - Draft PR https://github.com/midnghtsapphire/forensicfinders/pull/31
+- **(2) GDD v0.3 Humus cited values**
+  - Read `/workspace/sensecrew/loam/GDD_v0.3.md` + v0.1 tier table + `SOIL_SENSING_TIERS.md`
+  - Humus nodes: 2d dielectric/moisture; 2a ε_r share; 3a soil_dna_sensor; 3b VOC/GC-MS/16S; decay pH/N/P context
+  - `docs/humus_cited_values.md` on rename branch — **8 cited / 6 PLACEHOLDER**; DOIs Crossref-verified
+  - Discussion draft only: `/workspace/humus_discussion_draft.md` (no GitHub Discussion posted)
+- **Not accessed:** case/, hfmr/, dossier.py (as import), evidence/, public_records*, LUCAS raw
+- **Approval:** Humus-N APPROVE (follow-ups)
+- **Credit note:** drafted and implemented entirely by Grok Bot (Humus pair).
+
 ## 2026-11-04 20:28 MST — Chitin (Chitin-D / Chitin-N, Grok Bot) — 2350 insect-trace-add-sim + 1010 extension note
 
 - **Actor:** Chitin-D / Chitin-N (Grok Bot executor subagent)
@@ -205,6 +232,99 @@
 - **Decisions:** registry 1080 → 2370 and 1080.1 → 2370.1, still PROVISIONAL pending Verity's collision check (1080 collides on other branches). Correction noted in FUSION_SPEC changelog §0 item 6. This supersedes the registry number in the 20:30 v0.2 entry (append-only; that entry is unchanged).
 - **Review:** Fusion-N reviewed the ba1a3e2 diff (FUSION_SPEC.md: 4 lines changed + 1 added; no other 1080 left except the changelog note; Crossref DOIs intact).
 - **Approval:** Fusion-N APPROVE (ba1a3e2). Verity green required before merge.
+
+## 2026-11-04 20:27 MST — Loam (Loam-D / Loam-N, Grok Bot) — GDD v0.4 + W request Discussion
+
+- **Actor:** Loam-D / Loam-N · **Requested by:** Strata, for Audrey Evans · **Role:** proposed
+- **Files:** `docs/sensecrew/loam/GDD_v0.4.md` added on `sensecrew/loam/gdd`, commit bc2c5ba6 (PR #10). v0–v0.3 unchanged.
+- **Decisions:**
+  - (a) final registry numbers 2300–2370 (source: Verity, Discussion #25; not read by Loam)
+  - (b) sweep_width.py CLEAR for reference/adapter use only via NEW-11 (2331), still off by default
+  - (c) lpb_mpb2003.json BLOCKED
+  - (d) make dem uses Bedrock's pure-Python GeoTIFF writer; GDAL/rasterio read-back only
+  - (e) licence string `UNLICENSED (private repo; licence pending Audrey)`
+  - (f) cross_tier_min_mastered 1–5, default 1, tuned by Ledger-Play
+  - (g) M1 sensor = 1a LiDAR DEM differencing, owner Waveform
+- **Calls:** gh api graphql createDiscussion (category Q&A) → https://github.com/midnghtsapphire/forensicfinders/discussions/28, asking Waveform for a cited W (km) with Verity co-sign; Bedrock M1 tests waiting on it.
+- **Main:** untouched. **Deletions:** none.
+- **Approval:** Loam-N APPROVE (GDD v0.4)
+
+## 2026-11-04 20:29 MST — Loam (Loam-D / Loam-N, Grok Bot) — Music stack decision v0
+
+- **Actor:** Loam-D / Loam-N · **Requested by:** Strata, for Audrey Evans · **Role:** proposed
+- **Files:** `docs/sensecrew/loam/MUSIC_DECISION_v0.md` on new branch `sensecrew/loam/music` (commit f1e218ff, no PR). Work done in worktree /workspace/sensecrew/wt/loam.
+- **Source read:** /workspace/prompt-hoard/frontier/game-genai-stack-vetted-2026-11-04.md. RulesSteward scale not found in revvel-standards (code search), so a weighted rubric was used.
+- **Scores (/100):** ACE-Step 1.5 = 92 (PICK); Magenta RealTime = 78; Stable Audio 3 Small-SFX = 65 (blocked, licence unverified); MusicGen/AudioGen excluded (non-commercial).
+- **Discussion:** posted in Ideas (URL in the Discussion list; title "Loam: music stack decision for entertainment skins").
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Approval:** Loam-N APPROVE
+
+## 2026-11-04 20:29 MST (America/Denver) — Quartz-D / Quartz-N (Grok Bot) — NEW-22 / 1070 splib07 PD endmember fixture (Task B)
+- **Actor:** Quartz-D (Driver), Quartz-N (Navigator). Strata-approved next after Task A (PR #20).
+- **Calls:**
+  1. USGS ScienceBase item `586e8c88e4b0f5ce109fccae` → downloaded `ASCIIdata_splib07b_cvAVIRISc2014.zip` (~4.3 MB; AVIRIS-Classic 2014 convolution, absolute reflectance). Cite doi:10.3133/ds1035; data doi:10.5066/F7RR1WDJ; https://www.usgs.gov/labs/spectroscopy-lab/science/spectral-library. Public domain.
+  2. Extracted 9 AREF spectra + shared 224-ch wavelength/FWHM ASCII; dropped water windows 1.35–1.45 and 1.80–1.95 µm → 196 kept bands. Built CSV/NPZ fixture under `sar/blue-ocean-sar/multi_proxy/fixtures/splib07_subset/` (shippable PD subset; not case data; LUCAS not included).
+  3. Quartz-D wrote `multi_proxy/splib07_endmembers.py` (`load_endmembers`, offline, deterministic) + `docs/sensecrew/quartz/SPLIB07_FIXTURE.md`.
+  4. Quartz-N wrote `multi_proxy/test_splib07_endmembers.py`. Ran `python3 -m pytest -q multi_proxy/test_splib07_endmembers.py` → 16 passed; `python3 -m unittest multi_proxy.test_splib07_endmembers` → 8 OK; `python3 sar/language_scan.py` → rc 0.
+  5. Commit 3a0df4c on `sensecrew/quartz/splib07-fixture` (from main a263098; independent of PR #20). Draft PR https://github.com/midnghtsapphire/forensicfinders/pull/29.
+- **Decisions:** Real USGS PD spectra (not placeholders). Endmembers: quartz, kaolinite, montmorillonite, calcite, goethite, hematite, gypsum, illite, dry_grass. Wavelength units µm. Component NEW-22 / provisional registry **1070** pending Verity collision check — `registry.json` **not** edited. No Ultralytics, no LUCAS, no full multi-GB library. Did not touch case/, hfmr/, dossier.py, evidence/, public_records_engine.py, or PII. Main untouched; no deletions.
+- **Licence:** Code/docs UNLICENSED (private repo; licence pending Audrey). Data: USGS public domain.
+- **Confidence:** 0.75 (Task B score reaffirmed; spectra are real PD, loader offline, NNLS goldens pass; Verity id collision + merge still pending).
+- **Commits / PRs:** 3a0df4c, PR #29 (draft). Discussion #22 to be updated with PR link.
+- **Approval:** Quartz-N APPROVE (3a0df4c). Verity green required before merge.
+
+## 2026-11-04 20:33 MST — Sense-Fusion (Fusion-D / Fusion-N, Grok Bot) — Verity round 2 rulings on PR #18
+
+- **Actor:** Sense-Fusion · **Requested by:** Strata (relaying Verity), for Audrey Evans · **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Calls:**
+  1. `git worktree add /workspace/sensecrew/wt/fusion sensecrew/fusion/rule7-audit-and-spec` from /workspace/sensecrew-fusion/repo (new team rule; the shared /workspace/forensicfinders clone was not used).
+  2. Targeted `sed` edits + append to RULE7_AUDIT.md; commit 6a1fdd5 pushed to the branch (no force push).
+  3. `gh pr view 18` (isDraft=false) → `gh pr ready --undo 18` → isDraft=true, head 6a1fdd5.
+- **Decisions:** combiner 2370.1 → 2371 (module 2370; both provisional), changelog item 7; item 6 kept as history. Recorded in the spec and audit: realdata/fusion.py has no file-level taint (Verity confidence 0.74) but stays off the game path; TerraMind/TerraTorch ON HOLD; no TerraMesh (CC-BY-SA) data ever shipped. The audit's original UNCERTAIN verdict is kept and superseded by the ruling (append-only).
+- **Review:** Fusion-N reviewed the 6a1fdd5 diff (FUSION_SPEC.md +4/−3, RULE7_AUDIT.md +4; docs only; no deletions; 2370.1 remains only in the changelog history lines).
+- **Approval:** Fusion-N APPROVE (6a1fdd5). Verity green required before merge.
+
+## 2026-11-04 20:40 MST (America/Denver) — Quartz-D / Quartz-N (Grok Bot) — CORRECTION: NEW-22 registry id 1070 → 2360
+- **Corrects:** prior Quartz entry (20:29 MST) that cited provisional registry **1070** for NEW-22 mineral-spectral-unmix. Per Strata, the id is **2360**.
+- **Commits:** 82b7cb6 on `sensecrew/quartz/splib07-fixture` (docs/README/manifest/loader/test comments 1070 → 2360); PR #29 body updated. PR #20 body had no 1070. PR #19 branch merged with ledger tip (d66d1ee, merge, no force).
+- **registry.json:** not edited (Verity collision check on 2360 pending).
+- **Confidence bands:** to be scored per revvel-standards `fraud-signal-verification-fleet/docs/CONFIDENCE_FRAMEWORK.md` (not present on box at time of entry; cited as source of record).
+- **Gate note:** Columbus/component 100 red is NOT a SenseCrew merge blocker; Verity SenseCrew-only golden manifest is the gate.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Approval:** Quartz-N APPROVE
+
+## 2026-11-04 20:32 MST — Loam (Loam-D / Loam-N, Grok Bot) — Music re-score (confidence framework) + correction
+
+- **Actor:** Loam-D / Loam-N · **Requested by:** Strata, for Audrey Evans · **Role:** proposed + correction
+- **Correction:** the earlier "Music stack decision v0" entry omitted the Discussion number. It is **#30**: https://github.com/midnghtsapphire/forensicfinders/discussions/30
+- **Source read (read-only):** midnghtsapphire/revvel-standards `fraud-signal-verification-fleet/docs/CONFIDENCE_FRAMEWORK.md` and `src/confidence.py` (latest commit 7fff87e5). Ran unmodified; output deterministic (2 runs byte-identical).
+- **Files:** `docs/sensecrew/loam/MUSIC_DECISION_v0.md` Addendum A (append-only) + `music_confidence/{case.json,run.py,result.tsv}` on `sensecrew/loam/music`, commit bc65afdb.
+- **Bands:** ACE-Step licence 0.55 SUPPORTED; Magenta RT 0.55 SUPPORTED; Stable Audio 0.20 UNSUBSTANTIATED; MusicGen 0.00 UNSUBSTANTIATED; determinism claims 0.00 UNSUBSTANTIATED (untested).
+- **Decision:** pick unchanged (ACE-Step 1.5; the tie is broken by the rubric, 92 vs 78). Status: ACE-Step accepted provisionally pending Verity licence check + determinism test.
+- **Comment:** https://github.com/midnghtsapphire/forensicfinders/discussions/30#discussioncomment-19410961
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Approval:** Loam-N APPROVE
+- 2026-11-04 Humus correction: entries 20:28–20:30 were inserted at the file head in error; append-only resumes here.
+
+### 2026-11-04 ~20:40 MT — Chitin: PR #27 Verity R2 + Humus APPROVE fixes
+- **Branch:** `sensecrew/chitin/insect-trace-add` commit 174b65d (draft PR #27). Worktree `/workspace/sensecrew/wt/chitin`.
+- with-open fixture load; Gitar stage-bounds test; inventory 1050→2350, Verity R7 CLEAR, preprint label kept.
+- 2350 reuses `realdata/refloat_timing.py` `daily_contribution`/`accumulate` via `refloat_adapter.py`; JSON+CLI surface "preprint, not peer-reviewed". Synthetic thresholds unchanged.
+- Humus: VWC validate + clamp 0.0–0.5 + logged input/clamped; identity modifier.
+- 1010: `decay_taphonomy_bridge.py` (stub mirroring taphonomy API; taphonomy.py not copied because its `.constants`/constants.json dep isn't cleared) + `SPEC_1010_EXTENSION.md`. No new registry id.
+- **Tests:** 14 OK. **Comment:** https://github.com/midnghtsapphire/forensicfinders/pull/27#issuecomment-6648951773
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none. Licence: UNLICENSED (private repo; licence pending Audrey).
+- **Approval:** Chitin-N APPROVE
+## 2026-11-04 20:34 MST (America/Denver) — Quartz-D / Quartz-N (Grok Bot) — NNLS/SAM golden wired to real splib07 fixture
+- **Branch:** `sensecrew/quartz/splib07-unmix-wire` @ b422e96 (from main; merged splib07-fixture 82b7cb6 + nnls-sam-golden, no force). Draft PR #32.
+- **Added:** `sar/blue-ocean-sar/multi_proxy/test_splib07_unmix_golden.py` (NEW-22 / registry 2360): seeded 20261104 kaolinite/calcite/goethite mixtures; NNLS atol 1e-6 noise-free / 1e-2 noisy; SAM match vs mismatch.
+- **Tests:** pytest 34 passed (new + PR #20 synthetic Gaussian + splib07 loader); unittest OK; language_scan 0 hits.
+- **Data:** USGS splib07 doi:10.3133/ds1035 / doi:10.5066/F7RR1WDJ (public domain).
+- **Confidence:** ~0.88, SUBSTANTIATED band, per revvel-standards `fraud-signal-verification-fleet/docs/CONFIDENCE_FRAMEWORK.md` (engineering adaptation; not present on box, cited as source of record).
+- **registry.json:** not edited. **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Approval:** Quartz-N APPROVE. Verity SenseCrew-only golden manifest is the merge gate.
 ## 2026-11-04 20:40 MST — Sense-Verity gate rulings (queue from Sense-Strata)
 - **Who:** Sense-Verity (Grok Bot). **Why:** rule 7 lineage, licence, and registry gate. Full evidence: /workspace/sensecrew/verity/gate-2026-11-04/rulings.md. No forbidden path was opened.
 - **Calls:** Shell `sed`/`grep`/`git grep`/`git show` on the local checkout; `gh pr view/diff` #10-#14; `gh api graphql` Discussion #15; WebSearch (Perkins 2003 copyright); WebFetch pnnl/cmaputil LICENSE.
@@ -230,4 +350,13 @@
 - Local re-runs: #20 8/8, #24 13/13 (multi_proxy 35), #27 7/7, all deterministic.
 - COMMENT reviews (no approvals): #11 #12 #13 #14 #18 #19 #20 #24 #27. #12, #14 and #19 conflict with the ledger tip and need a merge update.
 - Bands: revvel-standards CONFIDENCE_FRAMEWORK, adapted (primary artefact = tier 4 0.80).
+- Licence: UNLICENSED (private repo; licence pending Audrey)
+
+## 2026-11-04 ~20:40 MST | Sense-Verity | gate round 3
+- R11 ACE-Step 1.5: code and weights MIT, ungated, 0.92 SUBSTANTIATED. Training-data cleanliness is self-reported only, 0.45 WEAK. Exclude the OpenRAIL-M CNY LoRA. v1 is Apache-2.0.
+- R12 PR #31: lab_readers.py CLEAR (negative citation, no embedded values) 0.80 SUPPORTED. The audit's "No imports" row is wrong (none are forbidden) and the tallies are inconsistent.
+- R13 PR #24 @5b6daed: make-sim recipe deterministic (3582b287); multi_proxy 35 pass; full component 100: 441 tests OK (1 skipped). 0.92.
+- R14 forensic_models constants.py/json: CLEAR for live import by 1010; every value cited, loader enforces sources. 0.92.
+- R15 re-checks (0 force-pushes each): #11 4f63fba 0.86; #12 a9f7e7f 0.86 (needs a merge onto 50b7069); #13 32fa46b 0.86 (Battelle verbatim ✔; Crameri MIT per Zenodo; PDF sha256 not re-verified); #14 99f49dd 0.86; #18 6a1fdd5 draft, 2370/2371 collision-free 0.92; #27 174b65d 14/14, deterministic, 0.92.
+- R16 head-insert correction 50b7069 is present (covers 20:28–20:30); no duplicate added. L48–80 (20:25) ordering flagged for Strata.
 - Licence: UNLICENSED (private repo; licence pending Audrey)

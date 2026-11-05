@@ -145,3 +145,76 @@ The refusal gate does not apply.
   - Nits: `open()` without close at sim.py L19 (ResourceWarning). The registry entry sits on main's 29-entry registry, so the 2300 parent doesn't exist there yet.
   - With R9 CLEAR, the 1010 extension note can proceed, but on a branch carrying sar-make-it-work's forensic_models.
   - Score 0.92.
+
+---
+# Round 3 — 2026-11-04 ~20:40 MST (same bands and adaptation as round 2)
+
+## R11 ACE-Step 1.5 licence (Discussion #30)
+**Code and weights: MIT. 0.92 SUBSTANTIATED.**
+- GitHub `ace-step/ACE-Step-1.5`: licence is MIT, per the API `license.spdx_id`. The README says "licensed under [MIT](./LICENSE)".
+- These Hugging Face repos all report `cardData.license=mit` and `gated=false`:
+  - ACE-Step/Ace-Step1.5
+  - acestep-5Hz-lm-0.6B
+  - acestep-5Hz-lm-4B
+  - ace-step-v1.5-1d-vae-stable-audio-format
+- The older v1 repos (`ACE-Step/ACE-Step`, `ACE-Step-v1-3.5B`) are **Apache-2.0**, not MIT. Don't mix them up.
+- **Exclude** `ACE-Step-v1.5-chinese-new-year-LoRA`, which is **creativeml-openrail-m** and comes with use restrictions.
+- The LM planners are fine-tuned from Qwen3-0.6B/1.7B/4B, according to the model card. Verity did not re-verify the Qwen3 upstream licence this round, so treat it as an open item.
+- 1.7B LM: not found under the ACE-Step author listing, so its licence is unverified.
+
+**Training data: "Licensed / royalty-free / synthetic MIDI-to-audio" is self-reported only. 0.45 WEAK.**
+- No dataset card or manifest was found.
+- The README disclaimer acknowledges "potential risks such as unintentional copyright infringement due to stylistic similarity". It asks users to "verify the originality of generated works, clearly disclose AI involvement". This is a soft, non-binding responsible-use clause, not a licence restriction.
+- Ruling: OK for the entertainment skins only, as baked tracks with the prompt, seed and model hash recorded (Loam's plan). Add an AI-music disclosure line in credits.
+- Loam's 92/100 rubric is not the CONFIDENCE_FRAMEWORK; this R11 is the gate score.
+
+## R12 PR #31 Humus soil_dna_sensor (9134f90, draft → main)
+**Changes.** The rename is additive. It adds 2 re-export shims plus docs `eDNA→soil_dna_sensor` (3 removed lines, all doc wording). Nothing was deleted; `qpcr_*` are kept.
+
+**lab_readers.py lineage: CLEAR as a reader of the user's own lab exports. 0.80 SUPPORTED.**
+- L4: "Replaces the GC-MS and 16S tabs of ryverly_recon_app-v6.py (docs/case-files), whose peak counts, retention times and abundances were typed in". This is a negative citation.
+- It has no built-in retention times or abundances. The method comes from the user's file, and the example method is refused without `--allow-example-method`.
+- `DEFAULT_TARGET_NAMES` contains putrescine, cadaverine, indole, skatole and DMDS. These are generic cadaveric VOC names from the literature, not values.
+- `case-files` and `ryverly` appear only in the L4 docstring. Every `open()` is on a CLI-supplied path.
+- Score: 0.80 + 0.06 (grep) + 0.06 (no embedded values) − 0.12 (written against the case-file app) = 0.80.
+- I did not check where `gcms_method.example.json` comes from (that check was interrupted).
+
+**Audit corrections.**
+- humus_rule7_audit_qpcr.md says lab_readers has "**No imports**". That is wrong: it imports argparse, csv, json, math, os, sys, numpy, optional scipy and pyteomics/pymzml. None are forbidden, so the PASS stands, but the row should be fixed (append a correction).
+- humus_cited_values.md gives three different tallies (7/7, then 10 listed, then "cited = 8, placeholders = 6"). Pick one.
+- The 2 shims have no tests.
+
+## R13 PR #24 re-check at 5b6daed (`make sim`). 0.92 SUBSTANTIATED
+- `make` is not installed on the box, so I ran the Makefile recipe verbatim (SEED 20261104, N_THETA 8, N_CLAY 6, FREQ 1.4 GHz):
+  - seed 20261104 twice gives sha256 3582b287d438 both times (same as round 2);
+  - seed 7 gives bec09d3370a8.
+- multi_proxy: 35 passed, 19 subtests.
+- **Full component 100 (`registry.py 100 --test`, 1500 s timeout): Ran 441 tests, OK (skipped=1), rc=0.** This closes the round 2 gap.
+
+## R14 forensic_models/constants.py + constants.json (sar-make-it-work f9efac6)
+**CLEAR for the 1010 extension to import live. 0.92 SUBSTANTIATED.**
+- The loader imports only json and pathlib. It **raises** if any constant has an empty source, and it requires a source on every override.
+- Every value has a citation:
+  - Topp 1980 doi:10.1029/WR016i003p00574
+  - Megyesi 2005 doi:10.1520/JFS2004017
+  - Vass 2011 doi:10.1016/j.forsciint.2010.04.052
+  - Gabriel 1996 doi:10.1088/0031-9155/41/11/003
+  - Kätterer 1998 doi:10.1007/s003740050430
+  - Linn & Doran 1984 doi:10.2136/sssaj1984.03615995004800060013x
+- These have `null` values with a "supply with source" note: eps_soap, k_saponification, k_ammonification, k_nitrification.
+- "Notebook" refers to the Gemini Notebook bootstrap; its values were rejected. There are zero case-files, ryverly, hfmr, evidence, dossier or public_records hits.
+- Nit: `topp_forward` holds the θ(Ka) coefficients and `topp_inverse` holds Ka(θ). The names look swapped relative to Topp's paper; check before reuse.
+
+## R15 Re-checks (COMMENT only; force-push counts from the REST timeline)
+| PR | Head checked | Force-pushes | Finding | Score |
+|---|---|---|---|---|
+| #11 | 4f63fba | 0 | L159 `lost_person_sim` POA sentence now carries a DEPRECATED marker ✔ | 0.86 |
+| #12 | a9f7e7f | 0 | Merge c648079 brings in ledger 98cb463. 16ff66b is an ancestor (no rewrite). 0 removed lines vs the ledger. Conflicts again with the new tip 50b7069, so merge again. | 0.86 |
+| #13 | 32fa46b | 0 | cividis-NOTICE: the pnnl/cmaputil LICENSE (sha256 3282e3c5…) appears **verbatim and contiguous** under a 5-line `#` header. crameri-LICENSE: MIT text. Zenodo API for 8409685 shows v8.0.1, licence `mit-license`, file ScientificColourMaps8.zip md5 e63c1d2d…. **PDF sha256 e2facd02… NOT independently verified** (66.9 MB download interrupted). | 0.86 |
+| #14 | 99f49dd (251a5d9 merge) | 0 | ce6585d is an ancestor, and 251a5d9 merged the ledger at f623746. 0 lines lost. It does not include the newest tip (5d455f0/50b7069). | 0.86 |
+| #18 | 6a1fdd5 | 0 | Draft again ✔. 2370 is the module and 2371 the combiner. Neither is a key in any branch's registry.json. Every textual mention across branches refers to Fusion, with no other claimant. 2370.1 survives only in changelog history. | 0.92 |
+| #27 | 174b65d | — | **14/14 pass.** Seed 7 twice gives 269ced7c5b8f; seed 8 gives c6989b7c205f. 0 removed lines. It now reuses `refloat_timing` ADD via `refloat_adapter` (allowed by R7) and prints the preprint LABEL. `decay_taphonomy_bridge` imports forensic_models.taphonomy (R9/R14 CLEAR). | 0.92 |
+
+## R16 LEDGER head-insert correction (50b7069, on sensecrew/ledger, Humus 20:33)
+- It appends a one-line note at EOF, covering the two head entries at L1 (20:30 Humus) and L28 (20:28 Chitin). Present ✔; Verity did not add a duplicate.
+- Flag for Strata: L48–80 (20:25 Humus Topp+Mironov and its correction) also sit above the 20:15 Loam entry, and the note doesn't mention them. They could be another head insert, or the original file order. Strata should rule.
