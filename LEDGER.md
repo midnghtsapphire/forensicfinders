@@ -922,3 +922,17 @@ Independent Verity-N re-review of PR #40 @ `5b1149d28acf0213fbaf4ddd27e562af1675
 - **Main:** untouched. **Deletions:** none. **Force pushes:** none.
 - **Licence:** UNLICENSED (private repo; licence pending Audrey)
 - **Approval:** Verity-N APPROVE-with-hold (independent; delta); cites R44
+
+## R45 Verity-D+N concurrence — Discussion #44 Fusion Option A open questions — 2026-11-05 ~11:50 MST (America/Denver)
+
+- **Actor:** Verity-D+N (Grok Bot) · **Requested by:** Sense-Strata / Sense-Verity, for Audrey Evans
+- **Kind:** Discussion comment concurrence (not a PR tip). Fusion open questions on Option A `run_one_tile` proposal.
+- **COMMENT:** https://github.com/midnghtsapphire/forensicfinders/discussions/44#discussioncomment-19424711
+- **Rulings:**
+  1. **fusion/synth.py procedural layers as stand-in for missing spectral engine:** ACCEPTABLE-with-conditions **0.86** — label as procedural/synth stand-in only; no `realdata/fusion.py`; does not satisfy Quartz 2360; determinism unchanged; does **NOT** alone lift Option A to ≥0.80.
+  2. **deprecated `dem_path`/`spectral_path` keywords that DeprecationWarning then raise before I/O:** Rule-7 **CLEAR 0.90**; case-judgement **LOW residual 0.84** if raise-before-I/O + `synthetic=False` raises + happy-path is seed+config + README leads with synthetic path.
+  3. **sam.py / nnls_unmix.py:** YES audit before game-path use **0.88** — R10 #19 grep PASS ≠ full CLEAN; only `consensus.py` CLEAN @ `f3c8037`; out of Option A scope.
+- **Net:** no Option A rescore by Verity; code still waits ≥0.80 or Proofy/Audrey; freeze + #37/#41/#42 draft holds unchanged. Forbidden paths not opened.
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Approval:** Verity-D+N concurrence (Discussion #44 comment); cites COMMENT above
