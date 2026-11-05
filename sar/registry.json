@@ -123,7 +123,8 @@
         "-p",
         "test_*.py"
       ],
-      "source": "deepscan specs v0 \u2014 synthetic only"
+      "source": "deepscan specs v0 \u2014 synthetic only",
+      "licence": "UNLICENSED (private repo; licence pending Audrey)"
     },
     "520": {
       "name": "magnetometry-model",
@@ -138,7 +139,8 @@
         "-p",
         "test_*.py"
       ],
-      "source": "deepscan specs v0 \u2014 synthetic only"
+      "source": "deepscan specs v0 \u2014 synthetic only",
+      "licence": "UNLICENSED (private repo; licence pending Audrey)"
     },
     "530": {
       "name": "gpr-void-detector",
@@ -153,7 +155,8 @@
         "-p",
         "test_*.py"
       ],
-      "source": "deepscan specs v0 \u2014 synthetic only; gprMax offline-only if used to build fixtures"
+      "source": "deepscan specs v0 \u2014 synthetic only; gprMax offline-only if used to build fixtures",
+      "licence": "UNLICENSED (private repo; licence pending Audrey)"
     },
     "600": {
       "name": "cot-export",
