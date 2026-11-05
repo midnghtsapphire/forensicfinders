@@ -177,3 +177,11 @@
 - **Review:** Fusion-N reviewed the b26e78e diff (1 doc file, +80/−45 lines within FUSION_SPEC.md; no files deleted; goldens match Bedrock §6 values; DOIs Crossref-verified; units km/km²/dimensionless consistent).
 - **Approval:** Fusion-N APPROVE (b26e78e). Verity green required before merge.
 
+
+## 2026-11-04 20:27 MST — Sense-Fusion (Fusion-D / Fusion-N, Grok Bot) — registry correction 1080 → 2370
+
+- **Actor:** Sense-Fusion · **Requested by:** Strata, for Audrey Evans · **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Calls:** `git grep 1080` in docs/sensecrew/fusion; targeted `sed` edits (DOI 10.1080/01621459.* deliberately left unchanged); commit ba1a3e2 pushed to `sensecrew/fusion/rule7-audit-and-spec` (PR #18). No force push; main untouched; stash left alone.
+- **Decisions:** registry 1080 → 2370 and 1080.1 → 2370.1, still PROVISIONAL pending Verity's collision check (1080 collides on other branches). Correction noted in FUSION_SPEC changelog §0 item 6. This supersedes the registry number in the 20:30 v0.2 entry (append-only; that entry is unchanged).
+- **Review:** Fusion-N reviewed the ba1a3e2 diff (FUSION_SPEC.md: 4 lines changed + 1 added; no other 1080 left except the changelog note; Crossref DOIs intact).
+- **Approval:** Fusion-N APPROVE (ba1a3e2). Verity green required before merge.
