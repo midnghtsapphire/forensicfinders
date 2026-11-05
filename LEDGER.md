@@ -938,3 +938,23 @@ Independent Verity-N re-review of PR #40 @ `5b1149d28acf0213fbaf4ddd27e562af1675
 - **Approval:** Verity-D+N concurrence (Discussion #44 comment); cites COMMENT above
 
 - R46 (2026-11-05 ~11:52 MST America/Denver) Discussion #45 Verity-D+N concurrence (Discussion co-sign, not a PR tip): WR #43 sentinel.py bytes vs DataArray — Option B (rioxarray). COMMENT https://github.com/midnghtsapphire/forensicfinders/discussions/45#discussioncomment-19424753. Evidence re-checked on main: return is bytes; rioxarray/xarray/rasterio pinned; temporal expects DataArray; evalscript nodata -9999. Co-signs: (1) BytesIO+open_rasterio masked+squeeze 0.88; (2) -9999→NaN in sentinel return path required 0.90; (3) offline synthetic fixture GeoTIFF plan, no live Hub 0.86. Score: B approach 0.84 act-eligible IF those three are PR gates (was 0.78 discuss); A reject; C discuss. Board/Proofy own decide. No code. Freeze/draft/assignee+done holds unchanged.
+
+## R47 Verity-D PR #46 — PASS-with-hold Backscatter WR #43 @ cdd0f02 — 2026-11-05 12:05 MST (America/Denver)
+
+- **Actor:** Verity-D only (Grok Bot; Driver) · **Requested by:** Sense-Strata, for Audrey Evans
+- **What:** Re-check draft PR #46 (`sensecrew/backscatter/wr43-sentinel-dataarray`) against Discussion #45 Verity 3 gates (Option B rioxarray). Tip claimed `cdd0f02c2f15a0b42ca4b20a554df319e98c60ba` — **confirmed CURRENT** (`isDraft=true`; no tip drift). Fresh worktree `/workspace/sensecrew/wt/verity-pr46` detached at exact tip (did **not** reuse Backscatter’s tree).
+- **Diff vs base `a263098`:** 5 paths only — `sar/coldtrace/backend/services/sentinel.py`, `tests/test_sentinel_dataarray.py`, `tests/fixtures/ndvi_3x3_synthetic.tif`, `docs/sensecrew/backscatter/{LEDGER,CHANGELOG}.md`. **`requirements.txt` unchanged** (md5 match; pins `rasterio==1.3.10` / `rioxarray==0.15.5` / `xarray==2024.5.0`).
+- **Gates (Discussion #45 #discussioncomment-19424753):**
+  1. **CLEAR** — `BytesIO` + `rioxarray.open_rasterio(..., masked=True)` + squeeze (`sentinel.py:54-55`); `ValueError` on missing CRS / missing-or-identity transform (`:57-71`). Tests: missing CRS + identity transform.
+  2. **CLEAR** — `-9999→NaN` in return path (`_SENTINEL_NODATA` + `da.where` at `:73-75`; both return sites via helper `:148-150`). Test: maps nodata to NaN.
+  3. **CLEAR** — offline synthetic tests: **8** in `test_sentinel_dataarray.py`; Hub HTTP mocked; golden A/B byte-identical float32; fixture name contains `synthetic`. Live Hub never called. TDD “7 failed before fix” **cannot be independently proven** (no pre-fix red artifact); tests exist and pass.
+- **analysis.py path:** `routers/analysis.py:77-85` → `fetch_sentinel_ndvi` → `compute_ndvi_diff`; `temporal.py:52-66` uses `.values` / `.rio.transform()` / `nanmean` — consistent with DataArray return. Docstring no longer claims rioxarray absent.
+- **Backscatter-N APPROVE:** present in `docs/sensecrew/backscatter/LEDGER.md` (ec2fc25) — verified.
+- **Rule 5/7 + language_scan:** 0 forbidden imports on touched py; language_scan 0 flagged (REVVEL-DISABLED historical placeholder balanced). Forbidden paths not opened.
+- **Tests (pinned):** Python 3.12.16 venv `/workspace/sensecrew/venv-verity-pr46` with exact pins; `PYTHONPATH=sar python -m pytest sar/coldtrace/backend/tests/ -v` → **16 passed, 0 failed** (8 new sentinel + no_data + health + viewshed). Host Py3.13 cannot install exact rasterio 1.3.10 wheels; pins left unchanged.
+- **Verdict:** **PASS-with-hold 0.92**. No CHANGES-REQUIRED. Informational nit: committed `ndvi_3x3_synthetic.tif` unused by tests (in-memory builder used).
+- **Holds:** (1) keep draft; (2) freeze / assignee+done; (3) no merge until Verity-N + crew process; (4) Verity-N pending.
+- **PR / review:** COMMENT-only https://github.com/midnghtsapphire/forensicfinders/pull/46#pullrequestreview-5790490765 @ `cdd0f02` (never APPROVE/REQUEST_CHANGES GitHub event).
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Approval:** Verity-D PASS-with-hold (gates 1–3 CLEAR under pinned deps); Verity-N not started
