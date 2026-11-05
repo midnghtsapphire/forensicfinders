@@ -150,7 +150,7 @@ Example row (all physics PLACEHOLDER — no values invented):
 Validator (mirrors `validate_tables`): reject any physics value without `citation`; reject a citation on null; `test_no_physics_change_in_balance_diff` fails if a balance PR touches physics columns.
 
 ## 2. Scoring
-Per mission, from the player's effort allocation `z_i` (km or h), segments built from the synthetic scene (POA from `lost_person_sim` on `synthetic_flat_terrain`, W from `sweep_width.py`): **[DEPRECATED v0.2 D9: W comes from table 2330 (NEW-10); sweep_width.py is reference only, not on the import path]**
+Per mission, from the player's effort allocation `z_i` (km or h), segments built from the synthetic scene (POA from `lost_person_sim` on `synthetic_flat_terrain`, W from `sweep_width.py`): **[DEPRECATED v0.2 D9: W comes from table 2330 (NEW-10); sweep_width.py is reference only, not on the import path]** **[DEPRECATED v0.2 (Verity follow-up): POA from `lost_person_sim` is not a harness interface; POA comes only from the Bedrock seeded synthetic prior until B1 is ruled]**
 - `POS = evaluate_plan(segments, effort, unit)` total (dimensionless, 0–1). **[DEPRECATED v0.2 D4/D9 — blocked module; use `Scorer` (Bedrock spec) instead]** → `POS = Scorer.pos(segments, effort_km)`
 - `POS_opt = optimal_allocation(segments, budget, unit)` → efficiency `η = POS / POS_opt` (dimensionless; teaches optimal search). **[DEPRECATED v0.2 D4/D9 — blocked module; use `Scorer` (Bedrock spec) instead]** → `POS_opt = Scorer.pos(segments, Scorer.optimal(segments, budget_km))`
 - Score (points):
