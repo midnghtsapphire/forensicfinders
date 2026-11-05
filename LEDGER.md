@@ -70,3 +70,16 @@
   - Commit 28ab70b6 on branch `sensecrew/loam/gdd` (adds `docs/sensecrew/loam/GDD_v0..v0.3`) opened draft PR https://github.com/midnghtsapphire/forensicfinders/pull/10 into main.
   - Ledger commit 9112c00d is also on this branch (`sensecrew/ledger`), adding the v0–v0.3 entries to LEDGER.md.
 - **Main:** not touched. **Deletions:** none.
+
+## 2026-11-04 20:22 MST — Ledger-Play (Ledger-Play-D / Ledger-Play-N, Grok Bot) — balance proposal v0.2 (doc only)
+
+- **Actor:** Ledger-Play-D (driver) / Ledger-Play-N (navigator) · **Requested by:** Strata, for Audrey Evans · **Role:** balance/economy proposal, doc only
+- **Why:** v0 balance-table schema, Scorer consumer interface, difficulty curve and seeded sweep harness (NEW-12), updated to Strata's v0.1/v0.2 rulings.
+- **Commits** (branch `sensecrew/ledgerplay/balance-v0`, draft PR https://github.com/midnghtsapphire/forensicfinders/pull/11 into main):
+  - `9c0130bb38cd7b7a9e517f0ac61386b4633cbbe7`: adds `docs/sensecrew/ledgerplay/balance-proposal-v0.2.md`.
+  - `3bfd3491fbf2f1d3fae46869238f201846dc9ca3`: follow-up. Harness id NEW-xx → NEW-12; NEW-11 disabled while sweep_width.py is blocked; v0 repo-research section bannered "DEPRECATED — quarantined module, history only"; licence string set.
+- **Tools / CLI calls:** `gh auth status`; `gh api` read-only (repos/…/contents, git/trees, before the quarantine rulings); `gh repo clone`; `git checkout -b`, `git commit`, `git push` (no force, never main); `gh pr create --draft`. No MCP calls, no swarm (0 subagents).
+- **Sources:** `sensing-games-team-LOCKED-2026-11-04.md` §3; Loam GDD v0 / v0.2 (`/workspace/sensecrew/loam/`); `sar/docs/SOIL_SENSING_TIERS.md`; `sar/registry.json`. Blocked modules `search_theory.py`, `optimal_search.py`, `sweep_width.py`: not opened after the quarantine rulings, not used as interfaces. Forbidden paths (rule 7): not opened. No physics values set; all PLACEHOLDER pending owning pair + Verity co-sign.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Ledger-Play-N review:** units are consistent (km, km², km/h, km²/h, credits, min); no invented citations; no forbidden-path references beyond the rule statement; edits are in place with no text removed (the only replaced text is the LEDGER template's `licence: <...>` placeholder). Main not touched; deletions: none.
+- **Approval:** Ledger-Play-N APPROVE (commits 9c0130b, 3bfd349) · Verity: pending
