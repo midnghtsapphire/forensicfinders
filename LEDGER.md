@@ -936,3 +936,5 @@ Independent Verity-N re-review of PR #40 @ `5b1149d28acf0213fbaf4ddd27e562af1675
 - **Main:** untouched. **Deletions:** none. **Force pushes:** none.
 - **Licence:** UNLICENSED (private repo; licence pending Audrey)
 - **Approval:** Verity-D+N concurrence (Discussion #44 comment); cites COMMENT above
+
+- R46 (2026-11-05 ~11:52 MST America/Denver) Discussion #45 Verity-D+N concurrence (Discussion co-sign, not a PR tip): WR #43 sentinel.py bytes vs DataArray — Option B (rioxarray). COMMENT https://github.com/midnghtsapphire/forensicfinders/discussions/45#discussioncomment-19424753. Evidence re-checked on main: return is bytes; rioxarray/xarray/rasterio pinned; temporal expects DataArray; evalscript nodata -9999. Co-signs: (1) BytesIO+open_rasterio masked+squeeze 0.88; (2) -9999→NaN in sentinel return path required 0.90; (3) offline synthetic fixture GeoTIFF plan, no live Hub 0.86. Score: B approach 0.84 act-eligible IF those three are PR gates (was 0.78 discuss); A reject; C discuss. Board/Proofy own decide. No code. Freeze/draft/assignee+done holds unchanged.
