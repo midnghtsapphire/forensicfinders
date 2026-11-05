@@ -723,3 +723,14 @@ Independent Verity-N re-review of PR #40 @ `5b1149d28acf0213fbaf4ddd27e562af1675
 - Quick pytest: ert-model 7 passed; magnetometry-model 6 passed; gpr-void-detector 8 passed.
 - Forbidden paths not opened: case/, hfmr/, dossier.py, evidence/, docs/case-files/. No push to main; no force-push. Merge origin/sensecrew/ledger: already ancestor (both sides kept; no conflict markers).
 - **Verdict: Verity-N APPROVE 5b1149d (independent; supersedes same-workstream note a8fea7f)**
+
+## 2026-11-05 08:20 MST (America/Denver) — Verity-D (SenseCrew QA) — R39 PASS-with-hold of PR #41 @ 8e745c6
+
+- **Actor:** Verity-D (Grok Bot) · **Requested by:** Sense-Strata, for Audrey Evans
+- **What:** Independent Verity-D review of Bedrock draft PR #41 (NEW-01/2310 CleanScorer + registry 2300/2310) at exact head `8e745c6ea010a7197621690506ee7136b43056d0`. Rule 7 CLEAR on PR modules (stdlib-only CleanScorer; ledgerplay.scoring re-export); licence 2300/2310 exact UNLICENSED string; tests **31 passed, 2 xfailed** (M1 W PLACEHOLDER); M1_W_KM still None; DEM SHA-256 still PENDING; draft retained; m1-sweep-width.md not posted. Details in R39 (docs/sensecrew/verity/rulings.md).
+- **Verdict:** **PASS-with-hold** confidence 0.90.
+- **Hold conditions:** (1) DEM SHA-256 PENDING — regenerate independently from impl before merge; (2) M1 W PLACEHOLDER — Waveform citation + Verity co-sign before CLEAR; (3) keep draft; (4) do not post m1-sweep-width.md without Audrey.
+- **PR / review:** COMMENT (not APPROVE) on https://github.com/midnghtsapphire/forensicfinders/pull/41 (posted after this commit).
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Approval:** Verity-D PASS-with-hold; **Verity-N pending**
