@@ -860,3 +860,27 @@ Independent Verity-N re-review of PR #40 @ `5b1149d28acf0213fbaf4ddd27e562af1675
 - **Main:** untouched. **Deletions:** none. **Force pushes:** none.
 - **Licence:** UNLICENSED (private repo; licence pending Audrey)
 - **Approval:** Verity-D PASS-with-hold; **Verity-N not started**
+
+## Verity-N APPROVE-with-hold dafed87 (independent; language-scan CLEAR) — PR #41 Bedrock — 2026-11-05 08:36 MST (America/Denver)
+
+- **Actor:** Verity-N (Grok Bot; **independent** navigator) · **Requested by:** Sense-Strata, for Audrey Evans
+- **Independence:** Fresh worktree `/workspace/sensecrew/wt/verity-n-41-lang` at exact tip `dafed8713cb081ee4a8e6be6a4d496318402251c` (detached). **Did not** reuse Verity-D worktree `/workspace/sensecrew/wt/verity-pr41-lang`. Re-checked from scratch; did not trust R43 conclusions blindly. Same-workstream Verity-N is INVALID. LEDGER must say **independent**.
+- **What:** Independent Verity-N after Verity-D R43 PASS-with-hold (updated) clearing R42 language-scan blocker on Bedrock #41 — D LEDGER `63045f157af55b8a7a6ce066896dad316caa6c8d`; D COMMENT (issue) https://github.com/midnghtsapphire/forensicfinders/pull/41#issuecomment-6662096442. Confirmed CURRENT head with `gh` still `dafed87` (tip not moved; `isDraft=true`).
+- **Re-checked (independent):**
+  1. **language_scan:** `cd sar && python3 -m pytest test_language_scan.py -q` → **16 passed**. 0 PLACEHOLDER / deferred-work vocabulary hits in `sensegame/tests/` (incl. `test_scorer_golden.py`). **R42 language-scan CHANGES-REQUIRED CLEARED.**
+  2. **M1_W_KM** still `None` / **M1_W_SOURCE** still `None` — only assignments in sar/; no invented numeric W; both M1 tests still `@pytest.mark.xfail(strict=True)`. Hold #2 NOT CLEARED.
+  3. **Tests @ dafed87:** `python3 -m pytest -q test_language_scan.py sensegame/tests` → **72 passed, 2 xfailed**.
+  4. **DEM digests:** `dem_golden_sha256.json` (sensegame + docs) unchanged vs `8c98804`; digests still match R40 (1001=`8f37f390…fe731`; 1002a=`6a8e8238…3979`; 1002b=`32e88244…c781`; 1003=`b76cea2b…f6e`; `generator_version`=`0`). Hold #1 DEM SHA stays CLEAR.
+  5. **Diff 8c98804..dafed87:** 2 files +15/−6 — wording-only reword of M1 xfail strings in `test_scorer_golden.py` + Bedrock LEDGER append. No code/logic/fixture/registry change.
+  6. **Draft:** `isDraft=true`. Hold #3 kept.
+  7. **Discussion draft** `docs/sensecrew/bedrock/specs/discussion-drafts/m1-sweep-width.md` header still "DRAFT — GitHub Discussion request (NOT POSTED)". Hold #4 kept — do not post without Audrey.
+- **Verdict:** **Verity-N APPROVE-with-hold (updated)** — language-scan CLEAR; keep holds 2–4. Confidence **0.90**.
+- **Holds remaining:**
+  2. M1 W unset/uncited — Waveform citation + Verity co-sign before CLEAR
+  3. Keep draft
+  4. Do not post m1-sweep-width.md without Audrey approval
+- **Cleared (this round):** R42 language-scan blocker. **Still CLEAR:** (1) DEM SHA-256 (R40 / prior Verity-N).
+- **PR / review:** COMMENT-only (never APPROVE/REQUEST_CHANGES GitHub event) on https://github.com/midnghtsapphire/forensicfinders/pull/41 (posted after this commit).
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Approval:** Verity-N APPROVE-with-hold (independent; language-scan CLEAR); cites R43
