@@ -734,3 +734,27 @@ Independent Verity-N re-review of PR #40 @ `5b1149d28acf0213fbaf4ddd27e562af1675
 - **Main:** untouched. **Deletions:** none. **Force pushes:** none.
 - **Licence:** UNLICENSED (private repo; licence pending Audrey)
 - **Approval:** Verity-D PASS-with-hold; **Verity-N pending**
+
+## Verity-N APPROVE-with-hold 8e745c6 (independent) — PR #41 Bedrock CleanScorer — 2026-11-05 08:21 MST (America/Denver)
+
+- **Actor:** Verity-N (Grok Bot; **independent** navigator) · **Requested by:** Sense-Strata, for Audrey Evans
+- **Independence:** Fresh worktree `/workspace/sensecrew/wt/verity-n-41` at exact head `8e745c6ea010a7197621690506ee7136b43056d0` (detached). **Did not** reuse Verity-D worktree `/workspace/sensecrew/wt/verity-pr41`. Re-checked from scratch; did not trust R39 conclusions blindly. Same-workstream Verity-N is INVALID (cf. superseding of a8fea7f on #40).
+- **What:** Independent Verity-N review of Bedrock draft PR #41 (NEW-01/2310 CleanScorer + registry 2300/2310) after Verity-D R39 PASS-with-hold (LEDGER tip parent `cea8081`; COMMENT https://github.com/midnghtsapphire/forensicfinders/pull/41#pullrequestreview-5787339803).
+- **Re-checked (independent):**
+  1. **Rule 5/7** on PR-touched modules (`sar/sensegame/*`, `sar/ledgerplay/*`, registry 2300/2310, docs/sensecrew/bedrock specs/tests): `search_core.py` imports only `math` / `dataclasses` / `typing` / `__future__`; `scoring.py` re-exports `CleanScorer` only; **0** imports/opens of case/, hfmr/, dossier.py, evidence/, public_records*, Ultralytics, raw LUCAS/EDNA/ISRID data, or quarantined search_theory/optimal_search. Forbidden paths not opened. Registry ΔNDVI unicode escapes on 910/970 are incidental re-serialization (pre-existing entries; not new forbidden content).
+  2. **Licence** 2300 and 2310 == exactly `UNLICENSED (private repo; licence pending Audrey)`.
+  3. **Tests run here:** `make test-scorer` and `cd sar && python3 -m pytest -q sensegame/tests` → **31 passed, 2 xfailed** (test_m1_sweep_width_is_cited, test_m1_optimal_spends_budget_and_beats_naive — M1 W PLACEHOLDER).
+  4. **M1_W_KM** still `None` / `M1_W_SOURCE` still `None` — no invented W. Hold NOT CLEARED.
+  5. **DEM SHA-256** still PENDING (DEM/2320 not in this PR tree). Hold NOT CLEARED; no hashes invented.
+  6. PR remains **draft**. Discussion draft `m1-sweep-width.md` header: "DRAFT — GitHub Discussion request (NOT POSTED)". Do not post without Audrey.
+  7. CleanScorer lives in `sar/sensegame/search_core.py`; `sar/ledgerplay/scoring.py` sets `Scorer = CleanScorer` re-export (quarantined path disabled).
+- **Verdict:** **Verity-N APPROVE-with-hold** (matches R39 hold list). Confidence **0.90**.
+- **Holds (kept; not cleared):**
+  1. DEM SHA-256 PENDING — regen independently from impl before merge
+  2. M1 W PLACEHOLDER — Waveform citation + Verity co-sign before CLEAR
+  3. Keep draft
+  4. Do not post m1-sweep-width.md without Audrey approval
+- **PR / review:** COMMENT-only (never APPROVE/REQUEST_CHANGES GitHub event) on https://github.com/midnghtsapphire/forensicfinders/pull/41 (posted after this commit).
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Approval:** Verity-N APPROVE-with-hold (independent); cites R39
