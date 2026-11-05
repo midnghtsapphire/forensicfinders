@@ -526,3 +526,13 @@
 - registry 2370/2371 NOT added (provisional); layer weights still labelled illustrative/uncited.
 - licence: UNLICENSED (private repo; licence pending Audrey)
 - Fusion-N APPROVE (c6d920d)
+
+## 2026-11-05 — Sense-Fusion — merge PR #41 tip dafed87 into combine-2371 — PR #42 @ ad83cba
+- who: Sense-Fusion (Fusion-D drive / Fusion-N review)
+- why: Strata: bring #42 up to #41 tip dafed8713 (language-scan + DEM CLEAR); merge, not rebase (no force-push).
+- merge: clean, no conflicts; brings only docs/sensecrew/bedrock/LEDGER.md and sar/sensegame/tests/test_scorer_golden.py, byte-identical to dafed87. No Bedrock file edited; no fusion file changed.
+- sources: PR #41 @ dafed87; FUSION_SPEC v0.2 (PR #18 @ 6fb9960).
+- tests (venv-fusion): fusion 25 passed; sar/sensegame 81 passed, 2 xfailed; make fusion-replay OK seed 1002.
+- registry 2370/2371 NOT added; no W invented; layer weights still labelled illustrative/uncited.
+- licence: UNLICENSED (private repo; licence pending Audrey)
+- Fusion-N re-APPROVE (ad83cba)
