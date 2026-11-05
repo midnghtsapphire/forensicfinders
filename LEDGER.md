@@ -325,6 +325,26 @@
 - **registry.json:** not edited. **Main:** untouched. **Deletions:** none. **Force pushes:** none.
 - **Licence:** UNLICENSED (private repo; licence pending Audrey)
 - **Approval:** Quartz-N APPROVE. Verity SenseCrew-only golden manifest is the merge gate.
+## 2026-11-04 20:50 MST (America/Denver) — Quartz-D / Quartz-N (Grok Bot) — HySUPP MIT comparison harness
+- **Branch:** `sensecrew/quartz/hysupp-compare` @ 79d692c (from main; merged splib07-fixture, no force). Draft PR #33.
+- **Added:** `docs/sensecrew/quartz/HYSUPP_COMPARE.md`, `multi_proxy/hysupp_compare.py`, `multi_proxy/test_hysupp_compare.py` (NEW-22 / registry 2360). Baseline NNLS always runs; HySUPP FCLS optional via `HYSUPP_ROOT`, skips otherwise.
+- **Assumptions:** HySUPP is MIT (github.com/BehnoodRasti/HySUPP, LICENSE verified at pinned `cb7d633a3b4a458504e31d1e5fcd3f6a00be688d`); comparison reference only, not a ship/client dependency; not vendored (~40 MB); no GPL/AGPL/Ultralytics; no LUCAS; no case/hfmr/evidence/PII.
+- **Licence flag (Strata/Audrey):** HySUPP FCLS imports `spams`; pinned `spams-bin==2.6.10` wheel LICENSE is GPL-3.0. Not installed, not vendored, not required. HySUPP was NOT installed here.
+- **Result:** seed 20261104, splib07 quartz/kaolinite/montmorillonite, noise 0.005: NNLS abundance RMSE 0.00867, mean SAM 0.409°. Deterministic.
+- **Tests:** 8 passed, 1 skipped (HySUPP not configured); multi_proxy suite 46 passed, 1 skipped.
+- **Confidence:** ~0.62 SUPPORTED (CONFIDENCE_FRAMEWORK engineering adaptation).
+- **registry.json:** not edited. **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Approval:** Quartz-N APPROVE
+- 2026-11-04 Humus correction (Verity r3): our two 20:25 Humus entries also sit above Loam's 20:15 entry, out of order in error; left in place. Append-only resumes here.
+
+## 2026-11-04 20:39 MST — Loam (Loam-D / Loam-N, Grok Bot) — Music Addendum B + determinism test (BLOCKED)
+- **Actor:** Loam · **Requested by:** Strata, for Audrey Evans · **Role:** music decision owner
+- **Files:** docs/sensecrew/loam/MUSIC_DECISION_v0.md (Addendum B appended); music_determinism/{run_determinism.py, Makefile, README.md, RESULT_BLOCKED.json, .gitignore}. Commit 5c5e118e on sensecrew/loam/music
+- **Calls:** HF API file list ACE-Step/Ace-Step1.5; GitHub ace-step/ACE-Step-1.5 docs/en/INFERENCE.md @ca1e85fe; addDiscussionComment #30 → https://github.com/midnghtsapphire/forensicfinders/discussions/30#discussioncomment-19411029
+- **Decisions:** ACE-Step 1.5 is the pick under Verity's conditions. Determinism test BLOCKED: the required text encoder is Qwen3-Embedding-0.6B (policy), and there's no GPU with only 4.6 GB RAM available. No weights downloaded, no output faked. Open question to Verity on Qwen3-Embedding.
+- Main untouched · Deletions none · Force pushes none · Approval: Loam-N APPROVE
+
 ## 2026-11-04 20:40 MST — Sense-Verity gate rulings (queue from Sense-Strata)
 - **Who:** Sense-Verity (Grok Bot). **Why:** rule 7 lineage, licence, and registry gate. Full evidence: /workspace/sensecrew/verity/gate-2026-11-04/rulings.md. No forbidden path was opened.
 - **Calls:** Shell `sed`/`grep`/`git grep`/`git show` on the local checkout; `gh pr view/diff` #10-#14; `gh api graphql` Discussion #15; WebSearch (Perkins 2003 copyright); WebFetch pnnl/cmaputil LICENSE.
