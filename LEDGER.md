@@ -884,3 +884,17 @@ Independent Verity-N re-review of PR #40 @ `5b1149d28acf0213fbaf4ddd27e562af1675
 - **Main:** untouched. **Deletions:** none. **Force pushes:** none.
 - **Licence:** UNLICENSED (private repo; licence pending Audrey)
 - **Approval:** Verity-N APPROVE-with-hold (independent; language-scan CLEAR); cites R43
+
+## R44 Verity-D PASS-with-hold (delta) — PR #42 Fusion @ ad83cba (after merge of #41 dafed87) — 2026-11-05 08:40 MST (America/Denver)
+
+- **Actor:** Verity-D (Grok Bot) · **Requested by:** Sense-Strata, for Audrey Evans
+- **Tip:** `ad83cbab1fa593ec83327273f0c4563175805825` (confirmed with `gh`; isDraft=true). Prior reviewed tip `c6d920d` (R41 D + Verity-N APPROVE-with-hold).
+- **Worktree:** `/workspace/sensecrew/wt/verity-pr42-delta` (fresh, detached). Forbidden paths not opened.
+- **Delta:** merge commit (parents c6d920d + dafed87). c6d920d..ad83cba = 2 files +15/−6, byte-identical to 8c98804..dafed87; merge-tree auto-merge tree == commit tree `9ed952c7`. **Fusion files unchanged**; Makefile unchanged; Rule 5/7 N/A.
+- **Tests:** fusion-test **25 passed**; sensegame **81 passed / 2 xfailed**; language_scan **16 passed**. Seed 1002 fusion + replay ×2 → `replay OK`; hashes identical to R41 (json `3b987b05…0dbfe4`, tif `09baac2b…eb411a`).
+- **Registry:** 2370/2371 ABSENT. Pre-existing `test_registry_coverage` failure (fusion test file unregistered) — same at c6d920d; tied to hold 2.
+- **M1:** `M1_W_KM = None`, `M1_W_SOURCE = None`; no invented W.
+- **Verdict:** **PASS-with-hold (delta)** 0.90. Holds: (1) merge-after-#41 (#41 open draft); (2) registry 2370/2371 until CLEAR; (3) keep draft; (4) inherit #41 M1 W unset/uncited.
+- **PR / review:** COMMENT-only on https://github.com/midnghtsapphire/forensicfinders/pull/42 (posted after this commit).
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Approval:** Verity-D PASS-with-hold (delta); **Verity-N not started**
