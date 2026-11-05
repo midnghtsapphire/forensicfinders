@@ -1,16 +1,25 @@
 #!/usr/bin/env python3
-"""ACE-Step 1.5 determinism test (Loam). DiT-only (no 5Hz LM: that is Qwen3-based and disallowed), no LoRA.
+"""ACE-Step 1.5 determinism test (Loam). DiT-only (no 5Hz LM: that is Qwen3-based and still disallowed), no LoRA.
 Runs A(seed), B(seed), C(seed+1); writes WAV; compares sha256 of raw PCM; records max |diff|.
-Pre-flight refuses to run (exit 3 = BLOCKED) when policy or hardware gates fail. Never fakes output."""
+Pre-flight refuses to run (exit 3 = BLOCKED) when gates fail. Never fakes output.
+
+Verity R26 (2026-11-05): Qwen3-Embedding-0.6B is Apache-2.0 / ungated / SUPPORTED 0.80.
+ALLOW_QWEN3_EMBED=1 is authorized for a real run when hardware allows (opt-in gate retained).
+Still forbidden: Chinese New Year LoRA; 1.7B LM; unverified Qwen3 base/LM planner models.
+"""
 import argparse, hashlib, json, os, platform, shutil, subprocess, sys
 REPO_COMMIT = "ca1e85fe9430179831e6bc6be790c332190a3866"   # ace-step/ACE-Step-1.5 main, MIT
 ALLOWED_FILES = ["acestep-v15-turbo/*", "vae/*", "config.json"]  # never acestep-5Hz-lm-1.7B, never LoRA
-QWEN3_EMBED = "Qwen3-Embedding-0.6B/*"   # required text encoder; Qwen3-based -> blocked by Verity ruling
+QWEN3_EMBED = "Qwen3-Embedding-0.6B/*"   # required text encoder; R26 clears Apache-2.0 licence (opt-in via ALLOW_QWEN3_EMBED)
 
 def preflight(a):
     reasons = []
+    # R26 cleared the embedding licence; keep explicit opt-in so a run is intentional.
     if os.environ.get("ALLOW_QWEN3_EMBED") != "1":
-        reasons.append("POLICY: pipeline requires Qwen3-Embedding-0.6B text encoder (Qwen3 base; Verity: unverified/disallowed). Set ALLOW_QWEN3_EMBED=1 only after a Verity ruling.")
+        reasons.append(
+            "OPT-IN: Qwen3-Embedding-0.6B licence CLEARED by Verity R26 (Apache-2.0, ungated, SUPPORTED 0.80). "
+            "Set ALLOW_QWEN3_EMBED=1 to proceed when hardware allows. Still forbidden: CNY LoRA; 1.7B LM; unverified Qwen3 base/LM planner."
+        )
     gpu = shutil.which("nvidia-smi") is not None
     mem_avail_gb = int(open("/proc/meminfo").read().split("MemAvailable:")[1].split()[0]) / 1e6
     disk_free_gb = shutil.disk_usage(a.out).free / 1e9
@@ -31,7 +40,8 @@ def main():
     p.add_argument("--ckpt", default=os.path.expanduser("~/.cache/loam_acestep/checkpoints")); a = p.parse_args()
     os.makedirs(a.out, exist_ok=True)
     reasons, hw = preflight(a)
-    res = {"status": None, "seed": a.seed, "duration_s": a.duration, "repo_commit": REPO_COMMIT, "hardware": hw}
+    res = {"status": None, "seed": a.seed, "duration_s": a.duration, "repo_commit": REPO_COMMIT, "hardware": hw,
+           "policy": {"qwen3_embedding": "CLEARED by Verity R26 (Apache-2.0). ALLOW_QWEN3_EMBED=1 authorized when hardware ready."}}
     if reasons:
         res.update(status="BLOCKED", reasons=reasons)
         json.dump(res, open(os.path.join(a.out, "result.json"), "w"), indent=2); print(json.dumps(res, indent=2)); sys.exit(3)

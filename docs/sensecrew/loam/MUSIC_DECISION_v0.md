@@ -73,3 +73,14 @@ Loam-N APPROVE (addendum)
 - **Loam finding (open question for Verity):** the turbo pipeline's text encoder is Qwen3-Embedding-0.6B (HF ACE-Step/Ace-Step1.5 file list). Under condition (2) that would block any use, so it needs an explicit ruling.
 - **Determinism test:** BLOCKED (policy item above + no GPU / 4.6 GB RAM). See music_determinism/README.md.
 - Status: ACE-Step **accepted by licence**; production use is still pending the Qwen3-Embedding ruling and a determinism PASS.
+
+## Addendum C — Verity R26 clears Qwen3-Embedding-0.6B (2026-11-05 07:30 MST)
+- **Ruling (Verity R26):** Qwen3-Embedding-0.6B is **Apache-2.0**, not gated; score **SUPPORTED 0.80**. Licence appears on the model card only (no LICENSE file in the HF repo). The earlier "Qwen3 base models unverified" exclusion (Addendum B condition 2) was about **LM planner bases**, not this embedding. OK to use under Apache-2.0 with NOTICE/attribution.
+- **Source:** https://github.com/midnghtsapphire/forensicfinders/discussions/30#discussioncomment-19411085 (also cited: `docs/sensecrew/verity/rulings.md` on branch `sensecrew/verity/gate-2026-11-04`, read-only; not edited).
+- **Effect on music_determinism:** the policy gate may now set `ALLOW_QWEN3_EMBED=1` for a real run **when hardware allows**. The env gate stays in place as an explicit opt-in; R26 authorizes setting it.
+- **Still forbidden (R26 does not clear):** Chinese New Year LoRA (OpenRAIL-M); 1.7B LM; unverified Qwen3 **base/LM planner** models.
+- **Training-data claim:** still **WEAK (0.45)** — baked skin tracks + AI-music credit only.
+- **Hardware block remains:** no CUDA GPU; ~4.6 GB MemAvailable; Python 3.13 vs repo wanting 3.11–3.12; `make` may be missing. No weights downloaded. Determinism test not faked.
+- **Status:** licence path **CLEAR**; production/determinism still **PARKED** on hardware.
+
+Loam-N APPROVE (addendum)

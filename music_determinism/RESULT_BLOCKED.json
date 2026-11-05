@@ -11,8 +11,10 @@
     "platform": "Linux-6.12.94+-x86_64-with-glibc2.41",
     "python": "3.13.5"
   },
+  "policy": {
+    "qwen3_embedding": "CLEARED by Verity R26 (Apache-2.0, ungated, SUPPORTED 0.80). Set ALLOW_QWEN3_EMBED=1 when hardware allows. Still forbidden: Chinese New Year LoRA; 1.7B LM; unverified Qwen3 base/LM planner models."
+  },
   "reasons": [
-    "POLICY: pipeline requires Qwen3-Embedding-0.6B text encoder (Qwen3 base; Verity: unverified/disallowed). Set ALLOW_QWEN3_EMBED=1 only after a Verity ruling.",
     "HARDWARE: no CUDA GPU and MemAvailable 4.6 GB < 12 GB needed for CPU (DiT 4.8 GB + encoder 1.2 GB + VAE 0.3 GB, fp32 working set)."
   ]
 }
