@@ -11,8 +11,9 @@ Registry: **2370 (PROVISIONAL, pending Verity's collision check against `sar/reg
 5. TerraTorch stays **ON HOLD**.
 6. **Correction (Strata, 2026-11-04 20:26 MST):** registry 1080 → **2370** and 1080.1 → **2370.1** (1080 collides on other branches). Still PROVISIONAL pending Verity's collision check.
 7. **Verity round 2 (relayed by Strata, 2026-11-04 20:31 MST):** (a) combiner registry 2370.1 → **2371** (module stays 2370; both PROVISIONAL). Item 6 is kept as history. (b) `realdata/fusion.py`: Verity finds **no taint in the file itself (confidence 0.74)**, but it **stays off the game path**; the clean-room 2371 combiner is used instead. (c) TerraMind/TerraTorch stays **ON HOLD**; **no TerraMesh (CC-BY-SA) data may ever be shipped**.
+8. **Strata ruling (2026-11-05 07:34 MST):** NEW-01 referenced as registry **2310**; scorer spec path is `docs/sensecrew/bedrock/specs/scorer-spec.md` (PR #39, byte-identical to the version v0.2 used). No contract change; M1_W_KM stays uncited/null.
 
-## 1. Consumer contract (from Bedrock NEW-01 scorer-spec §1–§5)
+## 1. Consumer contract (from Bedrock NEW-01 = registry 2310, `docs/sensecrew/bedrock/specs/scorer-spec.md` §1–§5, PR #39 @ 73efc1c)
 ```python
 # sensegame/search_core.py  (re-exported by ledgerplay/scoring.py as the default Scorer)
 @dataclass(frozen=True)
