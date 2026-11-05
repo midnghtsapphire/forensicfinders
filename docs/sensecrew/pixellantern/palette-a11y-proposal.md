@@ -9,11 +9,11 @@ Principle: **every pixel on screen must be traceable to a physical quantity, a s
 | Data | Class | Default | Alternates |
 |---|---|---|---|
 | GPR B-scan amplitude (signed) | Diverging, centred at 0 | `vik` | `broc`, `berlin` |
-| GPR envelope / |amplitude| | Sequential | `grayC` or `batlow` | `viridis` |
-| Point cloud elevation / intensity | Sequential | `batlow` | `viridis` |
+| GPR envelope / |amplitude| | Sequential | `grayC` or `batlow` | `viridis`, `cividis` |
+| Point cloud elevation / intensity | Sequential | `batlow` | `viridis`, `cividis` |
 | InSAR wrapped phase (−π..π) | **Cyclic** (ends must match) | `romaO` | `vikO`, `bamO`, `corkO` |
 | InSAR unwrapped displacement (± mm) | Diverging, centred at 0 | `vik` | `roma` |
-| Soil moisture (m³/m³) / relative permittivity εr | Sequential | `davos` / `batlow` | `viridis` |
+| Soil moisture (m³/m³) / relative permittivity εr | Sequential | `davos` / `batlow` | `viridis`, `cividis` |
 | Categorical labels (target classes) | Categorical | `batlowS` (≤10 classes) | — always paired with shape |
 
 Rules: diverging maps only when the data has a meaningful midpoint (and the midpoint is pinned to it); cyclic maps only for periodic quantities — a sequential map on wrapped phase invents a false discontinuity at ±π.
@@ -35,7 +35,7 @@ Rules: diverging maps only when the data has a meaningful midpoint (and the midp
 - Crameri, F. (2018). *Scientific colour maps.* Zenodo. https://doi.org/10.5281/zenodo.1243862 (concept DOI; pin a version, e.g. v8.0.1 = 10.5281/zenodo.8409685).
 - Crameri, F., Shephard, G.E., Heron, P.J. (2020). The misuse of colour in science communication. *Nature Communications* 11, 5444. **https://doi.org/10.1038/s41467-020-19160-7**
   - ⚠ The DOI in the brief (10.1038/s41467-019-13739-6) does **not** resolve to this paper (doi.org returned 404); corrected above.
-- (Reference only; cividis EXCLUDED until Verity confirms licence.) Nuñez, J.R., Anderton, C.R., Renslow, R.S. (2018). Optimizing colormaps with consideration for color vision deficiency… (cividis). *PLOS ONE* 13(7): e0199239. https://doi.org/10.1371/journal.pone.0199239
+- Nuñez, J.R., Anderton, C.R., Renslow, R.S. (2018). Optimizing colormaps with consideration for color vision deficiency… (cividis). *PLOS ONE* 13(7): e0199239. https://doi.org/10.1371/journal.pone.0199239
 - viridis: van der Walt & Smith, matplotlib default colormaps (2015).
 
 ### 1.5 Licences (all must be permissive)
@@ -43,7 +43,7 @@ Rules: diverging maps only when the data has a meaningful midpoint (and the midp
 |---|---|---|
 | Crameri Scientific Colour Maps (batlow, vik, roma, romaO, davos, grayC, …) | MIT (per Zenodo record & README) | Keep copyright + licence notice in `palettes/LICENSES/` and credits screen |
 | viridis / magma / inferno / plasma | CC0 (public domain dedication) | None; credit as courtesy |
-| cividis | **EXCLUDED** until Verity confirms its licence | Not imported; only MIT Crameri palettes or CC0 viridis are allowed |
+| cividis | BSD-style (licence-cleared 2026-11-04) | Keep the Battelle copyright notice verbatim in `palettes/LICENSES/` and on the credits screen |
 Policy: no palette enters the registry without a licence file and SPDX ID; non-permissive → rejected.
 
 ## 2. HUD accessibility
@@ -88,7 +88,7 @@ Decision: Light (white-background) high-contrast DEFAULT — accepted by Strata.
 | Option | Honesty/consistency (×3) | Licence simplicity (×2) | Variety (×1) | Total |
 |---|---|---|---|---|
 | Crameri only | 5 | 5 | 4 | **29** |
-| Crameri + viridis (cividis excluded) | 5 | 4 | 5 | 28 |
+| Crameri + viridis/cividis | 5 | 4 | 5 | 28 |
 | Open user-selectable list | 2 | 2 | 5 | 15 |
 
 **D3. Golden-test strictness**
@@ -101,7 +101,7 @@ Decision: Light (white-background) high-contrast DEFAULT — accepted by Strata.
 **D4. User-adjustable gain/exaggeration?** Options: (a) allowed with always-on badge [recommended], (b) locked presets only, (c) free and unlabelled [rejected — violates §1.3].
 
 ## 5. Navigator review — Pixel Lantern-N (2026-11-04)
-- cividis: marked EXCLUDED everywhere (palette table, licences, D2) until Verity confirms its licence; only MIT Crameri palettes or CC0 viridis allowed.
+- cividis: initially marked EXCLUDED pending licence check. **Update 2026-11-04:** licence-cleared as BSD-style; re-added as an alternate (envelope, point cloud, soil moisture), D2 restored, and the Battelle copyright notice must be kept.
 - Crameri 2020 DOI verified as 10.1038/s41467-020-19160-7 (already correct in §1.4).
 - White-background high contrast stated as the DEFAULT (accepted by Strata) in §2 and D1.
 - Document licence field: UNLICENSED (private repo; licence pending Audrey). Palette-asset licences (MIT/CC0) are upstream third-party licences, unchanged.
