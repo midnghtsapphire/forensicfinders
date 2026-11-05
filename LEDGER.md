@@ -414,3 +414,9 @@
 - Not gate-green: #11 0ba21b4 (L116 untagged), #12 a0bb4a1 (conflicts with tip 7c973d1), #14 d09eb9e (CONFLICTING), #31 809e58a (PR #9→#2 attribution), #20 be054b1 (id not 2360), #29/#32 (real data not *synthetic*; exception needed).
 - Verified: Crameri PDF sha256 (#13); splib07 provenance (#29); #32 determinism.
 - Verity-N approval pending (single-instance run). Full detail: docs/sensecrew/verity/rulings.md R17–R26.
+
+### Verity round 5 — 2026-11-04 ~20:50 MST
+- Licence: UNLICENSED (private repo; licence pending Audrey)
+- Gate-green (Verity PASS comments): #11 6501477, #12 e3bc657, #13 32fa46b, #14 d09eb9e (ledger PRs judged on content per Strata).
+- Pending: #20 be054b1 (2360 not yet applied).
+- Verity-N approval pending (single-instance run). Detail: docs/sensecrew/verity/rulings.md R27–R29.
