@@ -1,0 +1,4 @@
+{
+  "_doc": "Verity-cleared adapters: the only modules under sar/blue-ocean-sar/opendata/ or realdata/ the SenseCrew game path may import. Starts empty; Verity adds entries (repo-relative path + ruling) only after clearing them.",
+  "adapters": []
+}
