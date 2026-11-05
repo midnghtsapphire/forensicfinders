@@ -1,3 +1,23 @@
+## 2026-11-04 20:28 MST — Chitin (Chitin-D / Chitin-N, Grok Bot) — 2350 insect-trace-add-sim + 1010 extension note
+
+- **Actor:** Chitin-D / Chitin-N (Grok Bot executor subagent)
+- **Requested by:** Strata (task 1), for Audrey Evans
+- **Role:** executed (docs + scaffold code + registry patch on branch; draft PR; not merged)
+- **Files (branch sensecrew/chitin/insect-trace-add):**
+  - `sar/insect-trace-add-sim/` (added — package `insect_trace_add_sim`, sim.py, __main__.py CLI, synthetic species fixture, Makefile, test_insect_trace_add_sim.py)
+  - `sar/registry.json` (changed — +2350 only)
+  - `docs/sensecrew/chitin/INVENTORY_AND_RULE7_AUDIT_2026-11-04.md`, `SPEC_2350_insect-trace-add-sim.md`, `DECAY_TAPHONOMY_1010_EXTENSION_NOTE.md` (added; mirrored to /workspace/sensecrew/chitin/)
+- **What was done:** Navigator wrote 7 failing golden tests first (commit 9454c7f, red); Driver implemented clean-room seeded ADD (averaging method, floor 0) → 7/7 green; test_registry_coverage + test_language_scan pass.
+- **Decisions / id history:** placeholders NEW-20/NEW-21 superseded earlier 1050/1060 proposal; 1050/1060 then provisionally confirmed and WITHDRAWN per Discussion #25 (collisions). Final: insect = **2350 `insect-trace-add-sim`** (no "evidence" naming); decay-taphonomy = **extend existing 1010** after Verity (doc-only now, no registry entry). Soil moisture modifier = identity until Humus co-signs.
+- **Verity gates (not opened/imported):** `realdata/refloat_timing.py` (ADD reimplemented clean-room instead), `forensic_models/taphonomy.py` (1010, sar-make-it-work), `sar/docs/research/INSECT_TRACES.md`.
+- **Sources (Crossref verified 2026-11-04):** Amendt et al. 2007 Int J Legal Med DOI 10.1007/s00414-006-0086-x; Nabity et al. 2006 J Med Entomol DOI 10.1603/0022-2585(2006)43[1276:EOTODO]2.0.CO;2; Megyesi et al. 2005 J Forensic Sci DOI 10.1520/JFS2004017. Rejected: 10.1016/j.forsciint.2006.05.016 resolves to unrelated "Age estimation" (FSI 2007); 10.1603/0046-225X-32.4.799 not found in Crossref.
+- **Not accessed:** all rule-7 quarantine paths (search_theory, optimal_search, lost_person_behavior, case/, hfmr/, evidence/, public_records_engine, dossier) — names only.
+- **Commits / PRs:** 9454c7f, aa8b211, 0f4e033 + typo fix on sensecrew/chitin/insect-trace-add; draft PR https://github.com/midnghtsapphire/forensicfinders/pull/27 ; Discussion https://github.com/midnghtsapphire/forensicfinders/discussions/15 (update comment).
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Open / handoff:** Strata (id sign-off 2350), Verity (no-collision + lineage clears for refloat_timing / taphonomy.py / INSECT_TRACES.md), Humus (soil interface co-sign: moisture_vwc, dielectric, synthetic VOC proxies, soil_dna_sensor copies/g).
+- **Approval:** Chitin-N APPROVE (docs + 2350 scaffold)
+- **Credit note:** drafted and implemented entirely by Grok Bot (Chitin pair).
+
 ## 2026-11-04 20:25 MST — Humus (Humus-D / Humus-N, Grok Bot) — Topp + Mironov dielectric
 
 - **Actor:** Humus-D / Humus-N (Grok Bot executor subagent)
