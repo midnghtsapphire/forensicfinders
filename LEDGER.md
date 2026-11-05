@@ -70,3 +70,33 @@
   - Commit 28ab70b6 on branch `sensecrew/loam/gdd` (adds `docs/sensecrew/loam/GDD_v0..v0.3`) opened draft PR https://github.com/midnghtsapphire/forensicfinders/pull/10 into main.
   - Ledger commit 9112c00d is also on this branch (`sensecrew/ledger`), adding the v0–v0.3 entries to LEDGER.md.
 - **Main:** not touched. **Deletions:** none.
+
+## 2026-11-04 20:21 MST — Strata (Grok Bot, SenseCrew lead orchestrator) — Quarantine, Scorer, physics, units, Deepscan CLEAN
+
+- **Actor:** Strata (Grok Bot, SenseCrew lead orchestrator)
+- **Requested by:** Audrey Evans (via Promptiscuous / SenseCrew standing brief)
+- **Role:** executed (lead decisions recorded; no product code written)
+- **When (America/Denver):** 2026-11-04 20:21 MST
+- **What:** Recorded today's Strata lead decisions for the sensing-games working set on forensicfinders @ HEAD `a2630989`.
+- **Why:** Rule-7 lineage / unverified licence and case-file citation risk must stop reuse of tainted modules; CleanScorer and synthetic DEM need clear owners; physics and units need a single co-sign path before Bedrock / Loam implement.
+- **Decisions:**
+  1. **Quarantined (rule 7 lineage / unverified licence):** `search_theory.py`, `optimal_search.py`, and `lost_person_behavior/lpb_mpb2003.json`. Do not import, copy, or rebuild from these until Verity clears licence/lineage.
+  2. **Blocked pending Verity:** `sweep_width.py` — case-file citations at lines 77–89. File not opened beyond path/line reference; Verity must rule before any reuse.
+  3. **Clean Scorer NEW-01:** rebuild by Bedrock from Koopman / Stone only (clean-room; no quarantine imports).
+  4. **Synthetic DEM fixture:** Bedrock owns a `*synthetic*` DEM path for mission/sim use (rule 7 — no case-file terrain).
+  5. **Physics values:** only from the owning science pair, with Verity co-sign (supersedes ad-hoc constants).
+  6. **Units:** `km` and `km²/h` (plus schema columns that already name `km/h`, `km²`, credits, min where applicable).
+  7. **Deepscan rule-7 audit:** CLEAN at HEAD `a2630989`.
+- **Sources (URL or DOI):**
+  - Repo HEAD: https://github.com/midnghtsapphire/forensicfinders/commit/a2630989a8bc4971a8ed8efe9038783701810869
+  - Koopman search theory (Crossref): https://doi.org/10.1287/opre.4.3.324 , https://doi.org/10.1287/opre.4.5.503 , https://doi.org/10.1287/opre.5.5.613
+  - Stone, *Theory of Optimal Search* (ISBN 0126724504 / 9780126724509; book DOI still UNVERIFIED) — https://openlibrary.org
+  - Team locked brief: `/workspace/prompt-hoard/frontier/sensing-games-team-LOCKED-2026-11-04.md` (internal)
+  - LEDGER format: https://github.com/midnghtsapphire/revvel-standards/blob/main/standards/LEDGER_STANDARD.md
+- **Licence:** internal SenseCrew decisions; Koopman via journal DOIs (publisher terms); Stone ISBN verified via Open Library (CC0 metadata), book licence/DOI pending; forensicfinders SPDX unverified (pending Audrey).
+- **Confidence score:** 0.86 (HEAD SHA and quarantine/block targets confirmed against prior Loam ledger entries and commit `a2630989`; Stone book DOI still unverified → −0.08; licence of quarantined modules unverified by design).
+- **Files:** `LEDGER.md` (appended, this entry only)
+- **Commits / PRs:** this commit on `sensecrew/ledger`; draft PR to follow (not to merge).
+- **Open / handoff:** Verity → sweep_width + LPB/search_theory licence rulings; Bedrock → NEW-01 CleanScorer + synthetic DEM; science pairs → physics values with Verity co-sign; Deepscan already CLEAN at `a2630989`.
+- **Main:** not touched. **Deletions:** none.
+- **Credit note:** Strata (Grok Bot) recorded decisions only; prior Loam GDD ledger entries on this branch remain unchanged (append-only).
