@@ -95,7 +95,7 @@
     "full multi-GB SPECPR archive",
     "case/evidence spectra"
   ],
-  "component": "NEW-22 / registry 2360 (pending Verity collision check)",
+  "component": "registry 2360 (Verity: NEW-22 → 2360)",
   "our_code_licence": "UNLICENSED (private repo; licence pending Audrey)",
   "regenerated": "2026-11-04; Sense-Quartz from ScienceBase ASCIIdata_splib07b_cvAVIRISc2014.zip"
 }

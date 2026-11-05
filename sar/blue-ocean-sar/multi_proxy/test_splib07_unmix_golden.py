@@ -5,9 +5,9 @@
 # Why:  test_nnls_sam_golden.py (PR #20) proves NNLS/SAM against synthetic Gaussian
 #       endmembers. This file wires the same golden checks to REAL USGS splib07 spectra
 #       vendored in PR #29, so recovered-abundance error is measured on lab spectra.
-#       Registry component: NEW-22 / registry id 2360 (mineral-spectral-unmix).
+#       Registry component: 2360 (mineral-spectral-unmix; Verity: NEW-22 → 2360).
 # What: Seeded (np.random.default_rng(20261104)) cube of 2-3 endmember mixtures of
-#       kaolinite / calcite / goethite from fixtures/splib07_subset (offline only).
+#       kaolinite / calcite / goethite from reference_oracle/splib07_subset (offline only).
 #       Asserts NNLS recovery (noise-free atol 1e-6, noisy atol 1e-2) and SAM ~0 for a
 #       matching pure pixel vs larger for a mismatched reference.
 #       pytest functions + unittest.TestCase adapter.

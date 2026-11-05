@@ -82,7 +82,7 @@ wl = wavelength_grid_um()  # (B,) micrometres
 
 ## Component / registry
 
-- Placeholder: **NEW-22**
+- Registry id: **2360** (Verity: NEW-22 → 2360)
 - Registry id: **2360** (pending Verity collision check — do not edit `registry.json` until Verity confirms)
 
 ## Citation
