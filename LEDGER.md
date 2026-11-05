@@ -549,3 +549,23 @@
   3. Flag every dunder attribute access (`__class__`, `__mro__`, `__subclasses__`, `__getattribute__`, `__globals__`, `__self__`, `__code__` …) and `help`/`breakpoint`/`input`.
   4. Add each of these as a regression test.
 - **PR #34 strict gate (ffce767 gate on 95b28a7, entry 2360 `blue-ocean-sar/multi_proxy/nnls_unmix.py`):** exit 1, 1 hit: `sar/blue-ocean-sar/multi_proxy/nnls_unmix.py:2 [import not on allowlist: scipy.optimize]`. 1 file scanned, 0 adapters. scipy needs an allowlist decision (or replace NNLS with a numpy implementation) before #34 can pass.
+
+## Verity-N CHANGES-REQUIRED 4b3227b (re-review of golden-gate; R34 noted)
+- **Tests:** 71/71 pass. The ffce767 findings for os, numpy dunders, introspection and help are fixed.
+- **R34 (only scipy.optimize.nnls):** the rule is fine, but enforcement leaks. `import scipy.optimize as so; x=so; x.minimize` → 0 hits. Direct `scipy.io`, `_nnls` and non-nnls from-imports are caught.
+- **PR #34 @ 95b28a7, strict gate at 4b3227b:** 0 hits, exit 0. That clears #34 only as far as this gate goes.
+- **Bypasses that still give 0 hits:**
+  1. numpy from-imports skip the attribute allowlist: `from numpy import fromfile`, `from numpy import load as L` (allow_pickle), `from numpy import ctypeslib`, `from numpy.lib import format` (read_array allow_pickle), `from numpy import *` then `fromfile(...)`.
+  2. Submodule imports: `import numpy.lib.npyio as io; io.loadtxt(...)` and `import numpy.ctypeslib`.
+  3. numpy reached through a variable. Every form passes: `m=np`, `(m,)=(np,)`, `(m:=np)`, `lambda: np`, a function parameter, a default argument `def h(m=np)`, `[np][0]`, `{'a':np}['a']`, and the class attribute `K.m`.
+  4. os reached through a variable or chain: `(lambda o: o.system('x'))(os)` and `os.path.os.system('x')`. `o=os` is caught.
+  5. Dunders inside strings: `'{0.__class__.__mro__}'.format(1)` and `'{0.join.__globals__[os]}'.format(os.path)`, which reaches the os module through format-field traversal.
+  6. `typing.get_type_hints` evaluates string annotations, e.g. `def f(x:'__import__("os").system(...)')`. This is effectively eval.
+- **False positive:** `re.compile('x')` is flagged as compile.
+- **Required:**
+  1. Check numpy and scipy from-imports (including `*`) and submodule imports against the same attribute allowlist.
+  2. Treat numpy, os, scipy.optimize and os.path module objects as non-escaping. Any use other than an immediate allowlisted `mod.attr` access should be a hit: assigning them, passing them as an argument, using them as a default, storing them in a container, lambda capture, `os.path.os`.
+  3. Flag dunders inside string literals and `str.format`/`format_map` with attribute fields.
+  4. Deny `typing.get_type_hints`, or flag string annotations containing calls.
+  5. Scope the compile check so `re.compile` passes.
+  6. Add regression tests for all of the above.
