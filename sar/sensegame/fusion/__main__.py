@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 import tempfile
@@ -10,12 +11,64 @@ from pathlib import Path
 from .run import run
 
 
+def _canon(rec: dict) -> str:
+    return json.dumps(rec, sort_keys=True)
+
+
+def _outputs(rec: dict) -> dict:
+    """Identity of a ledger record, ignoring the drift pointer."""
+    return {k: v for k, v in rec.items() if k != "drift_from"}
+
+
+def _record_hash(rec: dict) -> str:
+    return hashlib.sha256(_canon(rec).encode()).hexdigest()
+
+
+def record_run(ledger: Path, got: dict, accept_drift: bool = False) -> int:
+    """Append-only seeds.jsonl update.
+
+    A repeat of the same output hashes for this seed writes nothing.
+    A different hash for the same seed is drift: exit 1 and append nothing,
+    unless accept_drift is set, in which case a new line is appended with
+    drift_from set to the sha256 of the previous record.
+    """
+    existing = ledger.read_text().splitlines() if ledger.exists() else []
+    records = [json.loads(line) for line in existing if line.strip()]
+    same = [r for r in records if r.get("seed") == got.get("seed")]
+    fresh = _outputs(got)
+    if any(_outputs(r) == fresh for r in same):
+        return 0
+    if same:
+        old_hash = _record_hash(same[-1])
+        if not accept_drift:
+            print(
+                f"DRIFT seed={got.get('seed')}: output differs from seeds.jsonl "
+                f"record {old_hash}; refusing to append",
+                file=sys.stderr,
+            )
+            return 1
+        recorded = dict(got)
+        recorded["drift_from"] = old_hash
+        line = _canon(recorded)
+    else:
+        line = _canon(got)
+    ledger.parent.mkdir(parents=True, exist_ok=True)
+    with ledger.open("a") as fh:
+        fh.write(line + "\n")
+    return 0
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="sensegame.fusion")
     ap.add_argument("--seed", type=int, required=True)
     ap.add_argument("--config", type=Path, required=True)
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--replay", action="store_true", help="re-run and compare hashes against seeds.jsonl")
+    ap.add_argument(
+        "--accept-drift",
+        action="store_true",
+        help="when this seed's hashes differ, append a record with drift_from set to the previous hash",
+    )
     a = ap.parse_args(argv)
     ledger = a.out.parent / "seeds.jsonl"
     if a.replay:
@@ -36,13 +89,10 @@ def main(argv=None) -> int:
         print(f"replay OK seed={a.seed}")
         return 0
     got = run(a.seed, a.config, a.out)
-    line = json.dumps(got, sort_keys=True)
-    existing = ledger.read_text().splitlines() if ledger.exists() else []
-    if line not in existing:  # append-only
-        with ledger.open("a") as f:
-            f.write(line + "\n")
-    print(line)
-    return 0
+    rc = record_run(ledger, got, a.accept_drift)
+    if rc == 0:
+        print(_canon(got))
+    return rc
 
 
 if __name__ == "__main__":

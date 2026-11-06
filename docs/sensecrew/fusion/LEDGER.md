@@ -43,3 +43,16 @@
   - registry coverage: cwd `sar/`, `python -m unittest test_registry_coverage` → 3 passed
   - `registry.py --test-all` from repo root → exit 1, FAILED 100, 700, 900 only (pre-existing; out of scope; Triage WR)
 - licence: UNLICENSED (private repo; licence pending Audrey)
+
+## 2371 — geo-key guard and seed drift
+- who: Sense-Fusion
+- why: Strata: a follow-up is justified only when it has a WR or issue link. None of the four Cubic findings had one. The geo-key list is a privacy guard, so it is fixed here. The silent seed append is fixed here. The CI clamp and the dependency pins are filed as issues because the first changes seeded bytes and the second is a packaging decision.
+- action: `GEO_KEYS` also rejects geohash, bbox, crs, epsg, easting, northing, polygon, point, location, geojson, x_coord, y_coord, utm, and mgrs, matched case-insensitively. The nested dict and list walk stays. A rejection names the canonical key and does not include the field value. `seeds.jsonl` stays append-only. A different hash for the same seed exits 1 and appends nothing. `--accept-drift` appends a new record whose `drift_from` is the sha256 of the previous record. The same output hashes do not append.
+- issues: https://github.com/midnghtsapphire/forensicfinders/issues/52 (raw bootstrap percentiles; evidence at 9dee8f8 `anomaly.py` L106; Cubic https://github.com/midnghtsapphire/forensicfinders/pull/42#discussion_r4482495429). https://github.com/midnghtsapphire/forensicfinders/issues/53 (pin pytest, add or decline scipy, pin-set test; evidence at 9dee8f8 `requirements-fusion.txt` L2; Cubic https://github.com/midnghtsapphire/forensicfinders/pull/42#discussion_r4482495501). Assignment to midnghtsapphire returned 403 from this integration.
+- hold: M1_W_KM is None until a cited W exists. GDD v0.5 §4 / §4a is the coverage-model pointer and is not yet published. 2330 was not reused.
+- counts (venv CPython 3.12, OMP_NUM_THREADS=1, PYTHONHASHSEED=0):
+  - fusion: cwd `sar/`, `pytest sensegame/fusion/tests` → 126 passed
+  - sensegame: cwd repo root, `pytest sar/sensegame` → 192 passed
+  - language scan: cwd `sar/`, `pytest test_language_scan.py` → 16 passed
+  - registry coverage: cwd `sar/`, `python -m unittest test_registry_coverage` → 3 passed
+- licence: UNLICENSED (private repo; licence pending Audrey)

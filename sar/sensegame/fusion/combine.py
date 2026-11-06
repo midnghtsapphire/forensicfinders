@@ -15,7 +15,12 @@ from statistics import median
 
 MAD_K = 1.4826
 SCORE_KIND = "relative ranking under configured weights; not a probability"
-GEO_KEYS = {"lat", "lon", "lng", "long", "latitude", "longitude", "address", "addr", "geom", "geometry", "wkt", "coordinates"}
+GEO_KEYS = {
+    "lat", "lon", "lng", "long", "latitude", "longitude", "address", "addr",
+    "geom", "geometry", "wkt", "coordinates", "geohash", "bbox", "crs", "epsg",
+    "easting", "northing", "polygon", "point", "location", "geojson",
+    "x_coord", "y_coord", "utm", "mgrs",
+}
 SITE_RE = re.compile(r"^cell_(\d+)_(\d+)$")
 
 
@@ -44,7 +49,8 @@ def _reject_geo(obj, where="config"):
     if isinstance(obj, dict):
         for k, v in obj.items():
             if str(k).lower() in GEO_KEYS:
-                raise FusionError(f"geographic field {k!r} rejected at {where}")
+                # Name the canonical key only. Never include the field's value.
+                raise FusionError(f"geographic field {str(k).lower()} rejected")
             if k == "site_id":
                 parse_site_id(v)
             _reject_geo(v, f"{where}.{k}")

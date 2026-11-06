@@ -239,12 +239,42 @@ def test_missing_policy_zero_vs_renormalise():
 
 
 # 6 no_geographic_fields
-@pytest.mark.parametrize("key", ["lat", "lon", "latitude", "longitude", "address", "Lat", "lng"])
-def test_rejects_geographic_fields(key):
+_SENTINEL = "SECRET-SENTINEL-VALUE"
+
+
+def _geo_cfg(key, where):
     cfg = {"grid": {"rows": 1, "cols": 2, "cell_m": 1.0}, "missing_policy": "zero",
-           "layers": [{"name": "a", "weight": 1.0, "direction": "higher", "values": [[1, 2]], key: 1.0}]}
-    with pytest.raises(C.FusionError):
-        C.validate_config(cfg)
+           "layers": [{"name": "a", "weight": 1.0, "direction": "higher", "values": [[1, 2]]}]}
+    if where == "root":
+        cfg[key] = _SENTINEL
+    elif where == "dict":
+        cfg["nested"] = {key: _SENTINEL}
+    else:
+        cfg["nested"] = [{key: _SENTINEL}]
+    return cfg
+
+
+@pytest.mark.parametrize("key", sorted(C.GEO_KEYS))
+@pytest.mark.parametrize("where", ["root", "dict", "list"])
+def test_rejects_geographic_fields(key, where):
+    with pytest.raises(C.FusionError) as ei:
+        C.validate_config(_geo_cfg(key, where))
+    assert _SENTINEL not in str(ei.value)
+
+
+def _mixed_case(name: str) -> str:
+    return "".join(ch.upper() if i % 2 == 0 else ch.lower() for i, ch in enumerate(name))
+
+
+@pytest.mark.parametrize("key", sorted(C.GEO_KEYS))
+def test_rejects_mixed_case_geographic_fields(key):
+    shown = _mixed_case(key)
+    assert shown != key
+    with pytest.raises(C.FusionError) as ei:
+        C.validate_config(_geo_cfg(shown, "root"))
+    text = str(ei.value)
+    assert _SENTINEL not in text
+    assert shown not in text
 
 
 def test_rejects_bad_site_id():
@@ -294,3 +324,52 @@ def test_no_forbidden_imports():
 
 def test_embeddings_off():
     assert A.FUSION_EMBEDDINGS == 0
+
+
+def _seed_argv(tmp_path, *extra):
+    out = tmp_path / "seedout" / "once"
+    argv = ["--seed", "7", "--config", str(tmp_path / "cfg.json"), "--out", str(out), *extra]
+    return out.parent / "seeds.jsonl", argv
+
+
+def test_seed_drift_refuses_to_append(tmp_path, monkeypatch, capsys):
+    from sensegame.fusion import __main__ as cli
+    ledger, argv = _seed_argv(tmp_path)
+    old = {"config_sha256": "aaa", "fusion_7.json": "old", "seed": 7}
+    ledger.parent.mkdir(parents=True)
+    ledger.write_text(json.dumps(old, sort_keys=True) + "\n")
+    before = ledger.read_bytes()
+    monkeypatch.setattr(cli, "run", lambda *a, **k: {"config_sha256": "aaa", "fusion_7.json": "new", "seed": 7})
+    assert cli.main(argv) == 1
+    err = capsys.readouterr().err
+    assert "DRIFT" in err
+    assert ledger.read_bytes() == before
+
+
+def test_seed_accept_drift_appends_with_drift_from(tmp_path, monkeypatch):
+    from sensegame.fusion import __main__ as cli
+    ledger, argv = _seed_argv(tmp_path, "--accept-drift")
+    old = {"config_sha256": "aaa", "fusion_7.json": "old", "seed": 7}
+    old_line = json.dumps(old, sort_keys=True)
+    ledger.parent.mkdir(parents=True)
+    ledger.write_text(old_line + "\n")
+    monkeypatch.setattr(cli, "run", lambda *a, **k: {"config_sha256": "aaa", "fusion_7.json": "new", "seed": 7})
+    assert cli.main(argv) == 0
+    lines = ledger.read_text().splitlines()
+    assert lines[0] == old_line
+    fresh = json.loads(lines[1])
+    assert fresh["fusion_7.json"] == "new"
+    assert fresh["drift_from"] == cli._record_hash(old)
+    assert len(lines) == 2
+
+
+def test_seed_same_hash_does_not_append(tmp_path, monkeypatch):
+    from sensegame.fusion import __main__ as cli
+    ledger, argv = _seed_argv(tmp_path)
+    same = {"config_sha256": "aaa", "fusion_7.json": "same", "seed": 7}
+    ledger.parent.mkdir(parents=True)
+    ledger.write_text(json.dumps(same, sort_keys=True) + "\n")
+    before = ledger.read_bytes()
+    monkeypatch.setattr(cli, "run", lambda *a, **k: dict(same))
+    assert cli.main(argv) == 0
+    assert ledger.read_bytes() == before
