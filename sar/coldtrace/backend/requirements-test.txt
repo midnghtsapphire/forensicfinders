@@ -4,3 +4,9 @@ httpx
 pytest
 pytest-mock
 pytest-asyncio
+# Needed to exercise services/sentinel.py and services/temporal.py, which parse the
+# Sentinel Hub GeoTIFF responses into DataArrays. Both are already pinned in
+# requirements.txt at these versions; omitting them here made every test that touches
+# the NDVI path error out on import instead of running.
+xarray==2024.5.0
+rioxarray==0.15.5
