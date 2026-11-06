@@ -30,3 +30,8 @@
 - A real mismatch exits nonzero, appends nothing, and prints `REPLAY_MISMATCH` with differing key names (at most 10) and SHA-256 digests of the normalized outputs. Field values are not printed.
 - M1_W_KM is None until a cited W exists. GDD v0.5 §4 / §4a remains the coverage-model pointer.
 - Counts: fusion 129 passed (cwd `sar/`, `pytest sensegame/fusion/tests`); `pytest sar/sensegame` 195 passed (repo root); language scan 16 passed (cwd `sar/`); registry coverage 3 passed (cwd `sar/`).
+
+## 2371 — Strata seed 1003 replay regression — 2026-11-06
+- `test_strata_seed_1003_accept_drift_then_replay` runs `python -m sensegame.fusion` from cwd `sar/` with seed 1003 and a temporary `seeds.jsonl`. It tampers the last hex digit of `fusion_1003.json`, accepts the drift, and replays successfully. A second tamper plus `--accept-drift` also replays. A further tamper replayed without that flag exits nonzero, appends nothing, and prints only `REPLAY_MISMATCH`, the differing key name, and SHA-256 digests.
+- M1_W_KM is None until a cited W exists. GDD v0.5 §4 / §4a remains the coverage-model pointer.
+- Counts: fusion 130 passed (cwd `sar/`, `pytest sensegame/fusion/tests`); `pytest sar/sensegame` 196 passed (repo root); language scan 16 passed (cwd `sar/`); registry coverage 3 passed (cwd `sar/`).

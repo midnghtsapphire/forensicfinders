@@ -5,6 +5,9 @@ import ast
 import hashlib
 import json
 import math
+import os
+import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -433,3 +436,90 @@ def test_replay_output_mismatch_exits_nonzero_and_appends_nothing(tmp_path, monk
     assert secret not in blob
     assert other not in blob
     assert "drift_from" not in captured.err
+
+
+def _tamper_last_hex(ledger: Path, key: str) -> tuple[str, str]:
+    """Change the last hex digit of one stored hash. Returns (original, tampered)."""
+    lines = ledger.read_text().splitlines()
+    rec = json.loads(lines[-1])
+    original = rec[key]
+    tampered = original[:-1] + ("0" if original[-1] != "0" else "1")
+    if lines[-1].count(original) != 1:
+        raise AssertionError(f"{key} hash is not unique on the last ledger line")
+    lines[-1] = lines[-1].replace(original, tampered, 1)
+    ledger.write_text("\n".join(lines) + "\n")
+    return original, tampered
+
+
+def _fusion_cli(sar: Path, *args):
+    env = os.environ.copy()
+    env["OMP_NUM_THREADS"] = "1"
+    env["PYTHONHASHSEED"] = "0"
+    return subprocess.run(
+        [sys.executable, "-m", "sensegame.fusion",
+         "--seed", "1003",
+         "--config", "sensegame/fusion/fixtures/fusion_config_synthetic.json",
+         *args],
+        cwd=sar, env=env, capture_output=True, text=True, check=False,
+    )
+
+
+def test_strata_seed_1003_accept_drift_then_replay(tmp_path):
+    """Strata's reproduction: tamper, accept-drift, replay. cwd is sar/.
+
+    Uses a temporary seeds.jsonl beside the run directories, never the repo ledger.
+    """
+    sar = PKG.parents[1]
+    repo_ledger = sar.parent / "out" / "fusion" / "seeds.jsonl"
+    repo_before = repo_ledger.read_bytes() if repo_ledger.exists() else None
+    work = tmp_path / "strata"
+    work.mkdir()
+    ledger = work / "seeds.jsonl"
+
+    first = _fusion_cli(sar, "--out", str(work / "run1"))
+    assert first.returncode == 0, first.stderr
+    assert ledger.is_file()
+    assert len(ledger.read_text().splitlines()) == 1
+
+    _tamper_last_hex(ledger, "fusion_1003.json")
+    accepted = _fusion_cli(sar, "--accept-drift", "--out", str(work / "run2"))
+    assert accepted.returncode == 0, accepted.stderr
+    lines = ledger.read_text().splitlines()
+    assert len(lines) == 2
+    assert "drift_from" in json.loads(lines[-1])
+
+    replay = _fusion_cli(sar, "--replay", "--out", str(work / "run3"))
+    assert replay.returncode == 0, replay.stderr
+    assert "replay OK" in replay.stdout
+    assert len(ledger.read_text().splitlines()) == 2
+
+    # Chained: tamper the accepted record, accept again, replay again.
+    _tamper_last_hex(ledger, "fusion_1003.json")
+    accepted_again = _fusion_cli(sar, "--accept-drift", "--out", str(work / "run4"))
+    assert accepted_again.returncode == 0, accepted_again.stderr
+    lines = ledger.read_text().splitlines()
+    assert len(lines) == 3
+    assert "drift_from" in json.loads(lines[-1])
+    before_replay = ledger.read_bytes()
+    replay_again = _fusion_cli(sar, "--replay", "--out", str(work / "run5"))
+    assert replay_again.returncode == 0, replay_again.stderr
+    assert ledger.read_bytes() == before_replay
+
+    # A real mismatch still fails closed and does not dump the records.
+    original, tampered = _tamper_last_hex(ledger, "fusion_1003.json")
+    before_mismatch = ledger.read_bytes()
+    mismatch = _fusion_cli(sar, "--replay", "--out", str(work / "run6"))
+    assert mismatch.returncode != 0
+    assert ledger.read_bytes() == before_mismatch
+    blob = mismatch.stdout + mismatch.stderr
+    assert "REPLAY_MISMATCH" in mismatch.stderr
+    assert "keys=fusion_1003.json" in mismatch.stderr
+    assert "expected_sha256=" in mismatch.stderr
+    assert "got_sha256=" in mismatch.stderr
+    assert "{" not in blob
+    assert original not in blob
+    assert tampered not in blob
+    if repo_before is None:
+        assert not repo_ledger.exists()
+    else:
+        assert repo_ledger.read_bytes() == repo_before

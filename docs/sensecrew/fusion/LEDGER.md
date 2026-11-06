@@ -68,3 +68,14 @@
   - language scan: cwd `sar/`, `pytest test_language_scan.py` → 16 passed (no live deferral token)
   - registry coverage: cwd `sar/`, `python -m unittest test_registry_coverage` → 3 passed
 - licence: UNLICENSED (private repo; licence pending Audrey)
+
+## 2371 — Strata seed 1003 replay regression
+- who: Sense-Fusion
+- why: Strata reproduced the replay bug at f7e928b with seed 1003: tamper the stored hash, `--accept-drift`, then `--replay` exited 1 and dumped both dicts. The only difference was `drift_from`.
+- action: `test_strata_seed_1003_accept_drift_then_replay` follows those steps from cwd `sar/` against a temporary `seeds.jsonl`, never the repo ledger. Replay exits 0. A second tamper plus `--accept-drift` also replays. A further tamper without that flag exits nonzero, appends nothing, and the streams contain `REPLAY_MISMATCH`, the key name, and digests, not the hash values or a dict. M1_W_KM is None until a cited W exists. GDD v0.5 §4 / §4a remains the coverage-model pointer. 2330 was not reused.
+- counts (venv CPython 3.12, OMP_NUM_THREADS=1, PYTHONHASHSEED=0):
+  - fusion: cwd `sar/`, `pytest sensegame/fusion/tests` → 130 passed
+  - sensegame: cwd repo root, `pytest sar/sensegame` → 196 passed
+  - language scan: cwd `sar/`, `pytest test_language_scan.py` → 16 passed
+  - registry coverage: cwd `sar/`, `python -m unittest test_registry_coverage` → 3 passed
+- licence: UNLICENSED (private repo; licence pending Audrey)
