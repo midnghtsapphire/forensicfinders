@@ -1,8 +1,8 @@
 """Golden tests for the clean Scorer (2310 (NEW-01)). Spec: ../scorer-spec.md.
 Drafted by Bedrock-D before any implementation exists; hand values independently recomputed by
 the Bedrock-N review of 2026-11-04 (math + decimal, 40 digits; see LEDGER). Math goldens cover
-the cited-W Koopman path. M1 goldens are coverage and budget only: M1_W_KM stays null under
-Decision B (Discussion #28 comment 19445708). Reference values come from the closed forms
+the cited-W Koopman path. M1 goldens are coverage and budget only: M1_W_KM is None until a cited W exists
+(Decision B, Discussion #28 comment 19445708). Reference values come from the closed forms
 in the spec (Koopman 1956/57; Charnes & Cooper 1958; Stone 1975), NOT from any repo module.
 
 Tolerances (lead ruling 2026-11-04):
@@ -24,8 +24,8 @@ TOL_UNIT = 1e-12
 TOL_CONTRACT = 1e-9
 E1 = -math.expm1(-1.0)  # 1 - e^-1 = 0.6321205588285577
 
-# M1 (seed 1001, 10 km track budget). Decision B: effective sweep width stays
-# null. M1_W_SOURCE cites Discussion #28 comment 19445708. The stated 1.456 km
+# M1 (seed 1001, 10 km track budget). Decision B: M1_W_KM is None until a
+# cited W exists. M1_W_SOURCE cites Discussion #28 comment 19445708. The stated 1.456 km
 # swath is geometric coverage only (table inputs: H=2000 m AGL, FOV=40 deg).
 # The report name is in scorer-spec section 4b. Do not write the swath, or any
 # fraction of it, into M1_W_KM.
@@ -222,7 +222,7 @@ def test_geometric_coverage_rejects_bad_inputs(s):
         s.track_budget_spent_km({"S1": -1.0})
 
 
-# ---- M1 coverage and budget (Decision B; effective W stays null) --------------
+# ---- M1 coverage and budget (Decision B; M1_W_KM is None until a cited W exists) --
 _DECISION_B = (
     "https://github.com/midnghtsapphire/forensicfinders/discussions/28"
     "#discussioncomment-19445708"
