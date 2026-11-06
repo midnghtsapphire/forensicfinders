@@ -344,6 +344,32 @@
       "what": "NEW-03 synthetic DEM fixtures (2320): integer diamond-square + PCG64 raw + pure-Python GeoTIFF (tiffw); dem_synthetic_1001/1002a/1002b/1003",
       "source": "SenseCrew Bedrock; docs/sensecrew/bedrock/specs/dem-fixture-spec.md",
       "licence": "UNLICENSED (private repo; licence pending Audrey)"
+    },
+    "2370": {
+      "name": "sensegame/fusion",
+      "path": "sensegame/fusion",
+      "parent": "2300",
+      "what": "Provisional fusion hint-layer parent (2370): synthetic combine + calibrated anomaly. Does not score M1 detection. M1_W_KM is None until a cited W exists.",
+      "test_cwd": ".",
+      "test": [
+        "python3",
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:warnings",
+        "sensegame/fusion/tests"
+      ],
+      "source": "FUSION_SPEC v0.2 (PR #18); docs/sensecrew/fusion/LEDGER.md",
+      "licence": "UNLICENSED (private repo; licence pending Audrey)"
+    },
+    "2371": {
+      "name": "sensegame/fusion/combine",
+      "path": "sensegame/fusion/combine.py",
+      "parent": "2370",
+      "what": "Provisional combiner (2371): robust z, MAD=0 layers flagged degenerate and excluded, grid-index cells only. Hint layer; registry.py 2371 --test runs the 2370 fusion suite.",
+      "source": "FUSION_SPEC v0.2 (PR #18); docs/sensecrew/fusion/LEDGER.md",
+      "licence": "UNLICENSED (private repo; licence pending Audrey)"
     }
   },
   "deselected_tests": {

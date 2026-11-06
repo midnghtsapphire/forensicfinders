@@ -15,3 +15,17 @@
 - ruling: M1_W_KM is None until a cited W exists. M1_W_SOURCE cites that comment. Woolpert OH 2019 Table 2-4 (H = 2000 m, FOV = 40°, stated swath 1.456 km) is geometric coverage only. Surveyed is not detected. Coverage does not produce POD, POS, or a negative-evidence update. No path substitutes 0.9×swath, or any geometric fraction, as effective W. exponential_coverage_model is a labelled model (GDD v0.5 §4 / §4a) on player-supplied C and is not M1 detection. Registry 2330 untouched.
 - data: no change to combine.py, anomaly.py, or synthetic fixtures. Fusion production modules do not set a numeric M1 width and do not call pod/pos/optimal/update.
 - licence: UNLICENSED (private repo; licence pending Audrey)
+
+## 2370/2371 — registry coverage, and #41 @ c933dd7
+- who: Sense-Fusion
+- why: `sar/test_registry_coverage.py` failed because `sensegame/fusion/tests/test_fusion.py` sat outside every component test command, so `registry.py --test-all` never ran fusion.
+- action: registered provisional 2370 (parent 2300; pytest `sensegame/fusion/tests`, test_cwd `.` under sar/) and 2371 (`sensegame/fusion/combine.py`, parent 2370). Did not reuse 2330. `combine.py`, `anomaly.py`, and the synthetic fixtures are unchanged.
+- also: merged Bedrock #41 @ c933dd7c5800404f64360bd5c277f967e21151c8. That tip resolves DEM golden paths from the test file. Its parent fbd3e9b restored the 10:42 ledger line. M1_W_KM is None until a cited W exists. No second local edit to the DEM test.
+- counts (venv CPython 3.12, OMP_NUM_THREADS=1, PYTHONHASHSEED=0):
+  - fusion: cwd `sar/`, `pytest -q sensegame/fusion/tests` → 26 passed
+  - sensegame: cwd repo root, `pytest -q sar/sensegame` → 92 passed
+  - sensegame: cwd `sar/`, `pytest -q sensegame` → 92 passed
+  - language scan: cwd `sar/`, `pytest -q test_language_scan.py` → 16 passed
+  - registry coverage: cwd `sar/`, `python -m unittest test_registry_coverage` → 3 passed
+  - `registry.py --test-all` from repo root, venv `python3` on PATH → exit 1, FAILED components 100, 700, 900. 2370 was not in that failed set. Those three failures are pre-existing and out of scope (missing `cryptography`; coldtrace missing `fastapi` / `pydantic_settings`; geo_connectors `test_example_case_config_is_synthetic` cannot parse `case/example.config.yaml`).
+- licence: UNLICENSED (private repo; licence pending Audrey)
