@@ -56,3 +56,8 @@
 - The exporter enforces these gates. JSON Schema does not.
 - Enums file SHA-256 is `97efab8581d87b12836c4c715871185d0cc3a7768a1046dba45d0b42c6c8f5ea`.
 - Bedrock-N APPROVE.
+
+## case-view co-sign pins and export blockers — 2026-11-06
+- Secret re-pinned PR #51 at `270f0df`. Condition 7 now pins the co-sign to `artifact_sha256`, `schema_commit`, `harness_commit`, `reference_snapshot`, `quasi_identifier_list`, `threshold` (`k>=5`), and `sanitized_pass_fail_counts`.
+- `real_export_block` also names starter-row identity confirmation and fresh tokens minted after confirmation, with the Charley Project licence and the Verity co-sign. No case's own status is named.
+- Bedrock-N APPROVE.

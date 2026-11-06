@@ -24,9 +24,19 @@ HEX = "0123456789abcdef"
 FIXTURE_ID_RE = r"^(sar/)?fixtures/[A-Za-z0-9._-]*synthetic[A-Za-z0-9._-]*$"
 FIXTURE_ID_PATTERN = re.compile(FIXTURE_ID_RE)
 REAL_EXPORT_BLOCK = (
-    "Real exports stay blocked until the Charley Project licence is cleared "
-    "and Verity co-signs the re-identification test."
+    "Real exports stay blocked until the Charley Project licence is cleared, "
+    "starter-row identity confirmation is done, fresh tokens are minted after "
+    "confirmation, and Verity co-signs the re-identification test."
 )
+COSIGN_PINNED_TO = [
+    "artifact_sha256",
+    "schema_commit",
+    "harness_commit",
+    "reference_snapshot",
+    "quasi_identifier_list",
+    "threshold",
+    "sanitized_pass_fail_counts",
+]
 SNAKE = re.compile(r"^[a-z][a-z0-9_]*$")
 
 REQUIRED_BANNED = frozenset({
@@ -318,14 +328,15 @@ def test_schema_file_identity():
             "case_token_minted_after_confirmation_and_active",
             "stand_in_location_check_passed",
             "secret_pinned_full_quasi_identifier_k_at_least_5_plus_linkage_and_attribute_inference_review",
-            "verity_private_comment_only_cosign_pinned_to_artifact_sha256",
+            "verity_private_comment_only_cosign",
         ],
         "identity_status_emits": "confirmed_public",
         "identity_status_never_emits": "unconfirmed_pending_audrey",
         "tests_run_by": "Secret",
         "cosign_by": "Verity",
         "cosign_kind": "private_comment_only",
-        "cosign_pinned_to": "artifact_sha256",
+        "cosign_pinned_to": COSIGN_PINNED_TO,
+        "threshold": "k>=5",
         "expiry_on_any_change": True,
         "expiry_includes": [
             "matcher",
@@ -344,6 +355,8 @@ def test_schema_file_identity():
     assert SCHEMA["emission_gate"]["schema_confirmation_is_clearance"] is False
     assert SCHEMA["emission_gate"]["identity_status_emits"] == "confirmed_public"
     assert SCHEMA["emission_gate"]["identity_status_never_emits"] == "unconfirmed_pending_audrey"
+    assert SCHEMA["emission_gate"]["cosign_pinned_to"] == COSIGN_PINNED_TO
+    assert SCHEMA["emission_gate"]["threshold"] == "k>=5"
     assert SCHEMA["owners"] == {
         "contract": "Bedrock",
         "token_semantics": "Quill",

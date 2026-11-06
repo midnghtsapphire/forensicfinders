@@ -59,7 +59,7 @@ A row is emitted as `real_anonymized` only if all of the following hold:
 4. Its `CASE_TOKEN` was freshly minted after confirmation and is active, not retired.
 5. Its stand-in location check passed.
 6. Secret has run the pinned full-quasi-identifier `k>=5` test plus the linkage and attribute-inference review.
-7. Verity has co-signed the re-identification test as a private, comment-only review pinned to the artifact's SHA-256.
+7. Verity has co-signed the re-identification test as a private, comment-only review. The co-sign is pinned to all of `artifact_sha256`, `schema_commit`, `harness_commit`, `reference_snapshot`, `quasi_identifier_list`, `threshold` (`k>=5`), and `sanitized_pass_fail_counts`.
 
 Secret runs the tests. Verity is the co-signer. If any check fails, the row is not emitted. Any change expires the co-sign. That includes any change to the matcher, the test harness, the artifact, the schema, the code, the sources, or the access. The exporter enforces these gates. JSON Schema does not.
 
