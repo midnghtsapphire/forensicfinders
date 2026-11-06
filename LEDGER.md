@@ -559,3 +559,59 @@
 - tools/CLI: git fetch; git grep run_one_tile origin/main; git show/ls-tree (main, PR #41 @ dafed87, PR #42 @ ad83cba); gh issue view 43; gh pr view 8; gh api graphql (repository id + discussionCategories; createDiscussion).
 - no code, no branch, no PR. Draft copy kept untracked at /workspace/sensecrew/wt/fusion-notes/run_one_tile_discussion.md.
 - licence: UNLICENSED (private repo; licence pending Audrey)
+
+## 2026-11-04 20:22 MST — Ledger-Play (Ledger-Play-D / Ledger-Play-N, Grok Bot) — balance proposal v0.2 (doc only)
+
+- **Actor:** Ledger-Play-D (driver) / Ledger-Play-N (navigator) · **Requested by:** Strata, for Audrey Evans · **Role:** balance/economy proposal, doc only
+- **Why:** v0 balance-table schema, Scorer consumer interface, difficulty curve and seeded sweep harness (NEW-12), updated to Strata's v0.1/v0.2 rulings.
+- **Commits** (branch `sensecrew/ledgerplay/balance-v0`, draft PR https://github.com/midnghtsapphire/forensicfinders/pull/11 into main):
+  - `9c0130bb38cd7b7a9e517f0ac61386b4633cbbe7`: adds `docs/sensecrew/ledgerplay/balance-proposal-v0.2.md`.
+  - `3bfd3491fbf2f1d3fae46869238f201846dc9ca3`: follow-up. Harness id NEW-xx → NEW-12; NEW-11 disabled while sweep_width.py is blocked; v0 repo-research section bannered "DEPRECATED — quarantined module, history only"; licence string set.
+- **Tools / CLI calls:** `gh auth status`; `gh api` read-only (repos/…/contents, git/trees, before the quarantine rulings); `gh repo clone`; `git checkout -b`, `git commit`, `git push` (no force, never main); `gh pr create --draft`. No MCP calls, no swarm (0 subagents).
+- **Sources:** `sensing-games-team-LOCKED-2026-11-04.md` §3; Loam GDD v0 / v0.2 (`/workspace/sensecrew/loam/`); `sar/docs/SOIL_SENSING_TIERS.md`; `sar/registry.json`. Blocked modules `search_theory.py`, `optimal_search.py`, `sweep_width.py`: not opened after the quarantine rulings, not used as interfaces. Forbidden paths (rule 7): not opened. No physics values set; all PLACEHOLDER pending owning pair + Verity co-sign.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Ledger-Play-N review:** units are consistent (km, km², km/h, km²/h, credits, min); no invented citations; no forbidden-path references beyond the rule statement; edits are in place with no text removed (the only replaced text is the LEDGER template's `licence: <...>` placeholder). Main not touched; deletions: none.
+- **Approval:** Ledger-Play-N APPROVE (commits 9c0130b, 3bfd349) · Verity: pending
+
+## 2026-11-04 20:27 MST — Ledger-Play (Ledger-Play-D / Ledger-Play-N, Grok Bot) — balance proposal v0.2 fixes (Verity Discussion #25)
+
+- **Actor:** Ledger-Play-D / Ledger-Play-N · **Requested by:** Strata + Verity (Discussion #25), for Audrey Evans
+- **Why:** annotate leftover blocked-module references as DEPRECATED (inline, no deletions); set registry ids 2340 (harness, alias NEW-12), 2330 (table, alias NEW-10) and 2331 (adapter, alias NEW-11, disabled); `sweep_width.py` is CLEAR for reference/adapter use only, off the import path until 2331 is enabled; `search_theory.py` and `optimal_search.py` stay BLOCKED.
+- **Commit:** `ceebf3d215c672ae99e853f197dd2d46efcf864a` on `sensecrew/ledgerplay/balance-v0` (PR #11). It follows `9c0130bb38cd7b7a9e517f0ac61386b4633cbbe7` and `3bfd3491fbf2f1d3fae46869238f201846dc9ca3`.
+- **Tools / CLI calls:** `git fetch`, `git merge --ff-only`, `git commit`, `git push` (no force, never main). No `gh` writes; no Discussion post; 0 subagents.
+- **Sources:** Verity Discussion #25 rulings (as relayed by Strata); `sensing-games-team-LOCKED-2026-11-04.md` §3. Blocked modules not opened.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Ledger-Play-N review:** units are km / km² / km/h / km²/h; no new citations or physics values; no forbidden-path references added; every changed line keeps its original text, with an annotation appended.
+- **Approval:** commits 9c0130b, 3bfd349, ceebf3d · Verity: pending
+
+Ledger-Play-N APPROVE 9c0130bb38cd7b7a9e517f0ac61386b4633cbbe7 3bfd3491fbf2f1d3fae46869238f201846dc9ca3 ceebf3d215c672ae99e853f197dd2d46efcf864a
+
+## 2026-11-04 20:33 MST — Ledger-Play (Ledger-Play-D / Ledger-Play-N, Grok Bot) — PR #11 lost_person_sim annotation + ledger merge
+
+- **Why:** Verity follow-up. The leftover `lost_person_sim` reference (doc §mismatch 7, line 92) is now annotated inline as DEPRECATED (no deletion). origin/sensecrew/ledger (de23754) was merged into this branch; the LEDGER.md conflict was resolved append-only (upstream entries first, then ours; all lines kept).
+- **Doc commit:** `4f63fba8731b0d6890a49f0aae8c20481353dcf3` on `sensecrew/ledgerplay/balance-v0` (PR #11).
+- **Tools / CLI:** `git worktree add` (/workspace/sensecrew/wt/ledgerplay), `git fetch`, `git merge --no-ff` (no rebase), `git commit`, `git push` (no force, never main). No Discussion posts; 0 subagents.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Ledger-Play-N review:** a one-line annotation appended; no units, citations or physics changed; no forbidden paths.
+
+Ledger-Play-N APPROVE 4f63fba8731b0d6890a49f0aae8c20481353dcf3
+
+## 2026-11-04 20:39 MST — Ledger-Play (Ledger-Play-D / Ledger-Play-N, Grok Bot) — PR #11 line-153 annotation + ledger merge
+
+- **Why:** Verity follow-up. Line 153's `lost_person_sim` POA source is annotated inline as DEPRECATED (no deletion). The origin/sensecrew/ledger tip was merged (no rebase); LEDGER.md was resolved append-only (upstream first, then ours; all lines kept).
+- **Doc commit:** `0ba21b4821013f80ee59fa05054ac64907e293b0` on `sensecrew/ledgerplay/balance-v0` (PR #11).
+- **Tools / CLI:** worktree /workspace/sensecrew/wt/ledgerplay; `git fetch`, `git merge --no-ff`, `git commit`, `git push` (fast-forward, no force, never main). 0 subagents.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Ledger-Play-N review:** a one-line annotation appended; no units, citations or physics changed; no forbidden paths.
+
+Ledger-Play-N APPROVE 0ba21b4821013f80ee59fa05054ac64907e293b0
+
+## 2026-11-04 20:46 MST — Ledger-Play (Ledger-Play-D / Ledger-Play-N, Grok Bot) — PR #11 line-116 annotation
+
+- **Why:** Verity follow-up. The line-116 `lost_person_sim.py` reference is annotated inline as DEPRECATED (no deletion). Per the new rule, the ledger tip is not merged.
+- **Doc commit:** `65014777e5d8284e93e476ae62a357f18a21d03d` on `sensecrew/ledgerplay/balance-v0` (PR #11).
+- **Tools / CLI:** worktree /workspace/sensecrew/wt/ledgerplay; `git fetch`, `git commit`, `git push` (fast-forward, no force, never main). 0 subagents.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Ledger-Play-N review:** a one-line annotation appended; no units, citations or physics changed; no forbidden paths.
+
+Ledger-Play-N APPROVE 65014777e5d8284e93e476ae62a357f18a21d03d
