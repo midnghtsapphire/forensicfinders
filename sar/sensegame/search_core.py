@@ -2,6 +2,14 @@
 
 Derived only from published theory (Koopman 1956/57; Charnes & Cooper 1958; Stone 1975).
 No quarantined module was opened. Spec: docs/sensecrew/bedrock/specs/scorer-spec.md.
+
+Two paths, kept apart (Decision B; spec section 4b):
+- Cited effective sweep width: ``pod`` / ``pos`` / ``optimal`` / ``update``.
+  ``w_km is None`` raises ``UncitedSweepWidth``. A geometric swath is not an
+  effective width and is never substituted, including any fraction of one.
+- Coverage and budget only, plus ``exponential_coverage_model`` on a
+  player-supplied dimensionless C. That model is not calibrated detection
+  and is not M1 detection scoring. M1 effective W stays null.
 """
 from __future__ import annotations
 
@@ -18,7 +26,11 @@ class ScorerError(ValueError):
 
 
 class UncitedSweepWidth(ScorerError):
-    """Non-ROW segment has w_km is None (GDD v0.2/v0.3 unscorable)."""
+    """Non-ROW segment has w_km is None on the detection path (pos/optimal/update).
+
+    Coverage, budget, and the exponential coverage model do not raise this
+    and do not invent a width.
+    """
 
 
 @dataclass(frozen=True)
@@ -46,15 +58,83 @@ def _finite_pos(x: float, label: str) -> None:
 
 
 class CleanScorer:
-    """Stateless, pure, deterministic exponential-search scorer."""
+    """Stateless, pure, deterministic search scorer.
+
+    Detection (``pod``, ``pos``, ``optimal``, ``update``) needs a cited effective
+    sweep width. Geometric coverage and track budget do not. The exponential
+    coverage model takes a player-supplied C and is not calibrated detection.
+    """
 
     def pod(self, w_km: float, track_km: float, area_km2: float) -> float:
+        """Detection POD for a cited effective sweep width: ``1 - exp(-W·z/A)``.
+
+        ``w_km`` must already be an effective detection sweep width (∫ p(x) dx).
+        This method does not accept a geometric swath and does not invent one.
+        Implemented as ``-math.expm1(-W·z/A)``.
+        """
         _finite_nonneg(w_km, "w_km")
         _finite_nonneg(track_km, "track_km")
         _finite_pos(area_km2, "area_km2")
         if w_km == 0.0 or track_km == 0.0:
             return 0.0
         return -math.expm1(-w_km * track_km / area_km2)
+
+    def exponential_coverage_model(self, coverage: float) -> float:
+        """MODEL, not calibrated detection.
+
+        Player-supplied dimensionless coverage C maps to ``1 - exp(-C)``,
+        implemented as ``-math.expm1(-C)``. GDD v0.4 section 4 / 4a fallback
+        when no cited effective sweep width exists. Proofy: this is a model.
+
+        The result is not a probability of detection, not a probability of
+        success, and not a negative-evidence update. This method does not read,
+        require, or invent W. Do not pass a geometric swath, or any fraction of
+        one, and do not use the result as M1 detection POD/POS.
+        """
+        _finite_nonneg(coverage, "coverage")
+        if coverage == 0.0:
+            return 0.0
+        return -math.expm1(-coverage)
+
+    def geometric_survey_km2(self, geometric_swath_km: float, track_km: float) -> float:
+        """Area the sensor footprint passed over: ``geometric_swath_km * track_km``.
+
+        Surveyed is not detected. ``geometric_swath_km`` is an instrument
+        footprint in kilometres. It is never an effective sweep width. This
+        method does not write it into ``w_km`` and does not call ``pod``,
+        ``pos``, ``optimal``, ``update``, or ``exponential_coverage_model``.
+        """
+        _finite_nonneg(geometric_swath_km, "geometric_swath_km")
+        _finite_nonneg(track_km, "track_km")
+        return geometric_swath_km * track_km
+
+    def geometric_coverage(
+        self, geometric_swath_km: float, track_km: float, area_km2: float
+    ) -> float:
+        """Dimensionless geometric coverage ``(swath_km * track_km) / area_km2``.
+
+        May exceed 1 when the track is long relative to the segment. This is
+        not detection coverage from an effective sweep width. Surveyed is not
+        detected. Do not feed this value to ``exponential_coverage_model`` or
+        ``pod`` as if the geometric swath were W.
+        """
+        _finite_nonneg(geometric_swath_km, "geometric_swath_km")
+        _finite_nonneg(track_km, "track_km")
+        _finite_pos(area_km2, "area_km2")
+        if geometric_swath_km == 0.0 or track_km == 0.0:
+            return 0.0
+        return geometric_swath_km * track_km / area_km2
+
+    def track_budget_spent_km(self, effort_km: dict[str, float]) -> float:
+        """Sum of allocated track kilometres. Budget accounting only.
+
+        Does not score detection and does not read sweep width.
+        """
+        parts: list[float] = []
+        for key, track_km in effort_km.items():
+            _finite_nonneg(track_km, f"effort_km[{key}]")
+            parts.append(float(track_km))
+        return math.fsum(parts)
 
     def pos(self, segments: list[Segment], effort_km: dict[str, float]) -> float:
         segs = self._validate_segments(segments, require_w=True)

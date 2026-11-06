@@ -22,5 +22,6 @@ branch on the flag for debrief copy without inventing physics. Default remains t
 effort dict until Ledger-Play and Loam accept the shape.
 
 ## Out of scope here
-Hours mode (`z_km = z_h * speed_kmh`), return-type packaging (dataclass vs tuple), and any
-cited M1 `W` (still PLACEHOLDER).
+Hours mode (`z_km = z_h * speed_kmh`), return-type packaging (dataclass vs tuple), and
+M1 effective sweep width. Decision B keeps `M1_W_KM` null; M1 scores coverage and
+budget only (scorer-spec §4b). This draft does not set a numeric W.
