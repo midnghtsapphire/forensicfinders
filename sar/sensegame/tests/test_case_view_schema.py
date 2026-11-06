@@ -307,17 +307,43 @@ def test_schema_file_identity():
     assert "confirmation" not in SCHEMA
     assert SCHEMA["synthetic_only_until_confirmed"] is True
     assert SCHEMA["real_export_block"] == REAL_EXPORT_BLOCK
+    assert "secret_export_co_sign" not in SCHEMA_PATH.read_text(encoding="utf-8")
     assert SCHEMA["emission_gate"] == {
+        "enforced_by": "exporter",
+        "json_schema_enforces_gates": False,
         "real_anonymized_requires_all": [
-            "per_source_terms_yes",
-            "secret_full_quasi_identifier_k_anonymity_and_linkage_review",
-            "secret_export_co_sign",
+            "terms_allows_derived_use_yes",
+            "identity_status_confirmed_public",
+            "no_removal_requested_and_no_resolved_hold",
+            "case_token_minted_after_confirmation_and_active",
+            "stand_in_location_check_passed",
+            "secret_pinned_full_quasi_identifier_k_at_least_5_plus_linkage_and_attribute_inference_review",
+            "verity_private_comment_only_cosign_pinned_to_artifact_sha256",
+        ],
+        "identity_status_emits": "confirmed_public",
+        "identity_status_never_emits": "unconfirmed_pending_audrey",
+        "tests_run_by": "Secret",
+        "cosign_by": "Verity",
+        "cosign_kind": "private_comment_only",
+        "cosign_pinned_to": "artifact_sha256",
+        "expiry_on_any_change": True,
+        "expiry_includes": [
+            "matcher",
+            "test_harness",
+            "artifact",
+            "schema",
+            "code",
+            "sources",
+            "access",
         ],
         "schema_confirmation_is_clearance": False,
         "primary_control": "closed_allowlist_schema_validation_before_emit",
         "banned_fields_role": "defence_in_depth",
     }
+    assert SCHEMA["emission_gate"]["json_schema_enforces_gates"] is False
     assert SCHEMA["emission_gate"]["schema_confirmation_is_clearance"] is False
+    assert SCHEMA["emission_gate"]["identity_status_emits"] == "confirmed_public"
+    assert SCHEMA["emission_gate"]["identity_status_never_emits"] == "unconfirmed_pending_audrey"
     assert SCHEMA["owners"] == {
         "contract": "Bedrock",
         "token_semantics": "Quill",

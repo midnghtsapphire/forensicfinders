@@ -61,7 +61,7 @@ A row is emitted as `real_anonymized` only if all of the following hold:
 6. Secret has run the pinned full-quasi-identifier `k>=5` test plus the linkage and attribute-inference review.
 7. Verity has co-signed the re-identification test as a private, comment-only review pinned to the artifact's SHA-256.
 
-Secret runs the tests. Verity is the co-signer. If any check fails, the row is not emitted. Any change expires the co-sign. That includes any change to the matcher, the test harness, the artifact, the schema, the code, the sources, or the access.
+Secret runs the tests. Verity is the co-signer. If any check fails, the row is not emitted. Any change expires the co-sign. That includes any change to the matcher, the test harness, the artifact, the schema, the code, the sources, or the access. The exporter enforces these gates. JSON Schema does not.
 
 Emission is a closed allowlist. Every row is validated against this schema before it is emitted. A row that fails validation is not emitted. `additionalProperties` is false on every emitted object, so `geometry`, `geohash`, `bbox`, `lat`, `lon`, `date`, `last_seen_date`, and any other key outside the allowlist are rejected at the root and inside nested objects, including `location`.
 

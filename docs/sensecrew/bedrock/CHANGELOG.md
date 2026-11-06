@@ -49,3 +49,10 @@
 - Any change expires Verity's co-sign. The list is the matcher, the test harness, the artifact, the schema, the code, the sources, and the access.
 - `case_view_enums.json` was not edited. Its SHA-256 stays `a6ddf87232a8a1fa1c64b774a0cc89f474034606f8895010bb57e6c11bb53a38`.
 - Bedrock-N APPROVE.
+
+## case-view emission_gate alignment — 2026-11-06
+- Verity returned PR #51 @ `54fa05f` as CHANGES at 0.87. The schema annotation `emission_gate` and its test now list the same seven conditions as `CASE_VIEW.md`, including `identity_status=confirmed_public` as the only value that emits and `unconfirmed_pending_audrey` as a value that never emits.
+- The old three-code gate is replaced by Verity's private comment-only co-sign pinned to the artifact SHA-256. Secret runs the tests. Any change expires the co-sign, including the matcher, the test harness, the artifact, the schema, the code, the sources, and the access.
+- The exporter enforces these gates. JSON Schema does not.
+- Enums file SHA-256 is `97efab8581d87b12836c4c715871185d0cc3a7768a1046dba45d0b42c6c8f5ea`.
+- Bedrock-N APPROVE.
