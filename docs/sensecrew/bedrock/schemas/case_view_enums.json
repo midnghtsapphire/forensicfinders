@@ -1,0 +1,241 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:forensicfinders:sensecrew:bedrock:case-view-enums:0.1",
+  "title": "SenseCrew anonymized case view",
+  "version": "0.1",
+  "status": "pending-audrey-confirm",
+  "synthetic_only_until_confirmed": true,
+  "owners": {
+    "contract": "Bedrock",
+    "token_semantics": "Quill",
+    "private_table_and_export": "Secret",
+    "consumer": "GodotForge"
+  },
+  "case_token_policy": {
+    "opaque": true,
+    "derived": false,
+    "parsed": false
+  },
+  "region_band_policy": {
+    "fine": [
+      "NEW_ENGLAND",
+      "MID_ATLANTIC",
+      "EAST_NORTH_CENTRAL",
+      "WEST_NORTH_CENTRAL",
+      "SOUTH_ATLANTIC",
+      "EAST_SOUTH_CENTRAL",
+      "WEST_SOUTH_CENTRAL",
+      "MOUNTAIN",
+      "PACIFIC"
+    ],
+    "coarse_fallback": ["NORTHEAST", "MIDWEST", "SOUTH", "WEST"],
+    "coarse_fallback_when_k_below": 5,
+    "other": ["NON_US", "UNKNOWN"]
+  },
+  "elapsed_band_years": [
+    {"id": "E1", "min_inclusive": 1, "max_exclusive": 5},
+    {"id": "E2", "min_inclusive": 5, "max_exclusive": 10},
+    {"id": "E3", "min_inclusive": 10, "max_exclusive": 20},
+    {"id": "E4", "min_inclusive": 20, "max_exclusive": 40},
+    {"id": "E5", "min_inclusive": 40, "max_exclusive": null}
+  ],
+  "terrain_policy": {
+    "source": "procedural_dem_synthetic",
+    "fixture_template": "fixtures/dem_synthetic_<seed>.tif",
+    "real_geography": false
+  },
+  "tips_policy": {
+    "recipient": "investigating_agency",
+    "published": false
+  },
+  "export_column_map": {
+    "CASE_TOKEN": "case_token",
+    "REGION_BAND": "region_band",
+    "TERRAIN_CLASS": "terrain_class",
+    "ELAPSED_BAND": "elapsed_band",
+    "SUBJECT_CATEGORY": "subject_category",
+    "CASE_SOURCE": "case_source"
+  },
+  "banned_fields": [
+    "name",
+    "dob",
+    "date_of_birth",
+    "exact_address",
+    "address",
+    "family_contact",
+    "family_contacts",
+    "photo",
+    "photos",
+    "alias",
+    "aliases",
+    "agency_case_number",
+    "agency_case_numbers",
+    "case_id",
+    "cc_id",
+    "anon_id",
+    "url",
+    "urls",
+    "source_url",
+    "source_urls",
+    "lat",
+    "lon",
+    "lng",
+    "latitude",
+    "longitude",
+    "coordinates",
+    "coord",
+    "predicted_region_band",
+    "predicted_lat",
+    "predicted_lon",
+    "predicted_latitude",
+    "predicted_longitude",
+    "cell_token",
+    "cell_tokens",
+    "tip",
+    "tip_content",
+    "tips",
+    "free_text",
+    "notes",
+    "narrative",
+    "description"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "case_token",
+    "region_band",
+    "terrain_class",
+    "elapsed_band",
+    "subject_category",
+    "case_source",
+    "fixture_id",
+    "seed",
+    "location"
+  ],
+  "properties": {
+    "case_token": {"$ref": "#/$defs/case_token"},
+    "region_band": {"$ref": "#/$defs/region_band"},
+    "terrain_class": {"$ref": "#/$defs/terrain_class"},
+    "elapsed_band": {"$ref": "#/$defs/elapsed_band"},
+    "subject_category": {"$ref": "#/$defs/subject_category"},
+    "case_source": {"$ref": "#/$defs/case_source"},
+    "fixture_id": {"$ref": "#/$defs/fixture_id"},
+    "seed": {"$ref": "#/$defs/seed"},
+    "location": {"$ref": "#/$defs/predicted_location"}
+  },
+  "if": {
+    "required": ["case_source"],
+    "properties": {
+      "case_source": {"const": "synthetic"}
+    }
+  },
+  "then": {
+    "required": ["fixture_id", "seed"],
+    "properties": {
+      "fixture_id": {"$ref": "#/$defs/synthetic_fixture_id"},
+      "seed": {"$ref": "#/$defs/synthetic_seed"}
+    }
+  },
+  "else": {
+    "required": ["fixture_id", "seed"],
+    "properties": {
+      "fixture_id": {"type": "null"},
+      "seed": {"type": "null"}
+    }
+  },
+  "$defs": {
+    "case_token": {
+      "type": "string",
+      "pattern": "^CT-[0-9a-f]{12}$"
+    },
+    "region_band": {
+      "type": "string",
+      "enum": [
+        "NEW_ENGLAND",
+        "MID_ATLANTIC",
+        "EAST_NORTH_CENTRAL",
+        "WEST_NORTH_CENTRAL",
+        "SOUTH_ATLANTIC",
+        "EAST_SOUTH_CENTRAL",
+        "WEST_SOUTH_CENTRAL",
+        "MOUNTAIN",
+        "PACIFIC",
+        "NORTHEAST",
+        "MIDWEST",
+        "SOUTH",
+        "WEST",
+        "NON_US",
+        "UNKNOWN"
+      ]
+    },
+    "terrain_class": {
+      "type": "string",
+      "enum": [
+        "FOREST",
+        "GRASSLAND_PRAIRIE",
+        "DESERT_SCRUB",
+        "MOUNTAIN_ALPINE",
+        "WETLAND_RIPARIAN",
+        "AGRICULTURAL",
+        "SUBURBAN",
+        "URBAN",
+        "WATER_COASTAL",
+        "UNKNOWN"
+      ]
+    },
+    "elapsed_band": {
+      "type": "string",
+      "enum": ["E1", "E2", "E3", "E4", "E5"]
+    },
+    "subject_category": {
+      "type": "string",
+      "enum": [
+        "CHILD_0_12",
+        "YOUTH_13_17",
+        "ADULT_18_64",
+        "OLDER_ADULT_65P",
+        "COGNITIVE_IMPAIRMENT",
+        "HIKER_OUTDOOR",
+        "HUNTER",
+        "WATER_RELATED",
+        "VEHICLE_RELATED",
+        "UNKNOWN"
+      ]
+    },
+    "case_source": {
+      "type": "string",
+      "enum": ["synthetic", "real_anonymized"]
+    },
+    "synthetic_fixture_id": {
+      "type": "string",
+      "pattern": "^fixtures/[A-Za-z0-9._-]*synthetic[A-Za-z0-9._-]*$"
+    },
+    "synthetic_seed": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "fixture_id": {
+      "oneOf": [
+        {"$ref": "#/$defs/synthetic_fixture_id"},
+        {"type": "null"}
+      ]
+    },
+    "seed": {
+      "oneOf": [
+        {"$ref": "#/$defs/synthetic_seed"},
+        {"type": "null"}
+      ]
+    },
+    "predicted_location": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label"],
+      "properties": {
+        "label": {
+          "type": "string",
+          "const": "predicted"
+        }
+      }
+    }
+  }
+}
