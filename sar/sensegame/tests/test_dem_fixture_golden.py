@@ -10,6 +10,8 @@ import pytest
 from sensegame.dem import generate, write_geotiff, FIXTURES  # noqa: E402 (does not exist yet)
 
 GOLDEN = pathlib.Path(__file__).with_name("dem_golden_sha256.json")
+# sar/sensegame/tests/<this file> -> sar/, where FIXTURES paths are rooted.
+_SAR_ROOT = pathlib.Path(__file__).resolve().parent.parent.parent
 # key -> (seed, epoch)
 CASES = [("1001", 1001, None), ("1002a", 1002, "a"), ("1002b", 1002, "b"), ("1003", 1003, None)]
 SIZE, NODATA = 257, -9999.0
@@ -17,6 +19,11 @@ SIZE, NODATA = 257, -9999.0
 
 def sha(p):
     return hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest()
+
+
+def committed_fixture(rel: str) -> pathlib.Path:
+    """sar-relative fixture path, independent of pytest's cwd."""
+    return _SAR_ROOT / rel
 
 
 @pytest.mark.parametrize("key,seed,epoch", CASES)
@@ -59,7 +66,9 @@ def test_m2_epoch_pair_semantics():
     a = generate(1002, "a").astype("float64")
     b = generate(1002, "b").astype("float64")
     d = np.rint((b - a) * 1000.0).astype("int64")  # mm
-    truth = json.loads((pathlib.Path(FIXTURES["1002b"]).parent / "dem_synthetic_1002_truth.json").read_text())
+    truth = json.loads(
+        (committed_fixture(FIXTURES["1002b"]).parent / "dem_synthetic_1002_truth.json").read_text()
+    )
     assert len(truth["pits"]) == 3 and len(truth["mounds"]) == 3
     assert (d < 0).any() and (d > 0).any()
     assert int(d.min()) == -500 and int(d.max()) == 500
