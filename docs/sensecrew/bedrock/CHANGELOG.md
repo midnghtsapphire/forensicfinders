@@ -15,3 +15,9 @@
 - Registry provisional **2390** (`sensegame/case_view`). 2330 and 2380 are not used.
 - Bedrock owns the contract. Quill owns token semantics. Secret owns the private table and export. GodotForge consumes. Tips go to the investigating agency and are never published.
 - Bedrock-N APPROVE. Verity pending.
+
+## case-view schema 0.1 follow-up — 2026-11-06
+- `fixture_id` pattern is `^(sar/)?fixtures/[A-Za-z0-9._-]*synthetic[A-Za-z0-9._-]*$`. Checked-in ids are the repo-relative paths `sar/fixtures/dem_synthetic_<seed>.tif`. `fixtures/...` and `sar/fixtures/...` both validate. Other prefixes are rejected.
+- `status` is `confirmed`. Audrey confirmed real cases in Sense-Quill chat 2026-11-06 10:55 MT; Quill v0.1 enums verified against PR #51 @f94e757.
+- `synthetic_only_until_confirmed` stays true. Real exports stay blocked until Secret clears the CC-0003 identity question and the Charley Project licence and Verity co-signs the re-identification test.
+- Bedrock-N APPROVE. Verity pending the re-identification co-sign.

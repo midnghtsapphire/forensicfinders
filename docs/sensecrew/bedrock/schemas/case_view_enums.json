@@ -3,8 +3,10 @@
   "$id": "urn:forensicfinders:sensecrew:bedrock:case-view-enums:0.1",
   "title": "SenseCrew anonymized case view",
   "version": "0.1",
-  "status": "pending-audrey-confirm",
+  "status": "confirmed",
+  "confirmation": "Audrey confirmed real cases in Sense-Quill chat 2026-11-06 10:55 MT; Quill v0.1 enums verified against PR #51 @f94e757",
   "synthetic_only_until_confirmed": true,
+  "real_export_block": "Real exports stay blocked until Secret clears the CC-0003 identity question and the Charley Project licence and Verity co-signs the re-identification test.",
   "owners": {
     "contract": "Bedrock",
     "token_semantics": "Quill",
@@ -41,7 +43,7 @@
   ],
   "terrain_policy": {
     "source": "procedural_dem_synthetic",
-    "fixture_template": "fixtures/dem_synthetic_<seed>.tif",
+    "fixture_template": "sar/fixtures/dem_synthetic_<seed>.tif",
     "real_geography": false
   },
   "tips_policy": {
@@ -208,7 +210,7 @@
     },
     "synthetic_fixture_id": {
       "type": "string",
-      "pattern": "^fixtures/[A-Za-z0-9._-]*synthetic[A-Za-z0-9._-]*$"
+      "pattern": "^(sar/)?fixtures/[A-Za-z0-9._-]*synthetic[A-Za-z0-9._-]*$"
     },
     "synthetic_seed": {
       "type": "integer",

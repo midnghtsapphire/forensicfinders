@@ -1,6 +1,6 @@
 {
   "version": "0.1",
-  "status": "pending-audrey-confirm",
+  "status": "confirmed",
   "synthetic_only_until_confirmed": true,
   "token_seed": 1001,
   "records": [
@@ -11,7 +11,7 @@
       "elapsed_band": "E1",
       "subject_category": "HIKER_OUTDOOR",
       "case_source": "synthetic",
-      "fixture_id": "fixtures/dem_synthetic_1001.tif",
+      "fixture_id": "sar/fixtures/dem_synthetic_1001.tif",
       "seed": 1001,
       "location": {"label": "predicted"}
     },
@@ -22,7 +22,7 @@
       "elapsed_band": "E3",
       "subject_category": "HUNTER",
       "case_source": "synthetic",
-      "fixture_id": "fixtures/dem_synthetic_1002.tif",
+      "fixture_id": "sar/fixtures/dem_synthetic_1002.tif",
       "seed": 1002,
       "location": {"label": "predicted"}
     },
@@ -33,7 +33,7 @@
       "elapsed_band": "E5",
       "subject_category": "WATER_RELATED",
       "case_source": "synthetic",
-      "fixture_id": "fixtures/dem_synthetic_1003.tif",
+      "fixture_id": "sar/fixtures/dem_synthetic_1003.tif",
       "seed": 1003,
       "location": {"label": "predicted"}
     },
@@ -44,7 +44,7 @@
       "elapsed_band": "E2",
       "subject_category": "UNKNOWN",
       "case_source": "synthetic",
-      "fixture_id": "fixtures/dem_synthetic_1004.tif",
+      "fixture_id": "sar/fixtures/dem_synthetic_1004.tif",
       "seed": 1004,
       "location": {"label": "predicted"}
     }

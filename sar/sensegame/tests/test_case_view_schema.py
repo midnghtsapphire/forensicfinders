@@ -20,7 +20,16 @@ FIXTURE = json.loads(FIXTURE_PATH.read_text(encoding="utf-8"))
 RECORDS = FIXTURE["records"]
 
 HEX = "0123456789abcdef"
-FIXTURE_ID_PATTERN = re.compile(r"^fixtures/[A-Za-z0-9._-]*synthetic[A-Za-z0-9._-]*$")
+FIXTURE_ID_RE = r"^(sar/)?fixtures/[A-Za-z0-9._-]*synthetic[A-Za-z0-9._-]*$"
+FIXTURE_ID_PATTERN = re.compile(FIXTURE_ID_RE)
+CONFIRMATION = (
+    "Audrey confirmed real cases in Sense-Quill chat 2026-11-06 10:55 MT; "
+    "Quill v0.1 enums verified against PR #51 @f94e757"
+)
+REAL_EXPORT_BLOCK = (
+    "Real exports stay blocked until Secret clears the CC-0003 identity question "
+    "and the Charley Project licence and Verity co-signs the re-identification test."
+)
 SNAKE = re.compile(r"^[a-z][a-z0-9_]*$")
 
 REQUIRED_BANNED = frozenset({
@@ -269,8 +278,10 @@ def _dem_synthetic_names():
 def test_schema_file_identity():
     assert SCHEMA["$schema"] == "https://json-schema.org/draft/2020-12/schema"
     assert SCHEMA["version"] == "0.1"
-    assert SCHEMA["status"] == "pending-audrey-confirm"
+    assert SCHEMA["status"] == "confirmed"
+    assert SCHEMA["confirmation"] == CONFIRMATION
     assert SCHEMA["synthetic_only_until_confirmed"] is True
+    assert SCHEMA["real_export_block"] == REAL_EXPORT_BLOCK
     assert SCHEMA["owners"] == {
         "contract": "Bedrock",
         "token_semantics": "Quill",
@@ -282,8 +293,9 @@ def test_schema_file_identity():
     assert SCHEMA["case_token_policy"] == {"opaque": True, "derived": False, "parsed": False}
     assert SCHEMA["tips_policy"] == {"recipient": "investigating_agency", "published": False}
     assert SCHEMA["terrain_policy"]["real_geography"] is False
-    assert SCHEMA["terrain_policy"]["fixture_template"] == "fixtures/dem_synthetic_<seed>.tif"
+    assert SCHEMA["terrain_policy"]["fixture_template"] == "sar/fixtures/dem_synthetic_<seed>.tif"
     assert SCHEMA["$defs"]["case_token"]["pattern"] == "^CT-[0-9a-f]{12}$"
+    assert SCHEMA["$defs"]["synthetic_fixture_id"]["pattern"] == FIXTURE_ID_RE
 
 
 def test_region_and_elapsed_bands_match_the_contract():
@@ -351,7 +363,7 @@ def test_schema_has_no_free_text_fields():
 
 def test_fixture_records_match_the_schema_and_are_synthetic():
     assert FIXTURE["version"] == "0.1"
-    assert FIXTURE["status"] == "pending-audrey-confirm"
+    assert FIXTURE["status"] == "confirmed"
     assert FIXTURE["synthetic_only_until_confirmed"] is True
     assert FIXTURE["token_seed"] == 1001
     assert len(RECORDS) >= 3
@@ -360,7 +372,7 @@ def test_fixture_records_match_the_schema_and_are_synthetic():
     for record in RECORDS:
         assert record["case_source"] == "synthetic"
         assert record["location"] == {"label": "predicted"}
-        expected_id = "fixtures/dem_synthetic_%s.tif" % record["seed"]
+        expected_id = "sar/fixtures/dem_synthetic_%s.tif" % record["seed"]
         assert record["fixture_id"] == expected_id
         assert FIXTURE_ID_PATTERN.search(record["fixture_id"])
         if present:
@@ -457,6 +469,39 @@ def test_bad_case_tokens_are_rejected():
     for token in bad:
         record = copy.deepcopy(RECORDS[0])
         record["case_token"] = token
+        _rejected(record)
+
+
+def test_fixture_id_accepts_both_prefixes_and_rejects_others():
+    base = copy.deepcopy(RECORDS[0])
+    accepted = (
+        "fixtures/dem_synthetic_1001.tif",
+        "sar/fixtures/dem_synthetic_1001.tif",
+        "fixtures/case_view_synthetic_1001.json",
+        "sar/fixtures/case_view_synthetic_1001.json",
+    )
+    for path in accepted:
+        record = copy.deepcopy(base)
+        record["fixture_id"] = path
+        assert FIXTURE_ID_PATTERN.fullmatch(path)
+        _accepted(record)
+    rejected = (
+        "docs/fixtures/dem_synthetic_1001.tif",
+        "blue-ocean-sar/fixtures/dem_synthetic_1001.tif",
+        "sar/sar/fixtures/dem_synthetic_1001.tif",
+        "/fixtures/dem_synthetic_1001.tif",
+        "/sar/fixtures/dem_synthetic_1001.tif",
+        "sar/fixtures/../dem_synthetic_1001.tif",
+        "fixtures/../dem_synthetic_1001.tif",
+        "./fixtures/dem_synthetic_1001.tif",
+        "SAR/fixtures/dem_synthetic_1001.tif",
+        "sar/other/dem_synthetic_1001.tif",
+        "fixtures/dem_1001.tif",
+    )
+    for path in rejected:
+        record = copy.deepcopy(base)
+        record["fixture_id"] = path
+        assert FIXTURE_ID_PATTERN.fullmatch(path) is None
         _rejected(record)
 
 

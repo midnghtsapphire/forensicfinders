@@ -1,6 +1,6 @@
 # Anonymized case view — schema 0.1
 
-Status: **pending-audrey-confirm**. `synthetic_only_until_confirmed` is true. Quill's schema 0.1 is waiting on Audrey. Until that confirmation, this public repository carries synthetic fixtures only.
+Status: **confirmed**. Audrey confirmed real cases in Sense-Quill chat 2026-11-06 10:55 MT; Quill v0.1 enums verified against PR #51 @f94e757. `synthetic_only_until_confirmed` stays true. Real exports stay blocked until Secret clears the CC-0003 identity question and the Charley Project licence and Verity co-signs the re-identification test. This public repository carries synthetic fixtures only.
 
 This is the contract Bedrock serves to the Godot game. Players see an anonymized case view. Real rows stay in a private table Secret owns. They do not appear in builds, exports, logs, this repository, or the player view.
 
@@ -27,7 +27,7 @@ Every key below is required. Names are snake_case. `additionalProperties` is fal
 | `elapsed_band` | `E1` `[1, 5)`, `E2` `[5, 10)`, `E3` `[10, 20)`, `E4` `[20, 40)`, `E5` `[40, +)` years | Half-open: the lower year is included and the upper year is excluded. The wire value is the band id (`E1` … `E5`), not the range text. |
 | `subject_category` | `CHILD_0_12`, `YOUTH_13_17`, `ADULT_18_64`, `OLDER_ADULT_65P`, `COGNITIVE_IMPAIRMENT`, `HIKER_OUTDOOR`, `HUNTER`, `WATER_RELATED`, `VEHICLE_RELATED`, `UNKNOWN` | Category code only. |
 | `case_source` | `synthetic`, `real_anonymized` | Required. The HUD shows it. |
-| `fixture_id` | string or null | When `case_source` is `synthetic`: a `fixtures/*synthetic*` path (one path segment, no `..`). Otherwise null. |
+| `fixture_id` | string or null | When `case_source` is `synthetic`: pattern `^(sar/)?fixtures/[A-Za-z0-9._-]*synthetic[A-Za-z0-9._-]*$` (one path segment after `fixtures/`, no `..`). `fixtures/...` and `sar/fixtures/...` both pass. Any other prefix is rejected. Otherwise null. |
 | `seed` | integer `≥ 0`, or null | When `case_source` is `synthetic`: the procedural DEM seed. Otherwise null. The key is present in both cases. |
 | `location.label` | const `predicted` | See below. |
 
@@ -47,11 +47,13 @@ A value outside an enum is invalid. Validators reject it. They do not coerce it 
 
 ## Synthetic-only status
 
-`version` is `0.1`. `status` is `pending-audrey-confirm`. `synthetic_only_until_confirmed` is true.
+`version` is `0.1`. `status` is `confirmed`. `synthetic_only_until_confirmed` is true.
 
-The API schema allows `case_source = real_anonymized` so the HUD can show it once Audrey confirms and Secret exports from the private table. A fixture file in this repository is a stricter gate: every row is `synthetic`, with a `fixtures/*synthetic*` id and a seed. A `real_anonymized` row in a fixture is rejected even when it would pass the API schema.
+Audrey confirmed real cases in Sense-Quill chat 2026-11-06 10:55 MT; Quill v0.1 enums verified against PR #51 @f94e757. Real exports stay blocked until Secret clears the CC-0003 identity question and the Charley Project licence and Verity co-signs the re-identification test.
 
-Checked-in fixture: `sar/fixtures/case_view_synthetic_1001.json`. Its `case_token` values are draws from `random.Random(1001)` (12 lowercase hex digits, prefixed with `CT-`). No `dem_synthetic_*.tif` ships in this tree; each row names the procedural path `fixtures/dem_synthetic_<seed>.tif`.
+The API schema allows `case_source = real_anonymized` so the HUD can show that source. A fixture file in this repository is a stricter gate: every row is `synthetic`, with a `fixtures/*synthetic*` or `sar/fixtures/*synthetic*` id and a seed. A `real_anonymized` row in a fixture is rejected even when it would pass the API schema.
+
+Checked-in fixture: `sar/fixtures/case_view_synthetic_1001.json`. Its `case_token` values are draws from `random.Random(1001)` (12 lowercase hex digits, prefixed with `CT-`). No `dem_synthetic_*.tif` ships in this tree; each row stores the repo-relative procedural path `sar/fixtures/dem_synthetic_<seed>.tif`.
 
 ## Banned
 
