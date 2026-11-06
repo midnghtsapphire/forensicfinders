@@ -1,0 +1,9 @@
+{
+  "a_m": 2.0,
+  "array": "wenner",
+  "noise_pct": 5.0,
+  "rho_layers_ohm_m": [
+    100.0
+  ],
+  "seed": 42
+}
