@@ -43,3 +43,9 @@
 - The attribution that a chat had confirmed this contract is removed from the living spec, the schema, the fixture, the tests, and the registry note. Schema confirmation alone is not clearance.
 - Private row-token breadcrumbs are removed from those same living files. `identity_status=confirmed` for every case.
 - Bedrock-N APPROVE.
+
+## case-view emission value names — 2026-11-06
+- Secret corrected emission condition 2 in `CASE_VIEW.md`. Emission requires `identity_status=confirmed_public` for every case. `unconfirmed_pending_audrey` never emits. No case's own status is named.
+- Any change expires Verity's co-sign. The list is the matcher, the test harness, the artifact, the schema, the code, the sources, and the access.
+- `case_view_enums.json` was not edited. Its SHA-256 stays `a6ddf87232a8a1fa1c64b774a0cc89f474034606f8895010bb57e6c11bb53a38`.
+- Bedrock-N APPROVE.

@@ -54,14 +54,14 @@ Schema confirmation alone is not clearance. Adopting the real-case policy is not
 A row is emitted as `real_anonymized` only if all of the following hold:
 
 1. Every source for that case has `terms_allows_derived_use=yes`.
-2. `identity_status=confirmed` for every case.
+2. `identity_status=confirmed_public` for every case. `unconfirmed_pending_audrey` never emits.
 3. The case has no `removal_requested` and no resolved hold.
 4. Its `CASE_TOKEN` was freshly minted after confirmation and is active, not retired.
 5. Its stand-in location check passed.
 6. Secret has run the pinned full-quasi-identifier `k>=5` test plus the linkage and attribute-inference review.
 7. Verity has co-signed the re-identification test as a private, comment-only review pinned to the artifact's SHA-256.
 
-Secret runs the tests. Verity is the co-signer. If any check fails, the row is not emitted. Any change to the schema, code, sources, or access expires the co-sign.
+Secret runs the tests. Verity is the co-signer. If any check fails, the row is not emitted. Any change expires the co-sign. That includes any change to the matcher, the test harness, the artifact, the schema, the code, the sources, or the access.
 
 Emission is a closed allowlist. Every row is validated against this schema before it is emitted. A row that fails validation is not emitted. `additionalProperties` is false on every emitted object, so `geometry`, `geohash`, `bbox`, `lat`, `lon`, `date`, `last_seen_date`, and any other key outside the allowlist are rejected at the root and inside nested objects, including `location`.
 
