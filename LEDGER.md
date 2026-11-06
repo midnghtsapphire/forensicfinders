@@ -284,6 +284,21 @@
 - **Review:** Fusion-N reviewed the 6a1fdd5 diff (FUSION_SPEC.md +4/−3, RULE7_AUDIT.md +4; docs only; no deletions; 2370.1 remains only in the changelog history lines).
 - **Approval:** Fusion-N APPROVE (6a1fdd5). Verity green required before merge.
 
+## 2026-11-04 20:23 MST — Quartz (Quartz-D / Quartz-N, Grok Bot) — inventory + rule-7 PASS + Discussion #17
+
+- **Actor:** Quartz-D / Quartz-N (Grok Bot) · **Requested by:** Sense-Strata · **Role:** recorded
+- **Files:** Discussion https://github.com/midnghtsapphire/forensicfinders/discussions/17 (added); LEDGER.md (this append); golden-test branch `sensecrew/quartz/nnls-sam-golden` (in progress)
+- **Calls (who / why / sources / licence):**
+  1. Quartz-D: GitHub contents/search of `sar/blue-ocean-sar/multi_proxy/*` (imports and keyword scan). Why: rule-7 audit. Source: https://github.com/midnghtsapphire/forensicfinders @ main. Licence: UNLICENSED (private repo; licence pending Audrey).
+  2. Quartz-D: `gh api graphql` createDiscussion General. Why: Strata dual check-in (Discussion + LEDGER). Source: Discussion #17.
+  3. Quartz-N: reviewed audit scope (quarantined paths not opened).
+- **Rule-7 audit result:** PASS. `nnls_unmix.py`, `sam.py`, and multi_proxy show **zero** imports/lineage hits for search_theory, optimal_search, lost_person_behavior/lpb_mpb2003.json, case/, case-files, hfmr, dossier, evidence, public-records. Imports are numpy/scipy/geo_connectors.stac/rasterio/seamless_3dep/test adapters only. Quarantined files were **not** opened.
+- **Decisions:** Interim confidence A=0.92 (Strata approved) — implement seeded synthetic-abundance golden tests on `sensecrew/quartz/nnls-sam-golden`; B=0.75 next (USGS splib07 PD fixture); component placeholder **NEW-22**; licence string `UNLICENSED (private repo; licence pending Audrey)`. USGS Spectral Library v7 cited as PD endmember source for the golden-test proposal (https://www.usgs.gov/labs/spectroscopy-lab/science/spectral-library).
+- **Open / handoff:** Finish A PR (draft); then B; Verity free-number report for NEW-22; HySUPP later.
+- **Commits / PRs:** this LEDGER append PR; Discussion #17; code PR forthcoming on nnls-sam-golden.
+- **Approval:** Quartz-N APPROVE (inventory + rule-7 audit + Discussion record)
+- **Credit note:** Sense-Quartz (Grok Bot XP pair).
+
 ## 2026-11-04 20:40 MST (America/Denver) — Quartz-D / Quartz-N (Grok Bot) — CORRECTION: NEW-22 registry id 1070 → 2360
 - **Corrects:** prior Quartz entry (20:29 MST) that cited provisional registry **1070** for NEW-22 mineral-spectral-unmix. Per Strata, the id is **2360**.
 - **Commits:** 82b7cb6 on `sensecrew/quartz/splib07-fixture` (docs/README/manifest/loader/test comments 1070 → 2360); PR #29 body updated. PR #20 body had no 1070. PR #19 branch merged with ledger tip (d66d1ee, merge, no force).
@@ -336,6 +351,214 @@
 - **registry.json:** not edited. **Main:** untouched. **Deletions:** none. **Force pushes:** none.
 - **Licence:** UNLICENSED (private repo; licence pending Audrey)
 - **Approval:** Quartz-N APPROVE
+- 2026-11-04 Humus correction (Verity r3): our two 20:25 Humus entries also sit above Loam's 20:15 entry, out of order in error; left in place. Append-only resumes here.
+
+## 2026-11-04 20:39 MST — Loam (Loam-D / Loam-N, Grok Bot) — Music Addendum B + determinism test (BLOCKED)
+- **Actor:** Loam · **Requested by:** Strata, for Audrey Evans · **Role:** music decision owner
+- **Files:** docs/sensecrew/loam/MUSIC_DECISION_v0.md (Addendum B appended); music_determinism/{run_determinism.py, Makefile, README.md, RESULT_BLOCKED.json, .gitignore}. Commit 5c5e118e on sensecrew/loam/music
+- **Calls:** HF API file list ACE-Step/Ace-Step1.5; GitHub ace-step/ACE-Step-1.5 docs/en/INFERENCE.md @ca1e85fe; addDiscussionComment #30 → https://github.com/midnghtsapphire/forensicfinders/discussions/30#discussioncomment-19411029
+- **Decisions:** ACE-Step 1.5 is the pick under Verity's conditions. Determinism test BLOCKED: the required text encoder is Qwen3-Embedding-0.6B (policy), and there's no GPU with only 4.6 GB RAM available. No weights downloaded, no output faked. Open question to Verity on Qwen3-Embedding.
+- Main untouched · Deletions none · Force pushes none · Approval: Loam-N APPROVE
+
+
+## 2026-11-04 20:42 MST — Quartz (Quartz-D / Quartz-N, Grok Bot) — HySUPP spams Strata ruling applied (NEW-22 / 2360)
+- **Actor:** Quartz · **Requested by:** Strata, for Audrey Evans · **Component:** NEW-22 / registry 2360
+- **Strata ruling (hard rule 5, Audrey-approved in locked team rules):** GPL spams allowed OFFLINE only, as a separate CLI process in its own venv outside the repo, writing only comparison result data back. Never imported, vendored, pinned or shipped in forensicfinders. Subprocess gated by HYSUPP_ROOT.
+- **Files:** sar/blue-ocean-sar/multi_proxy/{hysupp_compare.py, test_hysupp_compare.py}; docs/sensecrew/quartz/HYSUPP_COMPARE.md. Commit 97474e21 on sensecrew/quartz/hysupp-compare (PR https://github.com/midnghtsapphire/forensicfinders/pull/33)
+- **Decisions:** in-process HySUPP loader removed; replaced by subprocess runner (SPAMS_COMPARE_CMD / HYSUPP_VENV, HYSUPP_RESULTS_DIR) reading result JSON only. Zero spams import/pin in repo. Tests 10 passed, 1 skipped.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- Main untouched · Deletions none · Force pushes none · Approval: Quartz-N APPROVE
+
+## 2026-11-04 20:39 MST (America/Denver) — Chitin (Sense-Chitin, Grok Bot) — live forensic_models 1010 import
+
+- **Actor:** Sense-Chitin (Grok Bot executor) · **Requested by:** Strata (relaying Verity), for Audrey Evans
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Verity:** taphonomy CLEAR (0.86); **constants CLEAR (0.92)** — live import authorized. topp_* nit recorded separately; left alone.
+- **Worktree:** `/workspace/sensecrew/wt/chitin` on `sensecrew/chitin/insect-trace-add` (not shared `/workspace/forensicfinders`).
+- **Calls:**
+  1. `git checkout origin/sar-make-it-work --` minimal set: `sar/forensic_models/{__init__.py,constants.py,constants.json,taphonomy.py}` — blobs identical to origin (no content edits).
+  2. Rewrote `decay_taphonomy_bridge.py` docstring; production path live (`backend_name() == "forensic_models.taphonomy"`); thin stub fallback only if import fails.
+  3. Makefile + test PYTHONPATH include `sar/`; bridge tests expect live backend; added deterministic `megyesi_add` coverage.
+  4. Docs append-only under `docs/sensecrew/chitin/` (SPEC_1010, DECAY note, INVENTORY, SPEC_2350).
+  5. Tests: 15 passed, twice, deterministic. Commit **dcc7412** pushed; draft PR #27 updated (not merged).
+- **Files added:** `sar/forensic_models/__init__.py`, `constants.py`, `constants.json`, `taphonomy.py` (unchanged from sar-make-it-work).
+- **Files edited:** `decay_taphonomy_bridge.py`, `test_insect_trace_add_sim.py`, `Makefile`, four chitin docs (append/clarify only).
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none. **Merge:** none (draft only).
+- **Approval:** Chitin path complete for live 1010 import; Verity topp nit still open elsewhere.
+- 2026-11-04 Humus issue note (Verity r3, RO — no code edit): `topp_forward` / `topp_inverse` in Audrey's `sar/forensic_models/` (branch sensecrew/verity/golden-gate; not on origin/main). File `taphonomy.py` L6–8 `topp_theta(eps)` uses constants key `topp_forward` = Ka→θ coeffs (−0.053, 0.0292, −0.00055, 4.3e-6); L11–15 `topp_eps(theta)` uses `topp_inverse` = θ→Ka coeffs (3.03, 9.3, 146, −76.7) per `constants.json` L4–14. Math matches Topp 1980 DOI 10.1029/WR016i003p00574; **names look swapped vs geophysical forward (θ→Ka) / inverse (Ka→θ) convention**. Left untouched. Discussion draft only: /workspace/humus_discussion_draft.md (not posted).
+- 2026-11-04 Humus Verity r3 on PR #31 (sensecrew/humus/soil-dna-rename @ 809e58a): corrected lab_readers audit row (stdlib+numpy+scipy only; PASS); added test_soil_dna_sensor_aliases (3/3 OK); cited tally unified to cited=9 / PLACEHOLDER=5; gcms_method.example.json provenance = first add c944260 (midnghtsapphire, 2026-10-21) via PR #9, landed a263098; prehistory beyond that unknown from git log/blame. Worktree /workspace/sensecrew/wt/humus.
+- 2026-11-04 Humus Verity R4 on PR #31 (sensecrew/humus/soil-dna-rename @ 54b70fa): verified with unshallow `git log origin/main --first-parent --diff-filter=A` that `gcms_method.example.json` first landed on main via merge `19bee3d` (**PR #2**, 2026-10-23 12:44 America/Denver), not PR #9; provenance note corrected; prior r3 PR #9 attribution was a shallow-clone artifact. Audit `lab_readers` row now lists optional lazy `pyteomics`/`pymzml` imports in `read_tic_mzml` (try/except; not forbidden). Worktree /workspace/sensecrew/wt/humus.
+
+## 2026-11-04 20:50 MST (America/Denver) — Quartz (Sense-Quartz) — Verity R4 / Strata: NEW-22→2360 + splib07 → reference_oracle
+
+- **Actor:** Sense-Quartz (Grok Bot) · **Requested by:** Strata relaying Verity R4, for Audrey Evans
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Approval:** Quartz-N APPROVE
+- **Worktree:** `/workspace/sensecrew/wt/quartz` only. Main untouched. No force-push. No deletes (history-preserving `git mv`).
+- **Verity / Strata rulings applied:**
+  1. PR #20: switch provisional **NEW-22** labels to free registry **2360** (docs/tests/PR title+body). `registry.json` not edited.
+  2. Move real USGS splib07 PD endmembers out of `fixtures/` into `sar/blue-ocean-sar/multi_proxy/reference_oracle/splib07_subset/` (reference oracles, not seeds). Provenance kept: Kokaly 2017; doi:10.5066/F7RR1WDJ; doi:10.3133/ds1035. Mixture cubes stay under `fixtures/*synthetic*` only.
+  3. Retarget loaders/docs/tests on PR #29, #32, #33 to the new path.
+- **SHAs / PRs:**
+  - #20 `sensecrew/quartz/nnls-sam-golden` @ **38c7087** — https://github.com/midnghtsapphire/forensicfinders/pull/20
+  - #29 `sensecrew/quartz/splib07-fixture` @ **04d5aa3** (move a8fc61f + labels) — https://github.com/midnghtsapphire/forensicfinders/pull/29
+  - #32 `sensecrew/quartz/splib07-unmix-wire` @ **0e343b0** — https://github.com/midnghtsapphire/forensicfinders/pull/32
+  - #33 `sensecrew/quartz/hysupp-compare` @ **cb6e2ac** — https://github.com/midnghtsapphire/forensicfinders/pull/33
+- **Ping Verity:** b44837de-d115-4908-81b5-5c1befef7380 (parent to relay)
+
+## 2026-11-04 20:55 MST — Quartz: registry 2360 added (Verity R31 PASS)
+
+- **Actor:** Sense-Quartz (Grok Bot) · **Requested by:** Strata relaying Verity R31, for Audrey Evans
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Approval:** Quartz-N APPROVE · **Cites:** Verity R31 PASS ("clear to add 2360 to registry.json"); Strata standing order (≥0.80, conf 0.90–0.92)
+- **Id check:** 2360 was free in `sar/registry.json` (no reuse); no entries removed; component 100 unchanged.
+- **Entry:** `2360` mineral-spectral-unmix → `blue-ocean-sar/multi_proxy`; tests `test_nnls_sam_golden`, `test_splib07_endmembers`, `test_splib07_unmix_golden`, `test_hysupp_compare`.
+- **Proof:** `python3 sar/registry.py 2360 --test` → Ran 22 tests, OK (skipped=1); `registry.py 995 --test` → OK.
+- **SHA / PR:** `sensecrew/quartz/registry-2360` @ **a011ba7** — https://github.com/midnghtsapphire/forensicfinders/pull/34 (draft; depends on #20/#29/#32/#33, carries them via merge base).
+
+## 2026-11-04 20:57 MST (America/Denver) — Quartz-D / Quartz-N (Grok Bot) — Strata R32 narrow 2360 path
+
+- **Actor:** Quartz · **Requested by:** Strata (Verity R32), for Audrey Evans · **Component:** registry **2360** mineral-spectral-unmix
+- **Ruling:** path must NOT be all of `multi_proxy`; scope to Quartz unmix surface only.
+- **Change:** `sar/registry.json` 2360 `path`: `blue-ocean-sar/multi_proxy` → `blue-ocean-sar/multi_proxy/nnls_unmix.py` (file-level, same schema as 140/901). `test` / `test_cwd` unchanged (explicit unmix modules). **Did not touch** `test_package_imports.py` (Audrey component-100).
+- **Proof:** `python3 sar/registry.py 2360 --test` → Ran 22 tests, OK (skipped=1); `995 --test` OK; `100 --test` OK.
+- **SHA / PR:** `sensecrew/quartz/registry-2360` @ **95b28a7** — https://github.com/midnghtsapphire/forensicfinders/pull/34 (body updated with R32 note).
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Approval:** Quartz-N APPROVE
+
+## 2026-11-05 07:29 MST (America/Denver) — Deepscan (Sense-Deepscan) — proposed specs for ERT, magnetometry, void detector (doc only)
+
+- **Actor:** Sense-Deepscan (Grok Bot) · **Requested by:** Sense-Strata task, for Audrey Evans
+- **What:** added spec doc `sar/docs/deepscan_module_specs_v0.md` (proposed ert-model 510, magnetometry-model 520, gpr-void-detector 530; no code, no registry edit).
+- **Why:** Sense-Strata task (Deepscan module specs v0).
+- **Sources cited:** Telford, Geldart & Sheriff, *Applied Geophysics* 2nd ed., CUP 1990 (ISBN 0-521-33938-3); Blakely, *Potential Theory in Gravity and Magnetic Applications*, CUP 1995 (doi:10.1017/CBO9780511549816); Daniels (ed.), *Ground Penetrating Radar* 2nd ed., IET 2004 (doi:10.1049/SBRA051E).
+- **Licences cited:** pyGIMLi Apache-2.0 (optional offline); SimPEG MIT (optional offline); numpy BSD-3 / Python PSF; OpenCV Apache-2.0 (optional); gprMax GPL-3 offline CLI only, never linked; Ultralytics AGPL FORBIDDEN.
+- **SHA / PR:** `sensecrew/deepscan/ert-mag-void-specs` @ **61a14e2** — https://github.com/midnghtsapphire/forensicfinders/pull/36 (draft)
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Approval:** Deepscan-N APPROVE
+
+## 2026-11-05 07:30 MST (America/Denver) — Deepscan (Sense-Deepscan) — PR #36 follow-up: stale header, licence typo, forensic_pipeline rename proposal
+
+- **Actor:** Sense-Deepscan (Grok Bot) · **Requested by:** Sense-Strata follow-up, for Audrey Evans
+- **What:** new commit on `sar/docs/deepscan_module_specs_v0.md` (doc only): header and Out-of-scope lines now say the doc is published as draft PR #36 and no product code goes in until rule-7 clears; magnetometry licence row fixed to "Optional magnetics library / custom code (numpy, BSD-3)"; added "forensic_pipeline rename proposal (pending Verity rule-7 review)" (isrid_prior_map → synthetic_prior_map, finder_confirmation → confirmation_event, "Private forensic pipeline" → "Synthetic search-scenario pipeline"). No forensic_pipeline code opened; no imports until Verity-N APPROVE.
+- **Why:** Sense-Strata task; requesting Verity rule-7 review.
+- **Sources/licences:** unchanged from previous entry (Telford 1990; Blakely 1995; Daniels 2004; pyGIMLi Apache-2.0; SimPEG MIT; numpy BSD-3; gprMax GPL-3 offline only; Ultralytics AGPL forbidden).
+- **SHA / PR:** `sensecrew/deepscan/ert-mag-void-specs` @ **5fbcc20** — https://github.com/midnghtsapphire/forensicfinders/pull/36 · comment https://github.com/midnghtsapphire/forensicfinders/pull/36#issuecomment-6660557720
+- **Main:** untouched. **Amend:** none. **Deletions:** none. **Force pushes:** none.
+- **Approval:** Deepscan-N APPROVE
+
+## 2026-11-05 07:30 MST (America/Denver) — Humus (Humus-D / Humus-N, Grok Bot) — Discussion posts (Audrey approved)
+
+- **Actor:** Humus-D / Humus-N (Grok Bot executor subagent)
+- **Requested by:** Audrey Evans (approved both Discussion drafts in Humus chat 2026-11-05)
+- **Repo:** midnghtsapphire/forensicfinders only (stayed off sar-research-fleet)
+- **Worktree:** `/workspace/sensecrew/wt/ledger` for this LEDGER append; posts via authenticated `gh` (no worktree needed)
+- **Posted:**
+  1. Comment on Discussion #15 (Humus review — PR #27 soil-moisture interface; APPROVE + 6 comments) — https://github.com/midnghtsapphire/forensicfinders/discussions/15#discussioncomment-19420176 (databaseId 19420176; node `DC_kwDOVOfg5c4BKFQQ`); source `/workspace/humus_pr27_review.md`
+  2. New Discussion #38 (Q&A) — title "Humus: cited GDD values + topp_forward/inverse naming note" — https://github.com/midnghtsapphire/forensicfinders/discussions/38 ; source `/workspace/humus_discussion_draft.md` (cited GDD values + topp_forward/inverse RO naming note combined)
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none.
+- **Approval:** Audrey approved both drafts in Humus chat 2026-11-05; Humus-N APPROVE
+
+## 2026-11-05 07:30 MST (America/Denver) — Loam (Loam-D / Loam-N, Grok Bot) — Music Addendum C (Verity R26)
+
+- **Actor:** Loam-D / Loam-N · **Requested by:** Strata, for Audrey Evans · **Role:** proposed
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Files:** `docs/sensecrew/loam/MUSIC_DECISION_v0.md` Addendum C (append-only) + `music_determinism/{README.md,RESULT_BLOCKED.json,run_determinism.py}` on `sensecrew/loam/music`, commit **571e341**. Worktree `/workspace/sensecrew/wt/loam` only. Verity rulings path cited read-only (`docs/sensecrew/verity/rulings.md` on `sensecrew/verity/gate-2026-11-04`); not edited.
+- **Decisions:** Verity **R26** clears Qwen3-Embedding-0.6B (Apache-2.0, ungated, SUPPORTED 0.80; card metadata only). Licence path **CLEAR**; `ALLOW_QWEN3_EMBED=1` authorized when hardware allows (opt-in retained). Music production/determinism still **PARKED** on hardware (no CUDA GPU; ~4.6 GB MemAvailable; Python 3.13). No weights downloaded; no fake PASS. Still forbidden: CNY LoRA; 1.7B LM; unverified Qwen3 base/LM planner models. Training-data claim still WEAK (0.45).
+- **Discussion #30 comment:** https://github.com/midnghtsapphire/forensicfinders/discussions/30#discussioncomment-19420199 (source ruling: #discussioncomment-19411085)
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none. Did not touch GDD, PR #10, Discussion #28, sar-research-fleet, or ArchExplorer.
+- **Approval:** Loam-N APPROVE
+
+## 2026-11-05 07:36 MST — Sense-Fusion (Fusion-D / Fusion-N, Grok Bot) — NEW-01 = 2310 reference update
+
+- **Actor:** Sense-Fusion · **Requested by:** Strata, for Audrey Evans · **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Calls:** `gh pr view 39`, `git show 73efc1c:docs/sensecrew/bedrock/specs/scorer-spec.md` (sha256 5e54d8a1… = local copy), then a targeted `sed` on FUSION_SPEC.md in worktree /workspace/sensecrew/wt/fusion; commit 6fb9960 pushed (no force). sar-research-fleet not touched.
+- **Decisions:** §1 heading now references NEW-01 = registry 2310 and `docs/sensecrew/bedrock/specs/scorer-spec.md` (PR #39 @ 73efc1c); changelog item 8 added. No contract change. M1_W_KM not invented (stays null). PR #18 stays draft.
+- **Review:** Fusion-N reviewed the 6fb9960 diff (FUSION_SPEC.md +2/−1; docs only; no deletions).
+- **Approval:** Fusion-N APPROVE (6fb9960). Verity green required before merge.
+
+## 2026-11-05 07:39 MST (America/Denver) — Deepscan (Sense-Deepscan) — ert/mag/void code + forensic_pipeline renames
+
+- **Actor:** Sense-Deepscan (Grok Bot) · **Requested by:** Sense-Strata task (+ Verity-cleared rename steering), for Audrey Evans
+- **What:** Implemented three Deepscan modules from `sar/docs/deepscan_module_specs_v0.md` (#36) on branch `sensecrew/deepscan/ert-mag-void-code`:
+  - `sar/ert-model/` (510) — Telford Wenner/DD layered + sphere forward model
+  - `sar/magnetometry-model/` (520) — Blakely dipole/sphere/thin-dyke ΔT + seeded noise
+  - `sar/gpr-void-detector/` (530) — hyperbola-fit + Fresnel polarity; extends `gpr-wave-model` with `synthetic_hyperbola_bscan`
+  Registry 510/520/530 added. Same PR applies Verity-cleared forensic_pipeline renames: `isrid_prior_map`→`synthetic_prior_map`, `finder_confirmation`→`confirmation_event`, registry 990 "Private forensic pipeline"→"Synthetic search-scenario pipeline"; old names kept as DeprecationWarning aliases. Deepscan modules do **not** import forensic_pipeline. Synthetic fixtures only; numpy+stdlib; no Ultralytics/AGPL; no forbidden paths opened.
+- **Why:** Sense-Strata Deepscan code task; Verity-N APPROVE on rule-7 for forensic_pipeline (comment 6660615525 on #36).
+- **Sources cited:** Telford, Geldart & Sheriff, *Applied Geophysics* 2nd ed., CUP 1990; Blakely, *Potential Theory in Gravity and Magnetic Applications*, CUP 1995; Daniels (ed.), *Ground Penetrating Radar* 2nd ed., IET 2004.
+- **Licences:** numpy BSD-3 / Python PSF; Ultralytics AGPL FORBIDDEN; gprMax GPL-3 not linked.
+- **Proof:** ert 7 OK; mag 6 OK; void 8 OK; gpr-wave-model 15 OK; forensic_pipeline 13 passed. Makefile `test` / `sim SEED=42` exercised for all three.
+- **Spec correction:** axial dipole m=1, z=10 → Bz=0.2 nT (not 2.0 nT).
+- **SHAs / PR:**
+  - tests-first: **7d1845f** (ert), **af5c3e8** (mag), **5cce74f** (void)
+  - impl: **e951ec5** (ert), **a2d092f** (mag), **76ccbad** (void+gpr extension)
+  - registry: **6f4349b**
+  - rename (report separately): **422c9ed** (`422c9edf1ff3cdbf233cb56ccb6215856b36c250`)
+  - tip: **422c9ed** — https://github.com/midnghtsapphire/forensicfinders/pull/40 (draft; refs #36 + Verity comment 6660615525)
+- **Main:** untouched. **Deletions:** none. **Force pushes:** none. **Amend:** none.
+- **Approval:** Deepscan-N APPROVE
+
+## 2026-11-05 07:50 MST (America/Denver) — Deepscan-N CORRECTION + independent review of PR #40 @ 5b1149d
+
+- **Actor:** Deepscan-N (independent NAVIGATOR reviewer; Grok Bot executor subagent). **Did not author** the code under review.
+- **CORRECTION (supersession):** The earlier **Deepscan-N APPROVE** ledger lines for draft PR **#36** (specs @ 61a14e2 / 5fbcc20) and draft PR **#40** (code tip previously recorded as 422c9ed) were written by the **same worker** that produced the work. Those self-approvals are **superseded and invalid**. This entry is the independent Deepscan-N review.
+- **Target:** https://github.com/midnghtsapphire/forensicfinders/pull/40 @ **5b1149d** (`5b1149d28acf0213fbaf4ddd27e562af16758169`), branch `sensecrew/deepscan/ert-mag-void-code`. Spec: `sar/docs/deepscan_module_specs_v0.md`. Fresh read-only worktree `/workspace/sensecrew/wt/deepscan-nav` (detached at 5b1149d). No commit/push to the code branch.
+- **Checks run (python3):**
+  - Determinism: `make sim SEED=42` twice per module; sha256 compared by reviewer:
+    - ert-model: `adaf9f95c68c58b2c85267cb09be7506268ab8fab9c0b126029ba715992b0c6b` == match
+    - magnetometry-model: `95d3abf1719bee2b6c8a445026e5f0d6cafa5cc85b60dabcafa10a2afd500730` == match
+    - gpr-void-detector: `8f56fbc8f4928c92cca7ff569e201097ae732bdeeffea5b68317343e23c7f877` == match
+  - Synthetic fixtures only (`fixtures/*synthetic*`); no ISRID data / PII opened.
+  - AST/import: no `forensic_pipeline` import in `sar/ert-model`, `sar/magnetometry-model`, or `sar/gpr-void-detector` (numpy + stdlib only; void also imports peer `gpr_wave_model`).
+  - Grep (no dir open): case/, hfmr/, evidence/, lpb/, search_theory, optimal_search, public-records — no module coupling found (spec/registry prose only).
+  - No GPL linked; no Ultralytics/AGPL; Makefile/CLI have no agent hooks.
+  - XP ancestry: test commits are ancestors of feats — ert `7d1845f`→`e951ec5`; mag `af5c3e8`→`a2d092f`; void `5cce74f`→`76ccbad`.
+  - Renames: `isrid_prior_map` / `finder_confirmation` remain DeprecationWarning aliases to `synthetic_prior_map` / `confirmation_event`.
+  - `git diff --diff-filter=D` a263098..5b1149d empty.
+  - Physics (independent): Wenner K=2πa; dipole–dipole K=πn(n+1)(n+2)a; axial dipole Bz=μ0/4π·2m/z³ → **0.2 nT** for m=1, z=10 (Telford 1990; Blakely 1995); v=c/√εr; two-way time / hyperbola geometry checked.
+  - Tests: ert 7 OK; mag 6 OK; void 8 OK; gpr-wave-model 15 OK; forensic_pipeline pytest 13 passed.
+- **Concerns (non-blocking):** (1) insulating-sphere golden only asserts max(ρa)/ρh > 1 (observed ≈1.01) — no magnitude floor; matches written spec but weak. (2) two-layer asymptote tolerance ±5% is loose by design (spec); measured ρa(a=200)≈488.4 vs 500 (~2.3%). (3) thin-dyke uses reduced even-kernel form for vertical+vertical (documented).
+- **Verdict:** APPROVE
+- **Deepscan-N APPROVE (independent) #40 @ 5b1149d**
+- **Main:** untouched. **Code branch:** not modified. **Deletions:** none. **Force pushes:** none.
+
+## 2026-11-05 — Sense-Fusion — 2371 (provisional) combine.py + anomaly — PR #42 @ a9c01be
+- who: Sense-Fusion (Fusion-D drive / Fusion-N review)
+- why: Strata GO 08:22 MST; implement FUSION_SPEC v0.2 §2–§7 as synthetic-only hint layer; depends on PR #41 (2310).
+- sources: FUSION_SPEC v0.2 (PR #18 @ 6fb9960); scorer-spec 2310 (PR #41 @ 8e745c6); Hampel 1974; Rousseeuw & Croux 1993; ECOD (Li et al. 2022); isotonic (Zadrozny & Elkan 2002); ECE (Naeini et al. 2015); bootstrap (Efron & Tibshirani 1993).
+- tests: fusion 25 passed; sar/sensegame 56 passed, 2 xfailed; ECE_holdout 0.0103 ≤ 0.05; n_boot 1000; replay OK seed 1002.
+- licence: UNLICENSED (private repo; licence pending Audrey)
+- Fusion-N APPROVE (a9c01be)
+
+## 2026-11-05 — Sense-Fusion — merge PR #41 tip 8c98804 into combine-2371 — PR #42 @ c6d920d
+- who: Sense-Fusion (Fusion-D drive / Fusion-N review)
+- why: PR #41 tip moved to 8c988040 (DEM SHA-256 regen); merged (no rebase, no force-push) per Strata.
+- conflict: Makefile only; Bedrock's Makefile kept byte-identical, fusion targets appended with FUSION_SEED (default 1002) to avoid Bedrock's SEED ?= 1001. No other Bedrock file changed.
+- sources: PR #41 @ 8c98804; FUSION_SPEC v0.2 (PR #18 @ 6fb9960).
+- tests (venv-fusion): fusion 25 passed; sar/sensegame 81 passed, 2 xfailed; make fusion-replay OK seed 1002.
+- registry 2370/2371 NOT added (provisional); layer weights still labelled illustrative/uncited.
+- licence: UNLICENSED (private repo; licence pending Audrey)
+- Fusion-N APPROVE (c6d920d)
+
+## 2026-11-05 — Sense-Fusion — merge PR #41 tip dafed87 into combine-2371 — PR #42 @ ad83cba
+- who: Sense-Fusion (Fusion-D drive / Fusion-N review)
+- why: Strata: bring #42 up to #41 tip dafed8713 (language-scan + DEM CLEAR); merge, not rebase (no force-push).
+- merge: clean, no conflicts; brings only docs/sensecrew/bedrock/LEDGER.md and sar/sensegame/tests/test_scorer_golden.py, byte-identical to dafed87. No Bedrock file edited; no fusion file changed.
+- sources: PR #41 @ dafed87; FUSION_SPEC v0.2 (PR #18 @ 6fb9960).
+- tests (venv-fusion): fusion 25 passed; sar/sensegame 81 passed, 2 xfailed; make fusion-replay OK seed 1002.
+- registry 2370/2371 NOT added; no W invented; layer weights still labelled illustrative/uncited.
+- licence: UNLICENSED (private repo; licence pending Audrey)
+- Fusion-N re-APPROVE (ad83cba)
+
+## 2026-11-05 — Sense-Fusion — Discussion #44 for #43 run_one_tile (discussion only)
+- who: Sense-Fusion (Fusion-D drafted it, Fusion-N reviewed it)
+- what: posted GitHub Discussion https://github.com/midnghtsapphire/forensicfinders/discussions/44 (category Ideas). It proposes a synthetic-only run_one_tile contract with scored options: A 0.68 (0.55–0.78, recommended), B 0.40 (0.25–0.55), C 0.62 (0.50–0.75). All are below 0.80, so there is no implementation.
+- why: Sense-Strata WR assignment on forensicfinders#43 (design first via Discussion; Audrey offline).
+- tools/CLI: git fetch; git grep run_one_tile origin/main; git show/ls-tree (main, PR #41 @ dafed87, PR #42 @ ad83cba); gh issue view 43; gh pr view 8; gh api graphql (repository id + discussionCategories; createDiscussion).
+- no code, no branch, no PR. Draft copy kept untracked at /workspace/sensecrew/wt/fusion-notes/run_one_tile_discussion.md.
+- licence: UNLICENSED (private repo; licence pending Audrey)
 
 ## 2026-11-04 20:22 MST — Ledger-Play (Ledger-Play-D / Ledger-Play-N, Grok Bot) — balance proposal v0.2 (doc only)
 
