@@ -17,18 +17,18 @@ The machine file is [`case_view_enums.json`](case_view_enums.json): JSON Schema 
 
 ## Allowed fields
 
-Every key below is required. Names are snake_case. `additionalProperties` is false on the case view and on `location`. A string is an enum, the const `predicted`, or a fully anchored pattern. There is no unconstrained string.
+Every key below is required. Names are snake_case. `additionalProperties` is false on every emitted object (the case view and `location`). A string is an enum, the const `predicted`, or a pattern anchored with `^` and `$`. There is no unconstrained string.
 
 | Field | Values | Rule |
 |---|---|---|
-| `case_token` | pattern `^CT-[0-9a-f]{12}$` | Random and opaque. Never derived from a name, a date, a place, a seed, or another id. Never parsed for those things. Lowercase hex only. |
+| `case_token` | pattern `^CT-[0-9a-f]{12}$` | Random and opaque. Never derived from a name, a date, a place, a seed, or another id. Never parsed for those things. Lowercase hex only. A leading extra, a trailing extra, or a newline anywhere in the value is rejected. |
 | `region_band` | `NEW_ENGLAND`, `MID_ATLANTIC`, `EAST_NORTH_CENTRAL`, `WEST_NORTH_CENTRAL`, `SOUTH_ATLANTIC`, `EAST_SOUTH_CENTRAL`, `WEST_SOUTH_CENTRAL`, `MOUNTAIN`, `PACIFIC`, `NORTHEAST`, `MIDWEST`, `SOUTH`, `WEST`, `NON_US`, `UNKNOWN` | The four coarse values `NORTHEAST`, `MIDWEST`, `SOUTH`, `WEST` are the fallback when the count in a fine band is `k < 5`. `UNKNOWN` is its own value. A missing or unrecognized band is not stored as `UNKNOWN`. |
 | `terrain_class` | `FOREST`, `GRASSLAND_PRAIRIE`, `DESERT_SCRUB`, `MOUNTAIN_ALPINE`, `WETLAND_RIPARIAN`, `AGRICULTURAL`, `SUBURBAN`, `URBAN`, `WATER_COASTAL`, `UNKNOWN` | Terrain for a case comes from the procedural file `dem_synthetic_<seed>.tif`. Never from real geography. |
 | `elapsed_band` | `E1` `[1, 5)`, `E2` `[5, 10)`, `E3` `[10, 20)`, `E4` `[20, 40)`, `E5` `[40, +)` years | Half-open: the lower year is included and the upper year is excluded. The wire value is the band id (`E1` … `E5`), not the range text. |
 | `subject_category` | `CHILD_0_12`, `YOUTH_13_17`, `ADULT_18_64`, `OLDER_ADULT_65P`, `COGNITIVE_IMPAIRMENT`, `HIKER_OUTDOOR`, `HUNTER`, `WATER_RELATED`, `VEHICLE_RELATED`, `UNKNOWN` | Category code only. |
 | `case_source` | `synthetic`, `real_anonymized` | Required. The HUD shows it. |
-| `fixture_id` | string or null | When `case_source` is `synthetic`: pattern `^(sar/)?fixtures/[A-Za-z0-9._-]*synthetic[A-Za-z0-9._-]*$` (one path segment after `fixtures/`, no `..`). `fixtures/...` and `sar/fixtures/...` both pass. Any other prefix is rejected. Otherwise null. |
-| `seed` | integer `≥ 0`, or null | When `case_source` is `synthetic`: the procedural DEM seed. Otherwise null. The key is present in both cases. |
+| `fixture_id` | string or null | When `case_source` is `synthetic`: pattern `^(sar/)?fixtures/[A-Za-z0-9._-]*synthetic[A-Za-z0-9._-]*$` (one path segment after `fixtures/`, no `..`). `fixtures/...` and `sar/fixtures/...` both pass. Any other prefix is rejected. A leading extra, a trailing extra, or a newline is rejected. Otherwise null. |
+| `seed` | integer `≥ 0`, or null | When `case_source` is `synthetic`: the procedural DEM seed. Otherwise null. The key is present in both cases. A string, a float, or a bool is rejected and is not coerced. A bool is not an integer. |
 | `location.label` | const `predicted` | See below. |
 
 `fixture_id` and `seed` are always present. For `real_anonymized` they are JSON null.
@@ -45,19 +45,31 @@ A value outside an enum is invalid. Validators reject it. They do not coerce it 
 
 `k < 5` is an export-time choice Secret makes by emitting one of the four coarse `region_band` values. It is not a coercion step inside the validator.
 
-## Synthetic-only status
+## Emission
 
 `version` is `0.1`. `status` is `confirmed`. `synthetic_only_until_confirmed` is true.
 
-Audrey confirmed real cases in Sense-Quill chat 2026-11-06 10:55 MT; Quill v0.1 enums verified against PR #51 @f94e757. Real exports stay blocked until Secret clears the CC-0003 identity question and the Charley Project licence and Verity co-signs the re-identification test.
+Audrey confirmed real cases in Sense-Quill chat 2026-11-06 10:55 MT; Quill v0.1 enums verified against PR #51 @f94e757. Schema confirmation alone is not clearance.
 
-The API schema allows `case_source = real_anonymized` so the HUD can show that source. A fixture file in this repository is a stricter gate: every row is `synthetic`, with a `fixtures/*synthetic*` or `sar/fixtures/*synthetic*` id and a seed. A `real_anonymized` row in a fixture is rejected even when it would pass the API schema.
+Emitting `case_source = real_anonymized` requires all of the following:
+
+1. Per-source terms are `yes`.
+2. Secret's pinned full-quasi-identifier k-anonymity check, plus Secret's linkage review.
+3. Secret's export co-sign.
+
+Missing any one of those three, the row is not emitted. Real exports also stay blocked until Secret clears the CC-0003 identity question and the Charley Project licence and Verity co-signs the re-identification test.
+
+Emission is a closed allowlist. Every row is validated against this schema before it is emitted. A row that fails validation is not emitted. `additionalProperties` is false on every emitted object, so `geometry`, `geohash`, `bbox`, `lat`, `lon`, `date`, `last_seen_date`, and any other key outside the allowlist are rejected at the root and inside nested objects, including `location`.
+
+A rejection is a JSON path plus a fixed error code. The code does not include the submitted value, and it does not include a hash of an identifier. Patterns in the schema are anchored with `^` and `$`. The stdlib checker matches the whole string, so a trailing newline is rejected rather than treated as the end of the value.
+
+The API schema allows `case_source = real_anonymized` so the HUD can show that source after the gate above. A fixture file in this repository is a stricter gate: every row is `synthetic`, with a `fixtures/*synthetic*` or `sar/fixtures/*synthetic*` id and a seed. A `real_anonymized` row in a fixture is rejected even when it would pass the API schema.
 
 Checked-in fixture: `sar/fixtures/case_view_synthetic_1001.json`. Its `case_token` values are draws from `random.Random(1001)` (12 lowercase hex digits, prefixed with `CT-`). No `dem_synthetic_*.tif` ships in this tree; each row stores the repo-relative procedural path `sar/fixtures/dem_synthetic_<seed>.tif`.
 
 ## Banned
 
-These do not appear on the case view, in fixtures, in logs of this API, or in the player client. `additionalProperties: false` rejects any other key as well. `banned_fields` in the schema file is the list Secret's exporter drops by name:
+`banned_fields` is defence in depth only. It is not the primary control. The primary control is the closed allowlist and schema validation of every row before emission. The names below are keys Secret's exporter also drops. They do not appear on the case view, in fixtures, in logs of this API, or in the player client:
 
 - name
 - dob and date of birth
@@ -69,7 +81,8 @@ These do not appear on the case view, in fixtures, in logs of this API, or in th
 - `case_id` and `CC-*` ids
 - `anon_id` internals
 - urls and source urls
-- lat, lon, and any coordinates, including predicted or cell-token substitutes
+- lat, lon, geometry, geohash, bbox, and any coordinates, including predicted or cell-token substitutes
+- dates, including `date` and `last_seen_date`
 - tip content
 - free text (notes, narrative, description)
 - any other PII

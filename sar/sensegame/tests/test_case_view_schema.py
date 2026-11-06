@@ -4,9 +4,10 @@ The contract file is JSON Schema draft 2020-12. This module checks the subset
 that file uses: $ref, type, const, enum, pattern, minimum, properties,
 required, additionalProperties false, oneOf, and if/then/else. Unknown schema
 keywords are ignored, matching a standard validator. Instance values that fail
-an enum or a pattern are rejected and left unchanged.
+are rejected and left unchanged. A violation is a JSON path plus a fixed code.
 """
 import copy
+import hashlib
 import json
 import random
 import re
@@ -102,14 +103,19 @@ class SchemaError(Exception):
     """The contract file uses a keyword this checker does not implement."""
 
 
+def _violation(path, code):
+    """Path plus a fixed code. The submitted value is not part of the text."""
+    return path + ": " + code
+
+
 def _deref(root, ref):
     if not isinstance(ref, str) or not ref.startswith("#/"):
-        raise SchemaError("unsupported $ref: %r" % (ref,))
+        raise SchemaError("bad_ref")
     node = root
     for part in ref[2:].split("/"):
         part = part.replace("~1", "/").replace("~0", "~")
         if not isinstance(node, dict) or part not in node:
-            raise SchemaError("unresolved $ref %s" % ref)
+            raise SchemaError("bad_ref")
         node = node[part]
     return node
 
@@ -120,6 +126,7 @@ def _is_type(instance, name):
     if name == "boolean":
         return isinstance(instance, bool)
     if name == "integer":
+        # bool is a subclass of int and is not an integer in this contract.
         return isinstance(instance, int) and not isinstance(instance, bool)
     if name == "number":
         return isinstance(instance, (int, float)) and not isinstance(instance, bool)
@@ -129,7 +136,23 @@ def _is_type(instance, name):
         return isinstance(instance, dict)
     if name == "array":
         return isinstance(instance, list)
-    raise SchemaError("unsupported type %r" % (name,))
+    raise SchemaError("unsupported_type")
+
+
+def _pattern_matches(pattern, text):
+    """Match the whole string. A schema `$` anchor is end-of-string, not before a newline."""
+    if not isinstance(pattern, str) or not isinstance(text, str):
+        return False
+    body = pattern
+    if body.startswith("^"):
+        body = "\\A" + body[1:]
+    else:
+        body = "\\A" + body
+    if body.endswith("$") and not body.endswith("\\$"):
+        body = body[:-1] + "\\Z"
+    elif not body.endswith("\\Z"):
+        body = body + "\\Z"
+    return re.fullmatch(body, text) is not None
 
 
 def validate(instance, schema, root=None, path="$"):
@@ -137,65 +160,63 @@ def validate(instance, schema, root=None, path="$"):
     if root is None:
         root = schema
     if not isinstance(schema, dict):
-        raise SchemaError("schema node at %s is not an object" % path)
+        raise SchemaError("bad_schema")
     if "$ref" in schema:
         if set(schema) != {"$ref"}:
-            raise SchemaError("$ref siblings are not used (%s)" % path)
+            raise SchemaError("bad_ref")
         return validate(instance, _deref(root, schema["$ref"]), root, path)
 
     errors = []
     if "const" in schema and instance != schema["const"]:
-        errors.append("%s: expected const %r" % (path, schema["const"]))
+        errors.append(_violation(path, "const"))
     if "enum" in schema and instance not in schema["enum"]:
-        errors.append("%s: %r is not an allowed value" % (path, instance))
+        errors.append(_violation(path, "enum"))
 
     if "type" in schema:
         types = schema["type"]
         type_list = [types] if isinstance(types, str) else list(types)
         if not any(_is_type(instance, item) for item in type_list):
-            errors.append("%s: type %s is not %s" % (path, type(instance).__name__, types))
+            errors.append(_violation(path, "type"))
             return errors
 
     if "pattern" in schema:
-        pattern = schema["pattern"]
-        if not isinstance(instance, str) or re.search(pattern, instance) is None:
-            errors.append("%s: does not match %s" % (path, pattern))
+        if not _pattern_matches(schema["pattern"], instance):
+            errors.append(_violation(path, "pattern"))
 
     if "minimum" in schema:
         if not _is_type(instance, "integer") or instance < schema["minimum"]:
-            errors.append("%s: below minimum %r" % (path, schema["minimum"]))
+            errors.append(_violation(path, "minimum"))
 
     if "oneOf" in schema:
         matched = 0
         branch_errors = []
-        for index, branch in enumerate(schema["oneOf"]):
-            branch_result = validate(instance, branch, root, "%s oneOf[%d]" % (path, index))
+        for branch in schema["oneOf"]:
+            branch_result = validate(instance, branch, root, path)
             if branch_result:
                 branch_errors.extend(branch_result)
             else:
                 matched += 1
         if matched != 1:
-            errors.append("%s: oneOf matched %d" % (path, matched))
+            errors.append(_violation(path, "one_of"))
             errors.extend(branch_errors)
 
     if "properties" in schema or "required" in schema or schema.get("type") == "object":
         if not isinstance(instance, dict):
-            errors.append("%s: expected an object" % path)
+            errors.append(_violation(path, "object"))
             return errors
         props = schema.get("properties", {})
         for key in schema.get("required", ()):
             if key not in instance:
-                errors.append("%s: missing required %s" % (path, key))
+                errors.append(_violation(path + "." + key, "missing_required"))
         additional = schema.get("additionalProperties", True)
         if additional is False:
-            for key in instance:
-                if key not in props:
-                    errors.append("%s: additional property %r" % (path, key))
+            if any(key not in props for key in instance):
+                errors.append(_violation(path, "additional_property"))
         elif additional is not True:
-            raise SchemaError("additionalProperties schemas are not used")
+            raise SchemaError("unsupported_additional")
         for key, sub in props.items():
             if key in instance:
-                errors.extend(validate(instance[key], sub, root, "%s.%s" % (path, key)))
+                errors.extend(validate(instance[key], sub, root, path + "." + key))
 
     if "if" in schema:
         if not validate(instance, schema["if"], root, path):
@@ -219,11 +240,19 @@ def fixture_violations(records, schema=SCHEMA):
         for item in validate(record, schema):
             violations.append("record[%d]: %s" % (index, item))
         if record.get("case_source") != "synthetic":
-            violations.append(
-                "record[%d]: fixture case_source must be synthetic, got %r"
-                % (index, record.get("case_source"))
-            )
+            violations.append("record[%d].case_source: fixture_source" % index)
     return violations
+
+
+def _pattern_nodes():
+    found = []
+
+    def visit(node, path):
+        if "pattern" in node:
+            found.append((path, node))
+
+    _walk_schema(SCHEMA, "$", visit)
+    return found
 
 
 def _enum(name):
@@ -282,6 +311,17 @@ def test_schema_file_identity():
     assert SCHEMA["confirmation"] == CONFIRMATION
     assert SCHEMA["synthetic_only_until_confirmed"] is True
     assert SCHEMA["real_export_block"] == REAL_EXPORT_BLOCK
+    assert SCHEMA["emission_gate"] == {
+        "real_anonymized_requires_all": [
+            "per_source_terms_yes",
+            "secret_full_quasi_identifier_k_anonymity_and_linkage_review",
+            "secret_export_co_sign",
+        ],
+        "schema_confirmation_is_clearance": False,
+        "primary_control": "closed_allowlist_schema_validation_before_emit",
+        "banned_fields_role": "defence_in_depth",
+    }
+    assert SCHEMA["emission_gate"]["schema_confirmation_is_clearance"] is False
     assert SCHEMA["owners"] == {
         "contract": "Bedrock",
         "token_semantics": "Quill",
@@ -296,6 +336,11 @@ def test_schema_file_identity():
     assert SCHEMA["terrain_policy"]["fixture_template"] == "sar/fixtures/dem_synthetic_<seed>.tif"
     assert SCHEMA["$defs"]["case_token"]["pattern"] == "^CT-[0-9a-f]{12}$"
     assert SCHEMA["$defs"]["synthetic_fixture_id"]["pattern"] == FIXTURE_ID_RE
+    pattern_nodes = _pattern_nodes()
+    assert pattern_nodes
+    for node_path, node in pattern_nodes:
+        pattern = node["pattern"]
+        assert pattern.startswith("^") and pattern.endswith("$"), node_path
 
 
 def test_region_and_elapsed_bands_match_the_contract():
@@ -583,3 +628,125 @@ def test_location_must_carry_the_predicted_label():
     with_band = copy.deepcopy(RECORDS[0])
     with_band["location"]["region_band"] = "PACIFIC"
     _rejected(with_band)
+
+
+SENTINEL = "ZZ_SENTINEL_7f3a"
+CLOSED_KEYS = ("geometry", "geohash", "bbox", "lat", "lon", "date", "last_seen_date")
+ERROR_TEXT = re.compile(r"^[^:\n]+: [a-z_]+$")
+
+
+def _object_paths(value, prefix=()):
+    found = []
+    if isinstance(value, dict):
+        found.append(prefix)
+        for key, item in value.items():
+            found.extend(_object_paths(item, prefix + (key,)))
+    elif isinstance(value, list):
+        for index, item in enumerate(value):
+            found.extend(_object_paths(item, prefix + (index,)))
+    return found
+
+
+def _at(record, path):
+    cursor = record
+    for part in path:
+        cursor = cursor[part]
+    return cursor
+
+
+def test_closed_allowlist_rejects_geo_and_date_keys_on_every_object():
+    paths = _object_paths(RECORDS[0])
+    assert len(paths) >= 2
+    for key in CLOSED_KEYS:
+        assert key not in SCHEMA["properties"]
+        assert key not in SCHEMA["$defs"]["predicted_location"]["properties"]
+        for path in paths:
+            record = copy.deepcopy(RECORDS[0])
+            _at(record, path)[key] = True
+            _rejected(record)
+
+
+def test_seed_string_float_and_bool_are_rejected_not_coerced():
+    samples = ("1001", 1001.0, 1001.5, True, False)
+    for value in samples:
+        record = copy.deepcopy(RECORDS[0])
+        record["seed"] = value
+        _rejected(record)
+        assert record["seed"] == value
+        assert type(record["seed"]) is type(value)
+
+
+def test_pattern_anchors_reject_affixes_and_newlines():
+    token = RECORDS[0]["case_token"]
+    fixture_id = RECORDS[0]["fixture_id"]
+    samples = (
+        ("case_token", "x" + token),
+        ("case_token", token + "x"),
+        ("case_token", token + "a"),
+        ("case_token", token + "\n"),
+        ("case_token", "\n" + token),
+        ("case_token", token[:6] + "\n" + token[6:]),
+        ("fixture_id", "x" + fixture_id),
+        ("fixture_id", fixture_id + "/"),
+        ("fixture_id", fixture_id + " "),
+        ("fixture_id", fixture_id + "\n"),
+        ("fixture_id", "\n" + fixture_id),
+        ("fixture_id", fixture_id[:8] + "\n" + fixture_id[8:]),
+    )
+    for field, value in samples:
+        record = copy.deepcopy(RECORDS[0])
+        record[field] = value
+        errors = validate(record, SCHEMA)
+        assert errors
+        blob = "\n".join(errors)
+        assert value not in blob
+        assert record[field] == value
+        for line in errors:
+            assert ERROR_TEXT.fullmatch(line)
+
+
+def test_errors_do_not_echo_a_sentinel_value():
+    digest = hashlib.sha256(SENTINEL.encode("utf-8")).hexdigest()
+    mutations = []
+    for field in (
+        "case_token",
+        "region_band",
+        "terrain_class",
+        "elapsed_band",
+        "subject_category",
+        "case_source",
+        "fixture_id",
+        "seed",
+    ):
+        record = copy.deepcopy(RECORDS[0])
+        record[field] = SENTINEL
+        mutations.append(record)
+    labelled = copy.deepcopy(RECORDS[0])
+    labelled["location"]["label"] = SENTINEL
+    mutations.append(labelled)
+    for key_path in ((), ("location",)):
+        record = copy.deepcopy(RECORDS[0])
+        _at(record, key_path)[SENTINEL] = True
+        mutations.append(record)
+        record = copy.deepcopy(RECORDS[0])
+        _at(record, key_path)["geometry"] = SENTINEL
+        mutations.append(record)
+
+    seen = 0
+    for record in mutations:
+        try:
+            errors = validate(record, SCHEMA)
+            violations = fixture_violations([record])
+        except Exception as exc:
+            text = str(exc)
+            assert SENTINEL not in text
+            assert digest not in text
+            raise
+        blob = "\n".join(errors + violations)
+        assert errors
+        assert SENTINEL not in blob
+        assert digest not in blob
+        for line in errors:
+            assert ERROR_TEXT.fullmatch(line)
+        seen += 1
+    assert seen == len(mutations)

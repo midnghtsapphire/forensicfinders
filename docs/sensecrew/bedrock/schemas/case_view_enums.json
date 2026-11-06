@@ -7,6 +7,16 @@
   "confirmation": "Audrey confirmed real cases in Sense-Quill chat 2026-11-06 10:55 MT; Quill v0.1 enums verified against PR #51 @f94e757",
   "synthetic_only_until_confirmed": true,
   "real_export_block": "Real exports stay blocked until Secret clears the CC-0003 identity question and the Charley Project licence and Verity co-signs the re-identification test.",
+  "emission_gate": {
+    "real_anonymized_requires_all": [
+      "per_source_terms_yes",
+      "secret_full_quasi_identifier_k_anonymity_and_linkage_review",
+      "secret_export_co_sign"
+    ],
+    "schema_confirmation_is_clearance": false,
+    "primary_control": "closed_allowlist_schema_validation_before_emit",
+    "banned_fields_role": "defence_in_depth"
+  },
   "owners": {
     "contract": "Bedrock",
     "token_semantics": "Quill",
@@ -81,6 +91,11 @@
     "source_urls",
     "lat",
     "lon",
+    "geometry",
+    "geohash",
+    "bbox",
+    "date",
+    "last_seen_date",
     "lng",
     "latitude",
     "longitude",

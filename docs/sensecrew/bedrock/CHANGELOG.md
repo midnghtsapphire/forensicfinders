@@ -21,3 +21,11 @@
 - `status` is `confirmed`. Audrey confirmed real cases in Sense-Quill chat 2026-11-06 10:55 MT; Quill v0.1 enums verified against PR #51 @f94e757.
 - `synthetic_only_until_confirmed` stays true. Real exports stay blocked until Secret clears the CC-0003 identity question and the Charley Project licence and Verity co-signs the re-identification test.
 - Bedrock-N APPROVE. Verity pending the re-identification co-sign.
+
+## case-view schema 0.1 Verity CHANGES — 2026-11-06
+- Verity returned PR #51 @ `f94e757` as CHANGES at 0.84.
+- Emitting `real_anonymized` requires all of: per-source terms `yes`, Secret's pinned full-quasi-identifier k-anonymity plus linkage review, and Secret's export co-sign. Schema confirmation alone is not clearance.
+- Emission is a closed allowlist. Every row is validated against the schema before it is emitted. `banned_fields` is defence in depth only, not the primary control.
+- Checker violations are a JSON path plus a fixed code. They do not include the submitted value or a hash of an identifier.
+- `geometry`, `geohash`, `bbox`, `lat`, `lon`, `date`, and `last_seen_date` are rejected on every emitted object. A string, float, or bool `seed` is rejected and is not coerced. Anchored patterns reject a leading extra, a trailing extra, and a newline.
+- Bedrock-N APPROVE. Verity re-identification co-sign still pending.
