@@ -13,3 +13,8 @@
 - Registered provisional 2370 and 2371 in `sar/registry.json`. 2370 runs `pytest sensegame/fusion/tests` (cwd `.` under sar/). 2371 is `sensegame/fusion/combine.py` and its parent is 2370. 2330 is not reused. `registry.py --test-all` now reaches `sensegame/fusion/tests/test_fusion.py`.
 - Merged Bedrock #41 @ c933dd7c5800404f64360bd5c277f967e21151c8. DEM golden paths in `test_dem_fixture_golden.py` are resolved from that file. M1_W_KM is None until a cited W exists.
 - Counts: fusion 26 passed (cwd `sar/`, `pytest sensegame/fusion/tests`); `pytest sar/sensegame` 92 passed (repo root); `pytest sensegame` 92 passed (cwd `sar/`); language scan 16 passed (cwd `sar/`); registry coverage 3 passed (cwd `sar/`). `registry.py --test-all` still fails components 100, 700, and 900 on pre-existing gaps (missing `cryptography`, missing FastAPI/`pydantic_settings`, case config fixture). Those stay out of scope.
+
+## 2371 — docs DEM mirror path — 2026-11-06
+- `docs/sensecrew/bedrock/specs/tests/test_dem_fixture_golden.py` resolves DEM fixtures from `__file__` (sar-rooted), matching the dispatched test. This specs copy is not dispatched by `registry.py`. It originates on #41 (`8c98804`); #41 @ c933dd7 had not yet updated the mirror.
+- GDD v0.5 §4 / §4a remains the coverage-model pointer. GDD v0.5 is not yet published; that is a known hold until Loam's draft lands. M1_W_KM is None until a cited W exists.
+- Counts re-run: fusion 26 passed (cwd `sar/`); `pytest sar/sensegame` 92 passed (repo root); `pytest sensegame` 92 passed (cwd `sar/`); language scan 16 passed (cwd `sar/`); registry coverage 3 passed (cwd `sar/`). `registry.py --test-all` exit 1 only from pre-existing components 100, 700, and 900 (out of scope; Triage WR).

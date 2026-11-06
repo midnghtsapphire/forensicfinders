@@ -29,3 +29,17 @@
   - registry coverage: cwd `sar/`, `python -m unittest test_registry_coverage` → 3 passed
   - `registry.py --test-all` from repo root, venv `python3` on PATH → exit 1, FAILED components 100, 700, 900. 2370 was not in that failed set. Those three failures are pre-existing and out of scope (missing `cryptography`; coldtrace missing `fastapi` / `pydantic_settings`; geo_connectors `test_example_case_config_is_synthetic` cannot parse `case/example.config.yaml`).
 - licence: UNLICENSED (private repo; licence pending Audrey)
+
+## 2371 — docs DEM mirror path
+- who: Sense-Fusion
+- why: Verity static delta on #42 @ 8ab7f2b. The specs mirror of the DEM golden test still opened `fixtures/` relative to cwd.
+- action: `docs/sensecrew/bedrock/specs/tests/test_dem_fixture_golden.py` now resolves those paths from `__file__` (repo `parents[5]` / `sar`), the same rule as `sar/sensegame/tests/test_dem_fixture_golden.py`. Header states this copy is not dispatched by `registry.py` and is not collected by `pytest sensegame` or `pytest sar/sensegame`. The file originates on #41 (added in `8c98804`; blob on #41 @ c933dd7 was still the cwd-relative copy). 2330 was not reused. The dispatched sensegame test, `combine.py`, `anomaly.py`, and fusion fixtures were not edited.
+- hold: GDD v0.5 §4 / §4a is the coverage-model pointer. GDD v0.5 is not yet published; the pointer stays a known hold until Loam's draft lands. M1_W_KM is None until a cited W exists.
+- counts re-run on this change (venv CPython 3.12, OMP_NUM_THREADS=1, PYTHONHASHSEED=0):
+  - fusion: cwd `sar/`, `pytest sensegame/fusion/tests` → 26 passed
+  - sensegame: cwd repo root, `pytest sar/sensegame` → 92 passed
+  - sensegame: cwd `sar/`, `pytest sensegame` → 92 passed
+  - language scan: cwd `sar/`, `pytest test_language_scan.py` → 16 passed
+  - registry coverage: cwd `sar/`, `python -m unittest test_registry_coverage` → 3 passed
+  - `registry.py --test-all` from repo root → exit 1, FAILED 100, 700, 900 only (pre-existing; out of scope; Triage WR)
+- licence: UNLICENSED (private repo; licence pending Audrey)
