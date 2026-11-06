@@ -34,7 +34,7 @@ Geometric footprint (not W): stated swath in km · surveyed area km² = swath·z
 ## 3. Math (published model)
 - **POD (exponential / random-search detection law)**, Koopman 1956 II: `POD = 1 − exp(−W·z/A)` where W is a cited *effective* sweep width. Implement as `-math.expm1(-W*z/A)` for accuracy at small coverage. A geometric swath is not this W.
 - **POS**: `POS = Σ_i POA_i · POD_i` (ROW contributes 0; ROW is never searched). Requires the detection path above. Coverage and budget do not produce POS.
-- **Exponential coverage model** (GDD v0.4 §4 / §4a fallback when no cited effective W): the player supplies dimensionless C directly and the model response is `1 − exp(−C)`, implemented as `-math.expm1(-C)`. This is a **model**, not calibrated detection. It does not read or invent W. It is not M1 POD/POS and it is not a negative-evidence update.
+- **Exponential coverage model** (GDD v0.5 §4 / §4a fallback when no cited effective W): the player supplies dimensionless C directly and the model response is `1 − exp(−C)`, implemented as `-math.expm1(-C)`. This is a **model**, not calibrated detection. It does not read or invent W. It is not M1 POD/POS and it is not a negative-evidence update.
 - **Geometric coverage** (footprint only): surveyed km² = `geometric_swath_km * track_km`; geometric coverage = surveyed / A. Surveyed is not detected.
 - **Optimal allocation** (Koopman 1957 III; Charnes & Cooper 1958; Stone 1975 ch. 2): maximise Σ p_i(1−e^{−r_i z_i}) s.t. Σ z_i = B, z_i ≥ 0. Concave ⇒ KKT is sufficient:
   `z_i = max(0, ln(p_i r_i / λ) / r_i)`, λ chosen so Σ z_i = B ("water-filling").
@@ -64,10 +64,10 @@ The Strata constraints below supersede any softer reading that would score M1 de
 
 Confirmed constraints:
 
-1. **`M1_W_KM = None` permanently.** Effective detection W (∫ p(x) dx) stays null until a cited value exists with Verity co-sign. Do not set `M1_W_KM` from a geometric swath. **`M1_W_SOURCE`** cites the Decision B comment above. It is not a numeric width.
+1. **`M1_W_KM` is `None` until a cited W exists.** Effective detection W (∫ p(x) dx) is unset until a cited value exists with Verity co-sign. Do not set `M1_W_KM` from a geometric swath. **`M1_W_SOURCE`** cites the Decision B comment above. It is not a numeric width.
 2. **Geometric coverage only, never effective W.** Woolpert OH Statewide Phase 1 2019 B19, Table 2-4: H = 2000 m AGL, FOV = 40°, stated swath **1.456 km**. That figure is the sensor footprint. Surveyed ≠ detected. It is never written to `M1_W_KM`. No code path may substitute `0.9 × swath`, or any other geometric fraction, as W.
 3. **M1 scores coverage and budget only.** Goldens assert track-budget spend and geometric coverage (surveyed km² and surveyed/A). They do not call `pos`, `optimal`, or `update` to invent detection, and they do not pass geometric coverage through `exponential_coverage_model` as if it were detection POD/POS. Those detection methods still raise `UncitedSweepWidth` when `w_km` is null.
-4. **Exponential coverage fallback, if used at all, is a model.** `exponential_coverage_model(C) = 1 − exp(−C)` via `-math.expm1(-C)` on a player-supplied C. Label: **model**, not calibrated detection. It is not wired into M1 scoring.
+4. **Exponential coverage fallback (GDD v0.5 §4 / §4a), if used at all, is a model.** `exponential_coverage_model(C) = 1 − exp(−C)` via `-math.expm1(-C)` on a player-supplied C. Label: **model**, not calibrated detection. It is not wired into M1 scoring.
 5. **NEW-10 stays null.** Registry 2330 remains NEW-10 and is not reused for this swath. No NEW-10 row is filled with 1.456 km or with any other number.
 
 The Koopman path (`pod` / `pos` / `optimal` / `update`) remains for a later cited effective W. This section does not supply that W.

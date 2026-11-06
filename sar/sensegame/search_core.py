@@ -9,7 +9,7 @@ Two paths, kept apart (Decision B; spec section 4b):
   effective width and is never substituted, including any fraction of one.
 - Coverage and budget only, plus ``exponential_coverage_model`` on a
   player-supplied dimensionless C. That model is not calibrated detection
-  and is not M1 detection scoring. M1 effective W stays null.
+  and is not M1 detection scoring. M1_W_KM is None until a cited W exists.
 """
 from __future__ import annotations
 
@@ -83,8 +83,9 @@ class CleanScorer:
         """MODEL, not calibrated detection.
 
         Player-supplied dimensionless coverage C maps to ``1 - exp(-C)``,
-        implemented as ``-math.expm1(-C)``. GDD v0.4 section 4 / 4a fallback
+        implemented as ``-math.expm1(-C)``. GDD v0.5 section 4 / 4a fallback
         when no cited effective sweep width exists. Proofy: this is a model.
+        ``M1_W_KM`` is None until a cited W exists (Verity co-sign).
 
         The result is not a probability of detection, not a probability of
         success, and not a negative-evidence update. This method does not read,
