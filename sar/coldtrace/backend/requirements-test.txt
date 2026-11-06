@@ -4,3 +4,7 @@ httpx
 pytest
 pytest-mock
 pytest-asyncio
+numpy
+rasterio
+xarray
+rioxarray
