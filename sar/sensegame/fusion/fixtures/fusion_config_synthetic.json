@@ -1,0 +1,55 @@
+{
+ "_doc": "Synthetic-only fusion config (FUSION_SPEC v0.2 \u00a77). Weights are illustrative, not cited.",
+ "calibration_seeds": [
+  2001,
+  2002,
+  2003,
+  2004,
+  2005,
+  2006,
+  2007,
+  2008,
+  2009,
+  2010
+ ],
+ "grid": {
+  "cell_m": 30.0,
+  "cols": 20,
+  "rows": 20
+ },
+ "holdout_seeds": [
+  3001,
+  3002,
+  3003,
+  3004,
+  3005,
+  3006,
+  3007,
+  3008,
+  3009,
+  3010
+ ],
+ "layers": [
+  {
+   "direction": "higher",
+   "name": "thermal",
+   "weight": 1.0
+  },
+  {
+   "direction": "higher",
+   "name": "ndvi_change",
+   "weight": 1.0
+  },
+  {
+   "direction": "lower",
+   "name": "sar_coherence",
+   "weight": 1.0
+  }
+ ],
+ "missing_policy": "renormalise",
+ "scenes": {
+  "calibration": "fusion_calib_synthetic_{seed}.json",
+  "holdout": "fusion_holdout_synthetic_{seed}.json",
+  "run": "fusion_sensors_synthetic_{seed}.json"
+ }
+}

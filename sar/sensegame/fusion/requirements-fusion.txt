@@ -1,0 +1,6 @@
+# Pinned for byte-identical outputs (FUSION_SPEC v0.2 §4). Licences: pyod BSD-2, scikit-learn BSD-3, numpy BSD-3, rasterio BSD-3.
+numpy==2.2.6
+scikit-learn==1.6.1
+pyod==3.6.7
+rasterio==1.4.3
+pytest
