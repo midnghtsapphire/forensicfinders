@@ -24,3 +24,9 @@
 - `seeds.jsonl` stays append-only. A different hash for the same seed exits 1 and appends nothing. `--accept-drift` appends a record with `drift_from` set to the sha256 of the previous record. The same output hashes do not append. Covered by `test_seed_drift_refuses_to_append`, `test_seed_accept_drift_appends_with_drift_from`, and `test_seed_same_hash_does_not_append`.
 - Follow-ups with issue links: raw bootstrap percentiles are https://github.com/midnghtsapphire/forensicfinders/issues/52 (seeded bytes; Verity delta). Dependency pins are https://github.com/midnghtsapphire/forensicfinders/issues/53. M1_W_KM is None until a cited W exists. GDD v0.5 §4 / §4a remains the coverage-model pointer.
 - Counts: fusion 126 passed (cwd `sar/`, `pytest sensegame/fusion/tests`); `pytest sar/sensegame` 192 passed (repo root); language scan 16 passed (cwd `sar/`); registry coverage 3 passed (cwd `sar/`).
+
+## 2371 — replay compares output fields only — 2026-11-06
+- `--replay` uses the same `_outputs` view as `record_run`, so `drift_from` is not part of the comparison. An accepted drift, including two accepted drifts in a row, replays when the outputs match.
+- A real mismatch exits nonzero, appends nothing, and prints `REPLAY_MISMATCH` with differing key names (at most 10) and SHA-256 digests of the normalized outputs. Field values are not printed.
+- M1_W_KM is None until a cited W exists. GDD v0.5 §4 / §4a remains the coverage-model pointer.
+- Counts: fusion 129 passed (cwd `sar/`, `pytest sensegame/fusion/tests`); `pytest sar/sensegame` 195 passed (repo root); language scan 16 passed (cwd `sar/`); registry coverage 3 passed (cwd `sar/`).

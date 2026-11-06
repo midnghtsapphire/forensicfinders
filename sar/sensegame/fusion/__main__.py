@@ -11,17 +11,40 @@ from pathlib import Path
 from .run import run
 
 
+# Fields written only on the ledger record. run() never produces them.
+_RECORD_ONLY = frozenset({"drift_from"})
+_REPLAY_KEY_CAP = 10
+
+
 def _canon(rec: dict) -> str:
     return json.dumps(rec, sort_keys=True)
 
 
 def _outputs(rec: dict) -> dict:
-    """Identity of a ledger record, ignoring the drift pointer."""
-    return {k: v for k, v in rec.items() if k != "drift_from"}
+    """Output fields only. Strips ledger metadata such as drift_from."""
+    return {k: v for k, v in rec.items() if k not in _RECORD_ONLY}
 
 
 def _record_hash(rec: dict) -> str:
     return hashlib.sha256(_canon(rec).encode()).hexdigest()
+
+
+def _output_digest(rec: dict) -> str:
+    return hashlib.sha256(_canon(_outputs(rec)).encode()).hexdigest()
+
+
+def _replay_mismatch(expected: dict, got: dict) -> str:
+    """Short mismatch line: key names and digests, never field values."""
+    exp, act = _outputs(expected), _outputs(got)
+    differ = sorted(k for k in set(exp) | set(act) if exp.get(k) != act.get(k))
+    shown = differ[:_REPLAY_KEY_CAP]
+    names = ",".join(shown)
+    if len(differ) > _REPLAY_KEY_CAP:
+        names = f"{names} (+{len(differ) - _REPLAY_KEY_CAP} more)"
+    return (
+        f"REPLAY_MISMATCH keys={names} "
+        f"expected_sha256={_output_digest(expected)} got_sha256={_output_digest(got)}"
+    )
 
 
 def record_run(ledger: Path, got: dict, accept_drift: bool = False) -> int:
@@ -83,8 +106,8 @@ def main(argv=None) -> int:
             return 2
         with tempfile.TemporaryDirectory() as td:
             got = run(a.seed, a.config, td)
-        if got != rec:
-            print(f"REPLAY MISMATCH\nexpected {rec}\ngot      {got}", file=sys.stderr)
+        if _outputs(got) != _outputs(rec):
+            print(_replay_mismatch(rec, got), file=sys.stderr)
             return 1
         print(f"replay OK seed={a.seed}")
         return 0

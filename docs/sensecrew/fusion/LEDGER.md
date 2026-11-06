@@ -56,3 +56,15 @@
   - language scan: cwd `sar/`, `pytest test_language_scan.py` → 16 passed
   - registry coverage: cwd `sar/`, `python -m unittest test_registry_coverage` → 3 passed
 - licence: UNLICENSED (private repo; licence pending Audrey)
+
+## 2371 — replay ignores ledger-only fields
+- who: Sense-Fusion
+- why: Verity CHANGES at 0.88 on #42 @ f7e928b. `--replay` compared the whole record, including `drift_from`, which `run()` never writes, so an accepted drift failed replay when the outputs matched.
+- action: `_outputs` is the one normalization. It strips record-only fields (`drift_from`). `record_run` and `--replay` both compare that view. A replay mismatch prints `REPLAY_MISMATCH`, at most 10 differing key names, and SHA-256 digests of the normalized expected and got outputs. It does not print field values, and it does not append. M1_W_KM is None until a cited W exists. GDD v0.5 §4 / §4a remains the coverage-model pointer. 2330 was not reused.
+- tests: `test_replay_after_accept_drift_passes`, `test_replay_after_chained_accept_drift_passes`, `test_replay_output_mismatch_exits_nonzero_and_appends_nothing` (also asserts a raw value is absent from stdout and stderr).
+- counts (venv CPython 3.12, OMP_NUM_THREADS=1, PYTHONHASHSEED=0):
+  - fusion: cwd `sar/`, `pytest sensegame/fusion/tests` → 129 passed
+  - sensegame: cwd repo root, `pytest sar/sensegame` → 195 passed
+  - language scan: cwd `sar/`, `pytest test_language_scan.py` → 16 passed (no live deferral token)
+  - registry coverage: cwd `sar/`, `python -m unittest test_registry_coverage` → 3 passed
+- licence: UNLICENSED (private repo; licence pending Audrey)

@@ -373,3 +373,63 @@ def test_seed_same_hash_does_not_append(tmp_path, monkeypatch):
     monkeypatch.setattr(cli, "run", lambda *a, **k: dict(same))
     assert cli.main(argv) == 0
     assert ledger.read_bytes() == before
+
+
+def _rec(file_hash, **extra):
+    rec = {"config_sha256": "aaa", "fusion_7.json": file_hash, "seed": 7}
+    rec.update(extra)
+    return rec
+
+
+def test_replay_after_accept_drift_passes(tmp_path, monkeypatch, capsys):
+    from sensegame.fusion import __main__ as cli
+    ledger, argv = _seed_argv(tmp_path)
+    ledger.parent.mkdir(parents=True)
+    ledger.write_text(json.dumps(_rec("old-hash"), sort_keys=True) + "\n")
+    fresh = _rec("new-hash")
+    monkeypatch.setattr(cli, "run", lambda *a, **k: dict(fresh))
+    assert cli.main([*argv, "--accept-drift"]) == 0
+    before = ledger.read_bytes()
+    assert json.loads(ledger.read_text().splitlines()[-1])["drift_from"]
+    assert cli.main([*argv, "--replay"]) == 0
+    assert ledger.read_bytes() == before
+    assert "replay OK" in capsys.readouterr().out
+
+
+def test_replay_after_chained_accept_drift_passes(tmp_path, monkeypatch, capsys):
+    from sensegame.fusion import __main__ as cli
+    ledger, argv = _seed_argv(tmp_path)
+    ledger.parent.mkdir(parents=True)
+    ledger.write_text(json.dumps(_rec("hash-a"), sort_keys=True) + "\n")
+    steps = iter([_rec("hash-b"), _rec("hash-c"), _rec("hash-c")])
+    monkeypatch.setattr(cli, "run", lambda *a, **k: dict(next(steps)))
+    assert cli.main([*argv, "--accept-drift"]) == 0
+    assert cli.main([*argv, "--accept-drift"]) == 0
+    assert len(ledger.read_text().splitlines()) == 3
+    before = ledger.read_bytes()
+    assert cli.main([*argv, "--replay"]) == 0
+    assert ledger.read_bytes() == before
+    assert "replay OK" in capsys.readouterr().out
+
+
+def test_replay_output_mismatch_exits_nonzero_and_appends_nothing(tmp_path, monkeypatch, capsys):
+    from sensegame.fusion import __main__ as cli
+    ledger, argv = _seed_argv(tmp_path)
+    secret = "RAW-VALUE-SHOULD-NOT-LEAK-99"
+    other = "OTHER-RAW-VALUE-SHOULD-NOT-LEAK-99"
+    stored = _rec(secret, drift_from="previous-record-hash")
+    ledger.parent.mkdir(parents=True)
+    ledger.write_text(json.dumps(stored, sort_keys=True) + "\n")
+    before = ledger.read_bytes()
+    monkeypatch.setattr(cli, "run", lambda *a, **k: _rec(other))
+    assert cli.main([*argv, "--replay"]) != 0
+    assert ledger.read_bytes() == before
+    captured = capsys.readouterr()
+    blob = captured.out + captured.err
+    assert "REPLAY_MISMATCH" in captured.err
+    assert "fusion_7.json" in captured.err
+    assert "expected_sha256=" in captured.err
+    assert "got_sha256=" in captured.err
+    assert secret not in blob
+    assert other not in blob
+    assert "drift_from" not in captured.err
