@@ -47,6 +47,17 @@
 #       NOT covered here: the live Sentinel Hub API. There are no credentials in CI and the
 #       tier is metered, so the transport is stubbed. What is NOT stubbed is the part that
 #       was broken -- the bytes-to-DataArray parse runs for real on real GeoTIFF bytes.
+#       ALSO NOT COVERED: the production dependency versions. These tests passed against
+#       rasterio 1.5.2 and numpy 2.5.0, while requirements.txt pins rasterio==1.3.10 and
+#       numpy==1.26.4. Neither pinned version publishes a distribution for Python 3.14, so
+#       they could not be installed here to check -- requirements.txt as a whole cannot be
+#       installed on this interpreter, which is a pre-existing problem for the backend and
+#       not one this file created. rasterio and numpy are therefore left UNPINNED in
+#       requirements-test.txt on purpose: pinning them to the production versions, as a
+#       review bot suggested, would make the test requirements uninstallable on the only
+#       interpreter available, which trades a stated risk for a certain breakage. Which
+#       Python versions this backend supports is Audrey's call, not a detail to settle
+#       inside a test file.
 # ════════════════════════════════════════════════════════════════════════════════════════
 """fetch_sentinel_ndvi must return what compute_ndvi_diff can actually consume."""
 import io

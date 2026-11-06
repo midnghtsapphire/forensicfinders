@@ -83,11 +83,23 @@ def _tiff_to_ndvi_array(payload: bytes):
        declare arrives as NaN, and .load() is called INSIDE both context managers so
        the read happens while the buffer is still open. open_rasterio is lazy, so
        that placement is deliberate rather than incidental. Honest limit: moving the
-       .load() call outside the two with-blocks does NOT fail on rasterio 1.3 here,
-       and no test in tests/test_sentinel_arrays.py pins it -- it was tried as a
-       mutation and the suite stayed green. It is kept inside because reading from a
-       closed MemoryFile is not a guarantee rasterio makes, not because this file
-       has proof that the alternative breaks.
+       .load() call outside the two with-blocks does NOT fail on rasterio 1.5.2, the
+       version this was verified against, and no test in
+       tests/test_sentinel_arrays.py pins it -- it was tried as a mutation and the
+       suite stayed green. It is kept inside because reading from a closed MemoryFile
+       is not a guarantee rasterio makes, not because this file has proof that the
+       alternative breaks.
+
+    A VERSION CAVEAT that applies to all three steps, and to every figure quoted in
+    the header box above. This was verified against rasterio 1.5.2 and numpy 2.5.0.
+    requirements.txt pins rasterio==1.3.10 and numpy==1.26.4, so THE PRODUCTION STACK
+    WAS NOT THE ONE EXERCISED. Neither pinned version has a distribution for Python
+    3.14, which is the only interpreter available here, so requirements.txt cannot be
+    installed on it at all -- that is a pre-existing condition for the whole backend
+    and not something this change introduced or can settle. It is stated rather than
+    glossed because masked=True and squeeze() are exactly the kind of behaviour that
+    moves between major versions, and a reader deserves to know which stack the
+    evidence comes from.
     2. rasterio always reports a band dimension, even for the single-band output this
        evalscript requests. It is dropped, because _compute_ndvi_sync unpacks exactly
        two indices (ys, xs = np.where(mask)) and then indexes delta[y, x]; a leading
