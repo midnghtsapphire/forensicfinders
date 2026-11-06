@@ -36,3 +36,10 @@
 - Schema confirmation alone is not clearance. Emission stays a closed allowlist with every row validated before emit. `banned_fields` stays defence in depth only.
 - `case_view_enums.json` was not edited. Its SHA-256 stays `0a37d3b103c2a15489b7b18ffee604ee103614cb8eaa55d184aa6924f2b8ce7a`.
 - Bedrock-N APPROVE.
+
+## case-view status revert — 2026-11-06
+- Verity returned PR #51 @ `fae78acf` as CHANGES at 0.86. The three technical fixes had passed at 0.90.
+- `status` is `pending-audrey-confirm` again. `synthetic_only_until_confirmed` stays true. The earlier `confirmed` value is withdrawn. Adopting the real-case policy is not the same as confirming this contract.
+- The attribution that a chat had confirmed this contract is removed from the living spec, the schema, the fixture, the tests, and the registry note. Schema confirmation alone is not clearance.
+- Private row-token breadcrumbs are removed from those same living files. `identity_status=confirmed` for every case.
+- Bedrock-N APPROVE.

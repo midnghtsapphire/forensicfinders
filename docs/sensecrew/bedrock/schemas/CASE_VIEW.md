@@ -1,6 +1,6 @@
 # Anonymized case view — schema 0.1
 
-Status: **confirmed**. Audrey confirmed real cases in Sense-Quill chat 2026-11-06 10:55 MT; Quill v0.1 enums verified against PR #51 @f94e757. `synthetic_only_until_confirmed` stays true. Schema confirmation alone is not clearance to emit a row as `real_anonymized`. This public repository carries synthetic fixtures only.
+Status: **pending-audrey-confirm**. `synthetic_only_until_confirmed` stays true. Schema confirmation alone is not clearance to emit a row as `real_anonymized`. Adopting the real-case policy is not the same as confirming this contract. This public repository carries synthetic fixtures only.
 
 This is the contract Bedrock serves to the Godot game. Players see an anonymized case view. Real rows stay in a private table Secret owns. They do not appear in builds, exports, logs, this repository, or the player view.
 
@@ -47,14 +47,14 @@ A value outside an enum is invalid. Validators reject it. They do not coerce it 
 
 ## Emission
 
-`version` is `0.1`. `status` is `confirmed`. `synthetic_only_until_confirmed` is true.
+`version` is `0.1`. `status` is `pending-audrey-confirm`. `synthetic_only_until_confirmed` is true.
 
-Audrey confirmed real cases in Sense-Quill chat 2026-11-06 10:55 MT; Quill v0.1 enums verified against PR #51 @f94e757. Schema confirmation alone is not clearance.
+Schema confirmation alone is not clearance. Adopting the real-case policy is not the same as confirming this contract.
 
 A row is emitted as `real_anonymized` only if all of the following hold:
 
 1. Every source for that case has `terms_allows_derived_use=yes`.
-2. `identity_status=confirmed`. This applies to every case, not only CC-0003.
+2. `identity_status=confirmed` for every case.
 3. The case has no `removal_requested` and no resolved hold.
 4. Its `CASE_TOKEN` was freshly minted after confirmation and is active, not retired.
 5. Its stand-in location check passed.

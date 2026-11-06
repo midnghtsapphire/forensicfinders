@@ -1,6 +1,6 @@
 {
   "version": "0.1",
-  "status": "confirmed",
+  "status": "pending-audrey-confirm",
   "synthetic_only_until_confirmed": true,
   "token_seed": 1001,
   "records": [

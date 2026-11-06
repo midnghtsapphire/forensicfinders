@@ -23,13 +23,9 @@ RECORDS = FIXTURE["records"]
 HEX = "0123456789abcdef"
 FIXTURE_ID_RE = r"^(sar/)?fixtures/[A-Za-z0-9._-]*synthetic[A-Za-z0-9._-]*$"
 FIXTURE_ID_PATTERN = re.compile(FIXTURE_ID_RE)
-CONFIRMATION = (
-    "Audrey confirmed real cases in Sense-Quill chat 2026-11-06 10:55 MT; "
-    "Quill v0.1 enums verified against PR #51 @f94e757"
-)
 REAL_EXPORT_BLOCK = (
-    "Real exports stay blocked until Secret clears the CC-0003 identity question "
-    "and the Charley Project licence and Verity co-signs the re-identification test."
+    "Real exports stay blocked until the Charley Project licence is cleared "
+    "and Verity co-signs the re-identification test."
 )
 SNAKE = re.compile(r"^[a-z][a-z0-9_]*$")
 
@@ -307,8 +303,8 @@ def _dem_synthetic_names():
 def test_schema_file_identity():
     assert SCHEMA["$schema"] == "https://json-schema.org/draft/2020-12/schema"
     assert SCHEMA["version"] == "0.1"
-    assert SCHEMA["status"] == "confirmed"
-    assert SCHEMA["confirmation"] == CONFIRMATION
+    assert SCHEMA["status"] == "pending-audrey-confirm"
+    assert "confirmation" not in SCHEMA
     assert SCHEMA["synthetic_only_until_confirmed"] is True
     assert SCHEMA["real_export_block"] == REAL_EXPORT_BLOCK
     assert SCHEMA["emission_gate"] == {
@@ -408,7 +404,7 @@ def test_schema_has_no_free_text_fields():
 
 def test_fixture_records_match_the_schema_and_are_synthetic():
     assert FIXTURE["version"] == "0.1"
-    assert FIXTURE["status"] == "confirmed"
+    assert FIXTURE["status"] == "pending-audrey-confirm"
     assert FIXTURE["synthetic_only_until_confirmed"] is True
     assert FIXTURE["token_seed"] == 1001
     assert len(RECORDS) >= 3

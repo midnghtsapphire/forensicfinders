@@ -315,7 +315,7 @@
     "2390": {
       "name": "sensegame/case_view",
       "path": "sensegame/tests/test_case_view_schema.py",
-      "what": "Provisional contract test for the anonymized case-view schema v0.1. Synthetic fixtures only; status confirmed; synthetic_only_until_confirmed true. Pytest, not unittest: the file is pytest-style, and unittest discovery would collect zero tests. Does not use 2330 (NEW-10) or 2380 (dem_layer). Parent 2300 sensegame is not registered on this branch.",
+      "what": "Provisional contract test for the anonymized case-view schema v0.1. Synthetic fixtures only; status pending-audrey-confirm; synthetic_only_until_confirmed true. Pytest, not unittest: the file is pytest-style, and unittest discovery would collect zero tests. Does not use 2330 (NEW-10) or 2380 (dem_layer). Parent 2300 sensegame is not registered on this branch.",
       "test_cwd": ".",
       "test": [
         "python3",
