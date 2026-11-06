@@ -69,6 +69,7 @@ def test_ece_known_values():
 # 4 scorer_contract_passthrough (fusion is a hint layer; never changes POA)
 def test_scorer_contract_passthrough(tmp_path):
     from sensegame.search_core import CleanScorer, Segment
+    # Cited synthetic widths for the zero-effort identity check. Not M1, and not a geometric swath.
     segs = [Segment("A", 1.0, 0.6, 0.5), Segment("B", 2.0, 0.3, 0.5), Segment("ROW", 1.0, 0.1, None, is_row=True)]
     before = list(segs)
     R.run(SEED, CONFIG, tmp_path)
@@ -80,6 +81,106 @@ def test_scorer_contract_passthrough(tmp_path):
     assert "poa" not in json.dumps(hints)
     assert not hasattr(C, "update")  # only CleanScorer.update moves POA
     assert CleanScorer().update(segs, {"A": 0.0, "B": 0.0})[0].poa == pytest.approx(0.6, abs=1e-12)
+
+
+# Decision B (Discussion #28 comment 19445708). Woolpert OH 2019 Table 2-4
+# stated swath is geometric coverage only. Nine-tenths of that swath is still not W.
+_DECISION_B = (
+    "https://github.com/midnghtsapphire/forensicfinders/discussions/28"
+    "#discussioncomment-19445708"
+)
+_M1_GEOMETRIC_SWATH_KM = 1.456
+_NINE_TENTHS = 0.9
+
+
+def test_fusion_m1_null_w_is_coverage_and_budget_only(monkeypatch):
+    """Fusion does not assume a numeric M1 effective width and does not score null-W M1 as detection.
+
+    M1_W_KM is None until a cited W exists. The exponential coverage fallback is
+    the labelled model in GDD v0.5 §4 / §4a, not an M1 detection score.
+    """
+    import sensegame.tests.test_scorer_golden as gold
+    from ledgerplay.scoring import Scorer
+    from sensegame.search_core import CleanScorer, Segment, UncitedSweepWidth
+
+    phrase = "M1_W_KM is None until a cited W exists"
+    assert gold.M1_W_KM is None
+    assert gold.M1_W_SOURCE == _DECISION_B
+    assert gold.M1_GEOMETRIC_SWATH_KM == _M1_GEOMETRIC_SWATH_KM
+    assert Scorer is CleanScorer
+    assert (_NINE_TENTHS * _M1_GEOMETRIC_SWATH_KM) != gold.M1_W_KM
+    model_doc = CleanScorer.exponential_coverage_model.__doc__ or ""
+    assert "GDD v0.5" in model_doc
+    assert "not calibrated detection" in model_doc.lower()
+    assert "None until a cited W exists" in model_doc
+    assert "M1_W_KM" in model_doc
+
+    repo = PKG.parents[2]
+    for name in ("LEDGER.md", "CHANGELOG.md"):
+        body = (repo / "docs" / "sensecrew" / "fusion" / name).read_text()
+        assert phrase in body
+        assert "GDD v0.5 §4 / §4a" in body
+        assert "21774e2215ea07aadddac62a4085d841b488a401" in body
+        assert "permanent" not in body.lower()
+
+    forbidden = (
+        "M1_W_KM",
+        "1.456",
+        "0.9",
+        ".pod(",
+        ".pos(",
+        ".optimal(",
+        ".update(",
+        "exponential_coverage_model",
+        "geometric_swath",
+        "geometric_coverage",
+        "permanent",
+    )
+    pkg_init = PKG / "__init__.py"
+    for py in sorted(p for p in PKG.rglob("*.py") if p.name != "test_fusion.py"):
+        text = py.read_text()
+        if py.resolve() == pkg_init.resolve():
+            assert text.count(phrase) == 1
+            assert "GDD v0.5 §4 / §4a" in text
+            text = text.replace(phrase, "")
+        for needle in forbidden:
+            assert needle not in text, f"{py.name} contains {needle}"
+
+    segs = [
+        Segment("S1", 1.0, 0.4, None),
+        Segment("S2", 2.0, 0.25, None),
+        Segment("S3", 1.5, 0.15, None),
+        Segment("S4", 0.5, 0.1, None),
+        Segment("ROW", 0.0, 0.1, 0.0, is_row=True),
+    ]
+    assert all(g.w_km is None for g in segs if not g.is_row)
+    assert all(g.w_km not in (_M1_GEOMETRIC_SWATH_KM, _NINE_TENTHS * _M1_GEOMETRIC_SWATH_KM) for g in segs)
+    hints = C.segment_hints(
+        [{"site_id": "cell_0_0", "score": 1.0, "row": 0, "col": 0}],
+        {"cell_0_0": "S1"},
+        segs,
+    )
+    assert hints["S1"]["kind"].startswith("hint")
+    assert "poa" not in json.dumps(hints)
+    assert [g.poa for g in segs] == [0.4, 0.25, 0.15, 0.1, 0.1]
+
+    scorer = Scorer()
+
+    def boom(*_args, **_kwargs):
+        raise AssertionError("coverage path called a detection or model method")
+
+    for name in ("pod", "pos", "optimal", "update", "exponential_coverage_model"):
+        monkeypatch.setattr(CleanScorer, name, boom)
+    assert scorer.track_budget_spent_km(gold.M1_PLAN_KM) == pytest.approx(10.0, abs=1e-12)
+    assert scorer.geometric_survey_km2(_M1_GEOMETRIC_SWATH_KM, 2.5) == pytest.approx(3.64, abs=1e-12)
+    assert scorer.geometric_coverage(_M1_GEOMETRIC_SWATH_KM, 2.5, 1.0) == pytest.approx(3.64, abs=1e-12)
+    monkeypatch.undo()
+    with pytest.raises(UncitedSweepWidth):
+        scorer.pos(segs, gold.M1_PLAN_KM)
+    with pytest.raises(UncitedSweepWidth):
+        scorer.optimal(segs, gold.M1_BUDGET_KM)
+    with pytest.raises(UncitedSweepWidth):
+        scorer.update(segs, gold.M1_PLAN_KM)
 
 
 # 5 combine_handcomputed
