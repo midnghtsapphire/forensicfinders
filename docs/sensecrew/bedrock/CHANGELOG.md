@@ -29,3 +29,10 @@
 - Checker violations are a JSON path plus a fixed code. They do not include the submitted value or a hash of an identifier.
 - `geometry`, `geohash`, `bbox`, `lat`, `lon`, `date`, and `last_seen_date` are rejected on every emitted object. A string, float, or bool `seed` is rejected and is not coerced. Anchored patterns reject a leading extra, a trailing extra, and a newline.
 - Bedrock-N APPROVE. Verity re-identification co-sign still pending.
+
+## case-view emission wording — 2026-11-06
+- Secret corrected the `real_anonymized` clearance text in `CASE_VIEW.md`. A row is emitted as `real_anonymized` only when all seven checks hold: `terms_allows_derived_use=yes` on every source, `identity_status=confirmed` for every case, no `removal_requested` and no resolved hold, a freshly minted active `CASE_TOKEN`, a passed stand-in location check, Secret's pinned `k>=5` full-quasi-identifier test plus linkage and attribute-inference review, and Verity's private comment-only re-identification co-sign pinned to the artifact SHA-256.
+- Secret runs the tests. Verity is the co-signer. If any check fails, the row is not emitted. Any change to the schema, code, sources, or access expires the co-sign.
+- Schema confirmation alone is not clearance. Emission stays a closed allowlist with every row validated before emit. `banned_fields` stays defence in depth only.
+- `case_view_enums.json` was not edited. Its SHA-256 stays `0a37d3b103c2a15489b7b18ffee604ee103614cb8eaa55d184aa6924f2b8ce7a`.
+- Bedrock-N APPROVE.

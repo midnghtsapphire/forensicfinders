@@ -1,6 +1,6 @@
 # Anonymized case view — schema 0.1
 
-Status: **confirmed**. Audrey confirmed real cases in Sense-Quill chat 2026-11-06 10:55 MT; Quill v0.1 enums verified against PR #51 @f94e757. `synthetic_only_until_confirmed` stays true. Real exports stay blocked until Secret clears the CC-0003 identity question and the Charley Project licence and Verity co-signs the re-identification test. This public repository carries synthetic fixtures only.
+Status: **confirmed**. Audrey confirmed real cases in Sense-Quill chat 2026-11-06 10:55 MT; Quill v0.1 enums verified against PR #51 @f94e757. `synthetic_only_until_confirmed` stays true. Schema confirmation alone is not clearance to emit a row as `real_anonymized`. This public repository carries synthetic fixtures only.
 
 This is the contract Bedrock serves to the Godot game. Players see an anonymized case view. Real rows stay in a private table Secret owns. They do not appear in builds, exports, logs, this repository, or the player view.
 
@@ -51,13 +51,17 @@ A value outside an enum is invalid. Validators reject it. They do not coerce it 
 
 Audrey confirmed real cases in Sense-Quill chat 2026-11-06 10:55 MT; Quill v0.1 enums verified against PR #51 @f94e757. Schema confirmation alone is not clearance.
 
-Emitting `case_source = real_anonymized` requires all of the following:
+A row is emitted as `real_anonymized` only if all of the following hold:
 
-1. Per-source terms are `yes`.
-2. Secret's pinned full-quasi-identifier k-anonymity check, plus Secret's linkage review.
-3. Secret's export co-sign.
+1. Every source for that case has `terms_allows_derived_use=yes`.
+2. `identity_status=confirmed`. This applies to every case, not only CC-0003.
+3. The case has no `removal_requested` and no resolved hold.
+4. Its `CASE_TOKEN` was freshly minted after confirmation and is active, not retired.
+5. Its stand-in location check passed.
+6. Secret has run the pinned full-quasi-identifier `k>=5` test plus the linkage and attribute-inference review.
+7. Verity has co-signed the re-identification test as a private, comment-only review pinned to the artifact's SHA-256.
 
-Missing any one of those three, the row is not emitted. Real exports also stay blocked until Secret clears the CC-0003 identity question and the Charley Project licence and Verity co-signs the re-identification test.
+Secret runs the tests. Verity is the co-signer. If any check fails, the row is not emitted. Any change to the schema, code, sources, or access expires the co-sign.
 
 Emission is a closed allowlist. Every row is validated against this schema before it is emitted. A row that fails validation is not emitted. `additionalProperties` is false on every emitted object, so `geometry`, `geohash`, `bbox`, `lat`, `lon`, `date`, `last_seen_date`, and any other key outside the allowlist are rejected at the root and inside nested objects, including `location`.
 
