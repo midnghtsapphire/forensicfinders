@@ -2,6 +2,10 @@
 
 Re-exports Bedrock CleanScorer (2310) as the default Scorer. QuarantinedRepoScorer is
 disabled; no import of search_theory / optimal_search / sweep_width.
+
+M1 (Decision B): effective sweep width stays null. Coverage and budget methods
+do not produce detection POD/POS. ``exponential_coverage_model`` is a labelled
+model on player-supplied C, not M1 detection scoring.
 """
 from __future__ import annotations
 

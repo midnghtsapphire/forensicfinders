@@ -1,7 +1,8 @@
-"""FAILING-FIRST golden tests for the clean Scorer (2310 (NEW-01)). Spec: ../scorer-spec.md.
+"""Golden tests for the clean Scorer (2310 (NEW-01)). Spec: ../scorer-spec.md.
 Drafted by Bedrock-D before any implementation exists; hand values independently recomputed by
-the Bedrock-N review of 2026-11-04 (math + decimal, 40 digits; see LEDGER). Math goldens are green once CleanScorer (2310) is present. M1 tests are xfail while M1_W_KM
-is unset until citation (awaiting cited sweep width from Waveform; owning sensor pair + Verity co-sign required; do not invent W). Reference values come from the closed forms
+the Bedrock-N review of 2026-11-04 (math + decimal, 40 digits; see LEDGER). Math goldens cover
+the cited-W Koopman path. M1 goldens are coverage and budget only: M1_W_KM stays null under
+Decision B (Discussion #28 comment 19445708). Reference values come from the closed forms
 in the spec (Koopman 1956/57; Charnes & Cooper 1958; Stone 1975), NOT from any repo module.
 
 Tolerances (lead ruling 2026-11-04):
@@ -23,12 +24,22 @@ TOL_UNIT = 1e-12
 TOL_CONTRACT = 1e-9
 E1 = -math.expm1(-1.0)  # 1 - e^-1 = 0.6321205588285577
 
-# M1 "Water-filling" (Loam GDD v0.1-v0.3 M1, seed 1001, 10 km budget).
-# M1 W unset until citation: W must come from the owning sensor pair with a citation + Verity co-sign (GDD L1/R5).
-# Request drafted in specs/discussion-drafts/m1-sweep-width.md. Do NOT fill in a guessed number.
+# M1 (seed 1001, 10 km track budget). Decision B: effective sweep width stays
+# null. M1_W_SOURCE cites Discussion #28 comment 19445708. The stated 1.456 km
+# swath is geometric coverage only (table inputs: H=2000 m AGL, FOV=40 deg).
+# The report name is in scorer-spec section 4b. Do not write the swath, or any
+# fraction of it, into M1_W_KM.
 M1_W_KM = None
-M1_W_SOURCE = None
+M1_W_SOURCE = (
+    "https://github.com/midnghtsapphire/forensicfinders/discussions/28"
+    "#discussioncomment-19445708"
+)
+M1_GEOMETRIC_SWATH_KM = 1.456
+M1_GEOMETRIC_H_M = 2000.0
+M1_GEOMETRIC_FOV_DEG = 40.0
 M1_BUDGET_KM = 10.0
+# Synthetic player plan, kilometres of track. Equal split. Not a detection optimum.
+M1_PLAN_KM = {"S1": 2.5, "S2": 2.5, "S3": 2.5, "S4": 2.5, "ROW": 0.0}
 
 
 def seg(name, area_km2, poa, w_km, is_row=False, speed_kmh=None):
@@ -183,34 +194,113 @@ def test_uncited_sweep_width_is_unscorable(s):
         s.optimal(segs, 1.0)
 
 
-# ---- M1 water-filling (M1 W unset until citation; xfail on purpose) -------------
-def _require_m1_w():
-    if M1_W_KM is None or M1_W_SOURCE is None:
-        pytest.fail("M1 W unset until citation: awaiting cited sweep width from Waveform. "
-                    "Owning sensor pair must supply W_km with a "
-                    "citation and Verity co-sign (GDD L1/R5); see specs/discussion-drafts/m1-sweep-width.md. "
-                    "Expected failure; do not insert a guessed value.", pytrace=False)
+# ---- exponential coverage model (not M1 detection) ----------------------------
+def test_exponential_coverage_model_closed_form(s):
+    """Player-supplied C. MODEL: 1 - exp(-C) via -expm1(-C). Not M1 detection."""
+    assert s.exponential_coverage_model(0.0) == 0.0
+    assert s.exponential_coverage_model(1.0) == pytest.approx(0.6321205588285577, abs=TOL_UNIT)
+    assert s.exponential_coverage_model(0.5) == pytest.approx(0.3934693402873666, abs=TOL_UNIT)
 
-@pytest.mark.xfail(
-    reason="M1 W unset until citation; awaiting cited sweep width from Waveform (GDD L1/R5); see "
-           "docs/sensecrew/bedrock/specs/discussion-drafts/m1-sweep-width.md",
-    strict=True,
-)
-def test_m1_sweep_width_is_cited():
-    _require_m1_w()
-    assert M1_W_KM > 0 and math.isfinite(M1_W_KM)
+def test_exponential_coverage_model_is_labelled_a_model(s):
+    doc = s.exponential_coverage_model.__doc__ or ""
+    lowered = doc.lower()
+    assert "model" in lowered
+    assert "not calibrated detection" in lowered
 
-@pytest.mark.xfail(
-    reason="M1 W unset until citation; awaiting cited sweep width from Waveform (GDD L1/R5); see "
-           "docs/sensecrew/bedrock/specs/discussion-drafts/m1-sweep-width.md",
-    strict=True,
+@pytest.mark.parametrize("bad", [-0.1, float("nan"), float("inf")])
+def test_exponential_coverage_model_rejects_bad_coverage(s, bad):
+    with pytest.raises(ScorerError):
+        s.exponential_coverage_model(bad)
+
+
+def test_geometric_coverage_rejects_bad_inputs(s):
+    with pytest.raises(ScorerError):
+        s.geometric_survey_km2(-1.0, 1.0)
+    with pytest.raises(ScorerError):
+        s.geometric_coverage(1.456, 1.0, 0.0)
+    with pytest.raises(ScorerError):
+        s.track_budget_spent_km({"S1": -1.0})
+
+
+# ---- M1 coverage and budget (Decision B; effective W stays null) --------------
+_DECISION_B = (
+    "https://github.com/midnghtsapphire/forensicfinders/discussions/28"
+    "#discussioncomment-19445708"
 )
-def test_m1_optimal_spends_budget_and_beats_naive(request):
-    _require_m1_w()
-    s = request.getfixturevalue("s")
-    segs = [seg("S1", 1.0, 0.4, M1_W_KM), seg("S2", 2.0, 0.25, M1_W_KM), seg("S3", 1.5, 0.15, M1_W_KM),
-            seg("S4", 0.5, 0.1, M1_W_KM), seg("ROW", 0.0, 0.1, 0.0, is_row=True)]  # synthetic POA/areas
-    z = s.optimal(segs, M1_BUDGET_KM)
-    assert math.fsum(z.values()) == pytest.approx(M1_BUDGET_KM, abs=TOL_UNIT)
-    even = {n: M1_BUDGET_KM / 4 for n in ("S1", "S2", "S3", "S4")}
-    assert s.pos(segs, z) >= s.pos(segs, even) - TOL_UNIT
+
+def test_m1_effective_w_stays_null():
+    """Decision B: no numeric effective W. Source cites the discussion comment."""
+    import inspect
+    import sensegame.search_core as core
+
+    assert M1_W_KM is None
+    assert M1_W_SOURCE == _DECISION_B
+    assert M1_GEOMETRIC_SWATH_KM == 1.456
+    assert M1_GEOMETRIC_H_M == 2000.0
+    assert M1_GEOMETRIC_FOV_DEG == 40.0
+    assert M1_GEOMETRIC_SWATH_KM != M1_W_KM
+    # A geometric fraction is still not an effective sweep width.
+    assert (0.9 * M1_GEOMETRIC_SWATH_KM) != M1_W_KM
+    library = inspect.getsource(core.CleanScorer)
+    assert "1.456" not in library
+    assert "0.9" not in library
+
+def test_m1_budget_spend_and_geometric_coverage(s):
+    """Equal 2.5 km split of the 10 km budget. Surveyed area is not detection.
+
+    Hand values (decimal): 1.456 * 2.5 = 3.64 km²; 1.456 * 10 = 14.56 km²;
+    coverage on areas 1, 2, 1.5, 0.5 km² is 3.64, 1.82, 182/75, 7.28.
+    """
+    doc = s.geometric_survey_km2.__doc__ or ""
+    assert "surveyed is not detected" in doc.lower()
+    assert s.track_budget_spent_km(M1_PLAN_KM) == pytest.approx(10.0, abs=TOL_UNIT)
+    assert s.geometric_survey_km2(M1_GEOMETRIC_SWATH_KM, 0.0) == 0.0
+    expected_coverage = {
+        "S1": 3.64,
+        "S2": 1.82,
+        "S3": 2.4266666666666667,  # 182/75
+        "S4": 7.28,
+    }
+    areas = {"S1": 1.0, "S2": 2.0, "S3": 1.5, "S4": 0.5}
+    surveyed_parts = []
+    for name, area in areas.items():
+        surveyed = s.geometric_survey_km2(M1_GEOMETRIC_SWATH_KM, M1_PLAN_KM[name])
+        assert surveyed == pytest.approx(3.64, abs=TOL_UNIT)
+        assert s.geometric_coverage(
+            M1_GEOMETRIC_SWATH_KM, M1_PLAN_KM[name], area
+        ) == pytest.approx(expected_coverage[name], abs=TOL_UNIT)
+        surveyed_parts.append(surveyed)
+    assert math.fsum(surveyed_parts) == pytest.approx(14.56, abs=TOL_UNIT)
+    assert s.geometric_survey_km2(M1_GEOMETRIC_SWATH_KM, M1_BUDGET_KM) == pytest.approx(
+        14.56, abs=TOL_UNIT
+    )
+
+def test_m1_coverage_path_does_not_produce_detection(s, monkeypatch):
+    """Budget and geometric coverage must not call detection or the coverage model."""
+    def boom(*_args, **_kwargs):
+        raise AssertionError("coverage path called a detection or model method")
+
+    for name in ("pod", "pos", "optimal", "update", "exponential_coverage_model"):
+        monkeypatch.setattr(CleanScorer, name, boom)
+    assert s.track_budget_spent_km(M1_PLAN_KM) == pytest.approx(10.0, abs=TOL_UNIT)
+    assert s.geometric_survey_km2(M1_GEOMETRIC_SWATH_KM, 2.5) == pytest.approx(3.64, abs=TOL_UNIT)
+    assert s.geometric_coverage(M1_GEOMETRIC_SWATH_KM, 2.5, 1.0) == pytest.approx(3.64, abs=TOL_UNIT)
+
+def test_m1_null_w_detection_path_raises(s):
+    """pos/optimal/update still refuse null W. They are not the M1 score."""
+    segs = [
+        seg("S1", 1.0, 0.4, None),
+        seg("S2", 2.0, 0.25, None),
+        seg("S3", 1.5, 0.15, None),
+        seg("S4", 0.5, 0.1, None),
+        seg("ROW", 0.0, 0.1, 0.0, is_row=True),
+    ]
+    assert all(g.w_km is None for g in segs if not g.is_row)
+    assert all(g.w_km != M1_GEOMETRIC_SWATH_KM for g in segs)
+    assert issubclass(UncitedSweepWidth, ScorerError)
+    with pytest.raises(UncitedSweepWidth):
+        s.pos(segs, M1_PLAN_KM)
+    with pytest.raises(UncitedSweepWidth):
+        s.optimal(segs, M1_BUDGET_KM)
+    with pytest.raises(UncitedSweepWidth):
+        s.update(segs, M1_PLAN_KM)
