@@ -223,7 +223,7 @@
     "910": {
       "name": "geo_connectors/stac",
       "path": "geo_connectors/stac.py",
-      "what": "STAC search (Element84 Earth Search S1/S2, NASA CMR LPCLOUD HLS) with paging; COG window read; NDVI, ΔNDVI, S1 log-ratio dB, sigma anomalies",
+      "what": "STAC search (Element84 Earth Search S1/S2, NASA CMR LPCLOUD HLS) with paging; COG window read; NDVI, \u0394NDVI, S1 log-ratio dB, sigma anomalies",
       "parent": "900"
     },
     "920": {
@@ -259,7 +259,7 @@
     "970": {
       "name": "geo_connectors/run_sectors",
       "path": "geo_connectors/run_sectors.py",
-      "what": "Sector pipeline from a case config: cloud-filtered STAC, COG ΔNDVI, 3DEP centre elevation (used by aegis-sar-runner)",
+      "what": "Sector pipeline from a case config: cloud-filtered STAC, COG \u0394NDVI, 3DEP centre elevation (used by aegis-sar-runner)",
       "parent": "900"
     },
     "980": {
@@ -312,6 +312,10 @@
       ],
       "source": "Audit item 4. Nothing in this repository enforced the standard; the enforcer workflow lives in revvel-standards and never ran here, which is how four flagged lines sat in multi_proxy from 2026-10-24. PR #8 scanned multi_proxy only and said why: widening it then would have made main red for defects it was added to report, which GREEN_MAIN_STANDARD.md forbids. The 16 lines outstanding outside multi_proxy are resolved as of 2026-11-04 -- 11 by the two shape rules, 5 by comment-only fixes -- so the scan now covers the repository. See sar/docs/WORK_RANKING_2026-11-04.md."
     },
+    "2300": {
+      "name": "sensegame",
+      "path": "sensegame",
+      "what": "SenseCrew game-path parent (GDD 2300): clean-room packages under sar/sensegame; no quarantined modules",
     "2390": {
       "name": "sensegame/case_view",
       "path": "sensegame/tests/test_case_view_schema.py",
@@ -322,6 +326,54 @@
         "-m",
         "pytest",
         "-q",
+        "-p",
+        "no:warnings",
+        "sensegame/tests"
+      ],
+      "source": "SenseCrew Bedrock; docs/sensecrew/bedrock/specs/scorer-spec.md",
+      "licence": "UNLICENSED (private repo; licence pending Audrey)"
+    },
+    "2310": {
+      "name": "sensegame/search_core",
+      "path": "sensegame/search_core.py",
+      "parent": "2300",
+      "what": "NEW-01 CleanScorer (2310): Koopman/Stone POD/POS/optimal/update; stdlib math only; re-exported by ledgerplay.scoring",
+      "source": "SenseCrew Bedrock; docs/sensecrew/bedrock/specs/scorer-spec.md",
+      "licence": "UNLICENSED (private repo; licence pending Audrey)"
+    },
+    "2320": {
+      "name": "sensegame/dem",
+      "path": "sensegame/dem.py",
+      "parent": "2300",
+      "what": "NEW-03 synthetic DEM fixtures (2320): integer diamond-square + PCG64 raw + pure-Python GeoTIFF (tiffw); dem_synthetic_1001/1002a/1002b/1003",
+      "source": "SenseCrew Bedrock; docs/sensecrew/bedrock/specs/dem-fixture-spec.md",
+      "licence": "UNLICENSED (private repo; licence pending Audrey)"
+    },
+    "2370": {
+      "name": "sensegame/fusion",
+      "path": "sensegame/fusion",
+      "parent": "2300",
+      "what": "Provisional fusion hint-layer parent (2370): synthetic combine + calibrated anomaly. Does not score M1 detection. M1_W_KM is None until a cited W exists.",
+      "test_cwd": ".",
+      "test": [
+        "python3",
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:warnings",
+        "sensegame/fusion/tests"
+      ],
+      "source": "FUSION_SPEC v0.2 (PR #18); docs/sensecrew/fusion/LEDGER.md",
+      "licence": "UNLICENSED (private repo; licence pending Audrey)"
+    },
+    "2371": {
+      "name": "sensegame/fusion/combine",
+      "path": "sensegame/fusion/combine.py",
+      "parent": "2370",
+      "what": "Provisional combiner (2371): robust z, MAD=0 layers flagged degenerate and excluded, grid-index cells only. Hint layer; registry.py 2371 --test runs the 2370 fusion suite.",
+      "source": "FUSION_SPEC v0.2 (PR #18); docs/sensecrew/fusion/LEDGER.md",
+      "licence": "UNLICENSED (private repo; licence pending Audrey)"
         "sensegame"
       ],
       "requires": "pytest. The checker in the test is stdlib. A standard JSON Schema validator can read the contract file directly.",
