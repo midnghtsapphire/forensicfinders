@@ -49,7 +49,7 @@ the job — but they belong after a screening step, not instead of one.
 |---|---|---|---|
 | **1 Screening** — where to look | wide area, remote | LiDAR DEM differencing, InSAR, NDVI change, SAR change | `realdata/microtopo.py` (pit/mound), `geo_connectors/stac.py`, `realdata/s2_change.py` |
 | **2 Ground survey** — narrow it on site | metres, on foot | GPR, magnetic induction, ground gamma | `gpr-wave-model/`, `instrument_input/` (GPR CSV, LAS), `sensor-fusion-grid/` (permittivity) |
-| **3 Sample analysis** — what is it | the recovered sample | LIBS, qPCR/eDNA, GC-MS, 16S | `realdata/lab_readers.py` (GC-MS TIC + 16S), `realdata/qpcr_assay.py` (LOD95/LOQ, copies per gram), `qpcr_interpret.py` |
+| **3 Sample analysis** — what is it | the recovered sample | LIBS, qPCR/soil_dna_sensor, GC-MS, 16S | `realdata/lab_readers.py` (GC-MS TIC + 16S), `realdata/qpcr_assay.py` (LOD95/LOQ, copies per gram), `qpcr_interpret.py` |
 
 **Tier 3 already exists.** `lab_readers.py` reads real GC-MS and 16S exports and — per its
 own docstring — replaced an app whose peak counts and abundances were typed in. The
@@ -66,7 +66,7 @@ atomic/molecular capability you are reaching for is partly built, and built hone
 2. **LIBS reader.** Would slot beside `lab_readers.py` as another instrument export parser.
    Needs an actual instrument or a lab partner; the code is the easy part.
 3. **Gamma-ray spectrometry.** Best use here is *context*, not detection: soil texture and
-   moisture drive GPR velocity and eDNA preservation, both of which the repo already models.
+   moisture drive GPR velocity and soil_dna_sensor preservation, both of which the repo already models.
 
 ---
 
