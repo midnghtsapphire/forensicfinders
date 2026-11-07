@@ -64,7 +64,7 @@ GRD and L2A products arrive already geocoded by the provider, using correct time
 sync here **does not fix geolocation**. Saying it does would be a marker nobody checks.
 
 What it does buy is real: correct Δt between acquisitions, which feeds change-detection
-intervals and the eDNA decay clock. Worth doing, worth not overselling.
+intervals and the soil_dna_sensor decay clock. Worth doing, worth not overselling.
 
 Concrete gap: `stac.summarize()` passes `properties["datetime"]` straight through as a
 string, and nothing decodes it anywhere. That is the place to fix it — decode once, carry

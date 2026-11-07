@@ -110,6 +110,54 @@
       ],
       "source": "revvel-standards/docs/gpr-wave-model"
     },
+    "510": {
+      "name": "ert-model",
+      "path": "ert-model",
+      "what": "Analytic/semi-analytic DC resistivity forward model (Wenner/dipole-dipole; layered half-space; buried sphere/void)",
+      "test_cwd": "ert-model",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-p",
+        "test_*.py"
+      ],
+      "source": "deepscan specs v0 \u2014 synthetic only",
+      "licence": "UNLICENSED (private repo; licence pending Audrey)"
+    },
+    "520": {
+      "name": "magnetometry-model",
+      "path": "magnetometry-model",
+      "what": "Analytic total-field magnetometry forward model (buried dipole/sphere, thin dyke) with seeded noise",
+      "test_cwd": "magnetometry-model",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-p",
+        "test_*.py"
+      ],
+      "source": "deepscan specs v0 \u2014 synthetic only",
+      "licence": "UNLICENSED (private repo; licence pending Audrey)"
+    },
+    "530": {
+      "name": "gpr-void-detector",
+      "path": "gpr-void-detector",
+      "what": "Deterministic GPR void detector (hyperbola fit + polarity/contrast) on synthetic B-scans; no Ultralytics",
+      "test_cwd": "gpr-void-detector",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-p",
+        "test_*.py"
+      ],
+      "source": "deepscan specs v0 \u2014 synthetic only; gprMax offline-only if used to build fixtures",
+      "licence": "UNLICENSED (private repo; licence pending Audrey)"
+    },
     "600": {
       "name": "cot-export",
       "path": "cot-export",
@@ -223,7 +271,7 @@
     "910": {
       "name": "geo_connectors/stac",
       "path": "geo_connectors/stac.py",
-      "what": "STAC search (Element84 Earth Search S1/S2, NASA CMR LPCLOUD HLS) with paging; COG window read; NDVI, ΔNDVI, S1 log-ratio dB, sigma anomalies",
+      "what": "STAC search (Element84 Earth Search S1/S2, NASA CMR LPCLOUD HLS) with paging; COG window read; NDVI, \u0394NDVI, S1 log-ratio dB, sigma anomalies",
       "parent": "900"
     },
     "920": {
@@ -259,7 +307,7 @@
     "970": {
       "name": "geo_connectors/run_sectors",
       "path": "geo_connectors/run_sectors.py",
-      "what": "Sector pipeline from a case config: cloud-filtered STAC, COG ΔNDVI, 3DEP centre elevation (used by aegis-sar-runner)",
+      "what": "Sector pipeline from a case config: cloud-filtered STAC, COG \u0394NDVI, 3DEP centre elevation (used by aegis-sar-runner)",
       "parent": "900"
     },
     "980": {
@@ -271,7 +319,7 @@
     "990": {
       "name": "forensic_pipeline",
       "path": "forensic_pipeline",
-      "what": "Private forensic pipeline: pure-function residuals for snow wells, rootball trenches, culvert ice trajectory, pipe airflow/odour, local image accent, ISRID priors, finder confirmation. Array-in/array-out, no I/O.",
+      "what": "Synthetic search-scenario pipeline: pure-function residuals for snow wells, rootball trenches, culvert ice trajectory, pipe airflow/odour, local image accent, synthetic priors, confirmation events. Array-in/array-out, no I/O.",
       "test_cwd": ".",
       "test": [
         "python3",
@@ -317,6 +365,11 @@
       "path": "insect-trace-add-sim",
       "what": "Seeded synthetic ADD insect-development training sim (Strata/Verity Discussion #25 id 2350); ADD reuses realdata/refloat_timing daily_contribution/accumulate (Verity R7 CLEAR; LABEL preprint, not peer-reviewed surfaced in output); synthetic thresholds; soil VWC clamp 0.0-0.5; 1010 decay bridge (stub until 1010 merges). UNLICENSED (private repo; licence pending Audrey)",
       "test_cwd": "insect-trace-add-sim",
+    "2360": {
+      "name": "mineral-spectral-unmix",
+      "path": "blue-ocean-sar/multi_proxy/nnls_unmix.py",
+      "what": "NNLS unmixing + SAM; USGS splib07 PD reference_oracle endmembers; optional offline HySUPP compare (out-of-process)",
+      "test_cwd": "blue-ocean-sar",
       "test": [
         "python3",
         "-m",
@@ -326,6 +379,13 @@
         "test_*.py"
       ],
       "source": "docs/sensecrew/chitin/SPEC_2350_insect-trace-add-sim.md"
+        "multi_proxy.test_nnls_sam_golden",
+        "multi_proxy.test_splib07_endmembers",
+        "multi_proxy.test_splib07_unmix_golden",
+        "multi_proxy.test_hysupp_compare"
+      ],
+      "source": "SenseCrew Quartz; USGS splib07 PD doi:10.5066/F7RR1WDJ; HySUPP MIT offline compare",
+      "licence": "UNLICENSED (private repo; licence pending Audrey)"
     }
   },
   "deselected_tests": {
