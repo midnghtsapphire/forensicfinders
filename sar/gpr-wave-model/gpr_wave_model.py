@@ -342,6 +342,65 @@ def print_summary(data: dict[str, Any]) -> None:
     print()
 
 
+
+def synthetic_hyperbola_bscan(
+    x0_m: float,
+    z0_m: float,
+    soil_er: float,
+    target_er: float,
+    dx_m: float = 0.05,
+    dt_ns: float = 0.1,
+    x_min_m: float = 0.0,
+    x_max_m: float = 4.0,
+    t_max_ns: float = 40.0,
+    amplitude: float = 1.0,
+    pulse_width_ns: float = 1.0,
+) -> dict:
+    """Rasterize a single point-scatterer hyperbola into a synthetic B-scan.
+
+    Extends this module for offline / CI fixtures (no gprMax). Polarity of the
+    first-break sample follows fresnel_r(soil_er, target_er): positive R →
+    positive first peak ("same" / air-like for soil→air).
+    """
+    import math as _math
+    v = velocity(soil_er)
+    R = fresnel_r(soil_er, target_er)
+    sign = 1.0 if R >= 0 else -1.0
+    xs = []
+    x = x_min_m
+    while x <= x_max_m + 1e-12:
+        xs.append(round(x, 6))
+        x += dx_m
+    n_samples = int(_math.floor(t_max_ns / dt_ns)) + 1
+    bscan = []
+    for xv in xs:
+        trace = [0.0] * n_samples
+        t_apex = twt_ns(z0_m, v)
+        t = (2.0 / v) * _math.sqrt((xv - x0_m) ** 2 + z0_m ** 2)
+        # Ricker-like one-sided pulse centered at t
+        for i in range(n_samples):
+            ti = i * dt_ns
+            tau = (ti - t) / pulse_width_ns
+            # simple mexican-hat-ish: (1-tau^2) exp(-tau^2/2)
+            w = (1.0 - tau * tau) * _math.exp(-0.5 * tau * tau)
+            trace[i] = round(sign * amplitude * w, 8)
+        bscan.append(trace)
+    return {
+        "bscan": bscan,
+        "dx_m": dx_m,
+        "dt_ns": dt_ns,
+        "soil_er": soil_er,
+        "target_er": target_er,
+        "x0_m": x0_m,
+        "z0_m": z0_m,
+        "v_m_per_ns": round(v, 9),
+        "reflection_coefficient_R": round(R, 6),
+        "polarity": "same" if R > 0 else ("reversed" if R < 0 else "none"),
+        "x_m": xs,
+        "t_ns": [round(i * dt_ns, 6) for i in range(n_samples)],
+    }
+
+
 def main(argv: Optional[Sequence[str]] = None) -> dict[str, Any]:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--soil", type=float, nargs="+", default=DEFAULT_SOIL_ER, help="soil er values")
