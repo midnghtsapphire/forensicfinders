@@ -1,0 +1,14 @@
+{
+  "a_m": 1.0,
+  "array": "dipole-dipole",
+  "expected_rho_a": 100.0,
+  "n_values": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "rho_layers_ohm_m": [
+    100.0
+  ]
+}
