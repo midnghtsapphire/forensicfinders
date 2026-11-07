@@ -311,6 +311,21 @@
         "test_language_scan"
       ],
       "source": "Audit item 4. Nothing in this repository enforced the standard; the enforcer workflow lives in revvel-standards and never ran here, which is how four flagged lines sat in multi_proxy from 2026-10-24. PR #8 scanned multi_proxy only and said why: widening it then would have made main red for defects it was added to report, which GREEN_MAIN_STANDARD.md forbids. The 16 lines outstanding outside multi_proxy are resolved as of 2026-11-04 -- 11 by the two shape rules, 5 by comment-only fixes -- so the scan now covers the repository. See sar/docs/WORK_RANKING_2026-11-04.md."
+    },
+    "2390": {
+      "name": "sensegame/case_view",
+      "path": "sensegame/tests/test_case_view_schema.py",
+      "what": "Provisional contract test for the anonymized case-view schema v0.1. Synthetic fixtures only; status pending-audrey-confirm; synthetic_only_until_confirmed true. Pytest, not unittest: the file is pytest-style, and unittest discovery would collect zero tests. Does not use 2330 (NEW-10) or 2380 (dem_layer). Parent 2300 sensegame is not registered on this branch.",
+      "test_cwd": ".",
+      "test": [
+        "python3",
+        "-m",
+        "pytest",
+        "-q",
+        "sensegame"
+      ],
+      "requires": "pytest. The checker in the test is stdlib. A standard JSON Schema validator can read the contract file directly.",
+      "source": "docs/sensecrew/bedrock/schemas/case_view_enums.json"
     }
   },
   "deselected_tests": {
