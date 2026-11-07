@@ -360,6 +360,11 @@
       ],
       "source": "Audit item 4. Nothing in this repository enforced the standard; the enforcer workflow lives in revvel-standards and never ran here, which is how four flagged lines sat in multi_proxy from 2026-10-24. PR #8 scanned multi_proxy only and said why: widening it then would have made main red for defects it was added to report, which GREEN_MAIN_STANDARD.md forbids. The 16 lines outstanding outside multi_proxy are resolved as of 2026-11-04 -- 11 by the two shape rules, 5 by comment-only fixes -- so the scan now covers the repository. See sar/docs/WORK_RANKING_2026-11-04.md."
     },
+    "2350": {
+      "name": "insect-trace-add-sim",
+      "path": "insect-trace-add-sim",
+      "what": "Seeded synthetic ADD insect-development training sim (Strata/Verity Discussion #25 id 2350); ADD reuses realdata/refloat_timing daily_contribution/accumulate (Verity R7 CLEAR; LABEL preprint, not peer-reviewed surfaced in output); synthetic thresholds; soil VWC clamp 0.0-0.5; 1010 decay bridge (stub until 1010 merges). UNLICENSED (private repo; licence pending Audrey)",
+      "test_cwd": "insect-trace-add-sim",
     "2360": {
       "name": "mineral-spectral-unmix",
       "path": "blue-ocean-sar/multi_proxy/nnls_unmix.py",
@@ -369,6 +374,11 @@
         "python3",
         "-m",
         "unittest",
+        "discover",
+        "-p",
+        "test_*.py"
+      ],
+      "source": "docs/sensecrew/chitin/SPEC_2350_insect-trace-add-sim.md"
         "multi_proxy.test_nnls_sam_golden",
         "multi_proxy.test_splib07_endmembers",
         "multi_proxy.test_splib07_unmix_golden",
