@@ -1,0 +1,52 @@
+{
+  "version": "0.1",
+  "status": "pending-audrey-confirm",
+  "synthetic_only_until_confirmed": true,
+  "token_seed": 1001,
+  "records": [
+    {
+      "case_token": "CT-162c5dbc610f",
+      "region_band": "NEW_ENGLAND",
+      "terrain_class": "FOREST",
+      "elapsed_band": "E1",
+      "subject_category": "HIKER_OUTDOOR",
+      "case_source": "synthetic",
+      "fixture_id": "sar/fixtures/dem_synthetic_1001.tif",
+      "seed": 1001,
+      "location": {"label": "predicted"}
+    },
+    {
+      "case_token": "CT-6403d438d2c2",
+      "region_band": "MIDWEST",
+      "terrain_class": "AGRICULTURAL",
+      "elapsed_band": "E3",
+      "subject_category": "HUNTER",
+      "case_source": "synthetic",
+      "fixture_id": "sar/fixtures/dem_synthetic_1002.tif",
+      "seed": 1002,
+      "location": {"label": "predicted"}
+    },
+    {
+      "case_token": "CT-9b5c14360da6",
+      "region_band": "PACIFIC",
+      "terrain_class": "WATER_COASTAL",
+      "elapsed_band": "E5",
+      "subject_category": "WATER_RELATED",
+      "case_source": "synthetic",
+      "fixture_id": "sar/fixtures/dem_synthetic_1003.tif",
+      "seed": 1003,
+      "location": {"label": "predicted"}
+    },
+    {
+      "case_token": "CT-4e611bd53b61",
+      "region_band": "UNKNOWN",
+      "terrain_class": "UNKNOWN",
+      "elapsed_band": "E2",
+      "subject_category": "UNKNOWN",
+      "case_source": "synthetic",
+      "fixture_id": "sar/fixtures/dem_synthetic_1004.tif",
+      "seed": 1004,
+      "location": {"label": "predicted"}
+    }
+  ]
+}
