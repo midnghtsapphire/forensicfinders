@@ -1,0 +1,8 @@
+{
+  "air_R": 0.5,
+  "c_m_per_ns": 0.299792458,
+  "gpr_wave_model_velocity_m_per_ns": 0.09993081933333332,
+  "notes": "metadata tying \u03b5r/TWT to gpr-wave-model; synthetic only",
+  "soil_er": 9.0,
+  "water_R": -0.49766716253528237
+}
