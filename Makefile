@@ -1,6 +1,7 @@
 # SenseCrew Bedrock / CleanScorer + synthetic DEM targets. Run from repo root.
 .PHONY: test-scorer test-dem dem fixtures-all fixtures-verify
 
+# Registry 2310 golden suite (math green; M1 W tests xfail PLACEHOLDER).
 # Registry 2310 golden suite (math green; M1 scores coverage and budget only; M1_W_KM is None until a cited W exists).
 test-scorer:
 	cd sar && python3 -m pytest -q -p no:warnings sensegame/tests/test_scorer_golden.py

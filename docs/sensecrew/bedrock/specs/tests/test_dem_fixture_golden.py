@@ -1,3 +1,8 @@
+"""FAILING-FIRST golden tests for synthetic DEM fixtures (2320 (NEW-03)). Spec: ../dem-fixture-spec.md.
+Names follow Loam GDD: dem_synthetic_<seed>.tif; M2 is the epoch pair 1002a (earlier) / 1002b (later).
+Fixtures are SHA-256 exact (no float tolerance on bytes).
+Fails with ImportError until sensegame.dem exists; golden hashes are PENDING and fail until
+Bedrock-N records them (LEDGER entry + APPROVE) after the first reviewed generation.
 """Docs mirror of sar/sensegame/tests/test_dem_fixture_golden.py (2320 (NEW-03)).
 
 Not dispatched by registry.py and not collected by `pytest sensegame` or
@@ -69,6 +74,7 @@ def test_m2_epoch_pair_semantics():
     a = generate(1002, "a").astype("float64")
     b = generate(1002, "b").astype("float64")
     d = np.rint((b - a) * 1000.0).astype("int64")  # mm
+    truth = json.loads((pathlib.Path(FIXTURES["1002b"]).parent / "dem_synthetic_1002_truth.json").read_text())
     truth = json.loads(
         (committed_fixture(FIXTURES["1002b"]).parent / "dem_synthetic_1002_truth.json").read_text()
     )
