@@ -41,10 +41,14 @@ Register at https://www.sentinel-hub.com to get credentials.
 
 from __future__ import annotations
 
-import asyncio
+from io import BytesIO
 from typing import Any
 
+from affine import Affine
+
 import httpx
+import rioxarray
+import xarray as xr
 
 from ..config import settings
 from ..errors import NoDataError
@@ -52,6 +56,8 @@ from ..errors import NoDataError
 _TOKEN_URL = "https://services.sentinel-hub.com/auth/realms/main/protocol/openid-connect/token"
 _PROCESS_URL = "https://services.sentinel-hub.com/api/v1/process"
 
+# Sentinel Hub evalscript nodata for masked SCL classes (cloud/shadow/snow/etc.).
+_SENTINEL_NODATA = -9999.0
 # The value evaluatePixel() writes for a pixel the scene classification calls cloud,
 # cloud shadow, cirrus or snow (SCL 3, 8, 9, 10, 11). It is a sentinel value inside the
 # band data, not a declared GeoTIFF nodata tag, so nothing masks it for us -- see
@@ -73,6 +79,40 @@ async def _get_token() -> str:
         return resp.json()["access_token"]
 
 
+def geotiff_bytes_to_ndvi_dataarray(tiff_bytes: bytes) -> xr.DataArray:
+    """Parse a single-band Sentinel Hub GeoTIFF body into a 2-D NDVI DataArray.
+
+    Opens in-memory bytes only (no temp path). Uses already-pinned rioxarray
+    (Apache-2.0) + rasterio (BSD-3-Clause) + xarray (Apache-2.0).
+
+    - ``masked=True`` so TIFF nodata becomes masked/NaN.
+    - Explicit ``where(!= -9999)`` so evalscript nodata is NaN even if the
+      TIFF tag is missing (temporal.compute_ndvi_diff uses nanmean/nanstd).
+    - Squeezes the band dimension to 2-D for callers that use ``.values``.
+    - Raises ``ValueError`` if CRS or affine transform is missing.
+    """
+    da = rioxarray.open_rasterio(BytesIO(tiff_bytes), masked=True)
+    da = da.squeeze(drop=True)
+
+    if da.rio.crs is None:
+        raise ValueError(
+            "Sentinel NDVI GeoTIFF is missing CRS; cannot return a georeferenced DataArray."
+        )
+    try:
+        transform = da.rio.transform()
+    except Exception as exc:
+        raise ValueError(
+            "Sentinel NDVI GeoTIFF is missing affine transform; cannot georeference."
+        ) from exc
+    if transform is None or transform == Affine.identity():
+        raise ValueError(
+            "Sentinel NDVI GeoTIFF is missing a non-identity affine transform; "
+            "cannot georeference."
+        )
+
+    # Map Sentinel Hub evalscript nodata to NaN for every caller.
+    da = da.where(da != _SENTINEL_NODATA)
+    return da
 def _tiff_to_ndvi_array(payload: bytes):
     """Parse one Sentinel Hub GeoTIFF response body into a 2-D NDVI DataArray.
 
@@ -134,10 +174,11 @@ async def fetch_sentinel_ndvi(
     bbox: tuple[float, float, float, float],
     date_start: Any,
     date_end: Any,
-) -> tuple[Any, Any]:
+) -> tuple[xr.DataArray, xr.DataArray]:
     """
     Fetch Sentinel-2 NDVI composites for two time windows surrounding date_start
-    and date_end. Returns (ndvi_before, ndvi_after) as xarray DataArrays.
+    and date_end. Returns (ndvi_before, ndvi_after) as xarray DataArrays with
+    CRS/transform set and Sentinel Hub nodata (-9999) mapped to NaN.
 
     Each array is 2-D (y, x) and float, carries its CRS and affine transform on
     the .rio accessor, and holds NaN wherever the scene classification masked the
@@ -148,6 +189,9 @@ async def fetch_sentinel_ndvi(
 
     Without SENTINEL_HUB_CLIENT_ID this raises NoDataError. There is no demo or
     synthetic branch in this module and no caller supplies one.
+
+    GeoTIFF response bodies are parsed in-memory via ``rioxarray.open_rasterio``
+    (ColdTrace already pins rioxarray, xarray, and rasterio in requirements.txt).
     """
     # REVVEL-DISABLED | AGENT: claude-code | MODEL: claude-opus-5 | WR: UNASSIGNED | DATE: 2026-11-06 | STATUS: REPLACED
     # REASON: the paragraph below is mine, from PR #9, and it was wrong on the point
@@ -224,6 +268,9 @@ async def fetch_sentinel_ndvi(
         r_before.raise_for_status()
         r_after.raise_for_status()
 
+    ndvi_before = geotiff_bytes_to_ndvi_dataarray(r_before.content)
+    ndvi_after = geotiff_bytes_to_ndvi_dataarray(r_after.content)
+    return ndvi_before, ndvi_after
     # REVVEL-DISABLED | AGENT: claude-code | MODEL: claude-opus-5 | WR: UNASSIGNED | DATE: 2026-11-06 | STATUS: REPLACED
     # REASON: the two lines below are the defect this change fixes. They returned the
     #         raw response bodies, so every caller received bytes where the signature,
