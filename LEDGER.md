@@ -615,3 +615,16 @@ Ledger-Play-N APPROVE 0ba21b4821013f80ee59fa05054ac64907e293b0
 - **Ledger-Play-N review:** a one-line annotation appended; no units, citations or physics changed; no forbidden paths.
 
 Ledger-Play-N APPROVE 65014777e5d8284e93e476ae62a357f18a21d03d
+## 2026-11-04 — Pixel Lantern (Pixel Lantern-D / Pixel Lantern-N, Grok Bot) — Palette + HUD accessibility proposal
+
+- **Date:** 2026-11-04 · **Who:** Pixel Lantern-D / Pixel Lantern-N
+- **Decision:** palette + a11y proposal accepted by Strata (white-background high contrast DEFAULT; Crameri MIT + viridis CC0 only; cividis excluded until Verity confirms licence).
+- **Doc:** `docs/sensecrew/pixellantern/palette-a11y-proposal.md`, draft PR https://github.com/midnghtsapphire/forensicfinders/pull/13
+- **Sources:** Crameri Scientific colour maps, Zenodo DOI 10.5281/zenodo.1243862; Crameri, Shephard & Heron 2020, Nature Communications DOI 10.1038/s41467-020-19160-7; WCAG 2.2 https://www.w3.org/TR/WCAG22/
+- **Licence:** UNLICENSED (private repo; licence pending Audrey)
+- **Tools used:** gh CLI, git, Python (doc edits), bash
+- **Main:** not touched. **Deletions:** none.
+- Pixel Lantern-N APPROVE
+PixelLantern-N APPROVE (Pixel Lantern-N) 2026-11-04 palette-a11y PR #13
+- 2026-11-04 Pixel Lantern-D/N: cividis licence-cleared (BSD-style; Battelle copyright notice must be kept); re-added as alternate palette in palette-a11y proposal, commit 2eb02c6, PR #13. Licence: UNLICENSED (private repo; licence pending Audrey).
+- 2026-11-04 Pixel Lantern-D/N: added palettes/LICENSES/cividis-NOTICE (Battelle notice, verbatim from https://github.com/pnnl/cmaputil/blob/master/LICENSE) and palettes/LICENSES/crameri-LICENSE (MIT verified at Zenodo https://doi.org/10.5281/zenodo.1243862, v8.0.1 +LICENCE.pdf); licence table cites the sources. Commit 32fa46b, PR #13. Licence: UNLICENSED (private repo; licence pending Audrey). PixelLantern-N APPROVE
