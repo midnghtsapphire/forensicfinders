@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   test:
     docker:
-      - image: cimg/python:3.12
+      - image: python:3.12-bookworm
     environment:
       OMP_NUM_THREADS: "1"
       PYTHONHASHSEED: "0"
@@ -12,9 +12,9 @@ jobs:
       - run:
           name: Install system packages
           command: |
-            sudo apt-get update
-            sudo apt-get install -y --no-install-recommends \
-              openssl poppler-utils build-essential libgdal-dev gdal-bin
+            apt-get update
+            apt-get install -y --no-install-recommends \
+              openssl poppler-utils build-essential libgdal-dev gdal-bin ca-certificates
       - run:
           name: Install Python dependencies
           command: |
