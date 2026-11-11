@@ -455,8 +455,22 @@ def test_fixture_records_match_the_schema_and_are_synthetic():
         expected_id = "sar/fixtures/dem_synthetic_%s.tif" % record["seed"]
         assert record["fixture_id"] == expected_id
         assert FIXTURE_ID_PATTERN.search(record["fixture_id"])
+        # fixture_id follows the schema template dem_synthetic_<seed>.tif.
+        # Committed DEMs may use an epoch suffix (1002a/1002b) or be absent (1004).
         if present:
-            assert Path(record["fixture_id"]).name in present
+            stem = "dem_synthetic_%s" % record["seed"]
+            related = []
+            for name in present:
+                if not name.startswith(stem) or not name.endswith(".tif"):
+                    continue
+                suffix = name[len(stem):-4]
+                if suffix == "" or suffix.isalpha():
+                    related.append(name)
+            exact = Path(record["fixture_id"]).name
+            if exact in present:
+                assert exact in related
+            elif related:
+                assert all(name.startswith(stem) and name != exact for name in related)
 
 
 def test_tokens_come_from_the_fixed_seed_only():
