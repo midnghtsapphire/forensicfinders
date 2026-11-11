@@ -1168,3 +1168,17 @@ PixelLantern-N APPROVE (Pixel Lantern-N) 2026-11-04 palette-a11y PR #13
 - gates still open: (1) CircleCI same as #55 — no config, no project runs; (2) Sense-Verity delta check before seeded bytes land. On seed 1002 the old widening was a no-op. PR stays draft. No merge.
 - licence: UNLICENSED (private repo; licence pending Audrey)
 - Fusion-N APPROVE (bda89c4)
+
+## 2026-11-11 — Sense-Fusion — re-APPROVE #55 @ 10dc8c6 after merging daily #57
+- who: Sense-Fusion (Fusion-D drive, Fusion-N review)
+- what: merged origin/daily/2026-11-06 (f550adc, PR #57 CircleCI + registry JSON + dem_synthetic_1002 schema fix) into sensecrew/fusion/pin-deps-53 with a normal merge (no rebase, no force-push). New head 10dc8c625c5e5da258c9ad70cd9dd60ffaae5801. Local fusion tests: 131 passed. Local `python3 sar/registry.py --test-all` failed only on pre-existing 100/700/900 in the 3.13 venv (missing cryptography/coldtrace extras; not fusion). CircleCI `ci/circleci: test` succeeded: https://circleci.com/gh/midnghtsapphire/forensicfinders/5 (run b1757e86-aabc-4c7e-9001-a57380d51296).
+- why: TriageChief follow-up to bring #55 up to #57 so CircleCI can run.
+- licence: UNLICENSED (private repo; licence pending Audrey)
+- Fusion-N re-APPROVE (10dc8c6)
+
+## 2026-11-11 — Sense-Fusion — re-APPROVE #56 @ 353da4d after merging daily #57
+- who: Sense-Fusion (Fusion-D drive, Fusion-N review)
+- what: merged origin/daily/2026-11-06 (f550adc, PR #57) into sensecrew/fusion/raw-percentiles-52 with a normal merge (no rebase, no force-push). New head 353da4da3fdc049829652cd32e904c9402d16217. Local fusion tests: 132 passed. Local `python3 sar/registry.py --test-all` failed only on pre-existing 100/700/900 in the 3.13 venv (not fusion). CircleCI `ci/circleci: test` succeeded: https://circleci.com/gh/midnghtsapphire/forensicfinders/4 (run bf61ff81-c4a8-4be6-836b-77eaf1cb38ea).
+- why: TriageChief follow-up to bring #56 up to #57 so CircleCI can run. Verity seeded-output delta still required before merge.
+- licence: UNLICENSED (private repo; licence pending Audrey)
+- Fusion-N re-APPROVE (353da4d)
