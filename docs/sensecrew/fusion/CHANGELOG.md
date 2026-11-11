@@ -35,3 +35,8 @@
 - `test_strata_seed_1003_accept_drift_then_replay` runs `python -m sensegame.fusion` from cwd `sar/` with seed 1003 and a temporary `seeds.jsonl`. It tampers the last hex digit of `fusion_1003.json`, accepts the drift, and replays successfully. A second tamper plus `--accept-drift` also replays. A further tamper replayed without that flag exits nonzero, appends nothing, and prints only `REPLAY_MISMATCH`, the differing key name, and SHA-256 digests.
 - M1_W_KM is None until a cited W exists. GDD v0.5 §4 / §4a remains the coverage-model pointer.
 - Counts: fusion 130 passed (cwd `sar/`, `pytest sensegame/fusion/tests`); `pytest sar/sensegame` 196 passed (repo root); language scan 16 passed (cwd `sar/`); registry coverage 3 passed (cwd `sar/`).
+
+## 2371 — pin pytest and scipy (#53) — 2026-11-11
+- `requirements-fusion.txt` now pins `pytest==9.2.0` and `scipy==1.18.1` (pyod and scikit-learn both import scipy on the anomaly path). Existing pins unchanged: numpy==2.2.6, scikit-learn==1.6.1, pyod==3.6.7, rasterio==1.4.3.
+- `test_fusion_requirement_pins` fails if that pin set changes or if any listed requirement is unpinned.
+- Versions recorded from the fusion/Verity review venvs on 2026-11-11; venv-fusion site-packages were refreshed 2026-11-10, so this is not a recovered 2026-11-05 pip freeze. M1_W_KM is None until a cited W exists.
