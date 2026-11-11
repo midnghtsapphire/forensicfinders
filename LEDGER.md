@@ -1152,3 +1152,19 @@ Ledger-Play-N APPROVE 65014777e5d8284e93e476ae62a357f18a21d03d
 PixelLantern-N APPROVE (Pixel Lantern-N) 2026-11-04 palette-a11y PR #13
 - 2026-11-04 Pixel Lantern-D/N: cividis licence-cleared (BSD-style; Battelle copyright notice must be kept); re-added as alternate palette in palette-a11y proposal, commit 2eb02c6, PR #13. Licence: UNLICENSED (private repo; licence pending Audrey).
 - 2026-11-04 Pixel Lantern-D/N: added palettes/LICENSES/cividis-NOTICE (Battelle notice, verbatim from https://github.com/pnnl/cmaputil/blob/master/LICENSE) and palettes/LICENSES/crameri-LICENSE (MIT verified at Zenodo https://doi.org/10.5281/zenodo.1243862, v8.0.1 +LICENCE.pdf); licence table cites the sources. Commit 32fa46b, PR #13. Licence: UNLICENSED (private repo; licence pending Audrey). PixelLantern-N APPROVE
+
+## 2026-11-11 — Sense-Fusion — #53 pin pytest and scipy — draft PR #55 @ 2f48980
+- who: Sense-Fusion (Fusion-D drive, Fusion-N review)
+- what: posted draft PR https://github.com/midnghtsapphire/forensicfinders/pull/55 (base daily/2026-11-06, head 2f48980bf8d3589fc2be970e37991ddec968f4bc). Pins pytest==9.2.0 and scipy==1.18.1; test_fusion_requirement_pins fails if the pin set changes. Local fusion tests: 131 passed. Comment on #53: https://github.com/midnghtsapphire/forensicfinders/issues/53#issuecomment-6797973697
+- why: TriageChief routing of WR #53 (Cubic finding 4 on PR #42).
+- CircleCI: no .circleci/config.yml in this repo (any branch or history); list_runs for gh/midnghtsapphire/forensicfinders returned 0 runs. PR stays draft. No GitHub-hosted Actions added. No merge.
+- licence: UNLICENSED (private repo; licence pending Audrey)
+- Fusion-N APPROVE (2f48980)
+
+## 2026-11-11 — Sense-Fusion — #52 raw bootstrap percentiles — draft PR #56 @ bda89c4
+- who: Sense-Fusion (Fusion-D drive, Fusion-N review)
+- what: posted draft PR https://github.com/midnghtsapphire/forensicfinders/pull/56 (base daily/2026-11-06, head bda89c45bd783fe2050b4b6392427f1f2dc999a0). ci_low/ci_high are the raw 2.5/97.5 percentiles; the band is not widened to contain p. Local fusion tests: 132 passed. Comment on #52: https://github.com/midnghtsapphire/forensicfinders/issues/52#issuecomment-6797974194
+- why: TriageChief routing of WR #52 (Cubic finding 1 on PR #42).
+- gates still open: (1) CircleCI same as #55 — no config, no project runs; (2) Sense-Verity delta check before seeded bytes land. On seed 1002 the old widening was a no-op. PR stays draft. No merge.
+- licence: UNLICENSED (private repo; licence pending Audrey)
+- Fusion-N APPROVE (bda89c4)
