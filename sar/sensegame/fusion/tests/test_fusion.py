@@ -48,7 +48,8 @@ def test_score_has_uncertainty_and_n_boot(tmp_path):
         for k in ("anomaly_score", "p_anomaly_calibrated", "ci_low", "ci_high", "n_boot", "ece_holdout"):
             assert k in an
         assert an["n_boot"] == 1000
-        assert an["ci_low"] <= an["p_anomaly_calibrated"] <= an["ci_high"]
+        assert an["ci_low"] <= an["ci_high"]
+        # p may sit outside the raw 2.5/97.5 band (#52); do not require it inside.
 
 
 def test_writer_refuses_score_without_band():

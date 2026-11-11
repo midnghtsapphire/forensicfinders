@@ -35,3 +35,9 @@
 - `test_strata_seed_1003_accept_drift_then_replay` runs `python -m sensegame.fusion` from cwd `sar/` with seed 1003 and a temporary `seeds.jsonl`. It tampers the last hex digit of `fusion_1003.json`, accepts the drift, and replays successfully. A second tamper plus `--accept-drift` also replays. A further tamper replayed without that flag exits nonzero, appends nothing, and prints only `REPLAY_MISMATCH`, the differing key name, and SHA-256 digests.
 - M1_W_KM is None until a cited W exists. GDD v0.5 §4 / §4a remains the coverage-model pointer.
 - Counts: fusion 130 passed (cwd `sar/`, `pytest sensegame/fusion/tests`); `pytest sar/sensegame` 196 passed (repo root); language scan 16 passed (cwd `sar/`); registry coverage 3 passed (cwd `sar/`).
+
+## 2371 — raw bootstrap percentiles (#52) — 2026-11-11
+- `score_scene` now writes `ci_low`/`ci_high` as the raw 2.5 and 97.5 bootstrap percentiles. It no longer widens the band with `min(lo, p)` / `max(hi, p)` to force the calibrated probability inside.
+- `check_banded` still refuses a missing, null, or inverted band and still requires `n_boot == 1000` and ECE ≤ 0.05. It no longer rejects a record solely because `p` sits outside the raw percentile band; that fact is published, not treated as a write error.
+- Tests: `test_check_banded_accepts_p_outside_raw_percentiles`, `test_published_ci_are_raw_bootstrap_percentiles`. Seeded outputs are offered for a Verity delta check (issue #52 / TriageChief). On seed 1002 the pre-change widening was a no-op (every cell's `p` already lay in the raw band); other seeds may still differ.
+- M1_W_KM is None until a cited W exists.
