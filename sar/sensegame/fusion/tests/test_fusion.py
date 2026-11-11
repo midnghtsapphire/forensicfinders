@@ -56,6 +56,49 @@ def test_writer_refuses_score_without_band():
         A.check_banded({"anomaly_score": 0.1, "p_anomaly_calibrated": 0.2})
 
 
+def _banded(**overrides):
+    rec = {"anomaly_score": 0.0, "p_anomaly_calibrated": 0.5,
+           "ci_low": 0.1, "ci_high": 0.9, "n_boot": 1000, "ece_holdout": 0.01}
+    rec.update(overrides)
+    return rec
+
+
+def test_check_banded_accepts_p_outside_raw_percentiles():
+    """Raw 2.5/97.5 bands may omit p; the writer must still publish them (#52)."""
+    rec = _banded(p_anomaly_calibrated=0.95, ci_low=0.10, ci_high=0.20)
+    assert rec["p_anomaly_calibrated"] > rec["ci_high"]
+    assert A.check_banded(rec) is rec
+    rec = _banded(p_anomaly_calibrated=0.01, ci_low=0.10, ci_high=0.20)
+    assert rec["p_anomaly_calibrated"] < rec["ci_low"]
+    assert A.check_banded(rec) is rec
+
+
+def test_published_ci_are_raw_bootstrap_percentiles():
+    """ci_low/ci_high are the raw 2.5/97.5 percentiles, not widened to contain p."""
+    import numpy as np
+    cfg = C.load_config(CONFIG)
+    scene = A._load_scene(CONFIG.parent, cfg["scenes"]["run"].format(seed=SEED))
+    model = A.fit_calibrated(cfg, seed=SEED)
+    X = A.features(cfg, scene)
+    recs = A.score_scene(model, X)
+    s = model.detector.decision_function(X)
+    n = len(model.cal_s)
+    boots = np.empty((A.N_BOOT, len(s)))
+    for i in range(A.N_BOOT):
+        rng = np.random.Generator(np.random.PCG64(np.random.SeedSequence([model.seed, i])))
+        j = rng.integers(0, n, n)
+        from sklearn.isotonic import IsotonicRegression
+        boots[i] = IsotonicRegression(y_min=0.0, y_max=1.0, out_of_bounds="clip").fit(
+            model.cal_s[j], model.cal_y[j]).predict(s)
+    lo, hi = np.percentile(boots, [2.5, 97.5], axis=0)
+    for k, rec in enumerate(recs):
+        assert rec["ci_low"] == float(lo[k])
+        assert rec["ci_high"] == float(hi[k])
+        # Must not widen: min(lo, p) / max(hi, p) would differ whenever p is outside.
+        p = rec["p_anomaly_calibrated"]
+        assert rec["ci_low"] != float(min(lo[k], p)) or rec["ci_high"] != float(max(hi[k], p)) or (lo[k] <= p <= hi[k])
+
+
 # 3 calibration_holdout
 def test_calibration_ece_gate():
     cfg = C.load_config(CONFIG)
