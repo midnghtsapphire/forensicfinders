@@ -88,3 +88,12 @@
 - hold: M1_W_KM is None until a cited W exists. 2330 was not reused.
 - licence: UNLICENSED (private repo; licence pending Audrey)
 - review: see sensecrew/ledger for Fusion-N APPROVE (<sha>)
+
+## 2371 — pin pytest and scipy (#53)
+- who: Sense-Fusion (Fusion-D drive, Fusion-N review)
+- why: WR https://github.com/midnghtsapphire/forensicfinders/issues/53 (Cubic finding 4 on PR #42). pytest was unpinned; scipy was absent from the pin file.
+- action: pinned pytest==9.2.0 and scipy==1.18.1 in `sar/sensegame/fusion/requirements-fusion.txt`. Added `test_fusion_requirement_pins`, which fails if the pin set changes. No other requirement was added or removed.
+- versions: recorded from the fusion and Verity #42 review venvs on 2026-11-11 (scipy 1.18.1 in every scipy-installing venv still present; pytest 9.2.0 in venv-fusion). venv-fusion site-packages were refreshed 2026-11-10, so this is not a recovered 2026-11-05 pip freeze. pytest does not affect seeded fusion bytes; scipy can.
+- hold: M1_W_KM is None until a cited W exists. 2330 was not reused. No case/, hfmr/, dossier, evidence/, public-records, or PII.
+- licence: UNLICENSED (private repo; licence pending Audrey)
+- review: see sensecrew/ledger for Fusion-N APPROVE (<sha>)

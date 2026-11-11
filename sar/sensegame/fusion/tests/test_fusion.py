@@ -567,3 +567,38 @@ def test_strata_seed_1003_accept_drift_then_replay(tmp_path):
         assert not repo_ledger.exists()
     else:
         assert repo_ledger.read_bytes() == repo_before
+
+
+# 9 dependency pins (issue #53 / Cubic finding 4 on PR #42)
+# Direct scientific pins plus pytest and scipy. A change to this set must fail the test.
+FUSION_PINS = {
+    "numpy": "2.2.6",
+    "scikit-learn": "1.6.1",
+    "pyod": "3.6.7",
+    "rasterio": "1.4.3",
+    "pytest": "9.2.0",
+    "scipy": "1.18.1",
+}
+
+
+def _requirement_pins(path: Path = PKG / "requirements-fusion.txt") -> dict[str, str]:
+    pins: dict[str, str] = {}
+    for raw in path.read_text().splitlines():
+        line = raw.split("#", 1)[0].strip()
+        if not line:
+            continue
+        if "==" not in line:
+            raise AssertionError(f"unpinned requirement: {raw!r}")
+        name, ver = line.split("==", 1)
+        name, ver = name.strip(), ver.strip()
+        if not name or not ver:
+            raise AssertionError(f"empty name or version: {raw!r}")
+        if name in pins:
+            raise AssertionError(f"duplicate pin: {name}")
+        pins[name] = ver
+    return pins
+
+
+def test_fusion_requirement_pins():
+    assert _requirement_pins() == FUSION_PINS
+
