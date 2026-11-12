@@ -43,8 +43,10 @@ from forensic_pipeline.snow_wells_pipes import (
     culvert_ice_trajectory,
     pipe_airflow_residual,
     local_image_accent,
-    isrid_prior_map,
-    finder_confirmation,
+    synthetic_prior_map,
+    confirmation_event,
+    isrid_prior_map,  # deprecated alias
+    finder_confirmation,  # deprecated alias
 )
 
 def test_tree_well_positive_void():
@@ -106,18 +108,31 @@ def test_accent_blowout_clips():
     assert out.dtype == img.dtype
     assert out.max() <= 255
 
-def test_isrid_prior_peaks_at_center():
-    prior = isrid_prior_map((40, 40), (20, 20), category_radius=80)
+def test_synthetic_prior_peaks_at_center():
+    prior = synthetic_prior_map((40, 40), (20, 20), category_radius=80)
     assert prior[20, 20] == prior.max()
     assert prior[0, 0] < prior[20, 20]
 
-def test_isrid_different_radius():
-    small = isrid_prior_map((30, 30), (15, 15), 50)
-    large = isrid_prior_map((30, 30), (15, 15), 200)
+def test_synthetic_prior_different_radius():
+    small = synthetic_prior_map((30, 30), (15, 15), 50)
+    large = synthetic_prior_map((30, 30), (15, 15), 200)
     assert small[0, 0] < large[0, 0]
 
-def test_finder_confirmation():
+def test_confirmation_event():
     mask = np.array([[True, False], [True, True]])
-    assert not np.any(finder_confirmation(mask, False))
-    confirmed = finder_confirmation(mask, True)
+    assert not np.any(confirmation_event(mask, False))
+    confirmed = confirmation_event(mask, True)
     assert np.array_equal(confirmed, mask)
+
+def test_deprecated_aliases_still_work():
+    import warnings
+    with warnings.catch_warnings(record=True) as w:
+        warnings.simplefilter("always", DeprecationWarning)
+        prior = isrid_prior_map((10, 10), (5, 5), category_radius=20)
+        mask = np.array([[True, False]])
+        conf = finder_confirmation(mask, True)
+    assert prior.shape == (10, 10)
+    assert np.array_equal(conf, mask)
+    msgs = [str(x.message) for x in w if issubclass(x.category, DeprecationWarning)]
+    assert any("synthetic_prior_map" in m for m in msgs)
+    assert any("confirmation_event" in m for m in msgs)

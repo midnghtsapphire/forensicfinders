@@ -1,7 +1,13 @@
 """
-Pure-function residuals for snow wells, culvert-ice, pipes, image accent, ISRID priors.
-Private forensicfinders only. Array-in/array-out.
+Pure-function residuals for snow wells, culvert-ice, pipes, image accent,
+synthetic search-scenario priors. Array-in/array-out.
+
+Renames (Verity-N APPROVE on rule-7 / Deepscan follow-up):
+  isrid_prior_map -> synthetic_prior_map
+  finder_confirmation -> confirmation_event
+Old names remain as deprecated aliases emitting DeprecationWarning.
 """
+import warnings
 import numpy as np
 from scipy.ndimage import uniform_filter
 
@@ -42,11 +48,27 @@ def local_image_accent(image, mask, mode="blowout"):
         out[mask] = 255 - out[mask]
     return out
 
-def isrid_prior_map(shape, last_seen_xy, category_radius=500):
+def synthetic_prior_map(shape, last_seen_xy, category_radius=500):
     y, x = np.ogrid[:shape[0], :shape[1]]
     dist = np.sqrt((y - last_seen_xy[0])**2 + (x - last_seen_xy[1])**2)
     prior = np.exp(-dist / category_radius)
     return prior
 
-def finder_confirmation(candidate_mask, heartbeat_detected=False):
+def confirmation_event(candidate_mask, heartbeat_detected=False):
     return candidate_mask & heartbeat_detected
+
+def isrid_prior_map(shape, last_seen_xy, category_radius=500):
+    warnings.warn(
+        "isrid_prior_map is deprecated; use synthetic_prior_map",
+        DeprecationWarning,
+        stacklevel=2,
+    )
+    return synthetic_prior_map(shape, last_seen_xy, category_radius=category_radius)
+
+def finder_confirmation(candidate_mask, heartbeat_detected=False):
+    warnings.warn(
+        "finder_confirmation is deprecated; use confirmation_event",
+        DeprecationWarning,
+        stacklevel=2,
+    )
+    return confirmation_event(candidate_mask, heartbeat_detected=heartbeat_detected)

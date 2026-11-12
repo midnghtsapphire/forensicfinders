@@ -110,6 +110,54 @@
       ],
       "source": "revvel-standards/docs/gpr-wave-model"
     },
+    "510": {
+      "name": "ert-model",
+      "path": "ert-model",
+      "what": "Analytic/semi-analytic DC resistivity forward model (Wenner/dipole-dipole; layered half-space; buried sphere/void)",
+      "test_cwd": "ert-model",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-p",
+        "test_*.py"
+      ],
+      "source": "deepscan specs v0 \u2014 synthetic only",
+      "licence": "UNLICENSED (private repo; licence pending Audrey)"
+    },
+    "520": {
+      "name": "magnetometry-model",
+      "path": "magnetometry-model",
+      "what": "Analytic total-field magnetometry forward model (buried dipole/sphere, thin dyke) with seeded noise",
+      "test_cwd": "magnetometry-model",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-p",
+        "test_*.py"
+      ],
+      "source": "deepscan specs v0 \u2014 synthetic only",
+      "licence": "UNLICENSED (private repo; licence pending Audrey)"
+    },
+    "530": {
+      "name": "gpr-void-detector",
+      "path": "gpr-void-detector",
+      "what": "Deterministic GPR void detector (hyperbola fit + polarity/contrast) on synthetic B-scans; no Ultralytics",
+      "test_cwd": "gpr-void-detector",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-p",
+        "test_*.py"
+      ],
+      "source": "deepscan specs v0 \u2014 synthetic only; gprMax offline-only if used to build fixtures",
+      "licence": "UNLICENSED (private repo; licence pending Audrey)"
+    },
     "600": {
       "name": "cot-export",
       "path": "cot-export",
@@ -271,7 +319,7 @@
     "990": {
       "name": "forensic_pipeline",
       "path": "forensic_pipeline",
-      "what": "Private forensic pipeline: pure-function residuals for snow wells, rootball trenches, culvert ice trajectory, pipe airflow/odour, local image accent, ISRID priors, finder confirmation. Array-in/array-out, no I/O.",
+      "what": "Synthetic search-scenario pipeline: pure-function residuals for snow wells, rootball trenches, culvert ice trajectory, pipe airflow/odour, local image accent, synthetic priors, confirmation events. Array-in/array-out, no I/O.",
       "test_cwd": ".",
       "test": [
         "python3",
