@@ -1,5 +1,5 @@
 # Scorer spec — 2310 (NEW-01, child of 2300 sensegame) clean search core (DESIGN DOC, 2026-11-04)
-Owner: Bedrock pair (Bedrock-D / Bedrock-N). Status: **draft, not approved**. No code, commits or pushes.
+Owner: Bedrock pair (Bedrock-D / Bedrock-N). Status: **design approved (PR #39); implementation on sensecrew/bedrock/new-01-cleanscorer**. Module: `sar/sensegame/search_core.py`.
 Clean-room: derived only from the published papers below. No quarantined module (rule 7 list, nor the
 quarantined scoring module or the module that imports it) was opened, grepped or referenced.
 
@@ -15,19 +15,27 @@ class ScorerError(ValueError): ...
 class UncitedSweepWidth(ScorerError): ...   # w_km is None (GDD v0.2/v0.3 invariant)
 
 class CleanScorer:                      # stateless, pure, deterministic
-    def pod(self, w_km: float, track_km: float, area_km2: float) -> float
+    def pod(self, w_km: float, track_km: float, area_km2: float) -> float  # cited effective W only
+    def exponential_coverage_model(self, coverage: float) -> float  # MODEL, not calibrated detection
+    def geometric_survey_km2(self, geometric_swath_km: float, track_km: float) -> float
+    def geometric_coverage(self, geometric_swath_km: float, track_km: float, area_km2: float) -> float
+    def track_budget_spent_km(self, effort_km: dict[str, float]) -> float
     def pos(self, segments: list[Segment], effort_km: dict[str, float]) -> float
     def optimal(self, segments: list[Segment], budget_km: float) -> dict[str, float]
     def update(self, segments: list[Segment], effort_km: dict[str, float]) -> list[Segment]
 ```
-Hours mode (optional, v0.2): effort in h is converted by `z_km = z_h * speed_kmh` before any call; the core only ever sees km.
+Hours mode (optional, v0.2): effort in h is converted by `z_km = z_h * speed_kmh` before any call; the core only ever sees km. Coverage and budget methods do not consult `w_km`.
 
 ## 2. Units
-A km² · W km · z (track length) km · r = W/A km⁻¹ · coverage C = W·z/A (dimensionless) · POA, POD, POS ∈ [0,1].
+A km² · W km (effective detection sweep width only) · z (track length) km · r = W/A km⁻¹ · detection coverage C = W·z/A (dimensionless) · POA, POD, POS ∈ [0,1].
+
+Geometric footprint (not W): stated swath in km · surveyed area km² = swath·z · geometric coverage = surveyed/A (dimensionless, may exceed 1). Player-supplied model coverage C is dimensionless and is not W·z/A.
 
 ## 3. Math (published model)
-- **POD (exponential / random-search detection law)**, Koopman 1956 II: `POD = 1 − exp(−W·z/A)`. Implement as `-math.expm1(-W*z/A)` for accuracy at small coverage.
-- **POS**: `POS = Σ_i POA_i · POD_i` (ROW contributes 0; ROW is never searched).
+- **POD (exponential / random-search detection law)**, Koopman 1956 II: `POD = 1 − exp(−W·z/A)` where W is a cited *effective* sweep width. Implement as `-math.expm1(-W*z/A)` for accuracy at small coverage. A geometric swath is not this W.
+- **POS**: `POS = Σ_i POA_i · POD_i` (ROW contributes 0; ROW is never searched). Requires the detection path above. Coverage and budget do not produce POS.
+- **Exponential coverage model** (GDD v0.5 §4 / §4a fallback when no cited effective W): the player supplies dimensionless C directly and the model response is `1 − exp(−C)`, implemented as `-math.expm1(-C)`. This is a **model**, not calibrated detection. It does not read or invent W. It is not M1 POD/POS and it is not a negative-evidence update.
+- **Geometric coverage** (footprint only): surveyed km² = `geometric_swath_km * track_km`; geometric coverage = surveyed / A. Surveyed is not detected.
 - **Optimal allocation** (Koopman 1957 III; Charnes & Cooper 1958; Stone 1975 ch. 2): maximise Σ p_i(1−e^{−r_i z_i}) s.t. Σ z_i = B, z_i ≥ 0. Concave ⇒ KKT is sufficient:
   `z_i = max(0, ln(p_i r_i / λ) / r_i)`, λ chosen so Σ z_i = B ("water-filling").
   Algorithm (deterministic, no iterative tolerance drift): sort searchable segments by `p_i r_i` desc (tie-break by `name`); for k = 1..n take the top-k set S, solve `ln λ = (Σ_S ln(p_i r_i)/r_i − B) / Σ_S 1/r_i`; accept the largest k with `p_k r_k > λ`. Closed form, O(n log n). Segments with r_i = 0 or p_i = 0 get 0.
@@ -39,15 +47,30 @@ A km² · W km · z (track length) km · r = W/A km⁻¹ · coverage C = W·z/A 
 - W = 0 or z = 0 ⇒ POD = 0 exactly. B = 0 ⇒ all-zero plan. All segments unsearchable ⇒ all-zero plan (budget unspent, flagged in result metadata in v0.2).
 - `update` when `1 − POS < 1e-15` ⇒ `ScorerError` (posterior undefined).
 - Missing keys in `effort_km` mean 0 effort.
-- A non-ROW segment with `w_km is None` (uncited, GDD R5/L1) ⇒ `UncitedSweepWidth` from `pos`/`optimal`/`update`; never substituted.
+- A non-ROW segment with `w_km is None` (uncited, GDD R5/L1) ⇒ `UncitedSweepWidth` from `pos`/`optimal`/`update`; never substituted. No path may substitute a geometric swath, or `0.9×` that swath, or any other geometric fraction, as W.
+- `exponential_coverage_model`: non-finite or negative C ⇒ `ScorerError`; C = 0 ⇒ 0 exactly. It does not raise `UncitedSweepWidth`.
+- `geometric_survey_km2` / `geometric_coverage` / `track_budget_spent_km`: non-finite or negative swath, track, or effort ⇒ `ScorerError`; `area_km2 <= 0` on `geometric_coverage` ⇒ `ScorerError`. These methods do not read `w_km` and do not produce POD, POS, or an updated POA.
 
 ## 4a. Tolerances (lead ruling 2026-11-04)
 - **1e-12** (`TOL_UNIT`): closed-form unit goldens in this spec.
 - **1e-9** (`TOL_CONTRACT`): cross-language / Loam GDD contract — Σ POA check and the M2 posterior (GDD v0.1–v0.3 M2 LO).
 - DEM fixtures: SHA-256 exact (see dem-fixture-spec). No other tolerance level is used.
 
-## 4b. M1 sweep width
-M1 (seed 1001, 10 km budget) needs a cited W. **W is a PLACEHOLDER** until the owning sensor pair supplies a value with citation + Verity co-sign (GDD L1). The M1 tests fail on purpose with a PLACEHOLDER message. Request draft: `specs/discussion-drafts/m1-sweep-width.md`.
+## 4b. M1 sweep width — Decision B (coverage and budget only)
+
+Authoritative decision: Proofy Option B on Discussion #28, comment 19445708
+(<https://github.com/midnghtsapphire/forensicfinders/discussions/28#discussioncomment-19445708>).
+The Strata constraints below supersede any softer reading that would score M1 detection from a geometric swath or from the exponential coverage model. Local record: `specs/discussion-drafts/m1-sweep-width.md` (not posted).
+
+Confirmed constraints:
+
+1. **`M1_W_KM` is `None` until a cited W exists.** Effective detection W (∫ p(x) dx) is unset until a cited value exists with Verity co-sign. Do not set `M1_W_KM` from a geometric swath. **`M1_W_SOURCE`** cites the Decision B comment above. It is not a numeric width.
+2. **Geometric coverage only, never effective W.** Woolpert OH Statewide Phase 1 2019 B19, Table 2-4: H = 2000 m AGL, FOV = 40°, stated swath **1.456 km**. That figure is the sensor footprint. Surveyed ≠ detected. It is never written to `M1_W_KM`. No code path may substitute `0.9 × swath`, or any other geometric fraction, as W.
+3. **M1 scores coverage and budget only.** Goldens assert track-budget spend and geometric coverage (surveyed km² and surveyed/A). They do not call `pos`, `optimal`, or `update` to invent detection, and they do not pass geometric coverage through `exponential_coverage_model` as if it were detection POD/POS. Those detection methods still raise `UncitedSweepWidth` when `w_km` is null.
+4. **Exponential coverage fallback (GDD v0.5 §4 / §4a), if used at all, is a model.** `exponential_coverage_model(C) = 1 − exp(−C)` via `-math.expm1(-C)` on a player-supplied C. Label: **model**, not calibrated detection. It is not wired into M1 scoring.
+5. **NEW-10 stays null.** Registry 2330 remains NEW-10 and is not reused for this swath. No NEW-10 row is filled with 1.456 km or with any other number.
+
+The Koopman path (`pod` / `pos` / `optimal` / `update`) remains for a later cited effective W. This section does not supply that W.
 
 ## 5. Determinism
 Pure functions; no RNG; no globals; iterate segments in a canonical sort (by `name`) so input order cannot change floats; use `math.fsum` for sums; stdlib `math` only (no numpy) so results are identical across platforms with IEEE-754 doubles; output dict keys sorted. Floats serialised as `repr` (shortest round-trip) or `%.17g`.
@@ -61,8 +84,8 @@ Hand-computed references (all from closed forms):
 | optimal | A,B r=1 km⁻¹, POA .6/.3, ROW .1, B=1 km | z_A=(1+ln2)/2=0.8465735902799727 km, z_B=(1−ln2)/2=0.15342640972002736 km, POS = 0.9−2λ = 0.3853416690235759, λ=0.6/√(2e)=0.25732916548821205 km⁻¹ |
 | optimal small budget | same, B=0.5 (< ln 2) | z_A=0.5, z_B=0, POS 0.6(1−e^−0.5)=0.23608160417241994 |
 | update | pos case; p_i e^{−C_i}/(1−POS) | A 0.372118953005194, B 0.22327137180311638, ROW 0.40460967519168967 |
-Plus: GDD 1e-9 contract tests (Σ POA accept/reject, M2 posterior), uncited-W rejection, M1 tests (fail on PLACEHOLDER W), KKT equal-marginal check, brute force on a 1001-point grid, monotone in budget, exact budget spend, purity, input-order invariance, error cases.
-Run: `make test-scorer` → `python -m pytest specs/tests/test_scorer_golden.py` (every test fails with the ImportError today, by design; M1 tests fail with the PLACEHOLDER-W message first).
+Plus: GDD 1e-9 contract tests (Σ POA accept/reject, M2 posterior), uncited-W rejection, M1 coverage-and-budget goldens (Decision B: `M1_W_KM` null, stated geometric swath 1.456 km is not W, budget 10 km, surveyed 3.64 km² on a 2.5 km track and 14.56 km² on the full budget), exponential coverage model at C=1 and C=0.5 labelled a model, KKT equal-marginal check, brute force on a 1001-point grid, monotone in budget, exact budget spend, purity, input-order invariance, error cases.
+Run: `make test-scorer` → `cd sar && python3 -m pytest sensegame/tests/test_scorer_golden.py`. M1 tests pass as coverage-and-budget goldens. `pos` / `optimal` / `update` on null W still raise `UncitedSweepWidth`.
 
 ```python
 # ---- pod -------------------------------------------------------------------

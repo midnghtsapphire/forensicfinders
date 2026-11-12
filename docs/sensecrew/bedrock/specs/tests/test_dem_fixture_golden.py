@@ -3,6 +3,13 @@ Names follow Loam GDD: dem_synthetic_<seed>.tif; M2 is the epoch pair 1002a (ear
 Fixtures are SHA-256 exact (no float tolerance on bytes).
 Fails with ImportError until sensegame.dem exists; golden hashes are PENDING and fail until
 Bedrock-N records them (LEDGER entry + APPROVE) after the first reviewed generation.
+"""Docs mirror of sar/sensegame/tests/test_dem_fixture_golden.py (2320 (NEW-03)).
+
+Not dispatched by registry.py and not collected by `pytest sensegame` or
+`pytest sar/sensegame`. The dispatched copy is the sensegame test. Spec:
+../dem-fixture-spec.md. Names follow Loam GDD: dem_synthetic_<seed>.tif; M2 is
+the epoch pair 1002a (earlier) / 1002b (later). Fixtures are SHA-256 exact
+(no float tolerance on bytes).
 """
 import hashlib, json, pathlib, struct
 import pytest
@@ -10,6 +17,9 @@ import pytest
 from sensegame.dem import generate, write_geotiff, FIXTURES  # noqa: E402 (does not exist yet)
 
 GOLDEN = pathlib.Path(__file__).with_name("dem_golden_sha256.json")
+# This file lives at docs/sensecrew/bedrock/specs/tests/. parents[5] is the
+# repo root. FIXTURES paths are rooted at sar/, independent of pytest's cwd.
+_SAR_ROOT = pathlib.Path(__file__).resolve().parents[5] / "sar"
 # key -> (seed, epoch)
 CASES = [("1001", 1001, None), ("1002a", 1002, "a"), ("1002b", 1002, "b"), ("1003", 1003, None)]
 SIZE, NODATA = 257, -9999.0
@@ -17,6 +27,11 @@ SIZE, NODATA = 257, -9999.0
 
 def sha(p):
     return hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest()
+
+
+def committed_fixture(rel: str) -> pathlib.Path:
+    """sar-relative fixture path, independent of pytest's cwd."""
+    return _SAR_ROOT / rel
 
 
 @pytest.mark.parametrize("key,seed,epoch", CASES)
@@ -60,6 +75,9 @@ def test_m2_epoch_pair_semantics():
     b = generate(1002, "b").astype("float64")
     d = np.rint((b - a) * 1000.0).astype("int64")  # mm
     truth = json.loads((pathlib.Path(FIXTURES["1002b"]).parent / "dem_synthetic_1002_truth.json").read_text())
+    truth = json.loads(
+        (committed_fixture(FIXTURES["1002b"]).parent / "dem_synthetic_1002_truth.json").read_text()
+    )
     assert len(truth["pits"]) == 3 and len(truth["mounds"]) == 3
     assert (d < 0).any() and (d > 0).any()
     assert int(d.min()) == -500 and int(d.max()) == 500

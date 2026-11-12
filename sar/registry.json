@@ -365,6 +365,18 @@
       "path": "insect-trace-add-sim",
       "what": "Seeded synthetic ADD insect-development training sim (Strata/Verity Discussion #25 id 2350); ADD reuses realdata/refloat_timing daily_contribution/accumulate (Verity R7 CLEAR; LABEL preprint, not peer-reviewed surfaced in output); synthetic thresholds; soil VWC clamp 0.0-0.5; 1010 decay bridge (stub until 1010 merges). UNLICENSED (private repo; licence pending Audrey)",
       "test_cwd": "insect-trace-add-sim",
+      "test": [
+        "python3",
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:warnings",
+        "."
+      ],
+      "source": "docs/sensecrew/chitin/SPEC_2350_insect-trace-add-sim.md",
+      "licence": "UNLICENSED (private repo; licence pending Audrey)"
+    },
     "2360": {
       "name": "mineral-spectral-unmix",
       "path": "blue-ocean-sar/multi_proxy/nnls_unmix.py",
@@ -374,17 +386,77 @@
         "python3",
         "-m",
         "unittest",
-        "discover",
-        "-p",
-        "test_*.py"
-      ],
-      "source": "docs/sensecrew/chitin/SPEC_2350_insect-trace-add-sim.md"
         "multi_proxy.test_nnls_sam_golden",
         "multi_proxy.test_splib07_endmembers",
         "multi_proxy.test_splib07_unmix_golden",
         "multi_proxy.test_hysupp_compare"
       ],
       "source": "SenseCrew Quartz; USGS splib07 PD doi:10.5066/F7RR1WDJ; HySUPP MIT offline compare",
+      "licence": "UNLICENSED (private repo; licence pending Audrey)"
+    },
+    "2300": {
+      "name": "sensegame",
+      "path": "sensegame",
+      "what": "SenseCrew game-path parent (GDD 2300): clean-room packages under sar/sensegame; no quarantined modules"
+    },
+    "2390": {
+      "name": "sensegame/case_view",
+      "path": "sensegame/tests/test_case_view_schema.py",
+      "what": "Provisional contract test for the anonymized case-view schema v0.1. Synthetic fixtures only; status pending-audrey-confirm; synthetic_only_until_confirmed true. Pytest, not unittest: the file is pytest-style, and unittest discovery would collect zero tests. Does not use 2330 (NEW-10) or 2380 (dem_layer). Parent 2300 sensegame is not registered on this branch.",
+      "test_cwd": ".",
+      "test": [
+        "python3",
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:warnings",
+        "sensegame/tests"
+      ],
+      "requires": "pytest. The checker in the test is stdlib. A standard JSON Schema validator can read the contract file directly.",
+      "source": "docs/sensecrew/bedrock/schemas/case_view_enums.json",
+      "licence": "UNLICENSED (private repo; licence pending Audrey)"
+    },
+    "2310": {
+      "name": "sensegame/search_core",
+      "path": "sensegame/search_core.py",
+      "parent": "2300",
+      "what": "NEW-01 CleanScorer (2310): Koopman/Stone POD/POS/optimal/update; stdlib math only; re-exported by ledgerplay.scoring",
+      "source": "SenseCrew Bedrock; docs/sensecrew/bedrock/specs/scorer-spec.md",
+      "licence": "UNLICENSED (private repo; licence pending Audrey)"
+    },
+    "2320": {
+      "name": "sensegame/dem",
+      "path": "sensegame/dem.py",
+      "parent": "2300",
+      "what": "NEW-03 synthetic DEM fixtures (2320): integer diamond-square + PCG64 raw + pure-Python GeoTIFF (tiffw); dem_synthetic_1001/1002a/1002b/1003",
+      "source": "SenseCrew Bedrock; docs/sensecrew/bedrock/specs/dem-fixture-spec.md",
+      "licence": "UNLICENSED (private repo; licence pending Audrey)"
+    },
+    "2370": {
+      "name": "sensegame/fusion",
+      "path": "sensegame/fusion",
+      "parent": "2300",
+      "what": "Provisional fusion hint-layer parent (2370): synthetic combine + calibrated anomaly. Does not score M1 detection. M1_W_KM is None until a cited W exists.",
+      "test_cwd": ".",
+      "test": [
+        "python3",
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:warnings",
+        "sensegame/fusion/tests"
+      ],
+      "source": "FUSION_SPEC v0.2 (PR #18); docs/sensecrew/fusion/LEDGER.md",
+      "licence": "UNLICENSED (private repo; licence pending Audrey)"
+    },
+    "2371": {
+      "name": "sensegame/fusion/combine",
+      "path": "sensegame/fusion/combine.py",
+      "parent": "2370",
+      "what": "Provisional combiner (2371): robust z, MAD=0 layers flagged degenerate and excluded, grid-index cells only. Hint layer; registry.py 2371 --test runs the 2370 fusion suite.",
+      "source": "FUSION_SPEC v0.2 (PR #18); docs/sensecrew/fusion/LEDGER.md",
       "licence": "UNLICENSED (private repo; licence pending Audrey)"
     }
   },

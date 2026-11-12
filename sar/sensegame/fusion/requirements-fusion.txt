@@ -1,0 +1,9 @@
+# Pinned for byte-identical outputs (FUSION_SPEC v0.2 §4). Licences: pyod BSD-2, scikit-learn BSD-3, numpy BSD-3, rasterio BSD-3, scipy BSD-3, pytest MIT.
+# pytest and scipy pins close issue #53 (Cubic finding 4 on PR #42). scipy is required by pyod and scikit-learn on the anomaly path.
+# Versions are those installed in the fusion/Verity review venvs as of 2026-11-11 (scipy 1.18.1, pytest 9.2.0). The venv-fusion site-packages were refreshed 2026-11-10, so these are the surviving recorded versions, not a recovered Nov 5 pip freeze.
+numpy==2.2.6
+scikit-learn==1.6.1
+pyod==3.6.7
+rasterio==1.4.3
+pytest==9.2.0
+scipy==1.18.1
