@@ -36,6 +36,12 @@
 - M1_W_KM is None until a cited W exists. GDD v0.5 §4 / §4a remains the coverage-model pointer.
 - Counts: fusion 130 passed (cwd `sar/`, `pytest sensegame/fusion/tests`); `pytest sar/sensegame` 196 passed (repo root); language scan 16 passed (cwd `sar/`); registry coverage 3 passed (cwd `sar/`).
 
+## 2371 — raw bootstrap percentiles (#52) — 2026-11-11
+- `score_scene` now writes `ci_low`/`ci_high` as the raw 2.5 and 97.5 bootstrap percentiles. It no longer widens the band with `min(lo, p)` / `max(hi, p)` to force the calibrated probability inside.
+- `check_banded` still refuses a missing, null, or inverted band and still requires `n_boot == 1000` and ECE ≤ 0.05. It no longer rejects a record solely because `p` sits outside the raw percentile band; that fact is published, not treated as a write error.
+- Tests: `test_check_banded_accepts_p_outside_raw_percentiles`, `test_published_ci_are_raw_bootstrap_percentiles`. Seeded outputs are offered for a Verity delta check (issue #52 / TriageChief). On seed 1002 the pre-change widening was a no-op (every cell's `p` already lay in the raw band); other seeds may still differ.
+- M1_W_KM is None until a cited W exists.
+
 ## 2371 — pin pytest and scipy (#53) — 2026-11-11
 - `requirements-fusion.txt` now pins `pytest==9.2.0` and `scipy==1.18.1` (pyod and scikit-learn both import scipy on the anomaly path). Existing pins unchanged: numpy==2.2.6, scikit-learn==1.6.1, pyod==3.6.7, rasterio==1.4.3.
 - `test_fusion_requirement_pins` fails if that pin set changes or if any listed requirement is unpinned.
