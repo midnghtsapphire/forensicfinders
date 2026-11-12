@@ -88,7 +88,6 @@
 - hold: M1_W_KM is None until a cited W exists. 2330 was not reused.
 - licence: UNLICENSED (private repo; licence pending Audrey)
 - review: see sensecrew/ledger for Fusion-N APPROVE (<sha>)
-
 ## 2371 — pin pytest and scipy (#53)
 - who: Sense-Fusion (Fusion-D drive, Fusion-N review)
 - why: WR https://github.com/midnghtsapphire/forensicfinders/issues/53 (Cubic finding 4 on PR #42). pytest was unpinned; scipy was absent from the pin file.

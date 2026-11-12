@@ -110,6 +110,54 @@
       ],
       "source": "revvel-standards/docs/gpr-wave-model"
     },
+    "510": {
+      "name": "ert-model",
+      "path": "ert-model",
+      "what": "Analytic/semi-analytic DC resistivity forward model (Wenner/dipole-dipole; layered half-space; buried sphere/void)",
+      "test_cwd": "ert-model",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-p",
+        "test_*.py"
+      ],
+      "source": "deepscan specs v0 \u2014 synthetic only",
+      "licence": "UNLICENSED (private repo; licence pending Audrey)"
+    },
+    "520": {
+      "name": "magnetometry-model",
+      "path": "magnetometry-model",
+      "what": "Analytic total-field magnetometry forward model (buried dipole/sphere, thin dyke) with seeded noise",
+      "test_cwd": "magnetometry-model",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-p",
+        "test_*.py"
+      ],
+      "source": "deepscan specs v0 \u2014 synthetic only",
+      "licence": "UNLICENSED (private repo; licence pending Audrey)"
+    },
+    "530": {
+      "name": "gpr-void-detector",
+      "path": "gpr-void-detector",
+      "what": "Deterministic GPR void detector (hyperbola fit + polarity/contrast) on synthetic B-scans; no Ultralytics",
+      "test_cwd": "gpr-void-detector",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-p",
+        "test_*.py"
+      ],
+      "source": "deepscan specs v0 \u2014 synthetic only; gprMax offline-only if used to build fixtures",
+      "licence": "UNLICENSED (private repo; licence pending Audrey)"
+    },
     "600": {
       "name": "cot-export",
       "path": "cot-export",
@@ -271,7 +319,7 @@
     "990": {
       "name": "forensic_pipeline",
       "path": "forensic_pipeline",
-      "what": "Private forensic pipeline: pure-function residuals for snow wells, rootball trenches, culvert ice trajectory, pipe airflow/odour, local image accent, ISRID priors, finder confirmation. Array-in/array-out, no I/O.",
+      "what": "Synthetic search-scenario pipeline: pure-function residuals for snow wells, rootball trenches, culvert ice trajectory, pipe airflow/odour, local image accent, synthetic priors, confirmation events. Array-in/array-out, no I/O.",
       "test_cwd": ".",
       "test": [
         "python3",
@@ -311,6 +359,40 @@
         "test_language_scan"
       ],
       "source": "Audit item 4. Nothing in this repository enforced the standard; the enforcer workflow lives in revvel-standards and never ran here, which is how four flagged lines sat in multi_proxy from 2026-10-24. PR #8 scanned multi_proxy only and said why: widening it then would have made main red for defects it was added to report, which GREEN_MAIN_STANDARD.md forbids. The 16 lines outstanding outside multi_proxy are resolved as of 2026-11-04 -- 11 by the two shape rules, 5 by comment-only fixes -- so the scan now covers the repository. See sar/docs/WORK_RANKING_2026-11-04.md."
+    },
+    "2350": {
+      "name": "insect-trace-add-sim",
+      "path": "insect-trace-add-sim",
+      "what": "Seeded synthetic ADD insect-development training sim (Strata/Verity Discussion #25 id 2350); ADD reuses realdata/refloat_timing daily_contribution/accumulate (Verity R7 CLEAR; LABEL preprint, not peer-reviewed surfaced in output); synthetic thresholds; soil VWC clamp 0.0-0.5; 1010 decay bridge (stub until 1010 merges). UNLICENSED (private repo; licence pending Audrey)",
+      "test_cwd": "insect-trace-add-sim",
+      "test": [
+        "python3",
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:warnings",
+        "."
+      ],
+      "source": "docs/sensecrew/chitin/SPEC_2350_insect-trace-add-sim.md",
+      "licence": "UNLICENSED (private repo; licence pending Audrey)"
+    },
+    "2360": {
+      "name": "mineral-spectral-unmix",
+      "path": "blue-ocean-sar/multi_proxy/nnls_unmix.py",
+      "what": "NNLS unmixing + SAM; USGS splib07 PD reference_oracle endmembers; optional offline HySUPP compare (out-of-process)",
+      "test_cwd": "blue-ocean-sar",
+      "test": [
+        "python3",
+        "-m",
+        "unittest",
+        "multi_proxy.test_nnls_sam_golden",
+        "multi_proxy.test_splib07_endmembers",
+        "multi_proxy.test_splib07_unmix_golden",
+        "multi_proxy.test_hysupp_compare"
+      ],
+      "source": "SenseCrew Quartz; USGS splib07 PD doi:10.5066/F7RR1WDJ; HySUPP MIT offline compare",
+      "licence": "UNLICENSED (private repo; licence pending Audrey)"
     },
     "2300": {
       "name": "sensegame",

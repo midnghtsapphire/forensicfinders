@@ -1,0 +1,12 @@
+{
+  "a_m": 2.0,
+  "array": "wenner",
+  "host_rho_ohm_m": 100.0,
+  "sphere_center_m": [
+    0.0,
+    0.0,
+    3.0
+  ],
+  "sphere_radius_m": 1.0,
+  "sphere_rho_ohm_m": 1000000.0
+}

@@ -1,0 +1,21 @@
+{
+  "a_m_grid": [
+    1,
+    2,
+    5,
+    10,
+    20,
+    50,
+    100,
+    200
+  ],
+  "array": "wenner",
+  "notes": "analytic two-layer; large-a asymptote ~500",
+  "rho_layers_ohm_m": [
+    100.0,
+    500.0
+  ],
+  "thickness_m": [
+    5.0
+  ]
+}
