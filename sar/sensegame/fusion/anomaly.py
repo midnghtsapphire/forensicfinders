@@ -103,7 +103,7 @@ def score_scene(model: Calibrated, X: np.ndarray) -> list[dict]:
     out = []
     for k in range(len(s)):
         rec = {"anomaly_score": float(s[k]), "p_anomaly_calibrated": float(p[k]),
-               "ci_low": float(min(lo[k], p[k])), "ci_high": float(max(hi[k], p[k])),
+               "ci_low": float(lo[k]), "ci_high": float(hi[k]),  # raw 2.5/97.5; do not widen to contain p (#52)
                "n_boot": N_BOOT, "ece_holdout": model.ece_holdout}
         out.append(check_banded(rec))
     return out
@@ -116,8 +116,9 @@ def check_banded(rec: dict) -> dict:
             raise FusionError(f"anomaly record missing {k}; refusing unbanded score")
     if rec["n_boot"] != N_BOOT:
         raise FusionError("n_boot must be 1000")
-    if not (rec["ci_low"] <= rec["p_anomaly_calibrated"] <= rec["ci_high"]):
-        raise FusionError("calibrated p outside its CI")
+    if not (rec["ci_low"] <= rec["ci_high"]):
+        raise FusionError("ci_low must be <= ci_high")
+    # p may fall outside the raw percentile band; that is a published fact, not a write error (#52).
     if not math.isfinite(rec["ece_holdout"]) or rec["ece_holdout"] > ECE_GATE:
         raise FusionError(f"ECE gate failed: {rec['ece_holdout']}")
     return rec
