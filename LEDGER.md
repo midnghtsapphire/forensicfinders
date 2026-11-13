@@ -1182,3 +1182,10 @@ PixelLantern-N APPROVE (Pixel Lantern-N) 2026-11-04 palette-a11y PR #13
 - why: TriageChief follow-up to bring #56 up to #57 so CircleCI can run. Verity seeded-output delta still required before merge.
 - licence: UNLICENSED (private repo; licence pending Audrey)
 - Fusion-N re-APPROVE (353da4d)
+
+## 2026-11-12 — Sense-Fusion — WR #61 evidence + clamp regression — draft-then-ready PR #63 @ 6c5d336
+- who: Sense-Fusion (Fusion-D drive, Fusion-N review)
+- what: PR https://github.com/midnghtsapphire/forensicfinders/pull/63 (base daily/2026-11-12 @ 8bcce8ed, same tip as main; head 6c5d336c7698926d8086c9b8dbc6c78ae6e31b80). Seeded-output evidence for seeds 1002 and 1003 (0/400 raw-band out-of-band both seeds; before/after SHA-256 identical at 6176bc18 vs 8bcce8ed). Stub-model regression test_score_scene_does_not_widen_band_to_contain_p as specified on #61; vacuous L102 assertion rewritten, not deleted. Local fusion tests: 135 passed. CircleCI ci/circleci: test succeeded on this head.
+- why: Sense-Strata assignment 2026-11-12; Verity post-merge FAIL on #59 (WR #61). #59 is the main landing of the same #52 change as #56. #59 was not reverted.
+- licence: UNLICENSED (private repo; licence pending Audrey)
+- Fusion-N APPROVE (6c5d336)
