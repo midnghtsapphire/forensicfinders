@@ -1,4 +1,20 @@
 # ════════════════════════════════════════════════════════════════════════════════════════
+# Who:  Sense-Backscatter (Backscatter-D / Backscatter-N, Grok Bot), for Audrey Evans (midnghtsapphire)
+# When: 2026-11-12
+# Why:  WR #62, follow-up to PR #60. Verity's post-merge review of #60 found (a) an
+#       unreachable `return _tiff_to_ndvi_array(...)` at the end of fetch_sentinel_ndvi
+#       (SonarCloud python:S1763, the reason the PR's quality gate failed with a C
+#       Reliability Rating) and (b) two parsers for the same GeoTIFF body.
+# What: ONE parser now: geotiff_bytes_to_ndvi_dataarray. _tiff_to_ndvi_array stays as a
+#       thin deprecated alias (DeprecationWarning, delegates) so no public name is removed.
+#       Per the owner never-delete rule nothing was deleted: the unreachable return and the
+#       old parser body are commented out in place with REVVEL-DISABLED notes. The shared
+#       parser now also calls .load() while opening (the old parser's one real advantage),
+#       and squeezes only the "band" axis so a 1-row or 1-column raster keeps its y/x axes.
+# Tests: tests/test_sentinel_parser_consolidation.py (written red first), run on the pinned
+#       stack from requirements.txt. Synthetic fixtures only.
+# ════════════════════════════════════════════════════════════════════════════════════════
+# ════════════════════════════════════════════════════════════════════════════════════════
 # Who:  Claude Code (claude-opus-5), for Audrey Evans (midnghtsapphire)
 # When: 2026-11-06
 # Why:  fetch_sentinel_ndvi promised xarray DataArrays and returned the two raw GeoTIFF
@@ -41,6 +57,7 @@ Register at https://www.sentinel-hub.com to get credentials.
 
 from __future__ import annotations
 
+import warnings
 from io import BytesIO
 from typing import Any
 
@@ -61,7 +78,9 @@ _SENTINEL_NODATA = -9999.0
 # The value evaluatePixel() writes for a pixel the scene classification calls cloud,
 # cloud shadow, cirrus or snow (SCL 3, 8, 9, 10, 11). It is a sentinel value inside the
 # band data, not a declared GeoTIFF nodata tag, so nothing masks it for us -- see
-# _tiff_to_ndvi_array. Keep this equal to the literal in the evalscript below.
+# _tiff_to_ndvi_array (WR #62: now geotiff_bytes_to_ndvi_dataarray, which masks via
+# _SENTINEL_NODATA; the two constants are asserted equal in tests). Keep this equal to the
+# literal in the evalscript below.
 _CLOUD_SENTINEL = -9999.0
 
 
@@ -91,8 +110,18 @@ def geotiff_bytes_to_ndvi_dataarray(tiff_bytes: bytes) -> xr.DataArray:
     - Squeezes the band dimension to 2-D for callers that use ``.values``.
     - Raises ``ValueError`` if CRS or affine transform is missing.
     """
-    da = rioxarray.open_rasterio(BytesIO(tiff_bytes), masked=True)
-    da = da.squeeze(drop=True)
+    # REVVEL-DISABLED | AGENT: grok-bot (Backscatter) | MODEL: n/a | WR: #62 | DATE: 2026-11-12 | STATUS: REPLACED
+    # REASON: two lines below were lazy (no .load()) and squeezed EVERY length-1 axis, so a
+    #         one-row or one-column raster would lose y or x. The consolidated parser loads
+    #         while the buffer is open and squeezes only "band" (as the old parser did).
+    # PREVIOUS IMPLEMENTATION, kept verbatim:
+    #     da = rioxarray.open_rasterio(BytesIO(tiff_bytes), masked=True)
+    #     da = da.squeeze(drop=True)
+    # OWNER: @midnghtsapphire
+    # REVVEL-DISABLED-END
+    da = rioxarray.open_rasterio(BytesIO(tiff_bytes), masked=True).load()
+    if "band" in da.dims:
+        da = da.squeeze("band", drop=True)
 
     if da.rio.crs is None:
         raise ValueError(
@@ -113,61 +142,88 @@ def geotiff_bytes_to_ndvi_dataarray(tiff_bytes: bytes) -> xr.DataArray:
     # Map Sentinel Hub evalscript nodata to NaN for every caller.
     da = da.where(da != _SENTINEL_NODATA)
     return da
-def _tiff_to_ndvi_array(payload: bytes):
-    """Parse one Sentinel Hub GeoTIFF response body into a 2-D NDVI DataArray.
 
-    Three steps, each of which the consumer in temporal.py depends on:
 
-    1. MemoryFile wraps the bytes as a file rasterio can open without touching disk.
-       open_rasterio is called with masked=True so that any nodata the file DOES
-       declare arrives as NaN, and .load() is called INSIDE both context managers so
-       the read happens while the buffer is still open. open_rasterio is lazy, so
-       that placement is deliberate rather than incidental. Honest limit: moving the
-       .load() call outside the two with-blocks does NOT fail on rasterio 1.5.2, the
-       version this was verified against, and no test in
-       tests/test_sentinel_arrays.py pins it -- it was tried as a mutation and the
-       suite stayed green. It is kept inside because reading from a closed MemoryFile
-       is not a guarantee rasterio makes, not because this file has proof that the
-       alternative breaks.
+def _tiff_to_ndvi_array(payload: bytes) -> xr.DataArray:
+    """DEPRECATED alias of :func:`geotiff_bytes_to_ndvi_dataarray` (WR #62).
 
-    A VERSION CAVEAT that applies to all three steps, and to every figure quoted in
-    the header box above. This was verified against rasterio 1.5.2 and numpy 2.5.0.
-    requirements.txt pins rasterio==1.3.10 and numpy==1.26.4, so THE PRODUCTION STACK
-    WAS NOT THE ONE EXERCISED. Neither pinned version has a distribution for Python
-    3.14, which is the only interpreter available here, so requirements.txt cannot be
-    installed on it at all -- that is a pre-existing condition for the whole backend
-    and not something this change introduced or can settle. It is stated rather than
-    glossed because masked=True and squeeze() are exactly the kind of behaviour that
-    moves between major versions, and a reader deserves to know which stack the
-    evidence comes from.
-    2. rasterio always reports a band dimension, even for the single-band output this
-       evalscript requests. It is dropped, because _compute_ndvi_sync unpacks exactly
-       two indices (ys, xs = np.where(mask)) and then indexes delta[y, x]; a leading
-       band axis of length 1 would make both of those wrong.
-    3. The evalscript writes _CLOUD_SENTINEL into the band itself for masked pixels
-       and the response declares no nodata tag, so masked=True cannot know about it.
-       Converting it to NaN here is what keeps np.nanmean/np.nanstd honest: -9999
-       left in place would drag the mean down and inflate the standard deviation,
-       which in a search-and-rescue tool means real vegetation change stops clearing
-       the sigma threshold.
+    Kept so the public/private name callers and docs used still resolves. There is now
+    exactly one parser; this only warns and delegates.
     """
-    try:
-        import rioxarray  # registers the .rio accessor temporal.py calls
-        from rasterio.io import MemoryFile
-    except ImportError as exc:  # pragma: no cover - dependency-level failure
-        raise RuntimeError(
-            "rasterio and rioxarray are required to read Sentinel Hub imagery; both "
-            "are declared in coldtrace/backend/requirements.txt."
-        ) from exc
+    warnings.warn(
+        "_tiff_to_ndvi_array is deprecated; use geotiff_bytes_to_ndvi_dataarray",
+        DeprecationWarning,
+        stacklevel=2,
+    )
+    return geotiff_bytes_to_ndvi_dataarray(payload)
 
-    with MemoryFile(payload) as memfile:
-        with memfile.open() as dataset:
-            array = rioxarray.open_rasterio(dataset, masked=True).load()
 
-    if "band" in array.dims:
-        array = array.squeeze("band", drop=True)
-
-    return array.where(array != _CLOUD_SENTINEL)
+# REVVEL-DISABLED | AGENT: grok-bot (Backscatter) | MODEL: n/a | WR: #62 | DATE: 2026-11-12 | STATUS: REPLACED
+# REASON: duplicate of geotiff_bytes_to_ndvi_dataarray (added by PR #60). Verity's post-merge
+#         review asked for one parser. Its behaviour is merged into the shared function: the
+#         .load() while the buffer is open, squeeze of the "band" axis only, and -9999 -> NaN.
+#         Added there: fail-loud on missing CRS / identity transform. The MemoryFile route was
+#         not kept because BytesIO + open_rasterio(...).load() gives identical values and
+#         transform on the synthetic 3x3 fixture (tests/test_sentinel_parser_consolidation.py).
+#         The long docstring below is kept verbatim as history.
+# PREVIOUS IMPLEMENTATION, kept verbatim (original author: claude-code, 2026-11-06):
+#     def _tiff_to_ndvi_array(payload: bytes):
+#         """Parse one Sentinel Hub GeoTIFF response body into a 2-D NDVI DataArray.
+#
+#         Three steps, each of which the consumer in temporal.py depends on:
+#
+#         1. MemoryFile wraps the bytes as a file rasterio can open without touching disk.
+#            open_rasterio is called with masked=True so that any nodata the file DOES
+#            declare arrives as NaN, and .load() is called INSIDE both context managers so
+#            the read happens while the buffer is still open. open_rasterio is lazy, so
+#            that placement is deliberate rather than incidental. Honest limit: moving the
+#            .load() call outside the two with-blocks does NOT fail on rasterio 1.5.2, the
+#            version this was verified against, and no test in
+#            tests/test_sentinel_arrays.py pins it -- it was tried as a mutation and the
+#            suite stayed green. It is kept inside because reading from a closed MemoryFile
+#            is not a guarantee rasterio makes, not because this file has proof that the
+#            alternative breaks.
+#
+#         A VERSION CAVEAT that applies to all three steps, and to every figure quoted in
+#         the header box above. This was verified against rasterio 1.5.2 and numpy 2.5.0.
+#         requirements.txt pins rasterio==1.3.10 and numpy==1.26.4, so THE PRODUCTION STACK
+#         WAS NOT THE ONE EXERCISED. Neither pinned version has a distribution for Python
+#         3.14, which is the only interpreter available here, so requirements.txt cannot be
+#         installed on it at all -- that is a pre-existing condition for the whole backend
+#         and not something this change introduced or can settle. It is stated rather than
+#         glossed because masked=True and squeeze() are exactly the kind of behaviour that
+#         moves between major versions, and a reader deserves to know which stack the
+#         evidence comes from.
+#         2. rasterio always reports a band dimension, even for the single-band output this
+#            evalscript requests. It is dropped, because _compute_ndvi_sync unpacks exactly
+#            two indices (ys, xs = np.where(mask)) and then indexes delta[y, x]; a leading
+#            band axis of length 1 would make both of those wrong.
+#         3. The evalscript writes _CLOUD_SENTINEL into the band itself for masked pixels
+#            and the response declares no nodata tag, so masked=True cannot know about it.
+#            Converting it to NaN here is what keeps np.nanmean/np.nanstd honest: -9999
+#            left in place would drag the mean down and inflate the standard deviation,
+#            which in a search-and-rescue tool means real vegetation change stops clearing
+#            the sigma threshold.
+#         """
+#         try:
+#             import rioxarray  # registers the .rio accessor temporal.py calls
+#             from rasterio.io import MemoryFile
+#         except ImportError as exc:  # pragma: no cover - dependency-level failure
+#             raise RuntimeError(
+#                 "rasterio and rioxarray are required to read Sentinel Hub imagery; both "
+#                 "are declared in coldtrace/backend/requirements.txt."
+#             ) from exc
+#
+#         with MemoryFile(payload) as memfile:
+#             with memfile.open() as dataset:
+#                 array = rioxarray.open_rasterio(dataset, masked=True).load()
+#
+#         if "band" in array.dims:
+#             array = array.squeeze("band", drop=True)
+#
+#         return array.where(array != _CLOUD_SENTINEL)
+# OWNER: @midnghtsapphire
+# REVVEL-DISABLED-END
 
 
 async def fetch_sentinel_ndvi(
@@ -185,7 +241,8 @@ async def fetch_sentinel_ndvi(
     pixel. Those three properties are not decoration. temporal.py's
     _compute_ndvi_sync reads .values as a 2-D array, calls .rio.transform() to turn
     pixel indices back into coordinates, and uses np.nanmean/np.nanstd, which NaN
-    skips and -9999 would wreck. _tiff_to_ndvi_array below produces all three.
+    skips and -9999 would wreck. geotiff_bytes_to_ndvi_dataarray (above) produces all
+    three; _tiff_to_ndvi_array is only a deprecated alias of it since WR #62.
 
     Without SENTINEL_HUB_CLIENT_ID this raises NoDataError. There is no demo or
     synthetic branch in this module and no caller supplies one.
@@ -283,6 +340,13 @@ async def fetch_sentinel_ndvi(
     #     return r_before.content, r_after.content
     # OWNER: @midnghtsapphire
     # REVVEL-DISABLED-END
-    return _tiff_to_ndvi_array(r_before.content), _tiff_to_ndvi_array(r_after.content)
+    # REVVEL-DISABLED | AGENT: grok-bot (Backscatter) | MODEL: n/a | WR: #62 | DATE: 2026-11-12 | STATUS: REPLACED
+    # REASON: unreachable. The `return ndvi_before, ndvi_after` above always runs first, so
+    #         this line was dead code (SonarCloud python:S1763, Reliability C on PR #60).
+    #         It also called the second parser. Commented out in place, not deleted.
+    # PREVIOUS IMPLEMENTATION, kept verbatim:
+    #     return _tiff_to_ndvi_array(r_before.content), _tiff_to_ndvi_array(r_after.content)
+    # OWNER: @midnghtsapphire
+    # REVVEL-DISABLED-END
 
 

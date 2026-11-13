@@ -28,7 +28,44 @@ jobs:
           name: Run full SAR test suite
           command: python3 sar/registry.py --test-all
 
+  # WR #62 (follow-up to PR #60): ColdTrace backend tests on the EXACT versions pinned in
+  # sar/coldtrace/backend/requirements.txt (rasterio 1.3.10, rioxarray 0.15.5, xarray
+  # 2024.5.0, numpy 1.26.4, ...). The `test` job above installs unpinned wheels because
+  # the fusion requirements pin rasterio 1.4.3 / numpy 2.2.6, which conflict with these.
+  # Python 3.12 is a supported interpreter for the pins (no wheels exist for 3.13+).
+  # Free-tier CircleCI Docker executor only; no GitHub Actions.
+  coldtrace-pinned:
+    docker:
+      - image: python:3.12-bookworm
+    environment:
+      PYTHONHASHSEED: "0"
+      OMP_NUM_THREADS: "1"
+      COLDTRACE_PINNED_ENV: "1"
+    steps:
+      - checkout
+      - run:
+          name: Install pinned ColdTrace test requirements
+          command: |
+            python3 -m pip install --upgrade pip
+            python3 -m pip install -r sar/coldtrace/backend/requirements-test-pinned.txt
+      - run:
+          name: Record and assert exact versions
+          command: |
+            python3 --version
+            python3 -m pip freeze | grep -iE '^(rasterio|rioxarray|xarray|numpy|scipy|shapely|pandas|fastapi|pydantic|pydantic-settings|httpx|whitebox|pytest|pytest-mock|pytest-asyncio)=='
+            python3 -c 'import numpy, rasterio, rioxarray, xarray; got = (rasterio.__version__, rioxarray.__version__, xarray.__version__, numpy.__version__); print("rasterio, rioxarray, xarray, numpy =", got); assert got == ("1.3.10", "0.15.5", "2024.5.0", "1.26.4"), got'
+      - run:
+          name: Run ColdTrace backend tests (pinned versions)
+          working_directory: sar
+          command: |
+            mkdir -p ~/test-results
+            python3 -m pytest -q -p no:warnings coldtrace/backend/tests \
+              --junitxml=$HOME/test-results/coldtrace-pinned.xml
+      - store_test_results:
+          path: ~/test-results
+
 workflows:
   test:
     jobs:
       - test
+      - coldtrace-pinned
