@@ -66,3 +66,11 @@
 - **Reviewed:** full diff of commit 0f9262830eef17cd3a2021532c614a548724d990 (sentinel.py, new tests, requirements-test-pinned.txt, .circleci/config.yml, LEDGER, CHANGELOG), read as a separate pass after the drive pass; pyflakes clean on sentinel.py and the new test file; `git diff --check` clean; tests re-run on the committed tree: 40 passed on the pinned stack (CPython 3.12.16).
 - **Findings:** no deletions (only commented-out blocks with dated REVVEL-DISABLED notes, original text preserved verbatim); no file under case/, hfmr/, dossier.py, evidence/, public_records_engine.py touched; no live Sentinel Hub calls; no new dependency class; CircleCI change is additive. Residual risks stated in the PR: Sonar re-analysis and the CircleCI run happen on GitHub, not here; commented-out code may raise a Sonar maintainability smell (not part of the failed Reliability condition).
 - Backscatter-N APPROVE 0f92628 — reviewed: L286 dead return, parser dedupe, pinned tests, Sonar
+
+## 2026-11-12 18:33 MST — Sense-Backscatter — WR #62 follow-up fixes on PR #64 (append-only)
+
+- **Why:** two real findings after opening the draft PR, both from the PR's own checks:
+  1. **CircleCI config error** (CircleCI `list_runs`, runs on 28f9b51 and 5933296: `Unclosed '<<' tag`; no job ran). My `python3 - <<'PY'` heredoc must be escaped in config v2.1. Replaced with a `python3 -c` one-liner, no heredoc. Validated with CircleCI `validate_config` (valid). Additive change to the same `coldtrace-pinned` job only.
+  2. **Sonar on PR #64:** Quality Gate PASSED (the #60 failure condition is gone). 3 new code smells in my new test file (python:S9088, S9073, S5778: more than one call inside `pytest.warns`/`pytest.raises`, composite assert). Fixed in commit 5933296 by building the payload before the `with` block and splitting the assert; no behaviour change, 40 passed.
+- **Commands / tools:** CircleCI MCP (read-only list_runs, validate_config), SonarCloud public API (read), `pytest`.
+- **Test results:** after both fixes, CPython 3.12.16 on the pins (rasterio 1.3.10, rioxarray 0.15.5, xarray 2024.5.0, numpy 1.26.4): 40 passed. The version-assert one-liner was also run locally and passed.

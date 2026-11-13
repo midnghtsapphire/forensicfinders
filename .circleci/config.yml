@@ -53,13 +53,7 @@ jobs:
           command: |
             python3 --version
             python3 -m pip freeze | grep -iE '^(rasterio|rioxarray|xarray|numpy|scipy|shapely|pandas|fastapi|pydantic|pydantic-settings|httpx|whitebox|pytest|pytest-mock|pytest-asyncio)=='
-            python3 - <<'PY'
-            import numpy, rasterio, rioxarray, xarray
-            got = (rasterio.__version__, rioxarray.__version__, xarray.__version__, numpy.__version__)
-            want = ("1.3.10", "0.15.5", "2024.5.0", "1.26.4")
-            print("rasterio, rioxarray, xarray, numpy =", got)
-            assert got == want, (got, want)
-            PY
+            python3 -c 'import numpy, rasterio, rioxarray, xarray; got = (rasterio.__version__, rioxarray.__version__, xarray.__version__, numpy.__version__); print("rasterio, rioxarray, xarray, numpy =", got); assert got == ("1.3.10", "0.15.5", "2024.5.0", "1.26.4"), got'
       - run:
           name: Run ColdTrace backend tests (pinned versions)
           working_directory: sar

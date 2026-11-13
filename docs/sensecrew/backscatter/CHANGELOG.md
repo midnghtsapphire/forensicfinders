@@ -17,3 +17,4 @@
 - Added `tests/test_sentinel_parser_consolidation.py` (16 tests, synthetic only).
 - ColdTrace backend pytest on the pins (CPython 3.12.16): 40 passed (24 existing + 16 new; full versions in LEDGER); also 40 passed on 3.11.18.
 - #60 was not reverted.
+- WR #62 follow-up: fixed the CircleCI `coldtrace-pinned` job config (heredoc `<<` is invalid in config v2.1; replaced by a one-liner) and split three test constructs Sonar flagged on PR #64. 40 passed on the pins.
