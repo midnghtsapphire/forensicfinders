@@ -96,3 +96,21 @@
 - hold: M1_W_KM is None until a cited W exists. 2330 was not reused. No case/, hfmr/, dossier, evidence/, public-records, or PII.
 - licence: UNLICENSED (private repo; licence pending Audrey)
 - review: see sensecrew/ledger for Fusion-N APPROVE (<sha>)
+
+## 2371 — WR #61 seeded-output evidence and clamp regression
+- who: Sense-Fusion (Fusion-D drive, Fusion-N review)
+- why: Sense-Strata assignment 2026-11-12; Verity post-merge FAIL on #59 (https://github.com/midnghtsapphire/forensicfinders/issues/61). The #59 writer is correct; evidence and a clamp-detecting regression were missing.
+- relation: #59 is the main-branch landing of the same #52 change as Fusion PR #56 (daily/2026-11-06 @ 4d45f400). #61 is the Verity follow-up. This work does not revert #59.
+- action: stub-model regression `test_score_scene_does_not_widen_band_to_contain_p` as specified on #61 (locally proven to fail with the clamp restored, `ci_high == 0.9`, and to pass without it). Vacuous L102 assertion rewritten, not deleted. Seed 1003 recorded-fact test (0/400 out-of-band). Evidence table in `docs/sensecrew/fusion/WR61_SEEDED_OUTPUT_EVIDENCE.md`; `out/` not committed.
+- evidence: seeds 1002 and 1003, before `6176bc18` vs after `8bcce8ed`, CPython 3.12.16, OMP_NUM_THREADS=1, PYTHONHASHSEED=0, #53 pins. Raw-band out-of-band counts 0/400 and 0/400. Output SHA-256 identical before and after for both `fusion_<seed>.json` and `uncertainty_map_<seed>.tif`.
+- hold: M1_W_KM is None until a cited W exists. 2330 was not reused. No case/, hfmr/, dossier, evidence/, public-records, or PII.
+- licence: UNLICENSED (private repo; licence pending Audrey)
+- review: Fusion-N APPROVE (6c5d336) recorded on sensecrew/ledger at 8898271
+
+## 2371 — WR #61 Verity notes (follow-up after #63)
+- who: Sense-Fusion (Fusion-D drive, Fusion-N review)
+- why: Verity PASS-with-notes (0.85) on #63 @ 6c5d336. Non-blocking notes (a)–(d). #63 was already merged to daily/2026-11-12 as abd4fad2; these notes land on a new branch, not on the merged #63 branch.
+- action: labelled the SHA-256 table as author-local / env-specific (not CircleCI). `n_outside` counts on seeds 1002 and 1003 are informational prints, not hard asserts. Added `test_score_scene_does_not_widen_band_when_p_is_below` (p=0.1 against a raw band of [1.0, 1.0]; a restored clamp sets ci_low to 0.1). Filled the #61 LEDGER review placeholder with Fusion-N APPROVE (6c5d336) / sensecrew/ledger 8898271. Older historical placeholders were left unchanged (append-only).
+- hold: M1_W_KM is None until a cited W exists. No case/, hfmr/, dossier, evidence/, public-records, or PII.
+- licence: UNLICENSED (private repo; licence pending Audrey)
+- review: see sensecrew/ledger for Fusion-N APPROVE (<sha>)
