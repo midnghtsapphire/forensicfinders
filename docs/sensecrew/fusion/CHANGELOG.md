@@ -41,7 +41,16 @@
 - `check_banded` still refuses a missing, null, or inverted band and still requires `n_boot == 1000` and ECE ≤ 0.05. It no longer rejects a record solely because `p` sits outside the raw percentile band; that fact is published, not treated as a write error.
 - Tests: `test_check_banded_accepts_p_outside_raw_percentiles`, `test_published_ci_are_raw_bootstrap_percentiles`. Seeded outputs are offered for a Verity delta check (issue #52 / TriageChief). On seed 1002 the pre-change widening was a no-op (every cell's `p` already lay in the raw band); other seeds may still differ.
 - M1_W_KM is None until a cited W exists.
+
 ## 2371 — pin pytest and scipy (#53) — 2026-11-11
 - `requirements-fusion.txt` now pins `pytest==9.2.0` and `scipy==1.18.1` (pyod and scikit-learn both import scipy on the anomaly path). Existing pins unchanged: numpy==2.2.6, scikit-learn==1.6.1, pyod==3.6.7, rasterio==1.4.3.
 - `test_fusion_requirement_pins` fails if that pin set changes or if any listed requirement is unpinned.
 - Versions recorded from the fusion/Verity review venvs on 2026-11-11; venv-fusion site-packages were refreshed 2026-11-10, so this is not a recovered 2026-11-05 pip freeze. M1_W_KM is None until a cited W exists.
+
+## 2371 — WR #61 seeded-output evidence and clamp regression — 2026-11-12
+- Added `test_score_scene_does_not_widen_band_to_contain_p` (stub model specified on https://github.com/midnghtsapphire/forensicfinders/issues/61). It fails if the old `min(lo, p)` / `max(hi, p)` clamp is restored (`ci_high` becomes 0.9) and passes on the raw-percentile writer.
+- Rewrote the vacuous third assertion in `test_published_ci_are_raw_bootstrap_percentiles` (the old L102 disjunction was always true once published ci equalled the raw percentiles). It now records the verified fact that seed 1002 has 0/400 cells with `p` outside the raw band, and points at the stub test as the clamp detector. The test itself was not deleted.
+- Added `test_seed_1003_has_no_cell_outside_the_raw_band`: seed 1003 is also 0/400. That is a recorded fact, not a clamp detector.
+- Seeded-output evidence (scratch only; `out/` not committed) is in `docs/sensecrew/fusion/WR61_SEEDED_OUTPUT_EVIDENCE.md`: before `6176bc18` (PR #58, clamp) vs after `8bcce8ed` (PR #59, raw). For seeds 1002 and 1003 the before/after SHA-256 of `fusion_<seed>.json` and `uncertainty_map_<seed>.tif` are identical, because no cell has `p` outside the raw band. Environment: CPython 3.12.16, OMP_NUM_THREADS=1, PYTHONHASHSEED=0, pins from #53.
+- `main` / #59 is canonical. The same no-op holds for #56 on `daily/2026-11-06` (`4d45f400`). `daily/2026-11-12` did not exist on origin when this was written.
+- M1_W_KM is None until a cited W exists. No W invented.

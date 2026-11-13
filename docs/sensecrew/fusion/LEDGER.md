@@ -96,3 +96,13 @@
 - hold: M1_W_KM is None until a cited W exists. 2330 was not reused. No case/, hfmr/, dossier, evidence/, public-records, or PII.
 - licence: UNLICENSED (private repo; licence pending Audrey)
 - review: see sensecrew/ledger for Fusion-N APPROVE (<sha>)
+
+## 2371 — WR #61 seeded-output evidence and clamp regression
+- who: Sense-Fusion (Fusion-D drive, Fusion-N review)
+- why: Sense-Strata assignment 2026-11-12; Verity post-merge FAIL on #59 (https://github.com/midnghtsapphire/forensicfinders/issues/61). The #59 writer is correct; evidence and a clamp-detecting regression were missing.
+- relation: #59 is the main-branch landing of the same #52 change as Fusion PR #56 (daily/2026-11-06 @ 4d45f400). #61 is the Verity follow-up. This work does not revert #59.
+- action: stub-model regression `test_score_scene_does_not_widen_band_to_contain_p` as specified on #61 (locally proven to fail with the clamp restored, `ci_high == 0.9`, and to pass without it). Vacuous L102 assertion rewritten, not deleted. Seed 1003 recorded-fact test (0/400 out-of-band). Evidence table in `docs/sensecrew/fusion/WR61_SEEDED_OUTPUT_EVIDENCE.md`; `out/` not committed.
+- evidence: seeds 1002 and 1003, before `6176bc18` vs after `8bcce8ed`, CPython 3.12.16, OMP_NUM_THREADS=1, PYTHONHASHSEED=0, #53 pins. Raw-band out-of-band counts 0/400 and 0/400. Output SHA-256 identical before and after for both `fusion_<seed>.json` and `uncertainty_map_<seed>.tif`.
+- hold: M1_W_KM is None until a cited W exists. 2330 was not reused. No case/, hfmr/, dossier, evidence/, public-records, or PII.
+- licence: UNLICENSED (private repo; licence pending Audrey)
+- review: see sensecrew/ledger for Fusion-N APPROVE (<sha>)
