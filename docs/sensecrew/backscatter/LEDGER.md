@@ -74,3 +74,8 @@
   2. **Sonar on PR #64:** Quality Gate PASSED (the #60 failure condition is gone). 3 new code smells in my new test file (python:S9088, S9073, S5778: more than one call inside `pytest.warns`/`pytest.raises`, composite assert). Fixed in commit 5933296 by building the payload before the `with` block and splitting the assert; no behaviour change, 40 passed.
 - **Commands / tools:** CircleCI MCP (read-only list_runs, validate_config), SonarCloud public API (read), `pytest`.
 - **Test results:** after both fixes, CPython 3.12.16 on the pins (rasterio 1.3.10, rioxarray 0.15.5, xarray 2024.5.0, numpy 1.26.4): 40 passed. The version-assert one-liner was also run locally and passed.
+
+## 2026-11-12 18:39 MST — Backscatter-N Navigator review, final — WR #62 (append-only; covers the full branch diff against daily/2026-11-12 up to 8cc1ffd)
+
+- **Reviewed:** the incremental diff 0f92628..8cc1ffd (test-only splits for Sonar S9088/S9073/S5778, CircleCI heredoc fix, ledger/changelog) on top of the earlier full-diff pass; re-ran 40 tests on the pins locally; CircleCI run on 8cc1ffd: workflow `test` succeeded (jobs `coldtrace-pinned` and `test`), pinned job log shows Python 3.12.16, rasterio 1.3.10, rioxarray 0.15.5, xarray 2024.5.0, numpy 1.26.4 and "40 passed in 1.61s"; SonarCloud PR #64: gate OK, 0 open issues.
+- Backscatter-N APPROVE 8cc1ffd — reviewed: L286 dead return, parser dedupe, pinned tests, Sonar
