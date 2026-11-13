@@ -123,6 +123,22 @@ def test_score_scene_does_not_widen_band_to_contain_p():
         assert r["ci_low"] == 0.0 and r["ci_high"] == 0.0   # old clamp would give ci_high == 0.9
 
 
+def test_score_scene_does_not_widen_band_when_p_is_below():
+    """Symmetric stub: p below the raw band. A restored min(lo, p) clamp would set ci_low == 0.1."""
+    import numpy as np
+    from types import SimpleNamespace
+    n = 200
+    model = A.Calibrated(
+        detector=SimpleNamespace(decision_function=lambda X: np.array([0.3, 0.7])),
+        iso=SimpleNamespace(predict=lambda s: np.array([0.1, 0.1])),  # p below the band
+        cal_s=np.linspace(0.0, 1.0, n), cal_y=np.ones(n),              # every bootstrap fit predicts 1.0
+        ece_holdout=0.01, brier_holdout=0.0, seed=SEED)
+    recs = A.score_scene(model, np.zeros((2, 1)))
+    for r in recs:
+        assert r["p_anomaly_calibrated"] == 0.1
+        assert r["ci_low"] == 1.0 and r["ci_high"] == 1.0  # old clamp would give ci_low == 0.1
+
+
 def test_seed_1003_has_no_cell_outside_the_raw_band():
     """Recorded fact (WR #61): seed 1003 also has 0/400 cells with p outside the raw band.
 
