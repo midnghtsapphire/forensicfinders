@@ -89,8 +89,9 @@ def test_unreachable_detector_catches_the_old_l286_shape():
 
 def test_deprecated_alias_still_exists_and_warns():
     assert callable(sentinel._tiff_to_ndvi_array)
+    payload = _tiff(_GRID, nodata_tag=None)
     with pytest.warns(DeprecationWarning, match="geotiff_bytes_to_ndvi_dataarray"):
-        sentinel._tiff_to_ndvi_array(_tiff(_GRID, nodata_tag=None))
+        sentinel._tiff_to_ndvi_array(payload)
 
 
 def test_deprecated_alias_delegates_to_the_shared_parser(monkeypatch):
@@ -113,7 +114,8 @@ def test_both_names_agree_on_nan_mask_and_transform(nodata_tag):
     legacy = _call_alias(payload)
     assert shared.shape == legacy.shape == (3, 3)
     np.testing.assert_array_equal(np.isnan(shared.values), np.isnan(legacy.values))
-    assert bool(np.isnan(shared.values[1, 1])) and int(np.isnan(shared.values).sum()) == 1
+    assert np.isnan(shared.values[1, 1])
+    assert int(np.isnan(shared.values).sum()) == 1
     np.testing.assert_array_equal(shared.values, legacy.values)
     assert shared.rio.transform() == legacy.rio.transform()
     assert shared.rio.crs == legacy.rio.crs
@@ -136,8 +138,9 @@ def test_valid_negative_ndvi_is_not_masked():
 
 def test_alias_inherits_the_fail_loud_checks():
     """Before WR #62 the old parser silently accepted a body with no CRS."""
+    payload = _tiff(_GRID, nodata_tag=None, crs=None)
     with pytest.raises(ValueError, match="CRS"):
-        _call_alias(_tiff(_GRID, nodata_tag=None, crs=None))
+        _call_alias(payload)
 
 
 def test_parsed_array_is_fully_loaded_not_lazy():
