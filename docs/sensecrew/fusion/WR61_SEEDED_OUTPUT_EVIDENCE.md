@@ -12,7 +12,7 @@ Environment (chosen to match CircleCI `python:3.12-bookworm` language version an
 - `numpy==2.2.6` `scikit-learn==1.6.1` `pyod==3.6.7` `rasterio==1.4.3` `scipy==1.18.1` `pytest==9.2.0`
 - Command, from `sar/`: `python -m sensegame.fusion --seed <seed> --config sensegame/fusion/fixtures/fusion_config_synthetic.json --out <scratch>`
 
-`daily/2026-11-12` did not exist on origin when this was written. `main` (the #59 merge) is the canonical tree for this evidence. #56 landed the same writer change on `daily/2026-11-06` at `4d45f400`; the 1002/1003 fixtures and the writer math are the same, so the no-op result applies there as well.
+`daily/2026-11-12` did not exist on origin when this was written. `main` (the #59 merge) is the canonical tree for this evidence. #56 landed the same writer change on `daily/2026-11-06` at `4d45f400`; the 1002/1003 fixtures and the writer math are the same, so the no-op is inferred for that branch. It was not re-run at `4d45f400` (unverified by a local or CI build on that revision).
 
 ## Out-of-band counts
 
@@ -25,7 +25,10 @@ A cell is out-of-band when `p_anomaly_calibrated` falls outside the **raw** 2.5/
 
 The CHANGELOG claim that seed 1002 is a no-op for the old widening is confirmed. Seed 1003 is also a no-op: no cell has `p` outside the raw band, so the published `ci_low`/`ci_high` (and therefore the output bytes) do not change.
 
-## Before/after SHA-256
+## Before/after SHA-256 (author-local, env-specific; not produced by CircleCI)
+
+These hashes were computed by the author in a scratch copy on CPython 3.12.16 with the pins and flags listed above. CircleCI at the #63 head ran the test suite only (`sar/registry.py --test-all`); it did not compute or store these file hashes, and it did not compare builds at `6176bc18` and `8bcce8ed`. Treat the table as an author-reported local run, not a CI artifact.
+
 
 | file | SHA-256 at `6176bc18` (before, clamp) | SHA-256 at `8bcce8ed` (after, raw) | identical? |
 |---|---|---|---|

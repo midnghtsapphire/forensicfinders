@@ -54,3 +54,10 @@
 - Seeded-output evidence (scratch only; `out/` not committed) is in `docs/sensecrew/fusion/WR61_SEEDED_OUTPUT_EVIDENCE.md`: before `6176bc18` (PR #58, clamp) vs after `8bcce8ed` (PR #59, raw). For seeds 1002 and 1003 the before/after SHA-256 of `fusion_<seed>.json` and `uncertainty_map_<seed>.tif` are identical, because no cell has `p` outside the raw band. Environment: CPython 3.12.16, OMP_NUM_THREADS=1, PYTHONHASHSEED=0, pins from #53.
 - `main` / #59 is canonical. The same no-op holds for #56 on `daily/2026-11-06` (`4d45f400`). `daily/2026-11-12` did not exist on origin when this was written.
 - M1_W_KM is None until a cited W exists. No W invented.
+
+## 2371 — WR #61 Verity notes after #63 — 2026-11-12
+- SHA-256 table in `WR61_SEEDED_OUTPUT_EVIDENCE.md` is labelled author-local / env-specific; it was not produced by CircleCI.
+- `n_outside` counts for seeds 1002 and 1003 are informational (printed, not hard asserts), per Verity's note on #63.
+- Added `test_score_scene_does_not_widen_band_when_p_is_below`: stub model with `p` below the raw band. Locally proven to fail if the clamp is restored (`ci_low` becomes 0.1) and to pass on the raw writer.
+- Filled the #61 LEDGER review placeholder with Fusion-N APPROVE (6c5d336) / sensecrew/ledger 8898271. Older placeholders left unchanged.
+- M1_W_KM is None until a cited W exists. No W invented.
