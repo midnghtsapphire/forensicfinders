@@ -100,6 +100,21 @@ def test_published_ci_are_raw_bootstrap_percentiles():
         assert rec["ci_low"] != float(min(lo[k], p)) or rec["ci_high"] != float(max(hi[k], p)) or (lo[k] <= p <= hi[k])
 
 
+def test_score_scene_does_not_widen_band_to_contain_p():
+    import numpy as np
+    from types import SimpleNamespace
+    n = 200
+    model = A.Calibrated(
+        detector=SimpleNamespace(decision_function=lambda X: np.array([0.3, 0.7])),
+        iso=SimpleNamespace(predict=lambda s: np.array([0.9, 0.9])),   # p outside the band
+        cal_s=np.linspace(0.0, 1.0, n), cal_y=np.zeros(n),             # every bootstrap fit predicts 0.0
+        ece_holdout=0.01, brier_holdout=0.0, seed=SEED)
+    recs = A.score_scene(model, np.zeros((2, 1)))
+    for r in recs:
+        assert r["p_anomaly_calibrated"] == 0.9
+        assert r["ci_low"] == 0.0 and r["ci_high"] == 0.0   # old clamp would give ci_high == 0.9
+
+
 # 3 calibration_holdout
 def test_calibration_ece_gate():
     cfg = C.load_config(CONFIG)
