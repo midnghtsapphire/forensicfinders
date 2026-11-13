@@ -1189,3 +1189,10 @@ PixelLantern-N APPROVE (Pixel Lantern-N) 2026-11-04 palette-a11y PR #13
 - why: Sense-Strata assignment 2026-11-12; Verity post-merge FAIL on #59 (WR #61). #59 is the main landing of the same #52 change as #56. #59 was not reverted.
 - licence: UNLICENSED (private repo; licence pending Audrey)
 - Fusion-N APPROVE (6c5d336)
+
+## 2026-11-12 — Sense-Fusion — WR #61 Verity notes after #63 — PR #65 @ ae96d55
+- who: Sense-Fusion (Fusion-D drive, Fusion-N review)
+- what: draft-then-ready PR https://github.com/midnghtsapphire/forensicfinders/pull/65 (base daily/2026-11-12 @ abd4fad2, head ae96d555bde3b2f2fd2224d3a26d9fbb80eda758). Lands Verity's non-blocking notes on a new branch; did not push to the already-merged #63 branch. Author-local hash labels; n_outside informational; p-below-band stub test (locally fails if clamp restored, ci_low becomes 0.1); #61 LEDGER placeholder filled with Fusion-N APPROVE (6c5d336) / 8898271. Local fusion tests: 136 passed. CircleCI ci/circleci: test succeeded on this head.
+- why: Verity PASS-with-notes (0.85) on #63. Merge authority is with TriageChief; Fusion will not merge.
+- licence: UNLICENSED (private repo; licence pending Audrey)
+- Fusion-N APPROVE (ae96d55)
