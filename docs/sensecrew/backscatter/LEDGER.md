@@ -60,3 +60,9 @@
 - **Licence:** UNLICENSED (private repo; licence pending Audrey).
 - **Approval:** Backscatter-N APPROVE line is appended below as its own entry once the reviewed commit SHA exists (the SHA cannot be inside the commit it names).
 - **Credit note:** drafted and implemented by Grok Bot (Backscatter pair). Draft PR only — no self-merge; Verity re-check requested.
+
+## 2026-11-12 18:30 MST — Backscatter-N Navigator review — WR #62 (append-only; separate pass over the full diff of 0f92628)
+
+- **Reviewed:** full diff of commit 0f9262830eef17cd3a2021532c614a548724d990 (sentinel.py, new tests, requirements-test-pinned.txt, .circleci/config.yml, LEDGER, CHANGELOG), read as a separate pass after the drive pass; pyflakes clean on sentinel.py and the new test file; `git diff --check` clean; tests re-run on the committed tree: 40 passed on the pinned stack (CPython 3.12.16).
+- **Findings:** no deletions (only commented-out blocks with dated REVVEL-DISABLED notes, original text preserved verbatim); no file under case/, hfmr/, dossier.py, evidence/, public_records_engine.py touched; no live Sentinel Hub calls; no new dependency class; CircleCI change is additive. Residual risks stated in the PR: Sonar re-analysis and the CircleCI run happen on GitHub, not here; commented-out code may raise a Sonar maintainability smell (not part of the failed Reliability condition).
+- Backscatter-N APPROVE 0f92628 — reviewed: L286 dead return, parser dedupe, pinned tests, Sonar
