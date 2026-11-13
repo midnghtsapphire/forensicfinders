@@ -95,17 +95,15 @@ def test_published_ci_are_raw_bootstrap_percentiles():
     for k, rec in enumerate(recs):
         assert rec["ci_low"] == float(lo[k])
         assert rec["ci_high"] == float(hi[k])
-        # The previous third assertion was vacuous once the two equalities hold
-        # (either p is outside, so min/max would differ, or p is inside). It is
-        # replaced by a recorded fact: seed 1002 has zero cells with p outside
-        # the raw band (WR #61 evidence). That fact does not detect a reintroduced
-        # clamp, because on this seed the clamp is a no-op. The clamp detector is
-        # test_score_scene_does_not_widen_band_to_contain_p.
+        # Published ci must equal the raw percentiles (the clamp-detecting
+        # regressions are the stub tests, including p-below-band).
     n_outside = sum(
         1 for k, rec in enumerate(recs)
         if not (lo[k] <= rec["p_anomaly_calibrated"] <= hi[k])
     )
-    assert n_outside == 0, n_outside
+    # Informational only (Verity note on #63): not a hard assertion. A fixture
+    # or dependency bump may move this count. WR #61 evidence recorded 0/400.
+    print(f"informational: seed 1002 raw-band out-of-band count is {n_outside}/{len(recs)}")
 
 
 def test_score_scene_does_not_widen_band_to_contain_p():
@@ -140,9 +138,9 @@ def test_score_scene_does_not_widen_band_when_p_is_below():
 
 
 def test_seed_1003_has_no_cell_outside_the_raw_band():
-    """Recorded fact (WR #61): seed 1003 also has 0/400 cells with p outside the raw band.
+    """Seed 1003: published ci equals the raw band; out-of-band count is informational.
 
-    This does not detect a reintroduced clamp (the clamp is a no-op on this seed too).
+    Does not detect a reintroduced clamp (the clamp is a no-op on this seed too).
     """
     import numpy as np
     from sklearn.isotonic import IsotonicRegression
@@ -167,7 +165,8 @@ def test_seed_1003_has_no_cell_outside_the_raw_band():
         assert rec["ci_high"] == float(hi[k])
         if not (lo[k] <= rec["p_anomaly_calibrated"] <= hi[k]):
             n_outside += 1
-    assert n_outside == 0, n_outside
+    # Informational only (Verity note on #63): not a hard assertion.
+    print(f"informational: seed 1003 raw-band out-of-band count is {n_outside}/{len(recs)}")
     assert len(recs) == 400
 
 
