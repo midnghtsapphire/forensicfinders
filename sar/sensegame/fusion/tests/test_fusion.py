@@ -95,9 +95,64 @@ def test_published_ci_are_raw_bootstrap_percentiles():
     for k, rec in enumerate(recs):
         assert rec["ci_low"] == float(lo[k])
         assert rec["ci_high"] == float(hi[k])
-        # Must not widen: min(lo, p) / max(hi, p) would differ whenever p is outside.
-        p = rec["p_anomaly_calibrated"]
-        assert rec["ci_low"] != float(min(lo[k], p)) or rec["ci_high"] != float(max(hi[k], p)) or (lo[k] <= p <= hi[k])
+        # The previous third assertion was vacuous once the two equalities hold
+        # (either p is outside, so min/max would differ, or p is inside). It is
+        # replaced by a recorded fact: seed 1002 has zero cells with p outside
+        # the raw band (WR #61 evidence). That fact does not detect a reintroduced
+        # clamp, because on this seed the clamp is a no-op. The clamp detector is
+        # test_score_scene_does_not_widen_band_to_contain_p.
+    n_outside = sum(
+        1 for k, rec in enumerate(recs)
+        if not (lo[k] <= rec["p_anomaly_calibrated"] <= hi[k])
+    )
+    assert n_outside == 0, n_outside
+
+
+def test_score_scene_does_not_widen_band_to_contain_p():
+    import numpy as np
+    from types import SimpleNamespace
+    n = 200
+    model = A.Calibrated(
+        detector=SimpleNamespace(decision_function=lambda X: np.array([0.3, 0.7])),
+        iso=SimpleNamespace(predict=lambda s: np.array([0.9, 0.9])),   # p outside the band
+        cal_s=np.linspace(0.0, 1.0, n), cal_y=np.zeros(n),             # every bootstrap fit predicts 0.0
+        ece_holdout=0.01, brier_holdout=0.0, seed=SEED)
+    recs = A.score_scene(model, np.zeros((2, 1)))
+    for r in recs:
+        assert r["p_anomaly_calibrated"] == 0.9
+        assert r["ci_low"] == 0.0 and r["ci_high"] == 0.0   # old clamp would give ci_high == 0.9
+
+
+def test_seed_1003_has_no_cell_outside_the_raw_band():
+    """Recorded fact (WR #61): seed 1003 also has 0/400 cells with p outside the raw band.
+
+    This does not detect a reintroduced clamp (the clamp is a no-op on this seed too).
+    """
+    import numpy as np
+    from sklearn.isotonic import IsotonicRegression
+    seed = 1003
+    cfg = C.load_config(CONFIG)
+    scene = A._load_scene(CONFIG.parent, cfg["scenes"]["run"].format(seed=seed))
+    model = A.fit_calibrated(cfg, seed=seed)
+    X = A.features(cfg, scene)
+    recs = A.score_scene(model, X)
+    s = model.detector.decision_function(X)
+    n = len(model.cal_s)
+    boots = np.empty((A.N_BOOT, len(s)))
+    for i in range(A.N_BOOT):
+        rng = np.random.Generator(np.random.PCG64(np.random.SeedSequence([model.seed, i])))
+        j = rng.integers(0, n, n)
+        boots[i] = IsotonicRegression(y_min=0.0, y_max=1.0, out_of_bounds="clip").fit(
+            model.cal_s[j], model.cal_y[j]).predict(s)
+    lo, hi = np.percentile(boots, [2.5, 97.5], axis=0)
+    n_outside = 0
+    for k, rec in enumerate(recs):
+        assert rec["ci_low"] == float(lo[k])
+        assert rec["ci_high"] == float(hi[k])
+        if not (lo[k] <= rec["p_anomaly_calibrated"] <= hi[k]):
+            n_outside += 1
+    assert n_outside == 0, n_outside
+    assert len(recs) == 400
 
 
 # 3 calibration_holdout
