@@ -79,3 +79,12 @@
 
 - **Reviewed:** the incremental diff 0f92628..8cc1ffd (test-only splits for Sonar S9088/S9073/S5778, CircleCI heredoc fix, ledger/changelog) on top of the earlier full-diff pass; re-ran 40 tests on the pins locally; CircleCI run on 8cc1ffd: workflow `test` succeeded (jobs `coldtrace-pinned` and `test`), pinned job log shows Python 3.12.16, rasterio 1.3.10, rioxarray 0.15.5, xarray 2024.5.0, numpy 1.26.4 and "40 passed in 1.61s"; SonarCloud PR #64: gate OK, 0 open issues.
 - Backscatter-N APPROVE 8cc1ffd — reviewed: L286 dead return, parser dedupe, pinned tests, Sonar
+
+## 2026-11-12 18:49 MST — Sense-Backscatter — WR #62 / PR #64: merge of daily/2026-11-12 into the branch (append-only)
+
+- **Why:** Verity's blocking note on PR #64 — stale base (PR based on 8bcce8ed; `daily/2026-11-12` had moved on). Requested by Audrey's dispatch through the parent agent.
+- **What:** normal merge commit (no rebase, no force-push) of `origin/daily/2026-11-12` at ae03645 into `sensecrew/backscatter/wr62-sentinel-cleanup`. That is newer than the abd4fad (#63) named in the request: #65 (ae03645) had merged after it, so the merge brings in both #63 and #65. Merge commit: 203c835.
+- **Conflicts:** none. `git merge-tree` predicted a clean merge and the merge applied cleanly. Incoming changes touched only Fusion files (`docs/sensecrew/fusion/CHANGELOG.md`, `docs/sensecrew/fusion/LEDGER.md`, `docs/sensecrew/fusion/WR61_SEEDED_OUTPUT_EVIDENCE.md`, `sar/sensegame/fusion/tests/test_fusion.py`); none overlap this PR's files. Nothing of others' work was edited or removed.
+- **Tests after merge (local, CPython 3.12.16, numpy 1.26.4, rasterio 1.3.10, rioxarray 0.15.5, xarray 2024.5.0, COLDTRACE_PINNED_ENV=1):** ColdTrace backend suite 40 passed, 0 failed. CircleCI and Sonar results for the new head are recorded in the PR body, not here, because they run after the push.
+- **Not addressed here (Verity notes, deliberately left as follow-ups):** the parity test that compares the shared parser with its own alias; ~60 lines of commented-out code in sentinel.py; fail-first and Python 3.11 evidence being local-only.
+- Backscatter-N APPROVE 203c835 — reviewed: merge result (clean merge, Fusion-only incoming files), L286 dead return, parser dedupe, pinned tests, Sonar
