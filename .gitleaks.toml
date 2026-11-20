@@ -13,3 +13,21 @@ id = "generic-api-key"
 description = "Shared app-builder preview OAuth client (Secret: no rotation needed)"
 condition = "OR"
 paths = ['''^src/lib/auth/preview\.ts$''']
+
+# --- Git-Master 2026-11-20: false-positive triage (rule generic-api-key) ---
+# Each entry needs BOTH the exact path AND a line-pattern match, so any other
+# hit in these files, or the same pattern elsewhere, still alerts.
+# (Appended inside the generic-api-key rule above; allowlists are additive.)
+[[rules.allowlists]]
+description = "Synthetic fixture: pseudonymous case_token placeholders (CT-<12 hex>, token_seed 1001), not credentials"
+condition = "AND"
+paths = ['''^sar/fixtures/case_view_synthetic_1001\.json$''']
+regexTarget = "line"
+regexes = ['''"case_token":\s*"CT-[0-9a-f]{12}"''']
+
+[[rules.allowlists]]
+description = "Python function signature with a parameter named `secrets`; no literal credential"
+condition = "AND"
+paths = ['''^sar/blue-ocean-sar/opendata/fetch\.py$''']
+regexTarget = "line"
+regexes = ['''def _file_contains_secret\(path, secrets, chunk_size=''']
