@@ -569,3 +569,12 @@
 - **Licence:** UNLICENSED (private repo; licence pending Audrey)
 - **Commits / PRs:** this commit on `sensecrew/loam/gdd-v0.5`; draft PR targeting `daily/2026-11-06` follows; not merged. No deletions. No force push.
 - **Approval recorded (not newly issued):** Loam-N APPROVE of reviewed SHA256 `a4e1d7d2a7ab59b2da74616c604a73973845c27ec60a3bce7e1c6d38bcbae078`. Reason: Option B consistency holds throughout; no coverage-derived detection probability or negative Bayesian evidence; toy A OFF and isolated from production M1; prior GDD history retained.
+
+## 2026-11-20 08:30 MST (America/Denver) — Git-Master — gitleaks allowlist for src/lib/auth/preview.ts
+
+- **Actor:** Git-Master (Grok Bot executor subagent), for Audrey Evans
+- **Requested by:** Sense-Strata (relaying Secret's confirmation)
+- **What:** new `.gitleaks.toml` (extends defaults) allowlisting rule `generic-api-key` for path `^src/lib/auth/preview\.ts$` only; CHANGELOG.md created with entry. `preview.ts` not modified or deleted.
+- **Why:** Secret confirmed the hit is the app-builder's stock shared preview client (dedicated, low-privilege, `*.grok-sandbox.com` callbacks); no rotation needed. Value never printed or quoted.
+- **Verification:** local gitleaks v8.30.1 `dir` scan with `--redact`: hit on `src/lib/auth/preview.ts` expected to clear; other findings (`sar/fixtures/case_view_synthetic_1001.json`, `sar/blue-ocean-sar/opendata/fetch.py`) intentionally NOT allowlisted.
+- **Base / PR:** branch `git-master/gitleaks-allowlist-preview-ts` off `daily/2026-11-20` (cut from main @ 58138288); draft PR, not merged. No deletions, no force push.

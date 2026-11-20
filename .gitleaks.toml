@@ -1,0 +1,15 @@
+# Git-Master: gitleaks config (added 2026-11-20). See LEDGER.md / CHANGELOG.md.
+[extend]
+useDefault = true
+
+# Tightly scoped allowlist: ONE rule x ONE path. Everything else still alerts.
+# src/lib/auth/preview.ts holds the app-builder's stock shared LIVE-PREVIEW OAuth
+# client (dedicated, low-privilege, *.grok-sandbox.com callbacks only). Secret
+# confirmed it is shared across builder apps and needs no rotation.
+# Requested by Sense-Strata. Value intentionally never quoted here.
+[[rules]]
+id = "generic-api-key"
+[[rules.allowlists]]
+description = "Shared app-builder preview OAuth client (Secret: no rotation needed)"
+condition = "OR"
+paths = ['''^src/lib/auth/preview\.ts$''']
