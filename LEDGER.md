@@ -586,3 +586,9 @@
 - **What:** two narrow `generic-api-key` allowlists in `.gitleaks.toml`, each path AND line-regex scoped. `sar/fixtures/case_view_synthetic_1001.json` lines 8, 30: `case_token` values of the form `CT-<12 hex>` in a fixture marked synthetic (`token_seed` 1001), pseudonymous placeholders, not a live-key format. `sar/blue-ocean-sar/opendata/fetch.py` line 382: `def _file_contains_secret(path, secrets, ...)`, match is the parameter name `secrets`, no literal credential.
 - **Verification:** local gitleaks v8.30.1 `dir` scan with `--redact`: 0 findings with the config. Values never printed.
 - **Not changed:** no source/fixture edits, no deletions, no history rewrite. Draft PR, not merged. Secret may still veto either verdict.
+
+## 2026-11-20 09:00 MST (America/Denver) — Git-Master — caveat recorded on #69 allowlists (Secret)
+
+- **Actor:** Git-Master (Grok Bot executor subagent), for Audrey Evans
+- **Requested by:** Sense-Strata, relaying Secret's ruling
+- **What:** Secret agreed the #69 hits are false positives, with one caveat: if `sar/fixtures/case_view_synthetic_1001.json` is ever confirmed as real data, its allowlist entry in `.gitleaks.toml` (the `case_token` block) must be removed. Docs-only append to CHANGELOG.md and LEDGER.md; no config or source change.
