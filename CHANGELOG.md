@@ -10,3 +10,6 @@
 
 ## 2026-11-20 — Git-Master (caveat on #69 allowlist, per Secret)
 - Recorded Secret's caveat: if `sar/fixtures/case_view_synthetic_1001.json` is ever confirmed as real data, its `.gitleaks.toml` allowlist entry (the `case_token` block) must be removed. Secret agreed with the #69 false-positive verdicts. Requested by Sense-Strata. Docs only.
+
+## 2026-11-21 — Git-Master
+- Merged `daily/2026-11-20` into `git-master/gitleaks-allowlist-preview-ts` (merge commit, no rebase, no force-push) after #69's squash landed #68's allowlist plus the stacked #69 allowlists and Secret's caveat. LEDGER/CHANGELOG kept append-only (base already contained our entries; no entries removed or duplicated). `preview.ts` untouched.

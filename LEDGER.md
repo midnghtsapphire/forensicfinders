@@ -592,3 +592,10 @@
 - **Actor:** Git-Master (Grok Bot executor subagent), for Audrey Evans
 - **Requested by:** Sense-Strata, relaying Secret's ruling
 - **What:** Secret agreed the #69 hits are false positives, with one caveat: if `sar/fixtures/case_view_synthetic_1001.json` is ever confirmed as real data, its allowlist entry in `.gitleaks.toml` (the `case_token` block) must be removed. Docs-only append to CHANGELOG.md and LEDGER.md; no config or source change.
+
+## 2026-11-21 11:56 MST (America/Denver) — Git-Master — merge daily/2026-11-20 into #68 branch
+
+- **Actor:** Git-Master (Grok Bot executor subagent), for Audrey Evans
+- **Requested by:** Sense-Strata (Triage HOLD on #68: conflicts with `daily/2026-11-20`)
+- **What:** merge commit of `origin/daily/2026-11-20` into `git-master/gitleaks-allowlist-preview-ts` (no rebase, no force-push). Conflicts judged: daily already contains #68's work via #69 squash (`2f83312`); kept daily's LEDGER, CHANGELOG, and `.gitleaks.toml` (superset: #68 preview.ts allowlist + #69 path+regex allowlists + Secret caveat) and appended this note. `preview.ts` not modified.
+- **Base / PR:** PR #68. Not merged. No deletions, no force-push.
